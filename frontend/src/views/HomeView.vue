@@ -72,7 +72,7 @@
           <div v-for="m in unifiedMemories" :key="m.id" class="unified-card">
             <div class="unified-card-header">
               <span class="source-badge" :class="'source-' + (m.source || 'unknown')">{{ m.source || 'unknown' }}</span>
-              <span class="unified-type" v-if="m.type">{{ m.type }}</span>
+              <span class="unified-type chip" :class="'chip--' + m.type" v-if="m.type">{{ m.type }}</span>
             </div>
             <div class="unified-card-body">
               <h3 class="unified-title">{{ m.title }}</h3>
@@ -97,7 +97,8 @@
         <div class="section-header">
           <h2>AgentMemory</h2>
           <div class="section-actions">
-            <button class="action-btn" @click="showCreateModal = true">+ 创建</button>
+            <!-- P39: button hierarchy — 创建 is the most common action → primary, others secondary -->
+            <button class="action-btn action-btn--primary" @click="showCreateModal = true">+ 创建记忆</button>
             <button class="action-btn" @click="showImportModal = true">📥 导入</button>
             <ExportButton />
             <button class="action-btn" @click="showDedupPanel = !showDedupPanel">🔍 去重</button>
@@ -327,11 +328,33 @@ function onImported() {
   font-size: 0.8rem;
   font-family: var(--font);
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
 }
 
 .action-btn:hover {
   background: var(--tag-bg);
+  border-color: var(--border-strong);
+}
+
+.action-btn:active {
+  transform: translateY(1px);
+}
+
+/* P39: primary action — used for the dominant CTA in a section.
+   Filled with --primary (ink) so it visually outranks the outline siblings
+   without needing a brand color. White text reads cleanly in both themes. */
+.action-btn--primary {
+  background: var(--primary);
+  color: var(--card);
+  border-color: var(--primary);
+  font-weight: 500;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.action-btn--primary:hover {
+  background: var(--primary-muted);
+  border-color: var(--primary-muted);
+  filter: none;
 }
 
 h2 {
@@ -617,13 +640,38 @@ h2 {
   color: var(--text-secondary);
 }
 
-.unified-type {
-  font-size: 0.65rem;
-  padding: 2px 6px;
-  border-radius: 8px;
+/* P39: type chip — matches MemoryCard's badge system (uppercase + colored dot + bordered) */
+.unified-type.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.625rem;
+  font-weight: 600;
+  padding: 3px 8px 3px 7px;
+  border-radius: 6px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   background: var(--tag-bg);
   color: var(--text-secondary);
+  border: 1px solid transparent;
 }
+
+.unified-type.chip::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.75;
+  flex-shrink: 0;
+}
+
+.unified-type.chip--pattern     { background: var(--type-pattern-bg);     color: var(--type-pattern-text);     border-color: color-mix(in srgb, var(--type-pattern-text) 18%, transparent); }
+.unified-type.chip--workflow    { background: var(--type-workflow-bg);    color: var(--type-workflow-text);    border-color: color-mix(in srgb, var(--type-workflow-text) 18%, transparent); }
+.unified-type.chip--fact        { background: var(--type-fact-bg);        color: var(--type-fact-text);        border-color: color-mix(in srgb, var(--type-fact-text) 18%, transparent); }
+.unified-type.chip--preference  { background: var(--type-preference-bg);  color: var(--type-preference-text);  border-color: color-mix(in srgb, var(--type-preference-text) 18%, transparent); }
+.unified-type.chip--bug         { background: var(--type-bug-bg);         color: var(--type-bug-text);         border-color: color-mix(in srgb, var(--type-bug-text) 18%, transparent); }
+.unified-type.chip--architecture{ background: var(--type-architecture-bg);color: var(--type-architecture-text);border-color: color-mix(in srgb, var(--type-architecture-text) 18%, transparent); }
 
 .unified-title {
   font-size: 1rem;

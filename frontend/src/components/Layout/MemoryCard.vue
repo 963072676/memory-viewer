@@ -431,21 +431,37 @@ watch(() => props.forceExpanded, (newVal) => {
 .dot-red { background: #ef4444; }
 
 .card-type {
-  font-size: 0.75rem;
-  font-weight: 500;
-  padding: 3px 10px;
-  border-radius: 16px;
-  letter-spacing: 0.02em;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.6875rem;            /* 11px — small caps vibe */
+  font-weight: 600;
+  padding: 4px 10px 4px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.06em;
   white-space: nowrap;
-  text-transform: capitalize;
+  text-transform: uppercase;
+  border: 1px solid transparent;   /* placeholder, filled by .type-* below */
 }
 
-.type-pattern { background: var(--type-pattern-bg); color: var(--type-pattern-text); }
-.type-workflow { background: var(--type-workflow-bg); color: var(--type-workflow-text); }
-.type-fact { background: var(--type-fact-bg); color: var(--type-fact-text); }
-.type-preference { background: var(--type-preference-bg); color: var(--type-preference-text); }
-.type-bug { background: var(--type-bug-bg); color: var(--type-bug-text); }
-.type-architecture { background: var(--type-architecture-bg); color: var(--type-architecture-text); }
+/* P39: colored dot prefix — works as a visual anchor at a-glance scanning.
+   The dot reuses the same hue as the text so the badge reads as one chip. */
+.card-type::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.85;
+  flex-shrink: 0;
+}
+
+.type-pattern     { background: var(--type-pattern-bg);     color: var(--type-pattern-text);     border-color: color-mix(in srgb, var(--type-pattern-text) 18%, transparent); }
+.type-workflow    { background: var(--type-workflow-bg);    color: var(--type-workflow-text);    border-color: color-mix(in srgb, var(--type-workflow-text) 18%, transparent); }
+.type-fact        { background: var(--type-fact-bg);        color: var(--type-fact-text);        border-color: color-mix(in srgb, var(--type-fact-text) 18%, transparent); }
+.type-preference  { background: var(--type-preference-bg);  color: var(--type-preference-text);  border-color: color-mix(in srgb, var(--type-preference-text) 18%, transparent); }
+.type-bug         { background: var(--type-bug-bg);         color: var(--type-bug-text);         border-color: color-mix(in srgb, var(--type-bug-text) 18%, transparent); }
+.type-architecture{ background: var(--type-architecture-bg);color: var(--type-architecture-text);border-color: color-mix(in srgb, var(--type-architecture-text) 18%, transparent); }
 
 .card-summary {
   font-size: 0.875rem;
