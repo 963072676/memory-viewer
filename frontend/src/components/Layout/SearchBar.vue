@@ -96,82 +96,99 @@ function clear() {
   position: relative;
 }
 
+/* P38: Geist 化 — recessed 输入背景，更克制的边框，hover 微亮 */
 .search-icon {
   position: absolute;
-  left: 16px;
+  left: 14px;
   top: 50%;
   transform: translateY(-50%);
-  color: var(--text-secondary);
+  color: var(--text-tertiary);
   width: 18px;
   height: 18px;
   z-index: 1;
   pointer-events: none;
+  transition: color 0.2s ease;
 }
 
 .search-input {
   width: 100%;
-  padding: 12px 110px 12px 44px;
-  font-size: 1rem;
+  padding: 11px 130px 11px 42px;
+  font-size: 0.95rem;
   font-family: var(--font);
-  border: 1px solid var(--border);
+  border: 1px solid transparent;
   border-radius: var(--radius);
-  background: var(--card);
+  background: var(--bg-recessed);
   color: var(--primary);
   outline: none;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.search-input:hover {
+  background: var(--tag-bg);
+  border-color: var(--border);
 }
 
 .search-input:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06);
   background: var(--input-focus);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-glow);
+}
+
+.search-input:focus ~ .search-icon,
+.search-bar:focus-within .search-icon {
+  color: var(--accent);
 }
 
 .search-input--semantic:focus {
-  border-color: var(--semantic-accent, #8b5cf6);
-  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
+  border-color: var(--semantic-accent);
+  box-shadow: 0 0 0 4px var(--semantic-accent-glow);
+}
+
+.search-input--semantic:focus ~ .search-icon,
+.search-bar:focus-within .search-input--semantic ~ .search-icon {
+  color: var(--semantic-accent);
 }
 
 .search-input::placeholder {
   color: var(--text-secondary);
 }
 
-/* Mode toggle button */
+/* Mode toggle button — Geist pill */
 .mode-toggle {
   position: absolute;
-  right: 40px;
+  right: 44px;
   top: 50%;
   transform: translateY(-50%);
-  background: var(--tag-bg, #f0f0f0);
+  background: var(--card);
   border: 1px solid var(--border);
   border-radius: 6px;
-  padding: 3px 8px;
+  padding: 4px 10px;
   cursor: pointer;
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   line-height: 1.4;
   color: var(--text-secondary);
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
   z-index: 2;
   white-space: nowrap;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 
 .mode-toggle:hover {
-  background: var(--accent);
-  color: #fff;
-  border-color: var(--accent);
+  background: var(--tag-bg);
+  border-color: var(--border-strong);
+  color: var(--primary);
 }
 
 .mode-toggle--semantic {
-  background: rgba(139, 92, 246, 0.1);
-  border-color: rgba(139, 92, 246, 0.3);
-  color: var(--semantic-accent, #8b5cf6);
+  background: var(--semantic-accent-subtle);
+  border-color: var(--semantic-accent);
+  color: var(--semantic-accent);
 }
 
 .mode-toggle--semantic:hover {
-  background: var(--semantic-accent, #8b5cf6);
+  background: var(--semantic-accent);
+  border-color: var(--semantic-accent);
   color: #fff;
-  border-color: var(--semantic-accent, #8b5cf6);
 }
 
 .mode-toggle__label {
@@ -184,7 +201,7 @@ function clear() {
 
 .clear-btn {
   position: absolute;
-  right: 110px;
+  right: 118px;
   top: 50%;
   transform: translateY(-50%);
   background: none;
@@ -194,6 +211,13 @@ function clear() {
   font-size: 0.875rem;
   padding: 4px;
   z-index: 2;
+  border-radius: 4px;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.clear-btn:hover {
+  color: var(--primary);
+  background: var(--tag-bg);
 }
 
 /* Responsive */
@@ -203,13 +227,13 @@ function clear() {
   }
 
   .mode-toggle {
-    right: 8px;
-    padding: 3px 6px;
+    right: 10px;
+    padding: 3px 7px;
     font-size: 0.65rem;
   }
 
   .clear-btn {
-    right: 80px;
+    right: 86px;
     font-size: 0.75rem;
   }
 
@@ -218,12 +242,15 @@ function clear() {
   }
 
   .search-input {
-    padding: 10px 90px 10px 40px;
+    padding: 10px 96px 10px 38px;
+    font-size: 0.9rem;
   }
-}
 
-.clear-btn:hover {
-  color: var(--primary);
+  .search-icon {
+    left: 12px;
+    width: 16px;
+    height: 16px;
+  }
 }
 
 .shortcut-hints {
@@ -233,30 +260,24 @@ function clear() {
   transform: translateY(-50%);
   display: flex;
   gap: 6px;
+  pointer-events: none;
 }
 
 .hint-search,
 .hint-palette {
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   padding: 2px 6px;
   border: 1px solid var(--border);
   border-radius: 4px;
   color: var(--text-secondary);
-  background: var(--tag-bg);
-  font-family: monospace;
+  background: var(--card);
+  font-family: var(--font-mono);
+  font-weight: 500;
 }
 
 .hint-palette {
   color: var(--accent);
   border-color: var(--accent);
-  background: rgba(0, 122, 255, 0.08);
-}
-
-/* Dark mode: semantic accent adapts automatically via CSS variables */
-@media (prefers-color-scheme: dark) {
-  .mode-toggle--semantic {
-    background: rgba(139, 92, 246, 0.15);
-    border-color: rgba(139, 92, 246, 0.4);
-  }
+  background: var(--accent-subtle);
 }
 </style>

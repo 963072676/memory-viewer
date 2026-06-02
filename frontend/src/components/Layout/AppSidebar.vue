@@ -179,7 +179,7 @@ function isTabActive(tab: { path: string }) {
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 0 8px;
+  padding: 0 8px 0 16px;
 }
 
 .nav-section {
@@ -196,6 +196,7 @@ function isTabActive(tab: { path: string }) {
 }
 
 .nav-item {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -204,17 +205,37 @@ function isTabActive(tab: { path: string }) {
   color: var(--text-primary);
   text-decoration: none;
   font-size: 0.9rem;
-  transition: all 0.15s;
+  transition: background 0.15s, color 0.15s;
   margin-bottom: 2px;
 }
 
 .nav-item:hover {
-  background: var(--border);
+  background: var(--tag-bg);
 }
 
 .nav-item.active {
+  background: var(--accent-subtle);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* P38: 激活态左侧 rail 指示器 — Geist 风格（v 站侧边栏常见） */
+.nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: -8px;
+  top: 8px;
+  bottom: 8px;
+  width: 3px;
+  border-radius: 0 2px 2px 0;
   background: var(--accent);
-  color: white;
+  transition: background 0.2s;
+}
+
+.sidebar.collapsed .nav-item.active::before {
+  left: 0;
+  top: 6px;
+  bottom: 6px;
 }
 
 .nav-icon {

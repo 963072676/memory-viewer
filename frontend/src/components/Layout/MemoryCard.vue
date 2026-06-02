@@ -28,10 +28,30 @@
         >{{ tag }}</span>
       </div>
       <div class="card-meta" v-if="!isExpanded">
+        <!-- P38: Strength 视觉锚点 — circular ring + 渐变颜色 + 大数字 -->
+        <div
+          class="strength-ring"
+          :class="'strength-ring--' + strengthTier"
+          :title="`强度 ${strengthPercent}%`"
+          role="img"
+          :aria-label="`记忆强度 ${strengthPercent}%`"
+        >
+          <svg class="strength-ring__svg" viewBox="0 0 36 36" aria-hidden="true">
+            <circle class="strength-ring__track" cx="18" cy="18" r="15.5" />
+            <circle
+              class="strength-ring__fill"
+              cx="18"
+              cy="18"
+              r="15.5"
+              :stroke-dasharray="`${strengthPercent}, 100`"
+            />
+          </svg>
+          <span class="strength-ring__num">{{ strengthPercent }}</span>
+        </div>
         <span class="strength-bar">
-          <span class="strength-fill" :style="{ width: (memory.strength * 10) + '%' }"></span>
+          <span class="strength-fill" :style="{ width: strengthPercent + '%' }" :class="'strength-fill--' + strengthTier"></span>
         </span>
-        <span class="meta-text">{{ memory.strength * 10 }}%</span>
+        <span class="meta-text meta-text--strong" :class="'meta-text--' + strengthTier">{{ strengthPercent }}%</span>
       </div>
     </div>
     <transition name="expand">
@@ -211,6 +231,19 @@ const summarizeError = ref('')
 const isSelected = computed(() => store.selectedIds.has(props.memory.id))
 
 const truncatedContent = computed(() => truncateText(props.memory.content, 100))
+
+// P38: Strength visual anchor — clamp to [0,100], pick color tier
+const strengthPercent = computed(() => {
+  const raw = (props.memory.strength || 0) * 10
+  if (Number.isNaN(raw)) return 0
+  return Math.max(0, Math.min(100, Math.round(raw)))
+})
+
+const strengthTier = computed(() => {
+  if (strengthPercent.value >= 70) return 'high'
+  if (strengthPercent.value >= 40) return 'mid'
+  return 'low'
+})
 
 // F43: Use pre-loaded health_score from list API, fallback to detailed data
 const healthDisplay = computed(() => {
@@ -428,15 +461,69 @@ watch(() => props.forceExpanded, (newVal) => {
 .card-meta {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-top: 4px;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+/* P38: Strength 视觉锚点 — 圆形 SVG ring + 中心数字 + 渐变颜色 */
+.strength-ring {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.strength-ring__svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg); /* dasharray 从 12 点钟方向开始 */
+}
+
+.strength-ring__track {
+  fill: none;
+  stroke: var(--tag-bg);
+  stroke-width: 3;
+}
+
+.strength-ring__fill {
+  fill: none;
+  stroke-width: 3;
+  stroke-linecap: round;
+  transition: stroke-dasharray 0.5s cubic-bezier(0.25, 0.1, 0.25, 1), stroke 0.3s ease;
+}
+
+/* Tier 颜色（亮色 + Dark 模式自动通过变量切换） */
+.strength-ring--high .strength-ring__fill { stroke: #22c55e; }
+.strength-ring--mid  .strength-ring__fill { stroke: #eab308; }
+.strength-ring--low  .strength-ring__fill { stroke: #ef4444; }
+
+.strength-ring__num {
+  position: absolute;
+  font-size: 0.7rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  color: var(--primary);
+  line-height: 1;
+}
+.strength-ring--high .strength-ring__num { color: #15803d; }
+.strength-ring--mid  .strength-ring__num { color: #a16207; }
+.strength-ring--low  .strength-ring__num { color: #b91c1c; }
+
+@media (prefers-color-scheme: dark) {
+  .strength-ring--high .strength-ring__num { color: #4ade80; }
+  .strength-ring--mid  .strength-ring__num { color: #facc15; }
+  .strength-ring--low  .strength-ring__num { color: #f87171; }
 }
 
 .strength-bar {
   flex: 1;
-  height: 3px;
+  height: 4px;
   background: var(--tag-bg);
-  border-radius: 1.5px;
+  border-radius: 2px;
   overflow: hidden;
 }
 
@@ -444,13 +531,31 @@ watch(() => props.forceExpanded, (newVal) => {
   display: block;
   height: 100%;
   background: var(--accent);
-  border-radius: 1.5px;
-  transition: width 0.3s ease;
+  border-radius: 2px;
+  transition: width 0.4s cubic-bezier(0.25, 0.1, 0.25, 1), background 0.3s ease;
 }
 
+.strength-fill--high { background: #22c55e; }
+.strength-fill--mid  { background: #eab308; }
+.strength-fill--low  { background: #ef4444; }
+
 .meta-text {
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+  min-width: 36px;
+  text-align: right;
+  font-weight: 500;
+}
+
+.meta-text--high { color: #15803d; }
+.meta-text--mid  { color: #a16207; }
+.meta-text--low  { color: #b91c1c; }
+
+@media (prefers-color-scheme: dark) {
+  .meta-text--high { color: #4ade80; }
+  .meta-text--mid  { color: #facc15; }
+  .meta-text--low  { color: #f87171; }
 }
 
 .card-body {
@@ -780,6 +885,15 @@ watch(() => props.forceExpanded, (newVal) => {
     font-size: 0.7rem;
     min-height: 36px;
     min-width: 36px;
+  }
+
+  /* P38: 小屏隐藏 ring，节省横向空间 */
+  .strength-ring {
+    width: 30px;
+    height: 30px;
+  }
+  .strength-ring__num {
+    font-size: 0.6rem;
   }
 }
 </style>
