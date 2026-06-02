@@ -157,8 +157,9 @@ function onHeatmapDayClick(date: string) {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 32px;
-  padding-bottom: 20px;
+  margin-bottom: var(--space-7);    /* P41: 32 → --space-7 (32px)，与 P40 spacing scale 对齐 */
+  padding-bottom: var(--space-5);   /* P41: 20 → --space-5 */
+  gap: var(--space-3);              /* P41: 与 P40 HomeView 标题区节奏一致 */
   border-bottom: 1px solid var(--border);
 }
 
@@ -172,7 +173,7 @@ function onHeatmapDayClick(date: string) {
 
 /* P37: btn-refresh — Geist 风格 outline 按钮 */
 .btn-refresh {
-  padding: 8px 14px;
+  padding: var(--space-2) 14px;     /* P41: 8 → --space-2 (8px) */
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   background: var(--card);
@@ -192,7 +193,7 @@ function onHeatmapDayClick(date: string) {
 .loading-state,
 .error-state {
   text-align: center;
-  padding: 60px 20px;
+  padding: 60px var(--space-5);     /* P41: 20 → --space-5 */
   color: var(--text-secondary);
   font-size: 1rem;
 }
@@ -200,14 +201,14 @@ function onHeatmapDayClick(date: string) {
 .error-state {
   color: var(--error);
   text-align: center;
-  padding: 60px 20px;
+  padding: 60px var(--space-5);
 }
 
 .btn-retry {
-  margin-top: 12px;
-  padding: 8px 20px;
+  margin-top: var(--space-3);       /* P41: 12 → --space-3 */
+  padding: var(--space-2) var(--space-5);   /* P41: 8 20 → --space-2 --space-5 */
   border: 1px solid var(--error);
-  border-radius: 8px;
+  border-radius: var(--radius-md);  /* P41: 8 → --radius-md (8px) */
   background: transparent;
   color: var(--error);
   font-size: 0.875rem;
@@ -224,18 +225,18 @@ function onHeatmapDayClick(date: string) {
 .summary-row {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 16px;
-  margin-bottom: 32px;
+  gap: var(--space-4);                /* P41: 16 → --space-4 */
+  margin-bottom: var(--space-7);      /* P41: 32 → --space-7 */
 }
 
 .summary-card {
   background: var(--card);
   border-radius: var(--radius-md);
-  padding: 20px 24px;
+  padding: var(--space-5) var(--space-6);  /* P41: 20 24 → --space-5 --space-6 */
   box-shadow: var(--shadow);
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--space-2);                /* P41: 8 → --space-2 */
   transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
 
@@ -274,8 +275,8 @@ function onHeatmapDayClick(date: string) {
 .chart-card {
   background: var(--card);
   border-radius: var(--radius-lg);
-  padding: 24px 28px;
-  margin-bottom: 20px;
+  padding: var(--space-6) var(--space-7);  /* P41: 24 28 → --space-6 --space-7 (24 32) */
+  margin-bottom: var(--space-5);          /* P41: 20 → --space-5 */
   box-shadow: var(--shadow);
   transition: box-shadow 0.2s ease;
 }
@@ -288,12 +289,12 @@ function onHeatmapDayClick(date: string) {
   font-size: 1rem;
   font-weight: 600;
   color: var(--primary);
-  margin-bottom: 20px;
+  margin-bottom: var(--space-5);          /* P41: 20 → --space-5 */
 }
 
 .chart-empty {
   text-align: center;
-  padding: 40px;
+  padding: var(--space-8);                 /* P41: 40 → --space-8 (48px) */
   color: var(--text-secondary);
   font-size: 0.875rem;
 }
@@ -403,13 +404,13 @@ function onHeatmapDayClick(date: string) {
 .timeline-chart {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--space-2);                /* P41: 8 → --space-2 */
 }
 
 .timeline-bar {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--space-3);                /* P41: 12 → --space-3 */
 }
 
 .timeline-label {
@@ -417,14 +418,14 @@ function onHeatmapDayClick(date: string) {
   font-size: 0.8rem;
   color: var(--primary);
   text-align: right;
-  font-family: monospace;
+  font-family: var(--font-mono);  /* P41: 与 P40 TabBar/MemoryCard 统一 Geist mono 语言 */
 }
 
 .timeline-track {
   flex: 1;
-  height: 20px;
+  height: var(--space-5);             /* P41: 20 → --space-5 */
   background: var(--tag-bg);
-  border-radius: 6px;
+  border-radius: var(--radius-sm);    /* P41: 6 → --radius-sm (6px) */
   overflow: hidden;
 }
 

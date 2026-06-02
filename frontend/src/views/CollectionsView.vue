@@ -109,48 +109,61 @@ onMounted(loadCollections)
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
+  margin-bottom: var(--space-header-gap);
+  gap: var(--space-3);
 }
 
 .cv-header h2 {
   font-size: 1.5rem;
   font-weight: 600;
-  color: var(--primary, #007aff);
+  color: var(--primary);  /* P41: 去误导的 #007aff fallback — --primary 已是黑/白文字色 */
   margin: 0;
 }
 
+/* P41: 与 P39 HomeView 的 .action-btn--primary 对齐 — 主 CTA 用 --primary 黑/白药丸，
+   避免与侧栏激活态/链接的蓝色信号混淆。 */
 .btn-create {
-  padding: 8px 16px;
-  border: none;
-  border-radius: 8px;
-  background: var(--accent, #007aff);
-  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  background: var(--primary);
+  color: var(--bg);
   font-size: 0.85rem;
-  cursor: pointer;
+  font-weight: 500;
   font-family: var(--font);
-  transition: opacity 0.2s;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  transition: background 0.15s, box-shadow 0.15s, transform 0.05s;
 }
 
 .btn-create:hover {
-  opacity: 0.9;
+  background: var(--primary-muted);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.btn-create:active {
+  transform: translateY(1px);
 }
 
 .loading-state,
 .empty-state {
   text-align: center;
-  padding: 60px 20px;
+  padding: 60px var(--space-5);
   color: var(--text-secondary);
   font-size: 1rem;
 }
 
 .empty-state p {
-  margin-bottom: 16px;
+  margin-bottom: var(--space-4);
 }
 
 .collections-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 16px;
+  gap: var(--space-5);
 }
 
 @media (max-width: 767px) {
