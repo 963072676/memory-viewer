@@ -1,0 +1,164 @@
+{
+  "iteration": "P19",
+  "plan_file": "P19_ITERATION_PLAN.md",
+  "created_at": "2026-05-31T11:05:00",
+  "columns": {
+    "backlog": {
+      "title": "Backlog",
+      "tasks": []
+    },
+    "todo": {
+      "title": "To Do",
+      "tasks": [
+        {
+          "id": "P19-F13-1",
+          "feature": "F-13",
+          "title": "Extend variables.css with dark mode CSS variables",
+          "description": "Duplicate light theme variables with dark equivalents. Define --bg-primary, --bg-secondary, --text-primary, etc. for dark theme under [data-theme='dark'] selector",
+          "status": "todo",
+          "assignee": null,
+          "priority": "high",
+          "layer": "frontend",
+          "estimated_hours": 1,
+          "acceptance_criteria": ["AC-F13-4: All components work in dark theme"]
+        },
+        {
+          "id": "P19-F13-2",
+          "feature": "F-13",
+          "title": "Create useTheme.ts composable",
+          "description": "detect system prefers-color-scheme, apply theme class to <html>, persist choice to localStorage.theme, expose toggleTheme() function",
+          "status": "todo",
+          "assignee": null,
+          "priority": "high",
+          "layer": "frontend",
+          "estimated_hours": 2,
+          "acceptance_criteria": ["AC-F13-2: System preference detection works", "AC-F13-3: Theme persists across reloads"]
+        },
+        {
+          "id": "P19-F13-3",
+          "feature": "F-13",
+          "title": "Create ThemeToggle.vue component",
+          "description": "Sun/Moon icon toggle button. Uses useTheme composable. Place in AppHeader.vue",
+          "status": "todo",
+          "assignee": null,
+          "priority": "high",
+          "layer": "frontend",
+          "estimated_hours": 1,
+          "acceptance_criteria": ["AC-F13-1: Toggle switches between light/dark"]
+        },
+        {
+          "id": "P19-F12-1",
+          "feature": "F-12",
+          "title": "Create GET /api/changelog backend endpoint",
+          "description": "New router /routers/changelog.py. Returns {version: string, changelog_items: [{text: string, type: 'feature'|'fix'|'doc'}]}. Version from config/environment",
+          "status": "todo",
+          "assignee": null,
+          "priority": "medium",
+          "layer": "backend",
+          "estimated_hours": 1,
+          "acceptance_criteria": ["AC-F12-4: /api/changelog returns valid JSON"]
+        },
+        {
+          "id": "P19-F12-2",
+          "feature": "F-12",
+          "title": "Create WhatsNewModal.vue component",
+          "description": "Modal with version title + changelog list. Fetches /api/changelog on mount. Checks localStorage.lastSeenVersion vs current version. Shows on mismatch",
+          "status": "todo",
+          "assignee": null,
+          "priority": "medium",
+          "layer": "frontend",
+          "estimated_hours": 2,
+          "acceptance_criteria": ["AC-F12-1: Modal appears on first visit after P19", "AC-F12-2: Shows version and changelog items", "AC-F12-3: Dismissible, won't reappear until next version"]
+        },
+        {
+          "id": "P19-F12-3",
+          "feature": "F-12",
+          "title": "Integrate WhatsNewModal into App.vue",
+          "description": "On App mount, check version and show modal if needed. Update localStorage.lastSeenVersion on dismiss",
+          "status": "todo",
+          "assignee": null,
+          "priority": "medium",
+          "layer": "frontend",
+          "estimated_hours": 1,
+          "acceptance_criteria": ["AC-F12-3: Persists dismissed state across reloads"]
+        },
+        {
+          "id": "P19-F17-1",
+          "feature": "F-17",
+          "title": "Create feishu_webhook.py notification service",
+          "description": "Service module for sending Feishu message cards. Takes payload (title, body, type), sends POST to FEISHU_WEBHOOK_URL. Fire-and-forget with try/except and logging",
+          "status": "todo",
+          "assignee": null,
+          "priority": "medium",
+          "layer": "backend",
+          "estimated_hours": 2,
+          "acceptance_criteria": ["AC-F17-4: Webhook failure doesn't break main operation", "AC-F17-5: Test endpoint works"]
+        },
+        {
+          "id": "P19-F17-2",
+          "feature": "F-17",
+          "title": "Add FEISHU_WEBHOOK_URL to config.py",
+          "description": "Add Optional[str] field for webhook URL. Load from FEISHU_WEBHOOK_URL env var",
+          "status": "todo",
+          "assignee": null,
+          "priority": "medium",
+          "layer": "backend",
+          "estimated_hours": 0.5,
+          "acceptance_criteria": []
+        },
+        {
+          "id": "P19-F17-3",
+          "feature": "F-17",
+          "title": "Trigger webhook on memory write operations",
+          "description": "In agentmemory.py router: after POST/PUT/DELETE success, call feishu_webhook.send() with appropriate message card. Types: create=🆕 New Memory, update=✏️ Updated Memory, delete=🗑️ Deleted Memory",
+          "status": "todo",
+          "assignee": null,
+          "priority": "medium",
+          "layer": "backend",
+          "estimated_hours": 2,
+          "acceptance_criteria": ["AC-F17-1: Create sends notification", "AC-F17-2: Update sends notification", "AC-F17-3: Delete sends notification"]
+        },
+        {
+          "id": "P19-F17-4",
+          "feature": "F-17",
+          "title": "Add POST /api/webhook/feishu/test endpoint",
+          "description": "Test connectivity endpoint. Sends a test message card to verify webhook URL is valid",
+          "status": "todo",
+          "assignee": null,
+          "priority": "low",
+          "layer": "backend",
+          "estimated_hours": 1,
+          "acceptance_criteria": ["AC-F17-5: Test endpoint sends a test card"]
+        }
+      ]
+    },
+    "in_progress": {
+      "title": "In Progress",
+      "tasks": []
+    },
+    "review": {
+      "title": "Review",
+      "tasks": []
+    },
+    "done": {
+      "title": "Done",
+      "tasks": []
+    }
+  },
+  "metrics": {
+    "total_tasks": 10,
+    "by_status": {
+      "backlog": 0,
+      "todo": 10,
+      "in_progress": 0,
+      "review": 0,
+      "done": 0
+    },
+    "by_feature": {
+      "F-12": 3,
+      "F-13": 3,
+      "F-17": 4
+    },
+    "total_estimated_hours": 13.5
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "iteration": "P24",
+  "phase": "pm-orchestrator",
+  "created": "2026-05-31",
+  "status": "planned",
+  "focus": "Memory Sharing integration (F-42) + Health Scanner (F-68)",
+  "tasks": [
+    {
+      "id": "P24-T1",
+      "type": "frontend",
+      "title": "F-42 Memory Sharing Integration",
+      "description": "MemoryDetailView.vue 增加分享按钮，集成 ShareModal.vue",
+      "status": "pending",
+      "verification": "vue-tsc",
+      "estimated_hr": 1.5
+    },
+    {
+      "id": "P24-T2",
+      "type": "frontend+backend",
+      "title": "F-68 Health Scanner",
+      "description": "HealthScanView.vue + HealthScoreGauge.vue + 健康检查服务",
+      "status": "pending",
+      "verification": "pytest + vue-tsc",
+      "estimated_hr": 2.0
+    }
+  ],
+  "constraints": {
+    "max_tasks": 4,
+    "verify_each": "pytest + vue-tsc",
+    "completable_in_one_iteration": true
+  }
+}

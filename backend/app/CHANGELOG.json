@@ -1,0 +1,140 @@
+[
+  {
+    "version": "2.2.0",
+    "date": "2026-05-31",
+    "title": "P16 — 移动端适配 + 引导优化",
+    "changes": [
+      {
+        "title": "移动端汉堡菜单",
+        "description": "新增移动端汉堡菜单按钮，侧边栏可折叠，适配手机和平板访问。",
+        "type": "improvement"
+      },
+      {
+        "title": "SetupWizard简化",
+        "description": "新增快速开始按钮，一键使用示例数据，无需手动配置。",
+        "type": "improvement"
+      },
+      {
+        "title": "预设配置",
+        "description": "支持一键选择预设配置（Hermes/AgentMemory/本地），简化配置流程。",
+        "type": "improvement"
+      },
+      {
+        "title": "跳过配置",
+        "description": "支持跳过配置步骤，直接使用示例数据快速体验。",
+        "type": "improvement"
+      }
+    ]
+  },
+  {
+    "version": "2.1.0",
+    "date": "2026-05-29",
+    "title": "P2 — 用户体验增强",
+    "changes": [
+      {
+        "title": "版本更新说明",
+        "description": "新增 What's New 弹窗，首次访问或版本更新后自动展示更新日志，支持 Markdown 渲染。",
+        "type": "feature"
+      },
+      {
+        "title": "记忆归档",
+        "description": "支持将记忆归档/取消归档，归档后默认不在列表中显示，可通过开关查看已归档记忆。",
+        "type": "feature"
+      },
+      {
+        "title": "暗色模式",
+        "description": "支持 Light/Dark/跟随系统 三种主题模式，CSS 变量运行时切换，偏好持久化。",
+        "type": "feature"
+      },
+      {
+        "title": "虚拟列表",
+        "description": "当记忆条目超过 200 条时自动启用虚拟滚动，保障大数据量下的渲染性能。",
+        "type": "improvement"
+      },
+      {
+        "title": "时间线视图",
+        "description": "新增时间线页面，按日期分组展示记忆（今天/昨天/本周/本月/更早），直观了解记忆时间分布。",
+        "type": "feature"
+      },
+      {
+        "title": "记忆变更通知",
+        "description": "支持配置飞书 Webhook，记忆增删改时自动发送消息卡片通知到飞书群。",
+        "type": "feature"
+      }
+    ]
+  },
+  {
+    "version": "2.0.0",
+    "date": "2026-05-20",
+    "title": "P1 — 功能完善",
+    "changes": [
+      {
+        "title": "高级搜索",
+        "description": "支持按类型、strength 范围、时间范围、数据源的多维筛选。",
+        "type": "feature"
+      },
+      {
+        "title": "记忆编辑",
+        "description": "支持在线编辑记忆的 content、concepts、strength 字段。",
+        "type": "feature"
+      },
+      {
+        "title": "记忆删除",
+        "description": "支持单条和批量删除记忆，带确认对话框。",
+        "type": "feature"
+      },
+      {
+        "title": "统计仪表盘",
+        "description": "新增 Dashboard 页面，展示记忆分布、strength 分布、时间趋势等图表。",
+        "type": "feature"
+      },
+      {
+        "title": "缓存自动刷新",
+        "description": "后台定时自动刷新缓存数据，默认 30 分钟间隔。",
+        "type": "improvement"
+      }
+    ]
+  },
+  {
+    "version": "1.0.0",
+    "date": "2026-05-10",
+    "title": "P0 — 核心功能",
+    "changes": [
+      {
+        "title": "记忆列表展示",
+        "description": "展示 AgentMemory 和 Hermes Memory 两种数据源，支持卡片展开/折叠。",
+        "type": "feature"
+      },
+      {
+        "title": "排序功能",
+        "description": "支持按更新时间、创建时间、strength、类型排序。",
+        "type": "feature"
+      },
+      {
+        "title": "搜索高亮",
+        "description": "全文搜索并在结果中高亮匹配内容。",
+        "type": "feature"
+      },
+      {
+        "title": "快捷键支持",
+        "description": "支持 / 聚焦搜索、Esc 关闭弹窗、? 显示快捷键帮助。",
+        "type": "feature"
+      },
+      {
+        "title": "创建记忆",
+        "description": "支持在线创建新的 AgentMemory 记忆条目。",
+        "type": "feature"
+      },
+      {
+        "title": "导入导出",
+        "description": "支持 JSON/Markdown 格式的记忆导入导出。",
+        "type": "feature"
+      },
+      {
+        "title": "Swagger 文档",
+        "description": "自动生成 API 文档，访问 /api/docs 查看。",
+        "type": "feature"
+      }
+    ]
+  }
+]

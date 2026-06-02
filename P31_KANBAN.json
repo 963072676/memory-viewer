@@ -1,0 +1,35 @@
+{
+  "tasks": [
+    {
+      "id": "P31-T1",
+      "title": "P31-1 后端对比API",
+      "assignee": "dev-worker",
+      "status": "done",
+      "priority": "P0",
+      "features": ["F-23"],
+      "body": "实现 /api/compare/profiles 端点，支持对比两个profile的记忆差异",
+      "acceptance": "返回 {left_only, right_only, common, similarity_score}"
+    },
+    {
+      "id": "P31-T2",
+      "title": "P31-2 前端对比视图",
+      "assignee": "dev-worker",
+      "status": "done",
+      "priority": "P0",
+      "features": ["F-23"],
+      "body": "实现CompareView双栏对比视图，支持profile选择和差异高亮",
+      "acceptance": "用户可选择两个profile查看记忆差异"
+    },
+    {
+      "id": "P31-T3",
+      "title": "P31-3 验证",
+      "assignee": "qa-worker",
+      "status": "done",
+      "priority": "P0",
+      "features": ["F-23"],
+      "body": "运行 pytest 和 vue-tsc 验证",
+      "acceptance": "pytest无新增失败，vue-tsc无错误"
+    }
+  ],
+  "created_at": "2026-05-31T19:00:00"
+}

@@ -1,0 +1,26 @@
+{
+  "versions": [
+    {
+      "version": 1,
+      "snapshot": {
+        "title": "Update After Create",
+        "content": "Original content",
+        "concepts": [],
+        "strength": 5,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T08:37:36.790226Z"
+    },
+    {
+      "version": 2,
+      "snapshot": {
+        "title": "Update After Create",
+        "content": "Original content",
+        "concepts": [],
+        "strength": 5,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T08:37:37.054195Z"
+    }
+  ]
+}

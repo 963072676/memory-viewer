@@ -1,0 +1,45 @@
+{
+  "tasks": [
+    {
+      "id": "P17-T1",
+      "title": "P17-1 剩余P0功能完善",
+      "assignee": "dev-worker",
+      "status": "done",
+      "priority": "P0",
+      "features": ["P17-1"],
+      "body": "完善P0阶段未完成的功能细节",
+      "acceptance": "P0功能全部可用"
+    },
+    {
+      "id": "P17-T2",
+      "title": "P17-2 用户体验优化",
+      "assignee": "dev-worker",
+      "status": "done",
+      "priority": "P0",
+      "features": ["P17-2"],
+      "body": "优化交互细节，减少用户操作步骤",
+      "acceptance": "关键流程操作步骤减少"
+    },
+    {
+      "id": "P17-T3",
+      "title": "P17-3 性能优化",
+      "assignee": "dev-worker",
+      "status": "done",
+      "priority": "P1",
+      "features": ["P17-3"],
+      "body": "前后端性能优化",
+      "acceptance": "页面加载<2s，API响应<500ms"
+    },
+    {
+      "id": "P17-T4",
+      "title": "P17 验证",
+      "assignee": "qa-worker",
+      "status": "done",
+      "priority": "P0",
+      "features": ["P17-1", "P17-2", "P17-3"],
+      "body": "运行pytest和vue-tsc验证",
+      "acceptance": "pytest无错误，vue-tsc无错误"
+    }
+  ],
+  "created_at": "2026-05-31T09:35:00"
+}

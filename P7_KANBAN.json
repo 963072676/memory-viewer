@@ -1,0 +1,8 @@
+{
+  "project": "memory-viewer-p7",
+  "tasks": {
+    "t_a1b2c3d4": {"title": "P7 迭代计划", "assignee": "pm-orchestrator", "status": "done", "parents": []},
+    "t_e5f6a7b8": {"title": "P7 代码实现", "assignee": "dev-worker", "status": "todo", "parents": ["t_a1b2c3d4"]},
+    "t_c9d0e1f2": {"title": "QA P7 测试", "assignee": "qa-worker", "status": "todo", "parents": ["t_e5f6a7b8"]}
+  }
+}

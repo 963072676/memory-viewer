@@ -1,0 +1,15 @@
+{
+  "versions": [
+    {
+      "version": 1,
+      "snapshot": {
+        "title": "AI Memory 1",
+        "content": "content",
+        "concepts": [],
+        "strength": 5,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T04:32:17.175624Z"
+    }
+  ]
+}

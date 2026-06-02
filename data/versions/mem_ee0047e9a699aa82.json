@@ -1,0 +1,15 @@
+{
+  "versions": [
+    {
+      "version": 1,
+      "snapshot": {
+        "title": "Persistent Tags",
+        "content": "content",
+        "concepts": [],
+        "strength": 5,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T11:08:43.456240Z"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "versions": [
+    {
+      "version": 1,
+      "snapshot": {
+        "title": "Tagged Memory",
+        "content": "A memory with messy tags",
+        "concepts": [],
+        "strength": 5,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T08:42:30.760295Z"
+    }
+  ]
+}

@@ -1,0 +1,5324 @@
+{
+  "versions": [
+    {
+      "version": 1,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-29T14:23:09.710315Z"
+    },
+    {
+      "version": 2,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-29T14:23:09.743485Z"
+    },
+    {
+      "version": 3,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-29T14:23:09.769248Z"
+    },
+    {
+      "version": 4,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-29T14:23:09.784954Z"
+    },
+    {
+      "version": 5,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-29T14:23:09.794448Z"
+    },
+    {
+      "version": 6,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-29T14:24:43.491966Z"
+    },
+    {
+      "version": 7,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-29T14:24:43.524098Z"
+    },
+    {
+      "version": 8,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-29T14:24:43.553329Z"
+    },
+    {
+      "version": 9,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-29T14:24:43.568918Z"
+    },
+    {
+      "version": 10,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-29T14:24:43.580394Z"
+    },
+    {
+      "version": 11,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-29T14:28:20.983164Z"
+    },
+    {
+      "version": 12,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-29T14:28:21.015382Z"
+    },
+    {
+      "version": 13,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-29T14:28:21.041808Z"
+    },
+    {
+      "version": 14,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-29T14:28:21.059978Z"
+    },
+    {
+      "version": 15,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-29T14:28:21.071697Z"
+    },
+    {
+      "version": 16,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-29T14:31:21.438056Z"
+    },
+    {
+      "version": 17,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-29T14:31:21.473476Z"
+    },
+    {
+      "version": 18,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-29T14:31:21.500422Z"
+    },
+    {
+      "version": 19,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-29T14:31:21.517777Z"
+    },
+    {
+      "version": 20,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-29T14:31:21.530516Z"
+    },
+    {
+      "version": 21,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-29T14:33:08.414703Z"
+    },
+    {
+      "version": 22,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-29T14:33:08.441149Z"
+    },
+    {
+      "version": 23,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-29T14:33:08.463755Z"
+    },
+    {
+      "version": 24,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-29T14:33:08.481643Z"
+    },
+    {
+      "version": 25,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-29T14:33:08.494970Z"
+    },
+    {
+      "version": 26,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-29T15:21:27.184770Z"
+    },
+    {
+      "version": 27,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-29T15:21:27.225422Z"
+    },
+    {
+      "version": 28,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-29T15:21:27.254569Z"
+    },
+    {
+      "version": 29,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-29T15:21:27.274847Z"
+    },
+    {
+      "version": 30,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-29T15:21:27.324852Z"
+    },
+    {
+      "version": 31,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-29T20:03:15.798677Z"
+    },
+    {
+      "version": 32,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-29T20:03:15.829366Z"
+    },
+    {
+      "version": 33,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-29T20:03:15.858468Z"
+    },
+    {
+      "version": 34,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-29T20:03:15.874245Z"
+    },
+    {
+      "version": 35,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-29T20:03:15.889015Z"
+    },
+    {
+      "version": 36,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T20:31:10.046452Z"
+    },
+    {
+      "version": 37,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T20:31:10.064990Z"
+    },
+    {
+      "version": 38,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T20:31:10.080051Z"
+    },
+    {
+      "version": 39,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T20:31:10.090695Z"
+    },
+    {
+      "version": 40,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T20:31:10.097816Z"
+    },
+    {
+      "version": 41,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T20:31:35.130105Z"
+    },
+    {
+      "version": 42,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T20:31:35.148844Z"
+    },
+    {
+      "version": 43,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T20:31:35.164591Z"
+    },
+    {
+      "version": 44,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T20:31:35.175081Z"
+    },
+    {
+      "version": 45,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T20:31:35.182158Z"
+    },
+    {
+      "version": 46,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T20:53:10.035790Z"
+    },
+    {
+      "version": 47,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T20:53:10.064588Z"
+    },
+    {
+      "version": 48,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T20:53:10.088407Z"
+    },
+    {
+      "version": 49,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T20:53:10.103555Z"
+    },
+    {
+      "version": 50,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T20:53:10.114732Z"
+    },
+    {
+      "version": 51,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T21:24:59.418006Z"
+    },
+    {
+      "version": 52,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T21:24:59.447409Z"
+    },
+    {
+      "version": 53,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T21:24:59.470577Z"
+    },
+    {
+      "version": 54,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T21:24:59.485031Z"
+    },
+    {
+      "version": 55,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T21:24:59.496979Z"
+    },
+    {
+      "version": 56,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T21:28:25.053296Z"
+    },
+    {
+      "version": 57,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T21:28:25.084848Z"
+    },
+    {
+      "version": 58,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T21:28:25.109963Z"
+    },
+    {
+      "version": 59,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T21:28:25.124329Z"
+    },
+    {
+      "version": 60,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T21:28:25.135044Z"
+    },
+    {
+      "version": 61,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T21:31:40.839538Z"
+    },
+    {
+      "version": 62,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T21:31:40.871326Z"
+    },
+    {
+      "version": 63,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T21:31:40.894906Z"
+    },
+    {
+      "version": 64,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T21:31:40.908609Z"
+    },
+    {
+      "version": 65,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T21:31:40.921564Z"
+    },
+    {
+      "version": 66,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T22:41:24.560422Z"
+    },
+    {
+      "version": 67,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T22:41:24.588499Z"
+    },
+    {
+      "version": 68,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T22:41:24.612054Z"
+    },
+    {
+      "version": 69,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T22:41:24.628010Z"
+    },
+    {
+      "version": 70,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T22:41:24.640875Z"
+    },
+    {
+      "version": 71,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T23:12:40.722119Z"
+    },
+    {
+      "version": 72,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T23:12:40.753974Z"
+    },
+    {
+      "version": 73,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T23:12:40.768218Z"
+    },
+    {
+      "version": 74,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T23:12:40.781261Z"
+    },
+    {
+      "version": 75,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T23:12:40.789752Z"
+    },
+    {
+      "version": 76,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T23:18:08.992250Z"
+    },
+    {
+      "version": 77,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T23:18:09.020252Z"
+    },
+    {
+      "version": 78,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T23:18:09.043465Z"
+    },
+    {
+      "version": 79,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T23:18:09.055823Z"
+    },
+    {
+      "version": 80,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T23:18:09.068586Z"
+    },
+    {
+      "version": 81,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T23:21:35.603677Z"
+    },
+    {
+      "version": 82,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T23:21:35.626676Z"
+    },
+    {
+      "version": 83,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T23:21:35.643807Z"
+    },
+    {
+      "version": 84,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T23:21:35.655672Z"
+    },
+    {
+      "version": 85,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-30T23:21:35.664675Z"
+    },
+    {
+      "version": 86,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T00:23:24.687934Z"
+    },
+    {
+      "version": 87,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T00:23:24.722683Z"
+    },
+    {
+      "version": 88,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T00:23:24.747754Z"
+    },
+    {
+      "version": 89,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T00:23:24.765162Z"
+    },
+    {
+      "version": 90,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T00:23:24.779030Z"
+    },
+    {
+      "version": 91,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T01:25:18.453397Z"
+    },
+    {
+      "version": 92,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T01:25:18.489030Z"
+    },
+    {
+      "version": 93,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T01:25:18.505974Z"
+    },
+    {
+      "version": 94,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T01:25:18.520365Z"
+    },
+    {
+      "version": 95,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T01:25:18.536643Z"
+    },
+    {
+      "version": 96,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T01:28:23.986224Z"
+    },
+    {
+      "version": 97,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T01:28:24.020958Z"
+    },
+    {
+      "version": 98,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T01:28:24.043315Z"
+    },
+    {
+      "version": 99,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T01:28:24.058685Z"
+    },
+    {
+      "version": 100,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T01:28:24.068725Z"
+    },
+    {
+      "version": 101,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T02:00:39.200710Z"
+    },
+    {
+      "version": 102,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T02:00:39.228120Z"
+    },
+    {
+      "version": 103,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T02:00:39.244594Z"
+    },
+    {
+      "version": 104,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T02:00:39.256411Z"
+    },
+    {
+      "version": 105,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T02:00:39.266061Z"
+    },
+    {
+      "version": 106,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T02:35:47.913625Z"
+    },
+    {
+      "version": 107,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T02:35:47.943406Z"
+    },
+    {
+      "version": 108,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T02:35:47.968528Z"
+    },
+    {
+      "version": 109,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T02:35:47.981357Z"
+    },
+    {
+      "version": 110,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T02:35:47.991021Z"
+    },
+    {
+      "version": 111,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T02:37:34.539570Z"
+    },
+    {
+      "version": 112,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T02:37:34.579555Z"
+    },
+    {
+      "version": 113,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T02:37:34.604791Z"
+    },
+    {
+      "version": 114,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T02:37:34.619586Z"
+    },
+    {
+      "version": 115,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T02:37:34.633231Z"
+    },
+    {
+      "version": 116,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T02:41:40.587962Z"
+    },
+    {
+      "version": 117,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T02:41:40.620696Z"
+    },
+    {
+      "version": 118,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T02:41:40.640276Z"
+    },
+    {
+      "version": 119,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T02:41:40.651756Z"
+    },
+    {
+      "version": 120,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T02:41:40.665737Z"
+    },
+    {
+      "version": 121,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T02:44:12.899492Z"
+    },
+    {
+      "version": 122,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T02:44:12.926610Z"
+    },
+    {
+      "version": 123,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T02:44:12.944853Z"
+    },
+    {
+      "version": 124,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T02:44:12.956996Z"
+    },
+    {
+      "version": 125,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T02:44:12.968858Z"
+    },
+    {
+      "version": 126,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:16:12.757803Z"
+    },
+    {
+      "version": 127,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:16:12.793090Z"
+    },
+    {
+      "version": 128,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:16:12.821434Z"
+    },
+    {
+      "version": 129,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:16:12.840378Z"
+    },
+    {
+      "version": 130,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:16:12.852452Z"
+    },
+    {
+      "version": 131,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:50:04.200785Z"
+    },
+    {
+      "version": 132,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:50:04.242122Z"
+    },
+    {
+      "version": 133,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:50:04.271796Z"
+    },
+    {
+      "version": 134,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:50:04.290920Z"
+    },
+    {
+      "version": 135,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:50:04.305919Z"
+    },
+    {
+      "version": 136,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:51:29.963952Z"
+    },
+    {
+      "version": 137,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:51:30.001835Z"
+    },
+    {
+      "version": 138,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:51:30.024350Z"
+    },
+    {
+      "version": 139,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:51:30.042881Z"
+    },
+    {
+      "version": 140,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:51:30.056291Z"
+    },
+    {
+      "version": 141,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:51:52.540562Z"
+    },
+    {
+      "version": 142,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:51:52.582419Z"
+    },
+    {
+      "version": 143,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:51:52.607505Z"
+    },
+    {
+      "version": 144,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:51:52.620307Z"
+    },
+    {
+      "version": 145,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:51:52.634842Z"
+    },
+    {
+      "version": 146,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:53:02.177698Z"
+    },
+    {
+      "version": 147,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:53:02.237540Z"
+    },
+    {
+      "version": 148,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:53:02.256989Z"
+    },
+    {
+      "version": 149,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:53:02.272648Z"
+    },
+    {
+      "version": 150,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:53:02.285209Z"
+    },
+    {
+      "version": 151,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:53:47.442350Z"
+    },
+    {
+      "version": 152,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:53:47.495617Z"
+    },
+    {
+      "version": 153,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:53:47.554701Z"
+    },
+    {
+      "version": 154,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:53:47.584894Z"
+    },
+    {
+      "version": 155,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:53:47.626060Z"
+    },
+    {
+      "version": 156,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:54:02.710789Z"
+    },
+    {
+      "version": 157,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:54:02.772216Z"
+    },
+    {
+      "version": 158,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:54:02.825518Z"
+    },
+    {
+      "version": 159,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:54:02.850127Z"
+    },
+    {
+      "version": 160,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:54:02.894454Z"
+    },
+    {
+      "version": 161,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:55:05.432951Z"
+    },
+    {
+      "version": 162,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:55:05.490214Z"
+    },
+    {
+      "version": 163,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:55:05.543567Z"
+    },
+    {
+      "version": 164,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:55:05.567290Z"
+    },
+    {
+      "version": 165,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:55:05.610883Z"
+    },
+    {
+      "version": 166,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:57:40.851319Z"
+    },
+    {
+      "version": 167,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:57:40.883087Z"
+    },
+    {
+      "version": 168,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:57:40.914777Z"
+    },
+    {
+      "version": 169,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:57:40.936964Z"
+    },
+    {
+      "version": 170,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:57:40.953005Z"
+    },
+    {
+      "version": 171,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:58:13.314621Z"
+    },
+    {
+      "version": 172,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:58:13.344442Z"
+    },
+    {
+      "version": 173,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:58:13.363603Z"
+    },
+    {
+      "version": 174,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:58:13.378441Z"
+    },
+    {
+      "version": 175,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T03:58:13.391345Z"
+    },
+    {
+      "version": 176,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T04:30:56.165874Z"
+    },
+    {
+      "version": 177,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T04:30:56.200209Z"
+    },
+    {
+      "version": 178,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T04:30:56.225713Z"
+    },
+    {
+      "version": 179,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T04:30:56.244956Z"
+    },
+    {
+      "version": 180,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T04:30:56.262194Z"
+    },
+    {
+      "version": 181,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T04:32:21.055506Z"
+    },
+    {
+      "version": 182,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T04:32:21.104064Z"
+    },
+    {
+      "version": 183,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T04:32:21.134998Z"
+    },
+    {
+      "version": 184,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T04:32:21.152089Z"
+    },
+    {
+      "version": 185,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T04:32:21.166943Z"
+    },
+    {
+      "version": 186,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T04:37:01.415235Z"
+    },
+    {
+      "version": 187,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T04:37:01.517731Z"
+    },
+    {
+      "version": 188,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T04:37:01.608133Z"
+    },
+    {
+      "version": 189,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T04:37:01.685588Z"
+    },
+    {
+      "version": 190,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T04:37:01.763529Z"
+    },
+    {
+      "version": 191,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T06:11:58.125361Z"
+    },
+    {
+      "version": 192,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T06:11:58.177173Z"
+    },
+    {
+      "version": 193,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T06:11:58.204425Z"
+    },
+    {
+      "version": 194,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T06:11:58.220837Z"
+    },
+    {
+      "version": 195,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T06:11:58.234617Z"
+    },
+    {
+      "version": 196,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T06:12:40.237871Z"
+    },
+    {
+      "version": 197,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T06:12:40.853913Z"
+    },
+    {
+      "version": 198,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T06:12:41.166088Z"
+    },
+    {
+      "version": 199,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T06:12:41.302073Z"
+    },
+    {
+      "version": 200,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T06:12:41.355840Z"
+    },
+    {
+      "version": 201,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T06:15:21.308525Z"
+    },
+    {
+      "version": 202,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T06:15:21.350772Z"
+    },
+    {
+      "version": 203,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T06:15:21.374799Z"
+    },
+    {
+      "version": 204,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T06:15:21.390973Z"
+    },
+    {
+      "version": 205,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T06:15:21.405316Z"
+    },
+    {
+      "version": 206,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T06:16:14.387156Z"
+    },
+    {
+      "version": 207,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T06:16:14.424420Z"
+    },
+    {
+      "version": 208,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T06:16:14.448788Z"
+    },
+    {
+      "version": 209,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T06:16:14.471293Z"
+    },
+    {
+      "version": 210,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T06:16:14.489002Z"
+    },
+    {
+      "version": 211,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T06:48:36.024155Z"
+    },
+    {
+      "version": 212,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T06:48:36.059899Z"
+    },
+    {
+      "version": 213,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T06:48:36.082904Z"
+    },
+    {
+      "version": 214,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T06:48:36.103363Z"
+    },
+    {
+      "version": 215,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T06:48:36.120104Z"
+    },
+    {
+      "version": 216,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T06:50:06.072101Z"
+    },
+    {
+      "version": 217,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T06:50:06.113483Z"
+    },
+    {
+      "version": 218,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T06:50:06.148299Z"
+    },
+    {
+      "version": 219,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T06:50:06.167803Z"
+    },
+    {
+      "version": 220,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T06:50:06.186695Z"
+    },
+    {
+      "version": 221,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T06:51:23.769225Z"
+    },
+    {
+      "version": 222,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T06:51:23.812374Z"
+    },
+    {
+      "version": 223,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T06:51:23.837087Z"
+    },
+    {
+      "version": 224,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T06:51:23.858669Z"
+    },
+    {
+      "version": 225,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T06:51:23.875995Z"
+    },
+    {
+      "version": 226,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T06:53:22.899552Z"
+    },
+    {
+      "version": 227,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T06:53:22.937651Z"
+    },
+    {
+      "version": 228,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T06:53:22.966543Z"
+    },
+    {
+      "version": 229,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T06:53:22.984750Z"
+    },
+    {
+      "version": 230,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T06:53:23.000146Z"
+    },
+    {
+      "version": 231,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T07:26:49.805957Z"
+    },
+    {
+      "version": 232,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T07:26:49.848440Z"
+    },
+    {
+      "version": 233,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T07:26:49.871371Z"
+    },
+    {
+      "version": 234,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T07:26:49.888900Z"
+    },
+    {
+      "version": 235,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T07:26:49.904405Z"
+    },
+    {
+      "version": 236,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T07:59:21.323833Z"
+    },
+    {
+      "version": 237,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T07:59:21.367441Z"
+    },
+    {
+      "version": 238,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T07:59:21.395411Z"
+    },
+    {
+      "version": 239,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T07:59:21.415318Z"
+    },
+    {
+      "version": 240,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T07:59:21.432379Z"
+    },
+    {
+      "version": 241,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T08:01:16.455759Z"
+    },
+    {
+      "version": 242,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T08:01:16.493248Z"
+    },
+    {
+      "version": 243,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T08:01:16.518334Z"
+    },
+    {
+      "version": 244,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T08:01:16.537376Z"
+    },
+    {
+      "version": 245,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T08:01:16.553565Z"
+    },
+    {
+      "version": 246,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T08:37:34.315984Z"
+    },
+    {
+      "version": 247,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T08:37:34.356133Z"
+    },
+    {
+      "version": 248,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T08:37:34.381059Z"
+    },
+    {
+      "version": 249,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T08:37:34.400517Z"
+    },
+    {
+      "version": 250,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T08:37:34.416750Z"
+    },
+    {
+      "version": 251,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T08:38:43.229854Z"
+    },
+    {
+      "version": 252,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T08:38:43.268503Z"
+    },
+    {
+      "version": 253,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T08:38:43.297981Z"
+    },
+    {
+      "version": 254,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T08:38:43.317848Z"
+    },
+    {
+      "version": 255,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T08:38:43.334903Z"
+    },
+    {
+      "version": 256,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T08:41:07.822693Z"
+    },
+    {
+      "version": 257,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T08:41:07.960207Z"
+    },
+    {
+      "version": 258,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T08:41:08.035121Z"
+    },
+    {
+      "version": 259,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T08:41:08.081416Z"
+    },
+    {
+      "version": 260,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T08:41:08.146569Z"
+    },
+    {
+      "version": 261,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T08:42:34.744723Z"
+    },
+    {
+      "version": 262,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T08:42:34.786459Z"
+    },
+    {
+      "version": 263,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T08:42:34.813979Z"
+    },
+    {
+      "version": 264,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T08:42:34.834585Z"
+    },
+    {
+      "version": 265,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T08:42:34.852382Z"
+    },
+    {
+      "version": 266,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T09:14:27.069120Z"
+    },
+    {
+      "version": 267,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T09:14:27.116568Z"
+    },
+    {
+      "version": 268,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T09:14:27.144981Z"
+    },
+    {
+      "version": 269,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T09:14:27.163699Z"
+    },
+    {
+      "version": 270,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T09:14:27.180510Z"
+    },
+    {
+      "version": 271,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T09:32:26.754240Z"
+    },
+    {
+      "version": 272,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T09:32:26.793630Z"
+    },
+    {
+      "version": 273,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T09:32:26.822899Z"
+    },
+    {
+      "version": 274,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T09:32:26.842314Z"
+    },
+    {
+      "version": 275,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T09:32:26.859603Z"
+    },
+    {
+      "version": 276,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T09:46:41.411295Z"
+    },
+    {
+      "version": 277,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T09:46:41.453638Z"
+    },
+    {
+      "version": 278,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T09:46:41.481858Z"
+    },
+    {
+      "version": 279,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T09:46:41.501302Z"
+    },
+    {
+      "version": 280,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T09:46:41.518172Z"
+    },
+    {
+      "version": 281,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T10:21:28.423260Z"
+    },
+    {
+      "version": 282,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T10:21:29.096583Z"
+    },
+    {
+      "version": 283,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T10:21:29.616226Z"
+    },
+    {
+      "version": 284,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T10:21:29.642403Z"
+    },
+    {
+      "version": 285,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T10:21:29.926033Z"
+    },
+    {
+      "version": 286,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T11:05:16.836217Z"
+    },
+    {
+      "version": 287,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T11:05:16.874338Z"
+    },
+    {
+      "version": 288,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T11:05:16.904938Z"
+    },
+    {
+      "version": 289,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T11:05:16.924955Z"
+    },
+    {
+      "version": 290,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T11:05:16.942451Z"
+    },
+    {
+      "version": 291,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T11:08:43.919816Z"
+    },
+    {
+      "version": 292,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T11:08:43.956706Z"
+    },
+    {
+      "version": 293,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T11:08:43.981534Z"
+    },
+    {
+      "version": 294,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T11:08:44.001177Z"
+    },
+    {
+      "version": 295,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T11:08:44.018988Z"
+    },
+    {
+      "version": 296,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T11:40:34.405581Z"
+    },
+    {
+      "version": 297,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T11:40:34.444981Z"
+    },
+    {
+      "version": 298,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T11:40:34.471225Z"
+    },
+    {
+      "version": 299,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T11:40:34.492162Z"
+    },
+    {
+      "version": 300,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T11:40:34.510514Z"
+    },
+    {
+      "version": 301,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T11:41:08.846324Z"
+    },
+    {
+      "version": 302,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T11:41:08.895680Z"
+    },
+    {
+      "version": 303,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T11:41:08.925646Z"
+    },
+    {
+      "version": 304,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T11:41:08.951154Z"
+    },
+    {
+      "version": 305,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T11:41:08.969495Z"
+    },
+    {
+      "version": 306,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T11:44:05.300027Z"
+    },
+    {
+      "version": 307,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T11:44:05.345591Z"
+    },
+    {
+      "version": 308,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T11:44:05.374822Z"
+    },
+    {
+      "version": 309,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T11:44:05.396225Z"
+    },
+    {
+      "version": 310,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T11:44:05.414946Z"
+    },
+    {
+      "version": 311,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T11:44:23.014505Z"
+    },
+    {
+      "version": 312,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T11:44:23.056826Z"
+    },
+    {
+      "version": 313,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T11:44:23.085683Z"
+    },
+    {
+      "version": 314,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T11:44:23.108870Z"
+    },
+    {
+      "version": 315,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T11:44:23.129133Z"
+    },
+    {
+      "version": 316,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T12:16:19.179042Z"
+    },
+    {
+      "version": 317,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T12:16:19.219458Z"
+    },
+    {
+      "version": 318,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T12:16:19.247398Z"
+    },
+    {
+      "version": 319,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T12:16:19.270567Z"
+    },
+    {
+      "version": 320,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T12:16:19.291075Z"
+    },
+    {
+      "version": 321,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T12:48:19.729800Z"
+    },
+    {
+      "version": 322,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T12:48:19.769631Z"
+    },
+    {
+      "version": 323,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T12:48:19.795839Z"
+    },
+    {
+      "version": 324,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T12:48:19.817439Z"
+    },
+    {
+      "version": 325,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T12:48:19.836549Z"
+    },
+    {
+      "version": 326,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T12:49:07.457298Z"
+    },
+    {
+      "version": 327,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T12:49:07.504738Z"
+    },
+    {
+      "version": 328,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T12:49:07.535843Z"
+    },
+    {
+      "version": 329,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T12:49:07.561116Z"
+    },
+    {
+      "version": 330,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T12:49:07.582657Z"
+    },
+    {
+      "version": 331,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T12:49:41.113554Z"
+    },
+    {
+      "version": 332,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T12:49:41.156059Z"
+    },
+    {
+      "version": 333,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T12:49:41.186552Z"
+    },
+    {
+      "version": 334,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T12:49:41.211404Z"
+    },
+    {
+      "version": 335,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T12:49:41.232841Z"
+    },
+    {
+      "version": 336,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T12:49:56.315870Z"
+    },
+    {
+      "version": 337,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T12:49:56.367935Z"
+    },
+    {
+      "version": 338,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T12:49:56.397443Z"
+    },
+    {
+      "version": 339,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T12:49:56.421915Z"
+    },
+    {
+      "version": 340,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T12:49:56.442256Z"
+    },
+    {
+      "version": 341,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T13:28:18.759660Z"
+    },
+    {
+      "version": 342,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T13:28:18.803546Z"
+    },
+    {
+      "version": 343,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T13:28:18.835264Z"
+    },
+    {
+      "version": 344,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T13:28:18.862855Z"
+    },
+    {
+      "version": 345,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T13:28:18.886579Z"
+    },
+    {
+      "version": 346,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T13:28:54.987011Z"
+    },
+    {
+      "version": 347,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T13:28:55.037893Z"
+    },
+    {
+      "version": 348,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T13:28:55.071027Z"
+    },
+    {
+      "version": 349,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T13:28:55.099735Z"
+    },
+    {
+      "version": 350,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T13:28:55.125363Z"
+    },
+    {
+      "version": 351,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T14:07:24.285258Z"
+    },
+    {
+      "version": 352,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T14:07:24.331047Z"
+    },
+    {
+      "version": 353,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T14:07:24.361509Z"
+    },
+    {
+      "version": 354,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T14:07:24.383063Z"
+    },
+    {
+      "version": 355,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T14:07:24.403133Z"
+    },
+    {
+      "version": 356,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T14:07:59.735795Z"
+    },
+    {
+      "version": 357,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T14:07:59.780733Z"
+    },
+    {
+      "version": 358,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T14:07:59.808539Z"
+    },
+    {
+      "version": 359,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T14:07:59.830791Z"
+    },
+    {
+      "version": 360,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T14:07:59.851665Z"
+    },
+    {
+      "version": 361,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-06-01T00:03:23.096453Z"
+    },
+    {
+      "version": 362,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-06-01T00:03:23.143759Z"
+    },
+    {
+      "version": 363,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-06-01T00:03:23.170218Z"
+    },
+    {
+      "version": 364,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-06-01T00:03:23.193220Z"
+    },
+    {
+      "version": 365,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-06-01T00:03:23.213285Z"
+    },
+    {
+      "version": 366,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-06-01T03:40:15.733055Z"
+    },
+    {
+      "version": 367,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-06-01T03:40:15.800658Z"
+    },
+    {
+      "version": 368,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-06-01T03:40:15.826520Z"
+    },
+    {
+      "version": 369,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-06-01T03:40:15.849871Z"
+    },
+    {
+      "version": 370,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-06-01T03:40:15.872453Z"
+    },
+    {
+      "version": 371,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-06-01T03:40:40.006560Z"
+    },
+    {
+      "version": 372,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-06-01T03:40:40.048141Z"
+    },
+    {
+      "version": 373,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-06-01T03:40:40.097010Z"
+    },
+    {
+      "version": 374,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-06-01T03:40:40.119288Z"
+    },
+    {
+      "version": 375,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-06-01T03:40:40.139572Z"
+    },
+    {
+      "version": 376,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-06-01T03:41:03.945959Z"
+    },
+    {
+      "version": 377,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-06-01T03:41:03.990431Z"
+    },
+    {
+      "version": 378,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-06-01T03:41:04.017733Z"
+    },
+    {
+      "version": 379,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "This is a test pattern about hermes usage",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-06-01T03:41:04.068996Z"
+    },
+    {
+      "version": 380,
+      "snapshot": {
+        "title": "Test Pattern Memory",
+        "content": "v1",
+        "concepts": [
+          "hermes",
+          "test"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-06-01T03:41:04.092360Z"
+    }
+  ]
+}

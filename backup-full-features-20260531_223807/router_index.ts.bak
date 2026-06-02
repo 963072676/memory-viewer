@@ -1,0 +1,219 @@
+import { createRouter, createWebHistory } from 'vue-router'
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes: [
+    {
+      path: '/',
+      name: 'home',
+      component: () => import('@/views/HomeView.vue'),
+    },
+    {
+      path: '/agentmemory',
+      name: 'agentmemory',
+      component: () => import('@/views/AgentMemoryView.vue'),
+    },
+    {
+      path: '/hermes',
+      name: 'hermes',
+      component: () => import('@/views/HermesMemoryView.vue'),
+    },
+    {
+      path: '/profiles',
+      name: 'profiles',
+      component: () => import('@/views/ProfilesView.vue'),
+    },
+    {
+      path: '/dashboard',
+      name: 'dashboard',
+      component: () => import('@/views/DashboardView.vue'),
+    },
+    {
+      path: '/timeline',
+      name: 'timeline',
+      component: () => import('@/views/TimelineView.vue'),
+    },
+    {
+      path: '/graph',
+      name: 'graph',
+      component: () => import('@/views/GraphView.vue'),
+    },
+    {
+      path: '/diagnostics',
+      name: 'diagnostics',
+      component: () => import('@/views/DiagnosticsView.vue'),
+    },
+    {
+      path: '/audit',
+      name: 'audit',
+      component: () => import('@/views/AuditView.vue'),
+    },
+    {
+      path: '/backup',
+      name: 'backup',
+      component: () => import('@/views/BackupView.vue'),
+    },
+    {
+      path: '/metrics',
+      name: 'metrics',
+      component: () => import('@/views/MetricsView.vue'),
+    },
+    {
+      path: '/instances',
+      name: 'instances',
+      component: () => import('@/views/InstancesView.vue'),
+    },
+    {
+      path: '/memory/:id/versions',
+      name: 'version-history',
+      component: () => import('@/views/VersionHistory.vue'),
+    },
+    {
+      path: '/compare',
+      name: 'compare',
+      component: () => import('@/views/CompareView.vue'),
+    },
+    {
+      path: '/subscriptions',
+      name: 'subscriptions',
+      component: () => import('@/views/SubscriptionsView.vue'),
+    },
+    {
+      path: '/plugins',
+      name: 'plugins',
+      component: () => import('@/views/PluginsView.vue'),
+    },
+    {
+      path: '/clusters',
+      name: 'clusters',
+      component: () => import('@/views/ClustersView.vue'),
+    },
+    {
+      path: '/anomalies',
+      name: 'anomalies',
+      component: () => import('@/views/AnomaliesView.vue'),
+    },
+    {
+      path: '/custom-dashboard',
+      name: 'custom-dashboard',
+      component: () => import('@/views/CustomDashboard.vue'),
+    },
+    // P10 routes
+    {
+      path: '/lineage',
+      name: 'lineage',
+      component: () => import('@/views/LineageView.vue'),
+    },
+    {
+      path: '/conflicts',
+      name: 'conflicts',
+      component: () => import('@/views/ConflictsView.vue'),
+    },
+    {
+      path: '/workflows',
+      name: 'workflows',
+      component: () => import('@/views/WorkflowsView.vue'),
+    },
+    {
+      path: '/annotations',
+      name: 'annotations',
+      component: () => import('@/views/AnnotationsView.vue'),
+    },
+    {
+      path: '/analytics',
+      name: 'analytics',
+      component: () => import('@/views/AnalyticsView.vue'),
+    },
+    // P11 routes
+    {
+      path: '/digest',
+      name: 'digest',
+      component: () => import('@/views/DigestView.vue'),
+    },
+    {
+      path: '/templates',
+      name: 'templates',
+      component: () => import('@/views/TemplatesView.vue'),
+    },
+    {
+      path: '/workspaces',
+      name: 'workspaces',
+      component: () => import('@/views/WorkspacesView.vue'),
+    },
+    // P12 routes
+    {
+      path: '/governance',
+      name: 'governance',
+      component: () => import('@/views/GovernanceView.vue'),
+    },
+    {
+      path: '/snapshots',
+      name: 'snapshots',
+      component: () => import('@/views/SnapshotsView.vue'),
+    },
+    {
+      path: '/api-playground',
+      name: 'api-playground',
+      component: () => import('@/views/ApiPlaygroundView.vue'),
+    },
+    {
+      path: '/llm-usage',
+      name: 'llm-usage',
+      component: () => import('@/views/LlmUsageView.vue'),
+    },
+    {
+      path: '/cross-agent',
+      name: 'cross-agent',
+      component: () => import('@/views/CrossAgentView.vue'),
+    },
+    // P13 routes
+    {
+      path: '/collections',
+      name: 'collections',
+      component: () => import('@/views/CollectionsView.vue'),
+    },
+    {
+      path: '/health-scan',
+      name: 'health-scan',
+      component: () => import('@/views/HealthScanView.vue'),
+    },
+    // P17 routes
+    {
+      path: '/api-docs',
+      name: 'api-docs',
+      component: () => import('@/views/ApiDocsView.vue'),
+    },
+    // P16 routes
+    {
+      path: '/sources',
+      name: 'sources',
+      component: () => import('@/views/SourcesView.vue'),
+    },
+    // P31 routes (Version History)
+    {
+      path: '/memory/:id/history',
+      name: 'VersionHistory',
+      component: () => import('@/views/VersionHistoryView.vue'),
+    },
+    // P21 routes (MUST be after all static routes to avoid route conflict)
+    {
+      path: '/memory/:id',
+      name: 'memory-detail',
+      component: () => import('@/views/MemoryDetailView.vue'),
+    },
+    // P27 routes
+    {
+      path: '/reports',
+      name: 'reports',
+      component: () => import('@/views/ReportsView.vue'),
+    },
+    // Settings
+    {
+      path: '/settings',
+      name: 'settings',
+      component: () => import('@/views/SettingsView.vue'),
+    },
+  ],
+})
+
+export default router

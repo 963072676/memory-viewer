@@ -1,0 +1,42 @@
+{
+  "project": "memory-viewer-p6",
+  "created_at": "2026-05-29T02:25:45.491884",
+  "tasks": {
+    "t_3bc26d9f": {
+      "id": "t_3bc26d9f",
+      "title": "P6 迭代计划：质量打磨",
+      "assignee": "pm-orchestrator",
+      "status": "done",
+      "body": "PM 规划 P6",
+      "parents": [],
+      "children": ["t_8e490014"],
+      "comments": [],
+      "created_at": "2026-05-29T02:25:45.491923",
+      "updated_at": "2026-05-29T11:31:00"
+    },
+    "t_8e490014": {
+      "id": "t_8e490014",
+      "title": "P6 代码实现",
+      "assignee": "dev-worker",
+      "status": "done",
+      "body": "DEV 实现 - F33/F34/F35/F38 (Batch 1) + F36/F37/F39/F42/F43 (Batch 2)",
+      "parents": ["t_3bc26d9f"],
+      "children": ["t_2b7ab8cf"],
+      "comments": [],
+      "created_at": "2026-05-29T02:25:45.491939",
+      "updated_at": "2026-05-29T12:42:00"
+    },
+    "t_2b7ab8cf": {
+      "id": "t_2b7ab8cf",
+      "title": "QA P6 测试",
+      "assignee": "qa-worker",
+      "status": "done",
+      "body": "QA 测试 - 全部通过 (104/104 tests, build OK)",
+      "parents": ["t_8e490014"],
+      "children": [],
+      "comments": [],
+      "created_at": "2026-05-29T02:25:45.491953",
+      "updated_at": "2026-05-29T12:50:00"
+    }
+  }
+}

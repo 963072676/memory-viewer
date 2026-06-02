@@ -1,0 +1,41 @@
+{
+  "iteration": "P21",
+  "phase": "pm-orchestrator",
+  "created": "2026-05-31",
+  "status": "planned",
+  "focus": "2-3 high-impact features: detail view, stats endpoint, filtering UI",
+  "tasks": [
+    {
+      "id": "P21-T1",
+      "type": "backend",
+      "title": "Implement GET /api/agentmemory/{memory_id} endpoint",
+      "description": "Add single memory detail endpoint. QA report identified this as BUG-01 blocking deep linking.",
+      "status": "done",
+      "verification": "pytest + vue-tsc",
+      "estimated_hr": 0.5
+    },
+    {
+      "id": "P21-T2",
+      "type": "frontend",
+      "title": "Create MemoryDetailView.vue with full memory display",
+      "description": "New route /memory/:id showing full memory content, concepts, metadata. Click-through from MemoryCard.",
+      "status": "done",
+      "verification": "vue-tsc",
+      "estimated_hr": 1.0
+    },
+    {
+      "id": "P21-T4",
+      "type": "frontend",
+      "title": "Add type filter and sort controls to AgentMemoryView",
+      "description": "Add dropdown for type filter (conversation/fact/procedure/etc) and sort order (updatedAt/createdAt/strength). Connect to existing paginated API.",
+      "status": "done",
+      "verification": "vue-tsc",
+      "estimated_hr": 1.0
+    }
+  ],
+  "constraints": {
+    "max_tasks": 6,
+    "verify_each": "pytest + vue-tsc",
+    "completable_in_one_iteration": true
+  }
+}

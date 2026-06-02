@@ -1,0 +1,785 @@
+<template>
+  <div class="memory-card" :class="{ expanded: isExpanded, archived: memory.archived }">
+    <label class="select-checkbox" @click.stop>
+      <input type="checkbox" :checked="isSelected" @change="store.toggleSelect(memory.id)" />
+      <span class="checkmark"></span>
+    </label>
+    <div class="card-header" @click="toggle">
+      <div class="card-title-row">
+        <h3 class="card-title">
+          <router-link :to="`/memory/${memory.id}`" class="memory-title-link" @click.stop>
+            {{ memory.title }}
+          </router-link>
+          <span v-if="memory.archived" class="archived-badge">已归档</span>
+        </h3>
+        <div class="card-right">
+          <span v-if="healthDisplay" class="health-dot" :class="'dot-' + healthDisplay.color" :title="'健康度: ' + healthDisplay.health_score"></span>
+          <HealthBadge v-if="healthDisplay" :score="healthDisplay.health_score" :color="healthDisplay.color" />
+          <span class="card-type" :class="'type-' + memory.type">{{ memory.type }}</span>
+        </div>
+      </div>
+      <p class="card-summary" v-if="!isExpanded">{{ truncatedContent }}</p>
+      <div class="card-tags" v-if="!isExpanded && memory.tags && memory.tags.length">
+        <span
+          v-for="tag in memory.tags"
+          :key="tag"
+          class="tag-capsule"
+          @click.stop="$emit('tag-click', tag)"
+        >{{ tag }}</span>
+      </div>
+      <div class="card-meta" v-if="!isExpanded">
+        <span class="strength-bar">
+          <span class="strength-fill" :style="{ width: (memory.strength * 10) + '%' }"></span>
+        </span>
+        <span class="meta-text">{{ memory.strength * 10 }}%</span>
+      </div>
+    </div>
+    <transition name="expand">
+      <div class="card-body" v-if="isExpanded">
+        <div class="card-content" v-html="sanitizedContent"></div>
+        <div class="card-details">
+          <div class="detail-row" v-if="memory.concepts.length">
+            <span class="detail-label">Concepts</span>
+            <div class="tags">
+              <span class="tag" v-for="c in memory.concepts" :key="c">{{ c }}</span>
+            </div>
+          </div>
+          <div class="detail-row" v-if="memory.files.length">
+            <span class="detail-label">Files</span>
+            <div class="tags">
+              <span class="tag file-tag" v-for="f in memory.files" :key="f">{{ f }}</span>
+            </div>
+          </div>
+          <!-- F46: Tags section in expanded body -->
+          <div class="detail-row">
+            <span class="detail-label">标签</span>
+            <TagManager
+              :tags="memory.tags || []"
+              :all-tags="allTagNames"
+              @update:tags="onTagsUpdate"
+            />
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Strength</span>
+            <span>{{ memory.strength * 10 }}%</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Updated</span>
+            <span>{{ formatDate(memory.updatedAt) }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Created</span>
+            <span>{{ formatDate(memory.createdAt) }}</span>
+          </div>
+          <!-- Health breakdown (F-20) -->
+          <div class="detail-row" v-if="healthDisplay">
+            <span class="detail-label">健康度</span>
+            <span class="health-detail">
+              {{ healthDisplay.health_score }}/100
+              <span v-if="healthData" class="health-dim" :class="'health-' + healthDisplay.color">
+                力{{ healthData.breakdown.strength_score }} ·
+                龄{{ healthData.breakdown.age_score }} ·
+                概{{ healthData.breakdown.concepts_score }} ·
+                推{{ healthData.breakdown.recommendation_score }}
+              </span>
+              <span v-else class="health-dim" :class="'health-' + healthDisplay.color">
+                (列表预估)
+              </span>
+            </span>
+          </div>
+        </div>
+
+        <!-- Decay chart (F-22) -->
+        <DecayChart v-if="decayData" :data="decayData" />
+
+        <!-- Related memories (F-19) -->
+        <RelatedMemories :memory-id="memory.id" />
+
+        <!-- F-34: AI Auto-Tagging & Summarization -->
+        <div class="ai-section">
+          <div class="ai-actions">
+            <button
+              class="action-btn ai-btn"
+              :disabled="suggestTagsLoading"
+              @click.stop="handleSuggestTags"
+            >
+              {{ suggestTagsLoading ? '⏳ 分析中...' : '✨ Suggest Tags' }}
+            </button>
+            <button
+              class="action-btn ai-btn"
+              :disabled="summarizeLoading"
+              @click.stop="handleSummarize"
+            >
+              {{ summarizeLoading ? '⏳ 生成中...' : '📝 Summarize' }}
+            </button>
+          </div>
+
+          <!-- Suggested tags as clickable chips -->
+          <div v-if="suggestedTags.length > 0" class="ai-suggested-tags">
+            <span class="ai-label">建议标签：</span>
+            <span
+              v-for="tag in suggestedTags"
+              :key="tag"
+              class="suggested-tag-chip"
+              @click.stop="applySuggestedTag(tag)"
+            >
+              {{ tag }} +
+            </span>
+          </div>
+          <div v-if="suggestTagsError" class="ai-error">{{ suggestTagsError }}</div>
+
+          <!-- Summary display -->
+          <div v-if="summary" class="ai-summary">
+            <span class="ai-label">摘要：</span>
+            <p class="ai-summary-text">{{ summary }}</p>
+          </div>
+          <div v-if="summarizeError" class="ai-error">{{ summarizeError }}</div>
+        </div>
+
+        <div class="card-actions">
+          <button
+            class="action-btn archive-btn"
+            :disabled="archiving"
+            @click.stop="toggleArchive"
+          >
+            {{ archiving ? '处理中...' : (memory.archived ? '📂 取消归档' : '📦 归档') }}
+          </button>
+          <button
+            class="action-btn"
+            @click.stop="goToVersions"
+          >
+            📋 版本历史
+          </button>
+          <button
+            class="action-btn compare-btn"
+            @click.stop="$emit('compare', memory)"
+          >
+            🔍 对比
+          </button>
+        </div>
+      </div>
+    </transition>
+    <div class="expand-indicator">
+      <span>{{ isExpanded ? '▲' : '▼' }}</span>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref, computed, watch } from 'vue'
+import { useRouter } from 'vue-router'
+import type { AgentMemory, DecayResponse, HealthResponse } from '@/types'
+import { formatDate, truncateText } from '@/utils/format'
+import { archiveMemory, unarchiveMemory, getDecay, getHealth } from '@/api/agentmemory'
+import { suggestTags, summarizeMemory } from '@/api/p8'
+import { setMemoryTags } from '@/api/agentmemory'
+import { useAgentMemoryStore } from '@/stores/agentmemory'
+import { useToast } from '@/composables/useToast'
+import HealthBadge from './HealthBadge.vue'
+import DecayChart from './DecayChart.vue'
+import RelatedMemories from './RelatedMemories.vue'
+import TagManager from './TagManager.vue'
+
+const props = defineProps<{
+  memory: AgentMemory
+  forceExpanded?: boolean | null
+}>()
+
+defineEmits<{
+  (e: 'tag-click', tag: string): void
+  (e: 'compare', memory: AgentMemory): void
+}>()
+
+const agentMemoryStore = useAgentMemoryStore()
+const store = agentMemoryStore
+const router = useRouter()
+const toast = useToast()
+
+const allTagNames = computed(() => agentMemoryStore.allTags.map(t => t.tag))
+const isExpanded = ref(false)
+const archiving = ref(false)
+const decayData = ref<DecayResponse | null>(null)
+const healthData = ref<HealthResponse | null>(null)
+// F-34: AI auto-tagging & summarization state
+const suggestedTags = ref<string[]>([])
+const suggestTagsLoading = ref(false)
+const suggestTagsError = ref('')
+const summary = ref('')
+const summarizeLoading = ref(false)
+const summarizeError = ref('')
+
+const isSelected = computed(() => store.selectedIds.has(props.memory.id))
+
+const truncatedContent = computed(() => truncateText(props.memory.content, 100))
+
+// F43: Use pre-loaded health_score from list API, fallback to detailed data
+const healthDisplay = computed(() => {
+  if (healthData.value) {
+    return { health_score: healthData.value.health_score, color: healthData.value.color }
+  }
+  if (props.memory.health_score != null && props.memory.health_color) {
+    return { health_score: props.memory.health_score, color: props.memory.health_color }
+  }
+  return null
+})
+
+const sanitizedContent = computed(() => {
+  return props.memory.content
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/\n/g, '<br>')
+})
+
+function toggle() {
+  isExpanded.value = !isExpanded.value
+}
+
+// Load P3 data when expanded
+watch(isExpanded, async (expanded) => {
+  if (expanded && !decayData.value) {
+    try {
+      const [decay, health] = await Promise.all([
+        getDecay(props.memory.id),
+        getHealth(props.memory.id),
+      ])
+      decayData.value = decay
+      healthData.value = health
+    } catch (e) {
+      console.error('Failed to load P3 data:', e)
+    }
+  }
+})
+
+// F-34: Suggest tags via AI
+async function handleSuggestTags() {
+  suggestTagsLoading.value = true
+  suggestTagsError.value = ''
+  suggestedTags.value = []
+  try {
+    const resp = await suggestTags(props.memory.id)
+    suggestedTags.value = resp.suggested_tags.filter(
+      t => !(props.memory.tags || []).includes(t)
+    )
+    if (suggestedTags.value.length === 0) {
+      toast.info('没有新的标签建议')
+    }
+  } catch (e: any) {
+    suggestTagsError.value = e.message || '获取标签建议失败'
+    toast.error('获取标签建议失败: ' + (e.message || ''))
+  } finally {
+    suggestTagsLoading.value = false
+  }
+}
+
+// F-34: Apply a single suggested tag
+async function applySuggestedTag(tag: string) {
+  const currentTags = [...(props.memory.tags || [])]
+  if (currentTags.includes(tag)) return
+  currentTags.push(tag)
+  await onTagsUpdate(currentTags)
+  suggestedTags.value = suggestedTags.value.filter(t => t !== tag)
+}
+
+// F-34: Summarize via AI
+async function handleSummarize() {
+  summarizeLoading.value = true
+  summarizeError.value = ''
+  summary.value = ''
+  try {
+    const resp = await summarizeMemory(props.memory.id)
+    summary.value = resp.summary
+  } catch (e: any) {
+    summarizeError.value = e.message || '生成摘要失败'
+    toast.error('生成摘要失败: ' + (e.message || ''))
+  } finally {
+    summarizeLoading.value = false
+  }
+}
+
+async function toggleArchive() {
+  archiving.value = true
+  try {
+    if (props.memory.archived) {
+      await unarchiveMemory(props.memory.id)
+      toast.success('已取消归档')
+    } else {
+      await archiveMemory(props.memory.id)
+      toast.success('已归档')
+    }
+    await agentMemoryStore.refresh()
+  } catch (e) {
+    console.error('Archive toggle failed:', e)
+    toast.error('归档操作失败')
+  } finally {
+    archiving.value = false
+  }
+}
+
+function goToVersions() {
+  router.push(`/memory/${props.memory.id}/versions`)
+}
+
+// F46: Save tags on change
+async function onTagsUpdate(newTags: string[]) {
+  try {
+    await setMemoryTags(props.memory.id, newTags)
+    // Update local memory object
+    props.memory.tags = newTags
+    toast.success('标签已更新')
+    agentMemoryStore.loadAllTags()
+  } catch (e) {
+    console.error('Failed to update tags:', e)
+    toast.error('标签更新失败')
+  }
+}
+
+// React to forceExpanded prop (BUG-6: use watch instead of computed with side effects)
+watch(() => props.forceExpanded, (newVal) => {
+  if (newVal === true) isExpanded.value = true
+  if (newVal === false) isExpanded.value = false
+})
+</script>
+
+<style scoped>
+.memory-card {
+  position: relative;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+.memory-card:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-3px);
+}
+
+.card-header {
+  padding: 20px 20px 16px;
+}
+
+.card-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.card-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--primary);
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+}
+
+.card-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* BUG-5: compact health dot visible in collapsed state */
+.health-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.dot-green { background: #22c55e; }
+.dot-yellow { background: #eab308; }
+.dot-red { background: #ef4444; }
+
+.card-type {
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 16px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  text-transform: capitalize;
+}
+
+.type-pattern { background: var(--type-pattern-bg); color: var(--type-pattern-text); }
+.type-workflow { background: var(--type-workflow-bg); color: var(--type-workflow-text); }
+.type-fact { background: var(--type-fact-bg); color: var(--type-fact-text); }
+.type-preference { background: var(--type-preference-bg); color: var(--type-preference-text); }
+.type-bug { background: var(--type-bug-bg); color: var(--type-bug-text); }
+.type-architecture { background: var(--type-architecture-bg); color: var(--type-architecture-text); }
+
+.card-summary {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.strength-bar {
+  flex: 1;
+  height: 3px;
+  background: var(--tag-bg);
+  border-radius: 1.5px;
+  overflow: hidden;
+}
+
+.strength-fill {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  border-radius: 1.5px;
+  transition: width 0.3s ease;
+}
+
+.meta-text {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.card-body {
+  padding: 0 20px 20px;
+  border-top: 1px solid var(--border);
+}
+
+.card-content {
+  font-size: 0.875rem;
+  line-height: 1.7;
+  color: var(--primary);
+  margin: 16px 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.card-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.8rem;
+}
+
+.detail-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.detail-label {
+  color: var(--text-secondary);
+  min-width: 80px;
+  font-weight: 500;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag {
+  font-size: 0.7rem;
+  padding: 3px 8px;
+  border-radius: 12px;
+  background: var(--tag-bg);
+  color: var(--text-secondary);
+}
+
+.file-tag {
+  font-family: monospace;
+}
+
+/* F46: Tag capsule in collapsed header */
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.tag-capsule {
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 12px;
+  background: var(--tag-bg);
+  color: var(--accent);
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+
+.tag-capsule:hover {
+  background: var(--border);
+}
+
+.health-detail {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+}
+
+.health-dim {
+  font-size: 0.65rem;
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+.health-green { color: #22c55e; }
+.health-yellow { color: #eab308; }
+.health-red { color: #ef4444; }
+
+.expand-indicator {
+  text-align: center;
+  padding: 4px;
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  background: transparent;
+  transition: background 0.2s;
+}
+
+.expand-indicator:hover {
+  background: var(--tag-bg);
+}
+
+.select-checkbox {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 5;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.select-checkbox input {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: var(--accent);
+}
+
+/* Archive styles (F-15) */
+.memory-card.archived {
+  opacity: 0.7;
+}
+
+.archived-badge {
+  font-size: 0.65rem;
+  padding: 2px 6px;
+  border-radius: 8px;
+  background: var(--tag-bg);
+  color: var(--text-secondary);
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+.card-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.action-btn {
+  padding: 6px 14px 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--primary);
+  font-size: 0.75rem;
+  font-family: var(--font);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.action-btn:hover {
+  background: var(--tag-bg);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+.action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Expand animation */
+.expand-enter-active,
+.expand-leave-active {
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.expand-enter-from,
+.expand-leave-to {
+  opacity: 0;
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.expand-enter-to,
+.expand-leave-from {
+  opacity: 1;
+  max-height: 500px;
+}
+
+/* F-34: AI Section styles */
+.compare-btn {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.compare-btn:hover:not(:disabled) {
+  background: var(--accent);
+  color: white;
+}
+
+.ai-section {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.ai-actions {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.ai-btn {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.ai-btn:hover:not(:disabled) {
+  background: var(--accent);
+  color: white;
+}
+
+.ai-suggested-tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+  padding: 8px 10px;
+  background: var(--tag-bg);
+  border-radius: 8px;
+}
+
+.ai-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-right: 4px;
+}
+
+.suggested-tag-chip {
+  font-size: 0.7rem;
+  padding: 3px 10px;
+  border-radius: 12px;
+  background: var(--accent);
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.suggested-tag-chip:hover {
+  background: var(--primary);
+  transform: scale(1.05);
+}
+
+.ai-summary {
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  background: var(--tag-bg);
+  border-radius: 8px;
+  border-left: 3px solid var(--accent);
+}
+
+.ai-summary-text {
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: var(--primary);
+  margin: 4px 0 0;
+}
+
+.ai-error {
+  font-size: 0.75rem;
+  color: #ef4444;
+  padding: 6px 10px;
+  background: rgba(239, 68, 68, 0.08);
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+
+.memory-title-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.memory-title-link:hover {
+  text-decoration: underline;
+  color: var(--accent);
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+  .memory-card {
+    padding: 12px;
+  }
+
+  .card-title-row {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .card-title {
+    font-size: 0.9rem;
+  }
+
+  .card-summary {
+    font-size: 0.8rem;
+    -webkit-line-clamp: 2;
+  }
+
+  .card-tags {
+    gap: 4px;
+  }
+
+  .tag-capsule {
+    font-size: 0.65rem;
+    padding: 2px 8px;
+  }
+
+  .action-btn {
+    padding: 8px 12px;
+    font-size: 0.7rem;
+    min-height: 36px;
+    min-width: 36px;
+  }
+}
+</style>

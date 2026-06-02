@@ -1,0 +1,59 @@
+{
+  "tasks": [
+    {
+      "id": "P18-T1",
+      "title": "P18-1 快速操作栏 (Quick Access Bar)",
+      "assignee": "dev-worker",
+      "status": "done",
+      "priority": "P0",
+      "features": ["P18-1"],
+      "body": "在搜索栏下方添加可配置的快速操作栏，一键访问常用视图",
+      "acceptance": "快速操作栏显示在搜索栏下方，点击按钮快速切换视图，可自定义显示/隐藏按钮，配置持久化到 localStorage"
+    },
+    {
+      "id": "P18-T2",
+      "title": "P18-2 记忆对比视图 (Memory Comparison View)",
+      "assignee": "dev-worker",
+      "status": "done",
+      "priority": "P0",
+      "features": ["P18-2"],
+      "body": "并排展示两条记忆，高亮显示差异部分，支持 JSON 和 Markdown 格式",
+      "acceptance": "选中两条记忆后可以打开对比视图，差异部分用黄色高亮显示，支持 JSON 和 Markdown 格式，关闭按钮正常返回"
+    },
+    {
+      "id": "P18-T3",
+      "title": "P18-3 键盘快捷键自定义",
+      "assignee": "dev-worker",
+      "status": "pending",
+      "priority": "P1",
+      "features": ["P18-3"],
+      "body": "在设置页面添加快捷键自定义功能，支持冲突检测",
+      "acceptance": "设置页面显示所有可自定义的快捷键，可以修改快捷键绑定，修改后立即生效，有冲突检测提示"
+    },
+    {
+      "id": "P18-T4",
+      "title": "P18-4 智能内存建议",
+      "assignee": "dev-worker",
+      "status": "pending",
+      "priority": "P1",
+      "features": ["P18-4"],
+      "body": "基于现有记忆类型分布，在空状态页面显示智能建议",
+      "acceptance": "空状态页面显示类型分布建议，建议基于现有数据动态生成，点击建议可快速创建对应类型记忆，记忆充足时不显示建议"
+    },
+    {
+      "id": "P18-T5",
+      "title": "P18 验证",
+      "assignee": "qa-worker",
+      "status": "pending",
+      "priority": "P0",
+      "features": ["P18-1", "P18-2", "P18-3", "P18-4"],
+      "body": "运行 pytest 和 vue-tsc 验证所有新功能",
+      "acceptance": "pytest 无错误，vue-tsc 无错误，所有功能可正常使用"
+    }
+  ],
+  "created_at": "2026-05-31T10:30:00",
+  "phase": "P18",
+  "theme": "用户体验增强与智能助手集成",
+  "task_count": 4,
+  "estimated_duration": "1-2 days"
+}

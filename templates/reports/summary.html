@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Memory Report — {{ template_name }}</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background: #f0f2f5;
+    color: #1d1d1f;
+    line-height: 1.6;
+  }
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  }
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 3px solid #007aff;
+    padding-bottom: 20px;
+    margin-bottom: 24px;
+  }
+  .header h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    color: #007aff;
+  }
+  .header .meta {
+    text-align: right;
+    color: #6e6e73;
+    font-size: 0.9rem;
+  }
+  .filter-info {
+    background: #fff8e6;
+    border-left: 4px solid #ffc107;
+    padding: 12px 16px;
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+  }
+  .filter-info strong { color: #b25a00; }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin: 24px 0;
+  }
+  .stat-card {
+    background: linear-gradient(135deg, #4158d0 0%, #c850c0 46%, #ffcc70 100%);
+    color: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    transition: transform 0.2s;
+  }
+  .stat-card:hover { transform: translateY(-2px); }
+  .stat-card.green { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); }
+  .stat-card.orange { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+  .stat-card.blue { background: linear-gradient(135deg, #0093e9 0%, #80d0c7 100%); }
+  .stat-value {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .stat-label {
+    font-size: 0.85rem;
+    opacity: 0.9;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .chart-section {
+    background: #f9f9fb;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 24px 0;
+  }
+  .chart-section h2 {
+    margin-top: 0;
+    color: #007aff;
+    font-size: 1.2rem;
+  }
+  .bar-chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    height: 120px;
+    padding: 10px 0;
+  }
+  .bar-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  .bar {
+    width: 100%;
+    max-width: 60px;
+    background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+    border-radius: 4px 4px 0 0;
+    transition: height 0.3s;
+    min-height: 4px;
+  }
+  .bar-label {
+    font-size: 0.7rem;
+    color: #6e6e73;
+    text-align: center;
+    word-break: break-word;
+    max-width: 70px;
+  }
+  .bar-value {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #1d1d1f;
+  }
+  .memory-list {
+    margin-top: 24px;
+  }
+  .memory-list h2 {
+    color: #007aff;
+    margin-bottom: 16px;
+  }
+  .memory-item {
+    background: #fff;
+    border: 1px solid #e5e5ea;
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 12px;
+    transition: box-shadow 0.2s;
+  }
+  .memory-item:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  }
+  .memory-item h3 {
+    margin: 0 0 8px;
+    color: #007aff;
+    font-size: 1.05rem;
+  }
+  .memory-meta {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-size: 0.82rem;
+    color: #86868b;
+    margin-bottom: 10px;
+  }
+  .memory-meta span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .memory-content {
+    color: #3d3d3f;
+    line-height: 1.7;
+    font-size: 0.95rem;
+  }
+  .tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+  .tag {
+    background: #007aff;
+    color: #fff;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+  }
+  .tag.type { background: #5856d6; }
+  .tag.strength-high { background: #34c759; }
+  .tag.strength-mid { background: #ff9500; }
+  .tag.strength-low { background: #ff3b30; }
+  .footer {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #e5e5ea;
+    text-align: center;
+    color: #86868b;
+    font-size: 0.85rem;
+  }
+  .strength-bar {
+    display: inline-block;
+    width: 60px;
+    height: 6px;
+    background: #e5e5ea;
+    border-radius: 3px;
+    overflow: hidden;
+    vertical-align: middle;
+  }
+  .strength-fill {
+    height: 100%;
+    border-radius: 3px;
+  }
+  .strength-fill.high { background: #34c759; }
+  .strength-fill.mid { background: #ff9500; }
+  .strength-fill.low { background: #ff3b30; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div>
+      <h1>📊 Memory Report: {{ template_name }}</h1>
+      <p style="margin: 8px 0 0; color: #6e6e73;">Generated by Memory Viewer v2</p>
+    </div>
+    <div class="meta">
+      <div>📅 {{ generated_at[:10] }}</div>
+      <div>⏱️ {{ generated_at[11:19] }} UTC</div>
+      <div>📁 {{ memory_count }} memories</div>
+    </div>
+  </div>
+
+  {% if filters and (filters.type or filters.tag or filters.q) %}
+  <div class="filter-info">
+    <strong>🔍 Filters Applied:</strong>
+    {% if filters.type %}Type: {{ filters.type }}{% endif %}
+    {% if filters.tag %} | Tag: {{ filters.tag }}{% endif %}
+    {% if filters.q %} | Search: "{{ filters.q }}"{% endif %}
+  </div>
+  {% endif %}
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-value">{{ stats.total | default(memory_count) }}</div>
+      <div class="stat-label">Total Memories</div>
+    </div>
+    <div class="stat-card green">
+      <div class="stat-value">{{ "%.1f"|format(stats.avg_strength | default(0)) }}</div>
+      <div class="stat-label">Avg Strength</div>
+    </div>
+    <div class="stat-card orange">
+      <div class="stat-value">{{ stats.by_type | length if stats.by_type is mapping else (stats.by_type | length) if stats.by_type is iterable else 0 }}</div>
+      <div class="stat-label">Memory Types</div>
+    </div>
+    <div class="stat-card blue">
+      <div class="stat-value">{{ memory_count }}</div>
+      <div class="stat-label">In Report</div>
+    </div>
+  </div>
+
+  {% if stats.by_type is mapping and stats.by_type %}
+  <div class="chart-section">
+    <h2>📈 Distribution by Type</h2>
+    <div class="bar-chart">
+      {% set max_count = stats.by_type.values() | max if stats.by_type.values() | list else 1 %}
+      {% for type_name, count in stats.by_type.items() %}
+      <div class="bar-item">
+        <div class="bar-value">{{ count }}</div>
+        <div class="bar" style="height: {{ (count / max_count * 100) | int }}px;"></div>
+        <div class="bar-label">{{ type_name }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="memory-list">
+    <h2>📝 Memory Listings ({{ memory_count }})</h2>
+
+    {% for memory in memories[:200] %}
+    <div class="memory-item">
+      <h3>{{ memory.title | default("Untitled") }}</h3>
+      <div class="memory-meta">
+        <span>🏷️ {{ memory.type | default("unknown") }}</span>
+        <span>
+          💪 Strength:
+          <span class="strength-bar">
+            <span class="strength-fill {% if memory.strength | default(5) >= 7 %}high{% elif memory.strength | default(5) >= 4 %}mid{% else %}low{% endif %}"
+                  style="width: {{ (memory.strength | default(5) * 10) }}%;"></span>
+          </span>
+          {{ memory.strength | default(5) }}/10
+        </span>
+        <span>📅 {{ memory.createdAt[:10] if memory.createdAt else "N/A" }}</span>
+        <span>🔄 {{ memory.updatedAt[:10] if memory.updatedAt else "N/A" }}</span>
+      </div>
+      <div class="memory-content">
+        {{ memory.content | default("") | truncate(300) }}
+      </div>
+      {% if memory.tags %}
+      <div class="tags">
+        <span class="tag type">{{ memory.type | default("fact") }}</span>
+        {% for tag in memory.tags[:8] %}
+        <span class="tag">{{ tag }}</span>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+    {% else %}
+    <p style="color: #86868b; text-align: center; padding: 40px;">
+      No memories found matching the current filters.
+    </p>
+    {% endfor %}
+
+    {% if memories | length > 200 %}
+    <p style="text-align: center; color: #86868b; padding: 20px; background: #f9f9fb; border-radius: 8px;">
+      <em>...and {{ memories | length - 200 }} more memories</em>
+    </p>
+    {% endif %}
+  </div>
+
+  <div class="footer">
+    <p>Memory Viewer v2 — Advanced Export & Reporting | Report ID: {{ template_id }}</p>
+  </div>
+</div>
+</body>
+</html>

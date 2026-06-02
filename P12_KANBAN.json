@@ -1,0 +1,8 @@
+{
+  "project": "memory-viewer-p12",
+  "tasks": {
+    "t_p12_plan": {"title": "P12 迭代计划 — Enterprise & Operations", "assignee": "pm-orchestrator", "status": "done", "parents": []},
+    "t_p12_dev": {"title": "P12 代码实现 (F-57~F-62): SSO, Governance, Snapshots, API Playground, LLM Usage, Cross-Agent", "assignee": "dev-worker", "status": "done", "parents": ["t_p12_plan"]},
+    "t_p12_qa": {"title": "P12 QA测试 + 缺陷修复", "assignee": "qa-worker", "status": "done", "parents": ["t_p12_dev"]}
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "iteration": "P27",
+  "phase": "pm-orchestrator",
+  "created": "2026-05-31",
+  "status": "completed",
+  "focus": "F-67 Advanced Export & Reporting",
+  "tasks": [
+    {
+      "id": "P27-T1",
+      "type": "backend+frontend",
+      "title": "F-67 Export & Reporting",
+      "description": "report_service.py + ReportsView.vue",
+      "status": "done",
+      "verification": "pytest + vue-tsc",
+      "estimated_hr": 4
+    }
+  ],
+  "constraints": {
+    "max_tasks": 1,
+    "verify_each": "pytest + vue-tsc",
+    "completable_in_one_iteration": true
+  }
+}

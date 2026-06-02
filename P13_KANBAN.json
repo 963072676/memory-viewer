@@ -1,0 +1,8 @@
+{
+  "project": "memory-viewer-p13",
+  "tasks": {
+    "t_p13_pm": {"title": "P13 迭代计划 — PM 设计新功能", "assignee": "pm-orchestrator", "status": "done", "parents": [], "completed_at": "2026-05-29T21:45:00"},
+    "t_p13_dev": {"title": "P13 代码实现 (F-63 to F-68)", "assignee": "dev-worker", "status": "done", "parents": ["t_p13_pm"], "completed_at": "2026-05-29T22:10:00"},
+    "t_p13_qa": {"title": "P13 QA 测试", "assignee": "qa-worker", "status": "done", "parents": ["t_p13_dev"], "completed_at": "2026-05-29T22:15:00"}
+  }
+}

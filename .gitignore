@@ -1,0 +1,13 @@
+node_modules/
+__pycache__/
+*.pyc
+*.log
+dist/
+.vite/
+.cache/
+.DS_Store
+backend/__pycache__/
+backend/.pytest_cache/
+backend/cache/
+.env
+*.pid

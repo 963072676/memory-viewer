@@ -1,0 +1,10 @@
+{
+  "enabled": true,
+  "webhook_url": "https://example.com/webhook",
+  "secret": "my_secret_key",
+  "events": {
+    "create": true,
+    "update": false,
+    "delete": true
+  }
+}

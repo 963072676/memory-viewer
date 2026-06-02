@@ -1,0 +1,17 @@
+{
+  "versions": [
+    {
+      "version": 1,
+      "snapshot": {
+        "title": "Version Test Memory",
+        "content": "This should get a v1 snapshot",
+        "concepts": [
+          "versioning"
+        ],
+        "strength": 7,
+        "type": "pattern"
+      },
+      "timestamp": "2026-05-31T07:26:51.684804Z"
+    }
+  ]
+}

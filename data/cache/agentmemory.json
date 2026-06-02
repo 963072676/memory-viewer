@@ -1,0 +1,360 @@
+{
+  "version": "0.9.x",
+  "memories": [
+    {
+      "id": "mem_mpll8an1_4976b2ceceae",
+      "type": "pattern",
+      "title": "Kanban multi-agent workflow: Hermes built-in Kanban board lets parent agent post",
+      "content": "Kanban multi-agent workflow: Hermes built-in Kanban board lets parent agent post cards while child subagents pull them, work in parallel, report back. Use `/kanban create ...` in chat or `hermes kanban create` CLI. Reddit (May 5, 2026) calling it game-changing.",
+      "concepts": [
+        "hermes",
+        "使用技巧",
+        "kanban",
+        "multi-agent"
+      ],
+      "files": [],
+      "createdAt": "2026-05-25T19:16:57.181Z",
+      "updatedAt": "2026-05-25T19:16:57.181Z",
+      "strength": 7,
+      "version": 1,
+      "isLatest": true,
+      "sessionIds": []
+    },
+    {
+      "id": "mem_mpll8ift_4995820d70b5",
+      "type": "pattern",
+      "title": "Vectorless RAG with PageIndex: Instead of splitting docs into chunks and retriev",
+      "content": "Vectorless RAG with PageIndex: Instead of splitting docs into chunks and retrieving via vector similarity, Hermes can rely on hierarchical document structure and tool-based reasoning. Agent first understands document organization, then navigates it. From Discord community (2026).",
+      "concepts": [
+        "hermes",
+        "使用技巧",
+        "vectorless RAG",
+        "PageIndex"
+      ],
+      "files": [],
+      "createdAt": "2026-05-25T19:17:07.289Z",
+      "updatedAt": "2026-05-25T19:17:07.289Z",
+      "strength": 7,
+      "version": 1,
+      "isLatest": true,
+      "sessionIds": []
+    },
+    {
+      "id": "mem_mplli0kq_de091409c097",
+      "type": "pattern",
+      "title": "Hermes v0.13.0: Kanban durable multi-agent board with heartbeat, zombie detectio",
+      "content": "Hermes v0.13.0: Kanban durable multi-agent board with heartbeat, zombie detection, per-task retries; `/goal` locks agent on target across turns (Ralph loop); checkpoints v2 rewrites state persistence with real pruning; Gateway auto-resumes interrupted sessions after restart; cron `no_agent` watchdog mode",
+      "concepts": [
+        "hermes",
+        "使用技巧",
+        "Kanban",
+        "multi-agent"
+      ],
+      "files": [],
+      "createdAt": "2026-05-25T19:24:30.698Z",
+      "updatedAt": "2026-05-25T19:24:30.698Z",
+      "strength": 7,
+      "version": 1,
+      "isLatest": true,
+      "sessionIds": []
+    },
+    {
+      "id": "mem_mpmtq1g4_f7c67fec4ce2",
+      "type": "pattern",
+      "title": "Hermes Agent 技巧积累（2026-05-27）：1) hermes skills check/update 可检查和更新 skills；2) 多 p",
+      "content": "Hermes Agent 技巧积累（2026-05-27）：1) hermes skills check/update 可检查和更新 skills；2) 多 profile 模式下每个 profile 有独立配置、session 和 memory；3) hermes config migrate 可自动更新配置文件添加新选项；4) 工具改动需 /reset 新会话才生效；5) hermes-agent skill 支持配置、MCP 服务器、多 agent 调度等功能；6) v2026.5.16 为当前最新版本（2026-05）",
+      "concepts": [
+        "hermes",
+        "使用技巧",
+        "tips",
+        "技能系统"
+      ],
+      "files": [],
+      "createdAt": "2026-05-26T16:02:28.184Z",
+      "updatedAt": "2026-05-26T16:02:28.184Z",
+      "strength": 7,
+      "version": 1,
+      "isLatest": true,
+      "sessionIds": []
+    },
+    {
+      "id": "mem_mpo72nnd_b1a9e9719bc9",
+      "type": "pattern",
+      "title": "用 cron job 每天自动检查 NousResearch/hermes-agent 最近 24 小时的 commits，对比本地安装与 origin/mai",
+      "content": "用 cron job 每天自动检查 NousResearch/hermes-agent 最近 24 小时的 commits，对比本地安装与 origin/main 差异，发送 Telegram 摘要。命令：curl --max-time 15 \"https://api.github.com/repos/NousResearch/hermes-agent/commits?since=$(date -u -d '24 hours ago' +%Y-%m-%dT%H:%M:%SZ)&per_page=100\"",
+      "concepts": [
+        "hermes",
+        "cron",
+        "自动更新检查"
+      ],
+      "files": [],
+      "createdAt": "2026-05-27T15:03:58.011Z",
+      "updatedAt": "2026-05-27T15:03:58.011Z",
+      "strength": 7,
+      "version": 1,
+      "isLatest": true,
+      "sessionIds": []
+    },
+    {
+      "id": "mem_mpo72ofd_acaf27f29123",
+      "type": "pattern",
+      "title": "Hermes 支持 orchestrator profile 路由模式：一个主 profile 作为入口，将任务路由到 specialist profile 处",
+      "content": "Hermes 支持 orchestrator profile 路由模式：一个主 profile 作为入口，将任务路由到 specialist profile 处理，实现多 agent 协作。适合将不同职责（开发、QA、PM）分隔到独立 profile。",
+      "concepts": [
+        "hermes",
+        "profile",
+        "orchestrator",
+        "多agent"
+      ],
+      "files": [],
+      "createdAt": "2026-05-27T15:03:59.017Z",
+      "updatedAt": "2026-05-27T15:03:59.017Z",
+      "strength": 7,
+      "version": 1,
+      "isLatest": true,
+      "sessionIds": []
+    },
+    {
+      "id": "mem_mpo72p7c_a93fe27140c2",
+      "type": "pattern",
+      "title": "Hermes cron job 可通过 --profile <name> 指定运行在特定 profile，调度器会临时切换到该 profile 的环境（加载 .",
+      "content": "Hermes cron job 可通过 --profile <name> 指定运行在特定 profile，调度器会临时切换到该 profile 的环境（加载 .env + config.yaml）执行任务，实现跨 profile 自动化。",
+      "concepts": [
+        "hermes",
+        "cron",
+        "profile",
+        "多profile调度"
+      ],
+      "files": [],
+      "createdAt": "2026-05-27T15:04:00.025Z",
+      "updatedAt": "2026-05-27T15:04:00.025Z",
+      "strength": 7,
+      "version": 1,
+      "isLatest": true,
+      "sessionIds": []
+    },
+    {
+      "id": "mem_mpo9ie1a_0f841e32acc9",
+      "type": "architecture",
+      "title": "Memory Viewer 网站已交付：/opt/data/memory-viewer/，FastAPI 后端 + Apple 风格前端，展示 agentmem",
+      "content": "Memory Viewer 网站已交付：/opt/data/memory-viewer/，FastAPI 后端 + Apple 风格前端，展示 agentmemory（MCP JSON）和 Hermes 内置 memory（MEMORY.md/USER.md）。端口 8501，通过 docker-compose 或直接 python app.py 启动。agentmemory 缓存在 /opt/data/memory-viewer/cache/agentmemory.json，需通过 fetch_agentmemory.py 脚本定期更新。",
+      "concepts": [
+        "memory-viewer",
+        "hermes",
+        "agentmemory",
+        "fastapi",
+        "deployment"
+      ],
+      "files": [
+        "/opt/data/memory-viewer/app.py",
+        "/opt/data/memory-viewer/static/index.html",
+        "/opt/data/memory-viewer/docker-compose.yml"
+      ],
+      "createdAt": "2026-05-27T16:12:11.278Z",
+      "updatedAt": "2026-05-27T16:12:11.278Z",
+      "strength": 7,
+      "version": 1,
+      "isLatest": true,
+      "sessionIds": []
+    },
+    {
+      "id": "mem_mppolfy5_e9fa1fe5f914",
+      "type": "pattern",
+      "title": "Hermes Skills 使用三层渐进加载模式减少 token 消耗：skills_list() 只返回 ~3k tokens 的紧凑列表，skill_vie",
+      "content": "Hermes Skills 使用三层渐进加载模式减少 token 消耗：skills_list() 只返回 ~3k tokens 的紧凑列表，skill_view(name) 加载完整 SKILL.md，skill_view(name, file_path) 才加载具体引用文件。技能在实际使用前 token 成本为零。",
+      "concepts": [
+        "hermes",
+        "skills",
+        "token效率"
+      ],
+      "files": [],
+      "createdAt": "2026-05-28T16:02:14.147Z",
+      "updatedAt": "2026-05-28T16:02:14.147Z",
+      "strength": 7,
+      "version": 1,
+      "isLatest": true,
+      "sessionIds": []
+    },
+    {
+      "id": "mem_mppolgq9_fd004f9d9209",
+      "type": "pattern",
+      "title": "插件提供的 skill 使用命名空间格式 plugin:skill（如 superpowers:writing-plans），不会出现在 skills_list",
+      "content": "插件提供的 skill 使用命名空间格式 plugin:skill（如 superpowers:writing-plans），不会出现在 skills_list 中，需要显式 skill_view 加载，可防止与内置技能名称冲突。",
+      "concepts": [
+        "hermes",
+        "plugins",
+        "skills"
+      ],
+      "files": [],
+      "createdAt": "2026-05-28T16:02:15.154Z",
+      "updatedAt": "2026-05-28T16:02:15.154Z",
+      "strength": 7,
+      "version": 1,
+      "isLatest": true,
+      "sessionIds": []
+    },
+    {
+      "id": "mem_mppolhi8_7209fc9b6e0c",
+      "type": "pattern",
+      "title": "Hermes 技能最佳实践：保持技能专注（具体优于宽泛）、用分类子目录组织（如 ~/.hermes/skills/devops/）、过时技能及时更新、让 age",
+      "content": "Hermes 技能最佳实践：保持技能专注（具体优于宽泛）、用分类子目录组织（如 ~/.hermes/skills/devops/）、过时技能及时更新、让 agent 在完成复杂任务后主动保存为技能。",
+      "concepts": [
+        "hermes",
+        "skills",
+        "最佳实践"
+      ],
+      "files": [],
+      "createdAt": "2026-05-28T16:02:16.160Z",
+      "updatedAt": "2026-05-28T16:02:16.160Z",
+      "strength": 7,
+      "version": 1,
+      "isLatest": true,
+      "sessionIds": []
+    },
+    {
+      "id": "mem_mppsfmmv_fdc01512fec2",
+      "type": "pattern",
+      "title": "Hermes top 10 skills community推荐: Obra Superpowers (TDD/调试/验证门禁), Composio (1000",
+      "content": "Hermes top 10 skills community推荐: Obra Superpowers (TDD/调试/验证门禁), Composio (1000+ SaaS集成), Obsidian Skills (读写知识库), Defuddle (网页去噪省token 5-10x), Humanizer (去AI腔), Claudeception (问题→可复用skill), Reflexion (自审循环)。安装路径 ~/.hermes/skills/ 或 ./skills/",
+      "concepts": [
+        "hermes",
+        "skills",
+        "使用技巧"
+      ],
+      "files": [],
+      "createdAt": "2026-05-28T17:49:41.339Z",
+      "updatedAt": "2026-05-28T17:49:41.339Z",
+      "strength": 7,
+      "version": 1,
+      "isLatest": true,
+      "sessionIds": []
+    },
+    {
+      "id": "mem_mprah193_d67c8a2f9958",
+      "type": "pattern",
+      "title": "Google Gemini API 免费层无需信用卡，所有 Gemini 模型均可使用（有速率限制）：Gemini 2.5 Pro 免费 50 请求/天，Gem",
+      "content": "Google Gemini API 免费层无需信用卡，所有 Gemini 模型均可使用（有速率限制）：Gemini 2.5 Pro 免费 50 请求/天，Gemini 2.0 Flash 最慷慨（15 RPM, 1500 RPD），适合小流量生产应用。新用户通过 LLM API 平台充值可获最高 $300 免费额度。",
+      "concepts": [
+        "hermes",
+        "大模型优惠",
+        "Gemini免费"
+      ],
+      "files": [],
+      "createdAt": "2026-05-29T19:02:26.199Z",
+      "updatedAt": "2026-05-29T19:02:26.199Z",
+      "strength": 7,
+      "version": 1,
+      "isLatest": true,
+      "sessionIds": []
+    },
+    {
+      "id": "mem_mpr41eg7_2653abd690f3",
+      "type": "pattern",
+      "title": "Hermes v0.15.0 \"Velocity Release\" 核心更新",
+      "content": "Hermes v0.15.0 \"Velocity Release\" (2026-05-28) 核心更新：\n1. run_agent.py 从 16083 行精简至 3821 行（-76%），拆分为 14 个内聚模块\n2. session_search 重建后速度提升 4500 倍（~20ms vs ~90s），无需 LLM、无成本\n3. 冷启动 Termux 2.9s→0.8s\n4. Kanban 多 agent 平台支持 swarm 命令（104 PRs）\n5. 新增 Bitwarden Secrets Manager 集成（一个 token 管理所有 API key）\n6. skill bundles 支持 /name 一次加载多个 skill\n7. ntfy 成为第 23 个消息平台\n8. 新增 TUI 多会话编排功能",
+      "concepts": [
+        "hermes",
+        "v0.15.0",
+        "更新",
+        "性能优化"
+      ],
+      "files": [],
+      "createdAt": "2026-05-29T16:02:19.111Z",
+      "updatedAt": "2026-05-30T18:42:00.211324Z",
+      "strength": 7,
+      "version": 1,
+      "isLatest": true,
+      "sessionIds": []
+    },
+    {
+      "id": "mem_chief_agent_orchestration",
+      "type": "pattern",
+      "title": "Chief-Agent编排经验",
+      "content": "Chief-Agent编排最佳实践：\n1. 任务分解要足够细，每个子任务不超过2小时工作量\n2. 使用Kanban board跟踪进度，设置心跳检测防止僵尸任务\n3. 定期同步各profile状态，及时调整优先级\n4. 保持全局视野，避免陷入细节\n5. 使用orchestrator路由模式，将任务分配给合适的specialist profile\n6. 建立清晰的沟通协议，确保信息流畅",
+      "concepts": [
+        "chief-agent",
+        "编排",
+        "任务分解",
+        "团队管理"
+      ],
+      "createdAt": "2026-05-30T18:42:21.861741Z",
+      "updatedAt": "2026-05-30T18:42:21.861750Z",
+      "strength": 1.0,
+      "version": 1,
+      "isLatest": true,
+      "sessionIds": []
+    },
+    {
+      "id": "mem_daily_usage_preferences",
+      "type": "pattern",
+      "title": "日常使用偏好",
+      "content": "日常使用偏好：\n1. 用户喜欢简洁直接的回复，少寒暄\n2. 常用中文交流，技术讨论保持专业\n3. 偏好快速决策风格（'好'、'继续'、选数字）\n4. 开发汇报发到飞书'开发团队'群，私聊只做配置和紧急沟通\n5. 使用MiniMax-M2.7模型，适合日常任务\n6. 注意磁盘空间管理，根分区仅9.5G",
+      "concepts": [
+        "daily",
+        "用户偏好",
+        "沟通风格",
+        "MiniMax"
+      ],
+      "createdAt": "2026-05-30T18:42:21.861754Z",
+      "updatedAt": "2026-05-30T18:42:21.861755Z",
+      "strength": 1.0,
+      "version": 1,
+      "isLatest": true,
+      "sessionIds": []
+    },
+    {
+      "id": "mem_dev_worker_environment",
+      "type": "pattern",
+      "title": "开发环境配置",
+      "content": "开发环境配置：\n1. 容器根分区仅9.5G，重要项目放/data_n003（1.8T）\n2. 构建缓存已迁移到/opt/data/.cache/避免填满eMMC\n3. SSH到宿主机：192.168.5.55:20200，用户18845560182\n4. sudo需要TTY，execute_code/terminal内无法sudo\n5. 使用mimo-v2.5-pro模型进行开发\n6. 代码规范：正确性优先于炫技，保持与项目风格一致",
+      "concepts": [
+        "dev-worker",
+        "开发环境",
+        "磁盘管理",
+        "代码规范"
+      ],
+      "createdAt": "2026-05-30T18:42:21.861756Z",
+      "updatedAt": "2026-05-30T18:42:21.861757Z",
+      "strength": 1.0,
+      "version": 1,
+      "isLatest": true,
+      "sessionIds": []
+    },
+    {
+      "id": "mem_pm_orchestrator_best_practices",
+      "type": "pattern",
+      "title": "PM编排最佳实践",
+      "content": "PM编排最佳实践：\n1. 需求要拆解到可执行的任务级别\n2. 设置明确的验收标准和检查点\n3. 定期同步进度，及时识别阻塞\n4. 使用Kanban board可视化工作流\n5. 保持与chief-agent的沟通，确保全局一致\n6. 使用mimo-v2.5-pro模型进行项目管理",
+      "concepts": [
+        "pm-orchestrator",
+        "项目管理",
+        "需求分析",
+        "进度跟踪"
+      ],
+      "createdAt": "2026-05-30T18:42:21.861758Z",
+      "updatedAt": "2026-05-30T18:42:21.861759Z",
+      "strength": 1.0,
+      "version": 1,
+      "isLatest": true,
+      "sessionIds": []
+    },
+    {
+      "id": "mem_qa_worker_workflow",
+      "type": "pattern",
+      "title": "QA工作流程",
+      "content": "QA工作流程：\n1. 测试要覆盖功能、性能、安全三个维度\n2. 缺陷报告要包含重现步骤、期望结果、实际结果\n3. 使用标签分类缺陷严重程度\n4. 回归测试要覆盖相关功能\n5. 与dev-worker紧密协作，快速验证修复\n6. 使用mimo-v2.5-pro模型进行测试",
+      "concepts": [
+        "qa-worker",
+        "测试策略",
+        "缺陷跟踪",
+        "质量保证"
+      ],
+      "createdAt": "2026-05-30T18:42:21.861759Z",
+      "updatedAt": "2026-05-30T18:42:21.861760Z",
+      "strength": 1.0,
+      "version": 1,
+      "isLatest": true,
+      "sessionIds": []
+    }
+  ]
+}

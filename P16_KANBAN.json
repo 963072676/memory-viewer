@@ -1,0 +1,55 @@
+{
+  "tasks": [
+    {
+      "id": "P16-T1",
+      "title": "P16-1 移动端适配",
+      "assignee": "dev-worker",
+      "status": "pending",
+      "priority": "P0",
+      "features": ["P16-1"],
+      "body": "移动端响应式布局优化",
+      "acceptance": "移动端(<768px)正常显示，侧边栏可折叠"
+    },
+    {
+      "id": "P16-T2",
+      "title": "P16-2 SetupWizard简化",
+      "assignee": "dev-worker",
+      "status": "pending",
+      "priority": "P0",
+      "features": ["P16-2"],
+      "body": "将6步引导简化为3步，增加快速开始选项",
+      "acceptance": "新用户可在30秒内完成初始配置"
+    },
+    {
+      "id": "P16-T3",
+      "title": "P16-3 What's New弹窗",
+      "assignee": "dev-worker",
+      "status": "pending",
+      "priority": "P1",
+      "features": ["P16-3"],
+      "body": "实现版本更新日志弹窗功能",
+      "acceptance": "版本更新后首次访问显示更新内容"
+    },
+    {
+      "id": "P16-T4",
+      "title": "P16-4 连接引导优化",
+      "assignee": "dev-worker",
+      "status": "pending",
+      "priority": "P1",
+      "features": ["P16-4"],
+      "body": "数据源配置体验优化，添加示例配置",
+      "acceptance": "用户可一键使用预设配置"
+    },
+    {
+      "id": "P16-T5",
+      "title": "P16 验证",
+      "assignee": "qa-worker",
+      "status": "pending",
+      "priority": "P0",
+      "features": ["P16-1", "P16-2", "P16-3", "P16-4"],
+      "body": "运行pytest和vue-tsc验证",
+      "acceptance": "pytest无错误，vue-tsc无错误"
+    }
+  ],
+  "created_at": "2026-05-31T09:00:00"
+}

@@ -1,0 +1,10 @@
+{
+  "instances": [
+    {
+      "id": "default",
+      "name": "Memory Viewer (本地)",
+      "url": "http://localhost:8501",
+      "description": "当前默认实例"
+    }
+  ]
+}

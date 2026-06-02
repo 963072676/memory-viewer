@@ -1,0 +1,7 @@
+{
+  "name": "auto_translate",
+  "version": "1.0.0",
+  "description": "Auto-detect and flag non-English memory content for translation awareness",
+  "hooks": ["on_memory_create", "on_memory_update"],
+  "author": "memory-viewer"
+}

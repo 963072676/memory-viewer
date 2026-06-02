@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Detailed Memory Report — {{ template_name }}</title>
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 20px; background: #f0f2f5; color: #1d1d1f; }
+  .container { max-width: 1200px; margin: 0 auto; background: #fff; border-radius: 16px; padding: 32px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); }
+  h1 { color: #007aff; border-bottom: 3px solid #007aff; padding-bottom: 12px; margin: 0 0 24px; }
+  h2 { color: #007aff; margin-top: 32px; }
+  .summary-bar { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px; }
+  .summary-chip { background: #f0f2f5; padding: 6px 12px; border-radius: 16px; font-size: 0.85rem; }
+  .memory-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+  .memory-table th { background: #007aff; color: #fff; padding: 12px 8px; text-align: left; font-size: 0.85rem; }
+  .memory-table td { padding: 10px 8px; border-bottom: 1px solid #e5e5ea; font-size: 0.9rem; vertical-align: top; }
+  .memory-table tr:hover { background: #f9f9fb; }
+  .memory-table .title { font-weight: 600; color: #007aff; max-width: 250px; }
+  .memory-table .content { max-width: 300px; color: #3d3d3f; font-size: 0.85rem; }
+  .memory-table .tags-cell { max-width: 150px; }
+  .tag { display: inline-block; background: #007aff; color: #fff; padding: 2px 8px; border-radius: 10px; font-size: 0.7rem; margin: 2px; }
+  .tag.type { background: #5856d6; }
+  .footer { margin-top: 40px; text-align: center; color: #86868b; font-size: 0.85rem; border-top: 1px solid #e5e5ea; padding-top: 20px; }
+  .filter-info { background: #fff8e6; border-left: 4px solid #ffc107; padding: 12px 16px; margin-bottom: 20px; border-radius: 0 8px 8px 0; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>📋 Detailed Memory Report: {{ template_name }}</h1>
+  <p>Generated: {{ generated_at[:10] }} {{ generated_at[11:19] }} UTC</p>
+
+  {% if filters and (filters.type or filters.tag or filters.q) %}
+  <div class="filter-info">
+    <strong>Filters:</strong>
+    {% if filters.type %}Type={{ filters.type }}{% endif %}
+    {% if filters.tag %} | Tag={{ filters.tag }}{% endif %}
+    {% if filters.q %} | Search="{{ filters.q }}"{% endif %}
+  </div>
+  {% endif %}
+
+  <div class="summary-bar">
+    <span class="summary-chip">📊 Total: {{ memory_count }} memories</span>
+    <span class="summary-chip">📈 Types: {{ stats.by_type | length if stats.by_type is mapping else 'N/A' }}</span>
+    <span class="summary-chip">💪 Avg Strength: {{ "%.1f"|format(stats.avg_strength | default(0)) }}</span>
+  </div>
+
+  <h2>📝 All Memories ({{ memory_count }})</h2>
+  <table class="memory-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Title</th>
+        <th>Type</th>
+        <th>Strength</th>
+        <th>Created</th>
+        <th>Updated</th>
+        <th>Tags</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for memory in memories[:500] %}
+    <tr>
+      <td>{{ loop.index }}</td>
+      <td class="title" title="{{ memory.title | default('Untitled') }}">{{ memory.title | default('Untitled') | truncate(40) }}</td>
+      <td><span class="tag type">{{ memory.type | default('fact') }}</span></td>
+      <td>{{ memory.strength | default(5) }}/10</td>
+      <td>{{ memory.createdAt[:10] if memory.createdAt else 'N/A' }}</td>
+      <td>{{ memory.updatedAt[:10] if memory.updatedAt else 'N/A' }}</td>
+      <td class="tags-cell">
+        {% for tag in memory.tags[:5] if memory.tags %}
+        <span class="tag">{{ tag }}</span>
+        {% endfor %}
+      </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+  {% if memories | length > 500 %}
+  <p style="text-align:center; color: #86868b; padding: 20px;">
+    <em>... and {{ memories | length - 500 }} more memories</em>
+  </p>
+  {% endif %}
+
+  <div class="footer">
+    <p>Memory Viewer v2 — Detailed Report | Report ID: {{ template_id }}</p>
+  </div>
+</div>
+</body>
+</html>

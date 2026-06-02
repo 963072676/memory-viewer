@@ -1,0 +1,65 @@
+{
+  "iteration": "P22",
+  "phase": "pm-orchestrator",
+  "created": "2026-05-31",
+  "status": "completed",
+  "focus": "5 high-impact features: Command Palette, Bulk Ops, Heatmap, Decay Curve, Semantic Search",
+  "tasks": [
+    {
+      "id": "P22-T1",
+      "type": "frontend",
+      "title": "F-35 Command Palette (⌘K)",
+      "description": "CommandPalette.vue (16993 bytes), integrated in App.vue with global ⌘K shortcut",
+      "status": "done",
+      "verification": "vue-tsc",
+      "completed_at": "2026-05-31T10:00:00",
+      "estimated_hr": 2.0
+    },
+    {
+      "id": "P22-T2",
+      "type": "frontend+backend",
+      "title": "F-36 Bulk Operations Toolbar",
+      "description": "BatchToolbar.vue (4919 bytes), integrated in AgentMemoryView.vue",
+      "status": "done",
+      "verification": "pytest + vue-tsc",
+      "completed_at": "2026-05-31T10:30:00",
+      "estimated_hr": 2.0
+    },
+    {
+      "id": "P22-T3",
+      "type": "frontend",
+      "title": "F-37 Activity Heatmap",
+      "description": "ActivityHeatmap.vue (9219 bytes), integrated in DashboardView.vue",
+      "status": "done",
+      "verification": "vue-tsc",
+      "completed_at": "2026-05-31T11:00:00",
+      "estimated_hr": 1.5
+    },
+    {
+      "id": "P22-T4",
+      "type": "frontend",
+      "title": "F-22 Decay Curve Chart",
+      "description": "DecayChart.vue (3395 bytes), integrated in MemoryDetailView.vue with getDecay API",
+      "status": "done",
+      "verification": "vue-tsc",
+      "completed_at": "2026-05-31T11:30:00",
+      "estimated_hr": 1.5
+    },
+    {
+      "id": "P22-T5",
+      "type": "backend+frontend",
+      "title": "F-33 Semantic Search",
+      "description": "SearchBar.vue with mode toggle, semantic_search router, TF-IDF similarity",
+      "status": "done",
+      "verification": "pytest + vue-tsc",
+      "completed_at": "2026-05-31T12:00:00",
+      "estimated_hr": 3.0
+    }
+  ],
+  "constraints": {
+    "max_tasks": 6,
+    "verify_each": "pytest + vue-tsc",
+    "completable_in_one_iteration": true
+  },
+  "completed_at": "2026-05-31T14:30:00"
+}

@@ -1,0 +1,18 @@
+{
+  "versions": [
+    {
+      "version": 1,
+      "snapshot": {
+        "title": "Snapshot Match Test",
+        "content": "Content for snapshot verification",
+        "concepts": [
+          "test",
+          "snapshot"
+        ],
+        "strength": 8,
+        "type": "fact"
+      },
+      "timestamp": "2026-05-31T08:38:45.366238Z"
+    }
+  ]
+}

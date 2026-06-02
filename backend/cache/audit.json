@@ -1,0 +1,5114 @@
+{
+  "entries": [
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T17:55:26.202298Z",
+      "updated_fields": {
+        "content": "Updated content for test"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T18:49:53.843217Z",
+      "updated_fields": {
+        "content": "Updated content for test"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "",
+      "timestamp": "2026-05-28T18:49:53.853454Z",
+      "updated_fields": {
+        "strength": 9
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T18:49:53.863246Z",
+      "updated_fields": {
+        "concepts": [
+          "new",
+          "updated",
+          "concepts"
+        ]
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T18:49:53.881031Z",
+      "updated_fields": {}
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T18:49:53.891002Z",
+      "updated_fields": {
+        "content": "v1"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T18:49:53.896979Z",
+      "updated_fields": {
+        "content": "v2"
+      }
+    },
+    {
+      "operation": "delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-28T18:49:53.907350Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-28T18:49:53.928354Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-28T18:49:53.930154Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-28T18:49:53.942924Z"
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T19:07:41.927938Z",
+      "updated_fields": {
+        "content": "Updated content for test"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "",
+      "timestamp": "2026-05-28T19:07:41.935682Z",
+      "updated_fields": {
+        "strength": 9
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T19:07:41.944934Z",
+      "updated_fields": {
+        "concepts": [
+          "new",
+          "updated",
+          "concepts"
+        ]
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T19:07:41.961388Z",
+      "updated_fields": {}
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T19:07:41.972173Z",
+      "updated_fields": {
+        "content": "v1"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T19:07:41.978149Z",
+      "updated_fields": {
+        "content": "v2"
+      }
+    },
+    {
+      "operation": "delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-28T19:07:41.988229Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-28T19:07:42.007693Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-28T19:07:42.009788Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-28T19:07:42.023263Z"
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T19:08:12.500516Z",
+      "updated_fields": {
+        "content": "Updated content for test"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "",
+      "timestamp": "2026-05-28T19:08:12.509296Z",
+      "updated_fields": {
+        "strength": 9
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T19:08:12.517077Z",
+      "updated_fields": {
+        "concepts": [
+          "new",
+          "updated",
+          "concepts"
+        ]
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T19:08:12.534164Z",
+      "updated_fields": {}
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T19:08:12.542991Z",
+      "updated_fields": {
+        "content": "v1"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T19:08:12.548177Z",
+      "updated_fields": {
+        "content": "v2"
+      }
+    },
+    {
+      "operation": "delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-28T19:08:12.558057Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-28T19:08:12.577078Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-28T19:08:12.579005Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-28T19:08:12.591599Z"
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T19:08:12.761327Z",
+      "archived": true
+    },
+    {
+      "operation": "unarchive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T19:08:12.773907Z",
+      "archived": false
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T19:08:12.795750Z",
+      "archived": true
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T19:10:24.977222Z",
+      "updated_fields": {
+        "content": "Updated content for test"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "",
+      "timestamp": "2026-05-28T19:10:24.984164Z",
+      "updated_fields": {
+        "strength": 9
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T19:10:24.990962Z",
+      "updated_fields": {
+        "concepts": [
+          "new",
+          "updated",
+          "concepts"
+        ]
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T19:10:25.003150Z",
+      "updated_fields": {}
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T19:10:25.011084Z",
+      "updated_fields": {
+        "content": "v1"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T19:10:25.016721Z",
+      "updated_fields": {
+        "content": "v2"
+      }
+    },
+    {
+      "operation": "delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-28T19:10:25.024400Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-28T19:10:25.041735Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-28T19:10:25.043885Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-28T19:10:25.058450Z"
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T19:10:25.156723Z",
+      "archived": true
+    },
+    {
+      "operation": "unarchive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T19:10:25.165586Z",
+      "archived": false
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T19:10:25.183822Z",
+      "archived": true
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T19:18:13.984207Z",
+      "updated_fields": {
+        "content": "Updated content for test"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "",
+      "timestamp": "2026-05-28T19:18:13.990826Z",
+      "updated_fields": {
+        "strength": 9
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T19:18:13.997743Z",
+      "updated_fields": {
+        "concepts": [
+          "new",
+          "updated",
+          "concepts"
+        ]
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T19:18:14.010827Z",
+      "updated_fields": {}
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T19:18:14.018887Z",
+      "updated_fields": {
+        "content": "v1"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T19:18:14.023186Z",
+      "updated_fields": {
+        "content": "v2"
+      }
+    },
+    {
+      "operation": "delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-28T19:18:14.031330Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-28T19:18:14.049833Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-28T19:18:14.056847Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-28T19:18:14.070866Z"
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T19:18:14.170201Z",
+      "archived": true
+    },
+    {
+      "operation": "unarchive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T19:18:14.180021Z",
+      "archived": false
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T19:18:14.203392Z",
+      "archived": true
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_mpll8an1_4976b2ceceae",
+      "title": "",
+      "timestamp": "2026-05-28T19:23:48.443139Z",
+      "archived": true
+    },
+    {
+      "operation": "unarchive",
+      "memory_id": "mem_mpll8an1_4976b2ceceae",
+      "title": "",
+      "timestamp": "2026-05-28T19:23:57.677486Z",
+      "archived": false
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T20:01:12.083239Z",
+      "updated_fields": {
+        "content": "Updated content for test"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "",
+      "timestamp": "2026-05-28T20:01:12.095015Z",
+      "updated_fields": {
+        "strength": 9
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T20:01:12.103502Z",
+      "updated_fields": {
+        "concepts": [
+          "new",
+          "updated",
+          "concepts"
+        ]
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T20:01:12.118051Z",
+      "updated_fields": {}
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T20:01:12.125918Z",
+      "updated_fields": {
+        "content": "v1"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T20:01:12.130483Z",
+      "updated_fields": {
+        "content": "v2"
+      }
+    },
+    {
+      "operation": "delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-28T20:01:12.139250Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-28T20:01:12.158368Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-28T20:01:12.160178Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-28T20:01:12.170574Z"
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T20:01:12.264639Z",
+      "archived": true
+    },
+    {
+      "operation": "unarchive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T20:01:12.272416Z",
+      "archived": false
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T20:01:12.291465Z",
+      "archived": true
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_merge_a",
+      "title": "",
+      "timestamp": "2026-05-28T20:01:13.175779Z",
+      "merged_id": "mem_merge_b"
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_strong",
+      "title": "",
+      "timestamp": "2026-05-28T20:01:13.195535Z",
+      "merged_id": "mem_weak"
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T20:01:22.672898Z",
+      "updated_fields": {
+        "content": "Updated content for test"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "",
+      "timestamp": "2026-05-28T20:01:22.680086Z",
+      "updated_fields": {
+        "strength": 9
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T20:01:22.688297Z",
+      "updated_fields": {
+        "concepts": [
+          "new",
+          "updated",
+          "concepts"
+        ]
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T20:01:22.700617Z",
+      "updated_fields": {}
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T20:01:22.707781Z",
+      "updated_fields": {
+        "content": "v1"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T20:01:22.712715Z",
+      "updated_fields": {
+        "content": "v2"
+      }
+    },
+    {
+      "operation": "delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-28T20:01:22.721025Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-28T20:01:22.734561Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-28T20:01:22.736723Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-28T20:01:22.745662Z"
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T20:01:22.841096Z",
+      "archived": true
+    },
+    {
+      "operation": "unarchive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T20:01:22.849900Z",
+      "archived": false
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T20:01:22.868242Z",
+      "archived": true
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_merge_a",
+      "title": "",
+      "timestamp": "2026-05-28T20:01:23.051935Z",
+      "merged_id": "mem_merge_b"
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_strong",
+      "title": "",
+      "timestamp": "2026-05-28T20:01:23.071068Z",
+      "merged_id": "mem_weak"
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T20:05:47.187494Z",
+      "updated_fields": {
+        "content": "Updated content for test"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "",
+      "timestamp": "2026-05-28T20:05:47.194192Z",
+      "updated_fields": {
+        "strength": 9
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T20:05:47.202069Z",
+      "updated_fields": {
+        "concepts": [
+          "new",
+          "updated",
+          "concepts"
+        ]
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T20:05:47.214932Z",
+      "updated_fields": {}
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T20:05:47.225381Z",
+      "updated_fields": {
+        "content": "v1"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T20:05:47.231077Z",
+      "updated_fields": {
+        "content": "v2"
+      }
+    },
+    {
+      "operation": "delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-28T20:05:47.243648Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-28T20:05:47.266600Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-28T20:05:47.270271Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-28T20:05:47.285974Z"
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T20:05:47.406735Z",
+      "archived": true
+    },
+    {
+      "operation": "unarchive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T20:05:47.420267Z",
+      "archived": false
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T20:05:47.447150Z",
+      "archived": true
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_merge_a",
+      "title": "",
+      "timestamp": "2026-05-28T20:05:47.707168Z",
+      "merged_id": "mem_merge_b"
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_strong",
+      "title": "",
+      "timestamp": "2026-05-28T20:05:47.738965Z",
+      "merged_id": "mem_weak"
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T20:06:19.291345Z",
+      "updated_fields": {
+        "content": "Updated content for test"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "",
+      "timestamp": "2026-05-28T20:06:19.303331Z",
+      "updated_fields": {
+        "strength": 9
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T20:06:19.315253Z",
+      "updated_fields": {
+        "concepts": [
+          "new",
+          "updated",
+          "concepts"
+        ]
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T20:06:19.335803Z",
+      "updated_fields": {}
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T20:06:19.348245Z",
+      "updated_fields": {
+        "content": "v1"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T20:06:19.355954Z",
+      "updated_fields": {
+        "content": "v2"
+      }
+    },
+    {
+      "operation": "delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-28T20:06:19.368222Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-28T20:06:19.391291Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-28T20:06:19.395138Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-28T20:06:19.410437Z"
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T20:06:19.508971Z",
+      "archived": true
+    },
+    {
+      "operation": "unarchive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T20:06:19.520545Z",
+      "archived": false
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T20:06:19.548416Z",
+      "archived": true
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_merge_a",
+      "title": "",
+      "timestamp": "2026-05-28T20:06:19.798127Z",
+      "merged_id": "mem_merge_b"
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_strong",
+      "title": "",
+      "timestamp": "2026-05-28T20:06:19.824686Z",
+      "merged_id": "mem_weak"
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T20:07:00.496767Z",
+      "updated_fields": {
+        "content": "Updated content for test"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "",
+      "timestamp": "2026-05-28T20:07:00.507421Z",
+      "updated_fields": {
+        "strength": 9
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T20:07:00.517104Z",
+      "updated_fields": {
+        "concepts": [
+          "new",
+          "updated",
+          "concepts"
+        ]
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T20:07:00.537124Z",
+      "updated_fields": {}
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T20:07:00.550135Z",
+      "updated_fields": {
+        "content": "v1"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T20:07:00.558581Z",
+      "updated_fields": {
+        "content": "v2"
+      }
+    },
+    {
+      "operation": "delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-28T20:07:00.571740Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-28T20:07:00.594236Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-28T20:07:00.598592Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-28T20:07:00.613162Z"
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T20:07:00.743237Z",
+      "archived": true
+    },
+    {
+      "operation": "unarchive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T20:07:00.755205Z",
+      "archived": false
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-28T20:07:00.782420Z",
+      "archived": true
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_merge_a",
+      "title": "",
+      "timestamp": "2026-05-28T20:07:01.002712Z",
+      "merged_id": "mem_merge_b"
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_strong",
+      "title": "",
+      "timestamp": "2026-05-28T20:07:01.030183Z",
+      "merged_id": "mem_weak"
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T01:01:16.360050Z",
+      "updated_fields": {
+        "content": "Updated content for test"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "",
+      "timestamp": "2026-05-29T01:01:16.377598Z",
+      "updated_fields": {
+        "strength": 9
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T01:01:16.393669Z",
+      "updated_fields": {
+        "concepts": [
+          "new",
+          "updated",
+          "concepts"
+        ]
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T01:01:16.409936Z",
+      "updated_fields": {}
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T01:01:16.421124Z",
+      "updated_fields": {
+        "content": "v1"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T01:01:16.426763Z",
+      "updated_fields": {
+        "content": "v2"
+      }
+    },
+    {
+      "operation": "delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T01:01:16.439032Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T01:01:16.718428Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T01:01:16.724900Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T01:01:16.741467Z"
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T01:01:16.874021Z",
+      "archived": true
+    },
+    {
+      "operation": "unarchive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T01:01:17.138935Z",
+      "archived": false
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T01:01:17.421704Z",
+      "archived": true
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_merge_a",
+      "title": "",
+      "timestamp": "2026-05-29T01:01:18.190796Z",
+      "merged_id": "mem_merge_b"
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_strong",
+      "title": "",
+      "timestamp": "2026-05-29T01:01:18.219150Z",
+      "merged_id": "mem_weak"
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T01:29:44.406806Z",
+      "updated_fields": {
+        "content": "Updated content for test"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "",
+      "timestamp": "2026-05-29T01:29:44.424024Z",
+      "updated_fields": {
+        "strength": 9
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T01:29:44.442509Z",
+      "updated_fields": {
+        "concepts": [
+          "new",
+          "updated",
+          "concepts"
+        ]
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T01:29:44.468578Z",
+      "updated_fields": {}
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T01:29:44.485790Z",
+      "updated_fields": {
+        "content": "v1"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T01:29:44.500495Z",
+      "updated_fields": {
+        "content": "v2"
+      }
+    },
+    {
+      "operation": "delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T01:29:44.513279Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T01:29:44.822534Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T01:29:44.827049Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T01:29:44.849357Z"
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T01:29:45.008958Z",
+      "archived": true
+    },
+    {
+      "operation": "unarchive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T01:29:45.298824Z",
+      "archived": false
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T01:29:45.606322Z",
+      "archived": true
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_merge_a",
+      "title": "",
+      "timestamp": "2026-05-29T01:29:46.177635Z",
+      "merged_id": "mem_merge_b"
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_strong",
+      "title": "",
+      "timestamp": "2026-05-29T01:29:46.213711Z",
+      "merged_id": "mem_weak"
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T01:37:15.143542Z",
+      "updated_fields": {
+        "content": "Updated content for test"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "",
+      "timestamp": "2026-05-29T01:37:15.163373Z",
+      "updated_fields": {
+        "strength": 9
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T01:37:15.181958Z",
+      "updated_fields": {
+        "concepts": [
+          "new",
+          "updated",
+          "concepts"
+        ]
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T01:37:15.208274Z",
+      "updated_fields": {}
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T01:37:15.228167Z",
+      "updated_fields": {
+        "content": "v1"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T01:37:15.241811Z",
+      "updated_fields": {
+        "content": "v2"
+      }
+    },
+    {
+      "operation": "delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T01:37:15.259375Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T01:37:15.560683Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T01:37:15.567142Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T01:37:15.586446Z"
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T01:37:15.743368Z",
+      "archived": true
+    },
+    {
+      "operation": "unarchive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T01:37:16.023743Z",
+      "archived": false
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T01:37:16.333209Z",
+      "archived": true
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_merge_a",
+      "title": "",
+      "timestamp": "2026-05-29T01:37:16.979247Z",
+      "merged_id": "mem_merge_b"
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_strong",
+      "title": "",
+      "timestamp": "2026-05-29T01:37:17.013709Z",
+      "merged_id": "mem_weak"
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T01:38:33.848711Z",
+      "updated_fields": {
+        "content": "Updated content for test"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "",
+      "timestamp": "2026-05-29T01:38:33.867362Z",
+      "updated_fields": {
+        "strength": 9
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T01:38:33.885544Z",
+      "updated_fields": {
+        "concepts": [
+          "new",
+          "updated",
+          "concepts"
+        ]
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T01:38:33.903010Z",
+      "updated_fields": {}
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T01:38:33.915778Z",
+      "updated_fields": {
+        "content": "v1"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T01:38:33.932056Z",
+      "updated_fields": {
+        "content": "v2"
+      }
+    },
+    {
+      "operation": "delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T01:38:33.948969Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T01:38:34.250584Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T01:38:34.258037Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T01:38:34.277300Z"
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T01:38:34.437341Z",
+      "archived": true
+    },
+    {
+      "operation": "unarchive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T01:38:34.723027Z",
+      "archived": false
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T01:38:35.027192Z",
+      "archived": true
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_merge_a",
+      "title": "",
+      "timestamp": "2026-05-29T01:38:35.584115Z",
+      "merged_id": "mem_merge_b"
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_strong",
+      "title": "",
+      "timestamp": "2026-05-29T01:38:35.620753Z",
+      "merged_id": "mem_weak"
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T01:48:35.135071Z",
+      "updated_fields": {
+        "content": "Updated content for test"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "",
+      "timestamp": "2026-05-29T01:48:35.145819Z",
+      "updated_fields": {
+        "strength": 9
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T01:48:35.157189Z",
+      "updated_fields": {
+        "concepts": [
+          "new",
+          "updated",
+          "concepts"
+        ]
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T01:48:35.174586Z",
+      "updated_fields": {}
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T01:48:35.186122Z",
+      "updated_fields": {
+        "content": "v1"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T01:48:35.202292Z",
+      "updated_fields": {
+        "content": "v2"
+      }
+    },
+    {
+      "operation": "delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T01:48:35.218210Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T01:48:35.507044Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T01:48:35.513889Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T01:48:35.534770Z"
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T01:48:35.699599Z",
+      "archived": true
+    },
+    {
+      "operation": "unarchive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T01:48:35.977362Z",
+      "archived": false
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T01:48:36.269424Z",
+      "archived": true
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_merge_a",
+      "title": "",
+      "timestamp": "2026-05-29T01:48:36.828033Z",
+      "merged_id": "mem_merge_b"
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_strong",
+      "title": "",
+      "timestamp": "2026-05-29T01:48:36.861202Z",
+      "merged_id": "mem_weak"
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T02:29:16.645117Z",
+      "updated_fields": {
+        "content": "Updated content for test"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "",
+      "timestamp": "2026-05-29T02:29:16.664617Z",
+      "updated_fields": {
+        "strength": 9
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T02:29:16.685676Z",
+      "updated_fields": {
+        "concepts": [
+          "new",
+          "updated",
+          "concepts"
+        ]
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T02:29:16.714051Z",
+      "updated_fields": {}
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T02:29:16.731074Z",
+      "updated_fields": {
+        "content": "v1"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T02:29:16.745381Z",
+      "updated_fields": {
+        "content": "v2"
+      }
+    },
+    {
+      "operation": "delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T02:29:16.760431Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T02:29:17.065983Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T02:29:17.075488Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T02:29:17.095544Z"
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T02:29:17.257449Z",
+      "archived": true
+    },
+    {
+      "operation": "unarchive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T02:29:17.538929Z",
+      "archived": false
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T02:29:17.841867Z",
+      "archived": true
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_merge_a",
+      "title": "",
+      "timestamp": "2026-05-29T02:29:18.419115Z",
+      "merged_id": "mem_merge_b"
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_strong",
+      "title": "",
+      "timestamp": "2026-05-29T02:29:18.452535Z",
+      "merged_id": "mem_weak"
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T02:36:39.511694Z",
+      "updated_fields": {
+        "content": "Updated content for test"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "",
+      "timestamp": "2026-05-29T02:36:39.531541Z",
+      "updated_fields": {
+        "strength": 9
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T02:36:39.551373Z",
+      "updated_fields": {
+        "concepts": [
+          "new",
+          "updated",
+          "concepts"
+        ]
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T02:36:39.578182Z",
+      "updated_fields": {}
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T02:36:39.593528Z",
+      "updated_fields": {
+        "content": "v1"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T02:36:39.607765Z",
+      "updated_fields": {
+        "content": "v2"
+      }
+    },
+    {
+      "operation": "delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T02:36:39.623206Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T02:36:39.924996Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T02:36:39.933681Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T02:36:39.955391Z"
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T02:36:40.109706Z",
+      "archived": true
+    },
+    {
+      "operation": "unarchive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T02:36:40.389239Z",
+      "archived": false
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T02:36:40.690485Z",
+      "archived": true
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_merge_a",
+      "title": "",
+      "timestamp": "2026-05-29T02:36:41.249514Z",
+      "merged_id": "mem_merge_b"
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_strong",
+      "title": "",
+      "timestamp": "2026-05-29T02:36:41.271299Z",
+      "merged_id": "mem_weak"
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T02:44:24.410650Z",
+      "updated_fields": {
+        "content": "Updated content for test"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "",
+      "timestamp": "2026-05-29T02:44:24.421764Z",
+      "updated_fields": {
+        "strength": 9
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T02:44:24.437766Z",
+      "updated_fields": {
+        "concepts": [
+          "new",
+          "updated",
+          "concepts"
+        ]
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T02:44:24.462585Z",
+      "updated_fields": {}
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T02:44:24.480081Z",
+      "updated_fields": {
+        "content": "v1"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T02:44:24.495211Z",
+      "updated_fields": {
+        "content": "v2"
+      }
+    },
+    {
+      "operation": "delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T02:44:24.510894Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T02:44:24.819985Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T02:44:24.826896Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T02:44:24.847859Z"
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T02:44:24.978263Z",
+      "archived": true
+    },
+    {
+      "operation": "unarchive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T02:44:25.260056Z",
+      "archived": false
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T02:44:25.567212Z",
+      "archived": true
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_merge_a",
+      "title": "",
+      "timestamp": "2026-05-29T02:44:26.205957Z",
+      "merged_id": "mem_merge_b"
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_strong",
+      "title": "",
+      "timestamp": "2026-05-29T02:44:26.242852Z",
+      "merged_id": "mem_weak"
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T02:45:46.617544Z",
+      "updated_fields": {
+        "content": "Updated content for test"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "",
+      "timestamp": "2026-05-29T02:45:46.632030Z",
+      "updated_fields": {
+        "strength": 9
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T02:45:46.651493Z",
+      "updated_fields": {
+        "concepts": [
+          "new",
+          "updated",
+          "concepts"
+        ]
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T02:45:46.681828Z",
+      "updated_fields": {}
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T02:45:46.701006Z",
+      "updated_fields": {
+        "content": "v1"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T02:45:46.716425Z",
+      "updated_fields": {
+        "content": "v2"
+      }
+    },
+    {
+      "operation": "delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T02:45:46.732943Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T02:45:47.041157Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T02:45:47.048285Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T02:45:47.070568Z"
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T02:45:47.210703Z",
+      "archived": true
+    },
+    {
+      "operation": "unarchive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T02:45:47.493116Z",
+      "archived": false
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T02:45:47.800083Z",
+      "archived": true
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_merge_a",
+      "title": "",
+      "timestamp": "2026-05-29T02:45:48.381588Z",
+      "merged_id": "mem_merge_b"
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_strong",
+      "title": "",
+      "timestamp": "2026-05-29T02:45:48.409762Z",
+      "merged_id": "mem_weak"
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_d3790c5b64232d81",
+      "title": "",
+      "timestamp": "2026-05-29T03:36:29.678271Z",
+      "updated_fields": {
+        "content": "Updated content",
+        "strength": 8
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T03:36:35.592147Z",
+      "updated_fields": {
+        "content": "Updated content for test"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "",
+      "timestamp": "2026-05-29T03:36:35.610538Z",
+      "updated_fields": {
+        "strength": 9
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T03:36:35.633952Z",
+      "updated_fields": {
+        "concepts": [
+          "new",
+          "updated",
+          "concepts"
+        ]
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T03:36:35.663967Z",
+      "updated_fields": {}
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T03:36:35.684532Z",
+      "updated_fields": {
+        "content": "v1"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T03:36:35.702120Z",
+      "updated_fields": {
+        "content": "v2"
+      }
+    },
+    {
+      "operation": "delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T03:36:35.719571Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T03:36:36.031342Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T03:36:36.040492Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T03:36:36.063761Z"
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T03:36:36.253798Z",
+      "archived": true
+    },
+    {
+      "operation": "unarchive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T03:36:36.550220Z",
+      "archived": false
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T03:36:36.866320Z",
+      "archived": true
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_merge_a",
+      "title": "",
+      "timestamp": "2026-05-29T03:36:37.478417Z",
+      "merged_id": "mem_merge_b"
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_strong",
+      "title": "",
+      "timestamp": "2026-05-29T03:36:37.515936Z",
+      "merged_id": "mem_weak"
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_53a25cea1fb8e65c",
+      "title": "",
+      "timestamp": "2026-05-29T03:36:38.538566Z",
+      "updated_fields": {
+        "content": "Updated content",
+        "strength": 8
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T03:39:04.546004Z",
+      "updated_fields": {
+        "content": "Updated content for test"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "",
+      "timestamp": "2026-05-29T03:39:04.563827Z",
+      "updated_fields": {
+        "strength": 9
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T03:39:04.583899Z",
+      "updated_fields": {
+        "concepts": [
+          "new",
+          "updated",
+          "concepts"
+        ]
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T03:39:04.609591Z",
+      "updated_fields": {}
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T03:39:04.627171Z",
+      "updated_fields": {
+        "content": "v1"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T03:39:04.640429Z",
+      "updated_fields": {
+        "content": "v2"
+      }
+    },
+    {
+      "operation": "delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T03:39:04.656708Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T03:39:04.953863Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T03:39:04.961168Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T03:39:04.984001Z"
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T03:39:05.144674Z",
+      "archived": true
+    },
+    {
+      "operation": "unarchive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T03:39:05.419029Z",
+      "archived": false
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T03:39:05.712150Z",
+      "archived": true
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_merge_a",
+      "title": "",
+      "timestamp": "2026-05-29T03:39:06.310153Z",
+      "merged_id": "mem_merge_b"
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_strong",
+      "title": "",
+      "timestamp": "2026-05-29T03:39:06.341369Z",
+      "merged_id": "mem_weak"
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_41b11b23112a2318",
+      "title": "",
+      "timestamp": "2026-05-29T03:39:07.334736Z",
+      "updated_fields": {
+        "content": "Updated content",
+        "strength": 8
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T03:47:22.460878Z",
+      "updated_fields": {
+        "content": "Updated content for test"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "",
+      "timestamp": "2026-05-29T03:47:22.477258Z",
+      "updated_fields": {
+        "strength": 9
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T03:47:22.495238Z",
+      "updated_fields": {
+        "concepts": [
+          "new",
+          "updated",
+          "concepts"
+        ]
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T03:47:22.520847Z",
+      "updated_fields": {}
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T03:47:22.540840Z",
+      "updated_fields": {
+        "content": "v1"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T03:47:22.549838Z",
+      "updated_fields": {
+        "content": "v2"
+      }
+    },
+    {
+      "operation": "delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T03:47:22.559515Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T03:47:22.849412Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T03:47:22.854108Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T03:47:22.874777Z"
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T03:47:23.018974Z",
+      "archived": true
+    },
+    {
+      "operation": "unarchive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T03:47:23.300588Z",
+      "archived": false
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T03:47:23.611685Z",
+      "archived": true
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_merge_a",
+      "title": "",
+      "timestamp": "2026-05-29T03:47:24.213523Z",
+      "merged_id": "mem_merge_b"
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_strong",
+      "title": "",
+      "timestamp": "2026-05-29T03:47:24.244522Z",
+      "merged_id": "mem_weak"
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_2fb27caa89a5f6cc",
+      "title": "",
+      "timestamp": "2026-05-29T03:47:25.230480Z",
+      "updated_fields": {
+        "content": "Updated content",
+        "strength": 8
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T03:48:11.272279Z",
+      "updated_fields": {
+        "content": "Updated content for test"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "",
+      "timestamp": "2026-05-29T03:48:11.315436Z",
+      "updated_fields": {
+        "strength": 9
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T03:48:11.341217Z",
+      "updated_fields": {
+        "concepts": [
+          "new",
+          "updated",
+          "concepts"
+        ]
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T03:48:11.373192Z",
+      "updated_fields": {}
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T03:48:11.390049Z",
+      "updated_fields": {
+        "content": "v1"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T03:48:11.406511Z",
+      "updated_fields": {
+        "content": "v2"
+      }
+    },
+    {
+      "operation": "delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T03:48:11.426259Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T03:48:11.734539Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T03:48:11.743684Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T03:48:11.770541Z"
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T03:48:11.941776Z",
+      "archived": true
+    },
+    {
+      "operation": "unarchive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T03:48:12.222792Z",
+      "archived": false
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T03:48:12.526328Z",
+      "archived": true
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_merge_a",
+      "title": "",
+      "timestamp": "2026-05-29T03:48:13.119038Z",
+      "merged_id": "mem_merge_b"
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_strong",
+      "title": "",
+      "timestamp": "2026-05-29T03:48:13.151219Z",
+      "merged_id": "mem_weak"
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_1c0354afde02adb2",
+      "title": "",
+      "timestamp": "2026-05-29T03:48:14.116843Z",
+      "updated_fields": {
+        "content": "Updated content",
+        "strength": 8
+      }
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T04:00:12.085222Z"
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T04:00:12.089493Z"
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T04:00:12.102478Z"
+    },
+    {
+      "operation": "batch_unarchive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T04:00:12.109437Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T04:00:12.121674Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T04:00:12.126717Z"
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T04:00:12.148696Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T04:00:12.184873Z"
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T04:00:18.324406Z",
+      "updated_fields": {
+        "content": "Updated content for test"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "",
+      "timestamp": "2026-05-29T04:00:18.348059Z",
+      "updated_fields": {
+        "strength": 9
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T04:00:18.370491Z",
+      "updated_fields": {
+        "concepts": [
+          "new",
+          "updated",
+          "concepts"
+        ]
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T04:00:18.405036Z",
+      "updated_fields": {}
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T04:00:18.425001Z",
+      "updated_fields": {
+        "content": "v1"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T04:00:18.435331Z",
+      "updated_fields": {
+        "content": "v2"
+      }
+    },
+    {
+      "operation": "delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T04:00:18.444647Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T04:00:18.738143Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T04:00:18.748030Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T04:00:18.766892Z"
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T04:00:18.916238Z",
+      "archived": true
+    },
+    {
+      "operation": "unarchive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T04:00:19.206762Z",
+      "archived": false
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T04:00:19.500757Z",
+      "archived": true
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_merge_a",
+      "title": "",
+      "timestamp": "2026-05-29T04:00:20.056447Z",
+      "merged_id": "mem_merge_b"
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_strong",
+      "title": "",
+      "timestamp": "2026-05-29T04:00:20.082619Z",
+      "merged_id": "mem_weak"
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_3a9dcb2314b57e5e",
+      "title": "",
+      "timestamp": "2026-05-29T04:00:21.037177Z",
+      "updated_fields": {
+        "content": "Updated content",
+        "strength": 8
+      }
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T04:00:21.346359Z"
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T04:00:21.354422Z"
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T04:00:21.379906Z"
+    },
+    {
+      "operation": "batch_unarchive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T04:00:21.393353Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T04:00:21.418490Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T04:00:21.425568Z"
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T04:00:21.447362Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T04:00:21.491221Z"
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T04:01:29.961741Z",
+      "updated_fields": {
+        "content": "Updated content for test"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "",
+      "timestamp": "2026-05-29T04:01:29.975325Z",
+      "updated_fields": {
+        "strength": 9
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T04:01:29.988585Z",
+      "updated_fields": {
+        "concepts": [
+          "new",
+          "updated",
+          "concepts"
+        ]
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T04:01:30.008981Z",
+      "updated_fields": {}
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T04:01:30.022077Z",
+      "updated_fields": {
+        "content": "v1"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T04:01:30.033319Z",
+      "updated_fields": {
+        "content": "v2"
+      }
+    },
+    {
+      "operation": "delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T04:01:30.043976Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T04:01:30.328871Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T04:01:30.335054Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T04:01:30.348502Z"
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T04:01:30.455930Z",
+      "archived": true
+    },
+    {
+      "operation": "unarchive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T04:01:30.724764Z",
+      "archived": false
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T04:01:31.004484Z",
+      "archived": true
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_merge_a",
+      "title": "",
+      "timestamp": "2026-05-29T04:01:31.495103Z",
+      "merged_id": "mem_merge_b"
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_strong",
+      "title": "",
+      "timestamp": "2026-05-29T04:01:31.521016Z",
+      "merged_id": "mem_weak"
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_1d2473827bf731b1",
+      "title": "",
+      "timestamp": "2026-05-29T04:01:32.427071Z",
+      "updated_fields": {
+        "content": "Updated content",
+        "strength": 8
+      }
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T04:01:32.729129Z"
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T04:01:32.733831Z"
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T04:01:32.749068Z"
+    },
+    {
+      "operation": "batch_unarchive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T04:01:32.760968Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T04:01:32.775793Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T04:01:32.780478Z"
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T04:01:32.796963Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T04:01:32.854805Z"
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_84c9f7761d85df64",
+      "title": "",
+      "timestamp": "2026-05-29T04:59:08.146716Z",
+      "updated_fields": {}
+    },
+    {
+      "operation": "set_tags",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T04:59:08.175916Z",
+      "tags": [
+        "hermes",
+        "ai",
+        "pattern"
+      ]
+    },
+    {
+      "operation": "set_tags",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T04:59:11.056040Z",
+      "tags": [
+        "existing"
+      ]
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_e6483d342388505e",
+      "title": "",
+      "timestamp": "2026-05-29T04:59:18.671185Z",
+      "updated_fields": {}
+    },
+    {
+      "operation": "set_tags",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T04:59:18.696335Z",
+      "tags": [
+        "hermes",
+        "ai",
+        "pattern"
+      ]
+    },
+    {
+      "operation": "set_tags",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T04:59:21.616816Z",
+      "tags": [
+        "existing"
+      ]
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T04:59:21.999385Z",
+      "updated_fields": {
+        "content": "Updated content for test"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "",
+      "timestamp": "2026-05-29T04:59:22.022093Z",
+      "updated_fields": {
+        "strength": 9
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T04:59:22.045624Z",
+      "updated_fields": {
+        "concepts": [
+          "new",
+          "updated",
+          "concepts"
+        ]
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T04:59:22.076691Z",
+      "updated_fields": {}
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T04:59:22.103237Z",
+      "updated_fields": {
+        "content": "v1"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T04:59:22.126046Z",
+      "updated_fields": {
+        "content": "v2"
+      }
+    },
+    {
+      "operation": "delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T04:59:22.145470Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T04:59:22.450743Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T04:59:22.461678Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T04:59:22.483024Z"
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T04:59:22.655402Z",
+      "archived": true
+    },
+    {
+      "operation": "unarchive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T04:59:22.944380Z",
+      "archived": false
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T04:59:23.263942Z",
+      "archived": true
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_merge_a",
+      "title": "",
+      "timestamp": "2026-05-29T04:59:23.869055Z",
+      "merged_id": "mem_merge_b"
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_strong",
+      "title": "",
+      "timestamp": "2026-05-29T04:59:23.892812Z",
+      "merged_id": "mem_weak"
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_0d39289bd56ab7bb",
+      "title": "",
+      "timestamp": "2026-05-29T04:59:24.877593Z",
+      "updated_fields": {
+        "content": "Updated content",
+        "strength": 8
+      }
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T04:59:25.185841Z"
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T04:59:25.194107Z"
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T04:59:25.215443Z"
+    },
+    {
+      "operation": "batch_unarchive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T04:59:25.234044Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T04:59:25.261960Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T04:59:25.270943Z"
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T04:59:25.295366Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T04:59:25.337534Z"
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_b90428ccb66e4ef4",
+      "title": "",
+      "timestamp": "2026-05-29T04:59:36.248171Z",
+      "updated_fields": {}
+    },
+    {
+      "operation": "set_tags",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T04:59:36.270170Z",
+      "tags": [
+        "hermes",
+        "ai",
+        "pattern"
+      ]
+    },
+    {
+      "operation": "set_tags",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T04:59:39.176079Z",
+      "tags": [
+        "existing"
+      ]
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_6e7cba762aae948d",
+      "title": "",
+      "timestamp": "2026-05-29T05:03:18.090420Z",
+      "updated_fields": {}
+    },
+    {
+      "operation": "set_tags",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T05:03:18.113917Z",
+      "tags": [
+        "hermes",
+        "ai",
+        "pattern"
+      ]
+    },
+    {
+      "operation": "set_tags",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T05:03:20.937697Z",
+      "tags": [
+        "existing"
+      ]
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_4278e27715c4ef22",
+      "title": "",
+      "timestamp": "2026-05-29T05:06:03.429073Z",
+      "updated_fields": {}
+    },
+    {
+      "operation": "set_tags",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T05:06:03.448244Z",
+      "tags": [
+        "hermes",
+        "ai",
+        "pattern"
+      ]
+    },
+    {
+      "operation": "set_tags",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T05:06:06.608867Z",
+      "tags": [
+        "existing"
+      ]
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T05:06:07.021723Z",
+      "updated_fields": {
+        "content": "Updated content for test"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "",
+      "timestamp": "2026-05-29T05:06:07.049053Z",
+      "updated_fields": {
+        "strength": 9
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T05:06:07.144194Z",
+      "updated_fields": {
+        "concepts": [
+          "new",
+          "updated",
+          "concepts"
+        ]
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T05:06:07.246731Z",
+      "updated_fields": {}
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T05:06:07.320731Z",
+      "updated_fields": {
+        "content": "v1"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T05:06:07.346905Z",
+      "updated_fields": {
+        "content": "v2"
+      }
+    },
+    {
+      "operation": "delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T05:06:07.360123Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T05:06:07.735982Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T05:06:07.742453Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T05:06:07.757679Z"
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T05:06:08.338375Z",
+      "archived": true
+    },
+    {
+      "operation": "unarchive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T05:06:08.644284Z",
+      "archived": false
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T05:06:08.949903Z",
+      "archived": true
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_merge_a",
+      "title": "",
+      "timestamp": "2026-05-29T05:06:10.325224Z",
+      "merged_id": "mem_merge_b"
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_strong",
+      "title": "",
+      "timestamp": "2026-05-29T05:06:10.422948Z",
+      "merged_id": "mem_weak"
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_48f33da1cc0437fc",
+      "title": "",
+      "timestamp": "2026-05-29T05:06:11.639278Z",
+      "updated_fields": {
+        "content": "Updated content",
+        "strength": 8
+      }
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T05:06:11.931742Z"
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T05:06:11.937243Z"
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T05:06:11.951952Z"
+    },
+    {
+      "operation": "batch_unarchive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T05:06:11.961749Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T05:06:11.975305Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T05:06:11.980368Z"
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T05:06:11.993977Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T05:06:12.017941Z"
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_2a8a2e2b08be37fb",
+      "title": "",
+      "timestamp": "2026-05-29T05:11:38.411386Z",
+      "updated_fields": {}
+    },
+    {
+      "operation": "set_tags",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T05:11:38.437760Z",
+      "tags": [
+        "hermes",
+        "ai",
+        "pattern"
+      ]
+    },
+    {
+      "operation": "set_tags",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T05:11:41.342990Z",
+      "tags": [
+        "existing"
+      ]
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T05:11:41.723510Z",
+      "updated_fields": {
+        "content": "Updated content for test"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "",
+      "timestamp": "2026-05-29T05:11:41.748289Z",
+      "updated_fields": {
+        "strength": 9
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T05:11:41.762058Z",
+      "updated_fields": {
+        "concepts": [
+          "new",
+          "updated",
+          "concepts"
+        ]
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T05:11:41.783099Z",
+      "updated_fields": {}
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T05:11:41.797661Z",
+      "updated_fields": {
+        "content": "v1"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T05:11:41.814106Z",
+      "updated_fields": {
+        "content": "v2"
+      }
+    },
+    {
+      "operation": "delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T05:11:41.831726Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T05:11:42.141137Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T05:11:42.152149Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T05:11:42.176940Z"
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T05:11:42.347921Z",
+      "archived": true
+    },
+    {
+      "operation": "unarchive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T05:11:42.643044Z",
+      "archived": false
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T05:11:42.954498Z",
+      "archived": true
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_merge_a",
+      "title": "",
+      "timestamp": "2026-05-29T05:11:43.511241Z",
+      "merged_id": "mem_merge_b"
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_strong",
+      "title": "",
+      "timestamp": "2026-05-29T05:11:43.534156Z",
+      "merged_id": "mem_weak"
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_735229d90ef236e1",
+      "title": "",
+      "timestamp": "2026-05-29T05:11:44.484635Z",
+      "updated_fields": {
+        "content": "Updated content",
+        "strength": 8
+      }
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T05:11:44.807728Z"
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T05:11:44.817258Z"
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T05:11:44.835501Z"
+    },
+    {
+      "operation": "batch_unarchive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T05:11:44.846199Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T05:11:44.866239Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T05:11:44.872799Z"
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T05:11:44.887458Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T05:11:44.929554Z"
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_78bddbca70e23d28",
+      "title": "",
+      "timestamp": "2026-05-29T05:15:16.686583Z",
+      "updated_fields": {}
+    },
+    {
+      "operation": "set_tags",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T05:15:16.704763Z",
+      "tags": [
+        "hermes",
+        "ai",
+        "pattern"
+      ]
+    },
+    {
+      "operation": "set_tags",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T05:15:19.543384Z",
+      "tags": [
+        "existing"
+      ]
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T05:15:19.919449Z",
+      "updated_fields": {
+        "content": "Updated content for test"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "",
+      "timestamp": "2026-05-29T05:15:19.944523Z",
+      "updated_fields": {
+        "strength": 9
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T05:15:19.967498Z",
+      "updated_fields": {
+        "concepts": [
+          "new",
+          "updated",
+          "concepts"
+        ]
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T05:15:20.002483Z",
+      "updated_fields": {}
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T05:15:20.017868Z",
+      "updated_fields": {
+        "content": "v1"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T05:15:20.028826Z",
+      "updated_fields": {
+        "content": "v2"
+      }
+    },
+    {
+      "operation": "delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T05:15:20.043578Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T05:15:20.339274Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T05:15:20.350951Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T05:15:20.372796Z"
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T05:15:20.541707Z",
+      "archived": true
+    },
+    {
+      "operation": "unarchive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T05:15:20.815812Z",
+      "archived": false
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T05:15:21.125454Z",
+      "archived": true
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_merge_a",
+      "title": "",
+      "timestamp": "2026-05-29T05:15:21.701964Z",
+      "merged_id": "mem_merge_b"
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_strong",
+      "title": "",
+      "timestamp": "2026-05-29T05:15:21.739757Z",
+      "merged_id": "mem_weak"
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_67c2efe93c7a637f",
+      "title": "",
+      "timestamp": "2026-05-29T05:15:22.725625Z",
+      "updated_fields": {
+        "content": "Updated content",
+        "strength": 8
+      }
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T05:15:23.047967Z"
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T05:15:23.059565Z"
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T05:15:23.081251Z"
+    },
+    {
+      "operation": "batch_unarchive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T05:15:23.100516Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T05:15:23.125795Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T05:15:23.136006Z"
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T05:15:23.160868Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T05:15:23.206022Z"
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_e59c7c919ec0a6ac",
+      "title": "",
+      "timestamp": "2026-05-29T05:15:39.489340Z",
+      "updated_fields": {}
+    },
+    {
+      "operation": "set_tags",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T05:15:39.515783Z",
+      "tags": [
+        "hermes",
+        "ai",
+        "pattern"
+      ]
+    },
+    {
+      "operation": "set_tags",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T05:15:42.316446Z",
+      "tags": [
+        "existing"
+      ]
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T05:15:42.666771Z",
+      "updated_fields": {
+        "content": "Updated content for test"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "",
+      "timestamp": "2026-05-29T05:15:42.690079Z",
+      "updated_fields": {
+        "strength": 9
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T05:15:42.716190Z",
+      "updated_fields": {
+        "concepts": [
+          "new",
+          "updated",
+          "concepts"
+        ]
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T05:15:42.740414Z",
+      "updated_fields": {}
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T05:15:42.763439Z",
+      "updated_fields": {
+        "content": "v1"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T05:15:42.785546Z",
+      "updated_fields": {
+        "content": "v2"
+      }
+    },
+    {
+      "operation": "delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T05:15:42.801784Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T05:15:43.092782Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T05:15:43.103768Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T05:15:43.126782Z"
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T05:15:43.285275Z",
+      "archived": true
+    },
+    {
+      "operation": "unarchive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T05:15:43.563436Z",
+      "archived": false
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T05:15:43.885069Z",
+      "archived": true
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_merge_a",
+      "title": "",
+      "timestamp": "2026-05-29T05:15:44.498836Z",
+      "merged_id": "mem_merge_b"
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_strong",
+      "title": "",
+      "timestamp": "2026-05-29T05:15:44.538617Z",
+      "merged_id": "mem_weak"
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_714f7fe54b3034fb",
+      "title": "",
+      "timestamp": "2026-05-29T05:15:45.539499Z",
+      "updated_fields": {
+        "content": "Updated content",
+        "strength": 8
+      }
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T05:15:45.853694Z"
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T05:15:45.865725Z"
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T05:15:45.885313Z"
+    },
+    {
+      "operation": "batch_unarchive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T05:15:45.904049Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T05:15:45.925588Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T05:15:45.935863Z"
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T05:15:45.954398Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T05:15:45.992930Z"
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_69418b95ddcc8480",
+      "title": "",
+      "timestamp": "2026-05-29T13:48:30.458937Z",
+      "updated_fields": {}
+    },
+    {
+      "operation": "set_tags",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T13:48:30.477287Z",
+      "tags": [
+        "hermes",
+        "ai",
+        "pattern"
+      ]
+    },
+    {
+      "operation": "set_tags",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T13:48:33.424542Z",
+      "tags": [
+        "existing"
+      ]
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T13:48:33.811931Z",
+      "updated_fields": {
+        "content": "Updated content for test"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "",
+      "timestamp": "2026-05-29T13:48:33.836903Z",
+      "updated_fields": {
+        "strength": 9
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T13:48:33.866151Z",
+      "updated_fields": {
+        "concepts": [
+          "new",
+          "updated",
+          "concepts"
+        ]
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T13:48:33.901311Z",
+      "updated_fields": {}
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T13:48:33.926588Z",
+      "updated_fields": {
+        "content": "v1"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T13:48:33.943555Z",
+      "updated_fields": {
+        "content": "v2"
+      }
+    },
+    {
+      "operation": "delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T13:48:33.961723Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T13:48:34.259918Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T13:48:34.270901Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T13:48:34.295171Z"
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T13:48:34.461874Z",
+      "archived": true
+    },
+    {
+      "operation": "unarchive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T13:48:34.761307Z",
+      "archived": false
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T13:48:35.072194Z",
+      "archived": true
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_merge_a",
+      "title": "",
+      "timestamp": "2026-05-29T13:48:35.681994Z",
+      "merged_id": "mem_merge_b"
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_strong",
+      "title": "",
+      "timestamp": "2026-05-29T13:48:35.711265Z",
+      "merged_id": "mem_weak"
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_f653d745bbc3568f",
+      "title": "",
+      "timestamp": "2026-05-29T13:48:36.883437Z",
+      "updated_fields": {
+        "content": "Updated content",
+        "strength": 8
+      }
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T13:48:37.207510Z"
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T13:48:37.224871Z"
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T13:48:37.253599Z"
+    },
+    {
+      "operation": "batch_unarchive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T13:48:37.274347Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T13:48:37.307469Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T13:48:37.315716Z"
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T13:48:37.338828Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T13:48:37.374539Z"
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_9e7334c555ed5ea2",
+      "title": "",
+      "timestamp": "2026-05-29T13:49:09.259927Z",
+      "updated_fields": {}
+    },
+    {
+      "operation": "set_tags",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T13:49:09.286597Z",
+      "tags": [
+        "hermes",
+        "ai",
+        "pattern"
+      ]
+    },
+    {
+      "operation": "set_tags",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T13:49:12.204684Z",
+      "tags": [
+        "existing"
+      ]
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T13:49:12.583413Z",
+      "updated_fields": {
+        "content": "Updated content for test"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "",
+      "timestamp": "2026-05-29T13:49:12.609500Z",
+      "updated_fields": {
+        "strength": 9
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T13:49:12.634767Z",
+      "updated_fields": {
+        "concepts": [
+          "new",
+          "updated",
+          "concepts"
+        ]
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T13:49:12.661957Z",
+      "updated_fields": {}
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T13:49:12.686265Z",
+      "updated_fields": {
+        "content": "v1"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T13:49:12.704870Z",
+      "updated_fields": {
+        "content": "v2"
+      }
+    },
+    {
+      "operation": "delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T13:49:12.726105Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T13:49:13.030562Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T13:49:13.041767Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T13:49:13.056914Z"
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T13:49:13.212972Z",
+      "archived": true
+    },
+    {
+      "operation": "unarchive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T13:49:13.502434Z",
+      "archived": false
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T13:49:13.835244Z",
+      "archived": true
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_merge_a",
+      "title": "",
+      "timestamp": "2026-05-29T13:49:14.463625Z",
+      "merged_id": "mem_merge_b"
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_strong",
+      "title": "",
+      "timestamp": "2026-05-29T13:49:14.509317Z",
+      "merged_id": "mem_weak"
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_3d25098d29f4eef1",
+      "title": "",
+      "timestamp": "2026-05-29T13:49:15.514945Z",
+      "updated_fields": {
+        "content": "Updated content",
+        "strength": 8
+      }
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T13:49:15.828191Z"
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T13:49:15.839767Z"
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T13:49:15.863646Z"
+    },
+    {
+      "operation": "batch_unarchive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T13:49:15.879245Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T13:49:15.904277Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T13:49:15.915675Z"
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T13:49:15.933622Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T13:49:15.961469Z"
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_0682b5a19e7a9853",
+      "title": "",
+      "timestamp": "2026-05-29T14:16:01.940866Z",
+      "updated_fields": {}
+    },
+    {
+      "operation": "set_tags",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T14:16:01.972867Z",
+      "tags": [
+        "hermes",
+        "ai",
+        "pattern"
+      ]
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_9d3dc239359e5345",
+      "title": "",
+      "timestamp": "2026-05-29T14:16:03.006788Z",
+      "updated_fields": {}
+    },
+    {
+      "operation": "set_tags",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T14:16:03.037613Z",
+      "tags": [
+        "hermes",
+        "ai",
+        "pattern"
+      ]
+    },
+    {
+      "operation": "set_tags",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T14:16:05.792515Z",
+      "tags": [
+        "existing"
+      ]
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T14:16:06.143333Z",
+      "updated_fields": {
+        "content": "Updated content for test"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "",
+      "timestamp": "2026-05-29T14:16:06.169456Z",
+      "updated_fields": {
+        "strength": 9
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T14:16:06.199563Z",
+      "updated_fields": {
+        "concepts": [
+          "new",
+          "updated",
+          "concepts"
+        ]
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T14:16:06.242360Z",
+      "updated_fields": {}
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T14:16:06.270819Z",
+      "updated_fields": {
+        "content": "v1"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T14:16:06.297460Z",
+      "updated_fields": {
+        "content": "v2"
+      }
+    },
+    {
+      "operation": "delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T14:16:06.319162Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T14:16:06.625248Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T14:16:06.636965Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T14:16:06.652397Z"
+    },
+    {
+      "operation": "set_tags",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T14:16:06.748387Z",
+      "tags": [
+        "existing"
+      ]
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T14:16:06.806521Z",
+      "archived": true
+    },
+    {
+      "operation": "unarchive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T14:16:07.216337Z",
+      "archived": false
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T14:16:07.578152Z",
+      "updated_fields": {
+        "content": "Updated content for test"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "",
+      "timestamp": "2026-05-29T14:16:07.596835Z",
+      "updated_fields": {
+        "strength": 9
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T14:16:07.624608Z",
+      "updated_fields": {
+        "concepts": [
+          "new",
+          "updated",
+          "concepts"
+        ]
+      }
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T14:16:07.638649Z",
+      "archived": true
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T14:16:07.653716Z",
+      "updated_fields": {}
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T14:16:07.672176Z",
+      "updated_fields": {
+        "content": "v1"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T14:16:07.686586Z",
+      "updated_fields": {
+        "content": "v2"
+      }
+    },
+    {
+      "operation": "delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T14:16:07.701814Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T14:16:08.148599Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T14:16:08.161475Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T14:16:08.180090Z"
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_merge_a",
+      "title": "",
+      "timestamp": "2026-05-29T14:16:08.278091Z",
+      "merged_id": "mem_merge_b"
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T14:16:08.292313Z",
+      "archived": true
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_strong",
+      "title": "",
+      "timestamp": "2026-05-29T14:16:08.307399Z",
+      "merged_id": "mem_weak"
+    },
+    {
+      "operation": "unarchive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T14:16:08.617458Z",
+      "archived": false
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T14:16:08.990724Z",
+      "archived": true
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_merge_a",
+      "title": "",
+      "timestamp": "2026-05-29T14:16:09.614254Z",
+      "merged_id": "mem_merge_b"
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_ca50c41b35a580e4",
+      "title": "",
+      "timestamp": "2026-05-29T14:16:09.645075Z",
+      "updated_fields": {
+        "content": "Updated content",
+        "strength": 8
+      }
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_strong",
+      "title": "",
+      "timestamp": "2026-05-29T14:16:09.662725Z",
+      "merged_id": "mem_weak"
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T14:16:10.041785Z"
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T14:16:10.057540Z"
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T14:16:10.088995Z"
+    },
+    {
+      "operation": "batch_unarchive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T14:16:10.108398Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T14:16:10.135372Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T14:16:10.150499Z"
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T14:16:10.183269Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T14:16:10.225025Z"
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_6c7b901c31f2df2f",
+      "title": "",
+      "timestamp": "2026-05-29T14:16:10.873246Z",
+      "updated_fields": {
+        "content": "Updated content",
+        "strength": 8
+      }
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T14:16:11.235776Z"
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T14:16:11.252050Z"
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T14:16:11.277206Z"
+    },
+    {
+      "operation": "batch_unarchive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T14:16:11.296834Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T14:16:11.326770Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T14:16:11.340537Z"
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T14:16:11.365193Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T14:16:11.410879Z"
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_af52b95a2e9a4ac7",
+      "title": "",
+      "timestamp": "2026-05-29T14:16:52.423487Z",
+      "updated_fields": {
+        "strength": 9
+      }
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_af52b95a2e9a4ac7",
+      "title": "",
+      "timestamp": "2026-05-29T14:16:52.454261Z",
+      "archived": true
+    },
+    {
+      "operation": "unarchive",
+      "memory_id": "mem_af52b95a2e9a4ac7",
+      "title": "",
+      "timestamp": "2026-05-29T14:16:52.800358Z",
+      "archived": false
+    },
+    {
+      "operation": "delete",
+      "memory_id": "mem_af52b95a2e9a4ac7",
+      "title": "QA测试",
+      "timestamp": "2026-05-29T14:16:53.161210Z"
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_d399412a112076b7",
+      "title": "",
+      "timestamp": "2026-05-29T14:16:56.373236Z",
+      "updated_fields": {}
+    },
+    {
+      "operation": "set_tags",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T14:16:56.403343Z",
+      "tags": [
+        "hermes",
+        "ai",
+        "pattern"
+      ]
+    },
+    {
+      "operation": "set_tags",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T14:17:00.476571Z",
+      "tags": [
+        "existing"
+      ]
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T14:17:00.950485Z",
+      "updated_fields": {
+        "content": "Updated content for test"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "",
+      "timestamp": "2026-05-29T14:17:00.978406Z",
+      "updated_fields": {
+        "strength": 9
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T14:17:01.009412Z",
+      "updated_fields": {
+        "concepts": [
+          "new",
+          "updated",
+          "concepts"
+        ]
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T14:17:01.048948Z",
+      "updated_fields": {}
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T14:17:01.076882Z",
+      "updated_fields": {
+        "content": "v1"
+      }
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T14:17:01.104787Z",
+      "updated_fields": {
+        "content": "v2"
+      }
+    },
+    {
+      "operation": "delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T14:17:01.131008Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T14:17:01.548974Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T14:17:01.562788Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T14:17:01.578293Z"
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T14:17:01.761884Z",
+      "archived": true
+    },
+    {
+      "operation": "unarchive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T14:17:02.164321Z",
+      "archived": false
+    },
+    {
+      "operation": "archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "",
+      "timestamp": "2026-05-29T14:17:02.582066Z",
+      "archived": true
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_merge_a",
+      "title": "",
+      "timestamp": "2026-05-29T14:17:03.309818Z",
+      "merged_id": "mem_merge_b"
+    },
+    {
+      "operation": "merge",
+      "memory_id": "mem_strong",
+      "title": "",
+      "timestamp": "2026-05-29T14:17:03.343458Z",
+      "merged_id": "mem_weak"
+    },
+    {
+      "operation": "update",
+      "memory_id": "mem_6d10412ef233b753",
+      "title": "",
+      "timestamp": "2026-05-29T14:17:04.693699Z",
+      "updated_fields": {
+        "content": "Updated content",
+        "strength": 8
+      }
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T14:17:05.119816Z"
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T14:17:05.134646Z"
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T14:17:05.152535Z"
+    },
+    {
+      "operation": "batch_unarchive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T14:17:05.169369Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test2_efgh5678",
+      "title": "Test Fact Memory",
+      "timestamp": "2026-05-29T14:17:05.195065Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T14:17:05.207006Z"
+    },
+    {
+      "operation": "batch_archive",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T14:17:05.236258Z"
+    },
+    {
+      "operation": "batch_delete",
+      "memory_id": "mem_test1_abcd1234",
+      "title": "Test Pattern Memory",
+      "timestamp": "2026-05-29T14:17:05.281546Z"
+    }
+  ]
+}

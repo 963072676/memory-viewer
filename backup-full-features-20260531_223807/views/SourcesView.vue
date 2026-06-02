@@ -1,0 +1,476 @@
+<template>
+  <div class="sources-view">
+    <div class="view-header">
+      <h2>🔌 记忆源管理</h2>
+      <button class="action-btn" @click="loadSources" :disabled="loading">
+        {{ loading ? '加载中...' : '刷新' }}
+      </button>
+    </div>
+
+    <div v-if="loading && sources.length === 0" class="loading">加载中...</div>
+
+    <div v-else-if="loadError" class="error-state">
+      <p>⚠️ 加载失败，点击重试</p>
+      <button class="action-btn" @click="loadSources">重试</button>
+    </div>
+
+    <template v-else>
+      <!-- Aggregate stats -->
+      <div class="summary-row">
+        <div class="summary-card">
+          <div class="summary-value">{{ totalMemories }}</div>
+          <div class="summary-label">总记忆数</div>
+        </div>
+        <div class="summary-card" :class="{ success: onlineCount > 0 }">
+          <div class="summary-value">{{ onlineCount }}</div>
+          <div class="summary-label">在线源</div>
+        </div>
+        <div class="summary-card" :class="{ warn: offlineCount > 0 }">
+          <div class="summary-value">{{ offlineCount }}</div>
+          <div class="summary-label">离线源</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-value">{{ sources.length }}</div>
+          <div class="summary-label">注册源总数</div>
+        </div>
+      </div>
+
+      <!-- Source cards -->
+      <div class="sources-grid">
+        <div
+          v-for="source in sources"
+          :key="source.name"
+          class="source-card"
+          :class="{ expanded: expandedSources.has(source.name), disabled: !source.enabled }"
+        >
+          <div class="source-header" @click="toggleExpand(source.name)">
+            <div class="source-info">
+              <div class="source-title">
+                <span class="health-dot" :class="source.healthy ? 'healthy' : 'unhealthy'"></span>
+                <span class="source-name">{{ source.name }}</span>
+                <span class="source-type-badge">{{ source.type }}</span>
+              </div>
+              <div class="source-meta">
+                <span class="memory-count">{{ source.count }} 条记忆</span>
+                <span
+                  class="enabled-badge"
+                  :class="source.enabled ? 'enabled' : 'disabled'"
+                >{{ source.enabled ? '已启用' : '已禁用' }}</span>
+              </div>
+            </div>
+            <span class="expand-icon">{{ expandedSources.has(source.name) ? '▲' : '▼' }}</span>
+          </div>
+
+          <transition name="expand">
+            <div v-if="expandedSources.has(source.name)" class="source-detail">
+              <div class="detail-grid">
+                <div class="detail-item">
+                  <span class="detail-label">名称</span>
+                  <span class="detail-value">{{ source.name }}</span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">类型</span>
+                  <span class="detail-value">{{ source.type }}</span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">健康状态</span>
+                  <span class="detail-value" :class="source.healthy ? 'text-success' : 'text-error'">
+                    {{ source.healthy ? '正常' : '异常' }}
+                  </span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">记忆数量</span>
+                  <span class="detail-value">{{ source.count }}</span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">启用状态</span>
+                  <span class="detail-value" :class="source.enabled ? 'text-success' : 'text-muted'">
+                    {{ source.enabled ? '启用' : '禁用' }}
+                  </span>
+                </div>
+              </div>
+              <div class="detail-actions">
+                <button class="action-btn sm" @click.stop="viewSourceMemories(source.name)">
+                  查看记忆
+                </button>
+              </div>
+            </div>
+          </transition>
+        </div>
+      </div>
+
+      <div v-if="sources.length === 0" class="empty-state">
+        <p>📭 暂无注册的记忆源</p>
+      </div>
+    </template>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref, computed, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import { fetchSources, type SourceInfo } from '@/api/sources'
+
+const router = useRouter()
+
+const loading = ref(false)
+const loadError = ref(false)
+const sources = ref<SourceInfo[]>([])
+const expandedSources = ref(new Set<string>())
+
+const totalMemories = computed(() => sources.value.reduce((sum, s) => sum + s.count, 0))
+const onlineCount = computed(() => sources.value.filter(s => s.healthy && s.enabled).length)
+const offlineCount = computed(() => sources.value.filter(s => !s.healthy || !s.enabled).length)
+
+function toggleExpand(name: string) {
+  const s = new Set(expandedSources.value)
+  if (s.has(name)) {
+    s.delete(name)
+  } else {
+    s.add(name)
+  }
+  expandedSources.value = s
+}
+
+function viewSourceMemories(name: string) {
+  router.push({ path: '/', query: { source: name } })
+}
+
+async function loadSources() {
+  loading.value = true
+  loadError.value = false
+  try {
+    const res = await fetchSources()
+    sources.value = res.sources
+  } catch (e) {
+    console.error('Failed to load sources:', e)
+    loadError.value = true
+  } finally {
+    loading.value = false
+  }
+}
+
+onMounted(() => loadSources())
+</script>
+
+<style scoped>
+.sources-view {
+  padding-bottom: 40px;
+}
+
+.view-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.action-btn {
+  padding: 8px 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--primary);
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-family: var(--font);
+  transition: background 0.2s;
+}
+
+.action-btn:hover {
+  background: var(--tag-bg);
+}
+
+.action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.action-btn.sm {
+  padding: 6px 12px;
+  font-size: 0.8rem;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: var(--text-secondary);
+}
+
+.error-state {
+  text-align: center;
+  padding: 40px;
+  color: var(--error-text, #ef4444);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Summary cards */
+.summary-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.summary-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  text-align: center;
+}
+
+.summary-card.success {
+  border-color: var(--success-text, #22c55e);
+}
+
+.summary-card.warn {
+  border-color: var(--error-text, #ef4444);
+}
+
+.summary-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.summary-label {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+/* Source cards grid */
+.sources-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.source-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.source-card:hover {
+  border-color: var(--accent, #007aff);
+}
+
+.source-card.disabled {
+  opacity: 0.6;
+}
+
+.source-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.source-header:hover {
+  background: var(--tag-bg);
+}
+
+.source-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.source-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.source-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.source-type-badge {
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 12px;
+  background: var(--tag-bg);
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.source-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.memory-count {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.enabled-badge {
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+.enabled-badge.enabled {
+  background: rgba(34, 197, 94, 0.1);
+  color: var(--success-text, #22c55e);
+}
+
+.enabled-badge.disabled {
+  background: rgba(156, 163, 175, 0.1);
+  color: var(--text-secondary);
+}
+
+/* Health dot */
+.health-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.health-dot.healthy {
+  background: var(--success-text, #22c55e);
+  box-shadow: 0 0 6px rgba(34, 197, 94, 0.4);
+}
+
+.health-dot.unhealthy {
+  background: var(--error-text, #ef4444);
+  box-shadow: 0 0 6px rgba(239, 68, 68, 0.4);
+}
+
+.expand-icon {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+/* Expanded detail */
+.source-detail {
+  border-top: 1px solid var(--border);
+  padding: 16px;
+  background: var(--bg);
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.detail-label {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.detail-value {
+  font-size: 0.875rem;
+  color: var(--primary);
+  font-weight: 500;
+}
+
+.text-success {
+  color: var(--success-text, #22c55e);
+}
+
+.text-error {
+  color: var(--error-text, #ef4444);
+}
+
+.text-muted {
+  color: var(--text-secondary);
+}
+
+.detail-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* Expand transition */
+.expand-enter-active,
+.expand-leave-active {
+  transition: all 0.25s ease;
+  overflow: hidden;
+}
+
+.expand-enter-from,
+.expand-leave-to {
+  opacity: 0;
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.expand-enter-to,
+.expand-leave-from {
+  opacity: 1;
+  max-height: 300px;
+}
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-secondary);
+  font-size: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+  h2 {
+    font-size: 1.2rem;
+  }
+
+  .view-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .summary-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .summary-value {
+    font-size: 1.5rem;
+  }
+
+  .source-header {
+    padding: 12px;
+  }
+
+  .detail-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+</style>

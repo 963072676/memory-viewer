@@ -1,0 +1,80 @@
+:root {
+  --primary: #1d1d1f;
+  --bg: #f5f5f7;
+  --card: #ffffff;
+  --border: #e5e5e7;
+  --text-secondary: #6e6e73;
+  --accent: #007AFF;
+  --accent-hover: #0077ed;
+  --tag-bg: #e8e8ed;
+  --radius: 12px;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 4px 16px rgba(0, 0, 0, 0.06);
+  --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.08), 0 8px 28px rgba(0, 0, 0, 0.08);
+  --shadow-elevated: 0 8px 30px rgba(0, 0, 0, 0.12);
+  --font: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --success: #34c759;
+  --warning: #ff9f0a;
+  --error: #ff3b30;
+  --highlight-bg: #fff3cd;
+  --input-bg: #f5f5f7;
+  --input-focus: #ffffff;
+  --success-bg: #e8f5e9;
+  --success-text: #2e7d32;
+  --error-bg: #ffebee;
+  --error-text: #b71c1c;
+  --info-bg: #e3f2fd;
+  --info-text: #1565c0;
+  --warn-bg: #fff3e0;
+  --warn-text: #e65100;
+  /* Type badge colors */
+  --type-pattern-bg: #e3f8e8;
+  --type-pattern-text: #1b7a35;
+  --type-workflow-bg: #e8f0fe;
+  --type-workflow-text: #1a6dff;
+  --type-fact-bg: #fff3e0;
+  --type-fact-text: #e65100;
+  --type-preference-bg: #f3e8ff;
+  --type-preference-text: #7c3aed;
+  --type-bug-bg: #ffeaea;
+  --type-bug-text: #dc2626;
+  --type-architecture-bg: #e0f7fa;
+  --type-architecture-text: #00838f;
+}
+
+[data-theme='dark'] {
+  --primary: #f5f5f7;
+  --bg: #1d1d1f;
+  --card: #282829;
+  --border: #3a3a3c;
+  --text-secondary: #98989d;
+  --accent: #0A84FF;
+  --accent-hover: #409cff;
+  --tag-bg: #3a3a3c;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.2), 0 4px 16px rgba(0, 0, 0, 0.2);
+  --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.25), 0 8px 28px rgba(0, 0, 0, 0.25);
+  --shadow-elevated: 0 8px 30px rgba(0, 0, 0, 0.4);
+  --highlight-bg: #4a4400;
+  --input-bg: #1d1d1f;
+  --input-focus: #2c2c2e;
+  --success-bg: #1b3a1b;
+  --success-text: #66bb6a;
+  --error-bg: #3e1a1a;
+  --error-text: #ef9a9a;
+  --info-bg: #0d2744;
+  --info-text: #64b5f6;
+  --warn-bg: #3e2a0a;
+  --warn-text: #ffcc80;
+  /* Type badge colors - dark */
+  --type-pattern-bg: #1b3a1b;
+  --type-pattern-text: #66bb6a;
+  --type-workflow-bg: #0d2744;
+  --type-workflow-text: #64b5f6;
+  --type-fact-bg: #3e2a0a;
+  --type-fact-text: #ffcc80;
+  --type-preference-bg: #2a1a3a;
+  --type-preference-text: #ce93d8;
+  --type-bug-bg: #3e1a1a;
+  --type-bug-text: #ef9a9a;
+  --type-architecture-bg: #0a2a2a;
+  --type-architecture-text: #80cbc4;
+}

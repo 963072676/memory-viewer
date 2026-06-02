@@ -1,0 +1,141 @@
+/* Apple-style main styles */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--primary);
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--accent-hover);
+}
+
+/* .container is scoped in App.vue — no global rule needed */
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+  transition: background 0.2s;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+/* Global focus ring */
+*:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Selection */
+::selection {
+  background: rgba(0, 122, 255, 0.2);
+  color: var(--primary);
+}
+
+/* Smooth transitions for interactive elements */
+button,
+a,
+input,
+select,
+textarea {
+  transition: all 0.2s ease;
+}
+
+button {
+  font-family: var(--font);
+}
+
+/* Search highlight */
+em {
+  background: var(--highlight-bg);
+  padding: 1px 2px;
+  border-radius: 2px;
+  font-style: normal;
+}
+
+/* ─── Responsive breakpoints ─── */
+
+/* Mobile: <768px — single column, hamburger, horizontal scroll tables */
+@media (max-width: 767px) {
+  .container {
+    padding: 0 12px;
+  }
+
+  /* Card grids: single column on mobile */
+  .card-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Summary rows: 2-column on mobile */
+  .summary-row {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* Tables: horizontal scroll */
+  .table-scroll,
+  table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+  }
+
+  /* Dual column: stack on mobile */
+  .dual-column {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Instance cards: stack on mobile */
+  .instance-card {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 12px;
+  }
+
+  .instance-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+
+/* Tablet: 768px-1024px — two column cards */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* Desktop: >1024px — keep existing layout (no override needed) */

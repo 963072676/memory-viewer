@@ -1,0 +1,148 @@
+{
+  "scan_id": "scan_20260530_212815",
+  "scanned_at": "2026-05-30T21:28:15.331885Z",
+  "memory_count": 13,
+  "score": 97.2,
+  "issues": [
+    {
+      "check": "empty_metadata",
+      "severity": "medium",
+      "memory_id": "mem_1b576621d4a2fdfe",
+      "message": "Memory has no concepts/tags"
+    },
+    {
+      "check": "orphaned_concept",
+      "severity": "info",
+      "concept": "vectorless rag",
+      "message": "Concept 'vectorless rag' used only once"
+    },
+    {
+      "check": "orphaned_concept",
+      "severity": "info",
+      "concept": "pageindex",
+      "message": "Concept 'pageindex' used only once"
+    },
+    {
+      "check": "orphaned_concept",
+      "severity": "info",
+      "concept": "debloating",
+      "message": "Concept 'debloating' used only once"
+    },
+    {
+      "check": "orphaned_concept",
+      "severity": "info",
+      "concept": "lazy-install",
+      "message": "Concept 'lazy-install' used only once"
+    },
+    {
+      "check": "orphaned_concept",
+      "severity": "info",
+      "concept": "xai",
+      "message": "Concept 'xai' used only once"
+    },
+    {
+      "check": "orphaned_concept",
+      "severity": "info",
+      "concept": "grok",
+      "message": "Concept 'grok' used only once"
+    },
+    {
+      "check": "orphaned_concept",
+      "severity": "info",
+      "concept": "supergrok",
+      "message": "Concept 'supergrok' used only once"
+    },
+    {
+      "check": "orphaned_concept",
+      "severity": "info",
+      "concept": "mcp",
+      "message": "Concept 'mcp' used only once"
+    },
+    {
+      "check": "orphaned_concept",
+      "severity": "info",
+      "concept": "oauth",
+      "message": "Concept 'oauth' used only once"
+    },
+    {
+      "check": "orphaned_concept",
+      "severity": "info",
+      "concept": "security",
+      "message": "Concept 'security' used only once"
+    },
+    {
+      "check": "orphaned_concept",
+      "severity": "info",
+      "concept": "x_search",
+      "message": "Concept 'x_search' used only once"
+    },
+    {
+      "check": "orphaned_concept",
+      "severity": "info",
+      "concept": "teams",
+      "message": "Concept 'teams' used only once"
+    },
+    {
+      "check": "orphaned_concept",
+      "severity": "info",
+      "concept": "line",
+      "message": "Concept 'line' used only once"
+    },
+    {
+      "check": "orphaned_concept",
+      "severity": "info",
+      "concept": "tips",
+      "message": "Concept 'tips' used only once"
+    },
+    {
+      "check": "orphaned_concept",
+      "severity": "info",
+      "concept": "技能系统",
+      "message": "Concept '技能系统' used only once"
+    },
+    {
+      "check": "orphaned_concept",
+      "severity": "info",
+      "concept": "自动更新检查",
+      "message": "Concept '自动更新检查' used only once"
+    },
+    {
+      "check": "orphaned_concept",
+      "severity": "info",
+      "concept": "orchestrator",
+      "message": "Concept 'orchestrator' used only once"
+    },
+    {
+      "check": "orphaned_concept",
+      "severity": "info",
+      "concept": "多agent",
+      "message": "Concept '多agent' used only once"
+    },
+    {
+      "check": "orphaned_concept",
+      "severity": "info",
+      "concept": "多profile调度",
+      "message": "Concept '多profile调度' used only once"
+    },
+    {
+      "check": "orphaned_concept",
+      "severity": "info",
+      "concept": "test",
+      "message": "Concept 'test' used only once"
+    },
+    {
+      "check": "orphaned_concept",
+      "severity": "info",
+      "concept": "updated",
+      "message": "Concept 'updated' used only once"
+    }
+  ],
+  "issue_count": 22,
+  "checks": {
+    "empty_metadata": 1,
+    "stale": 0,
+    "duplicates": 0,
+    "orphaned_concepts": 21,
+    "strength_anomalies": 0
+  }
+}

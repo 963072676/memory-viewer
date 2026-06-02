@@ -1,0 +1,214 @@
+{
+  "iteration": "P20",
+  "plan_file": "P20_ITERATION_PLAN.md",
+  "created_at": "2026-05-31T01:26:14",
+  "columns": {
+    "backlog": {
+      "title": "Backlog",
+      "tasks": []
+    },
+    "todo": {
+      "title": "To Do",
+      "tasks": [
+        {
+          "id": "P20-F14-3",
+          "feature": "F-14",
+          "title": "Add timeline route and navigation",
+          "description": "New route /timeline or tab toggle. Add navigation entry in TabBar or AppHeader.",
+          "status": "done",
+          "assignee": null,
+          "priority": "medium",
+          "layer": "frontend",
+          "estimated_hours": 1,
+          "acceptance_criteria": ["AC-F14-5: Timeline accessible via new view/tab"]
+        },
+        {
+          "id": "P20-F15-1",
+          "feature": "F-15",
+          "title": "Add isArchived field to memory data model",
+          "description": "Extend memory entries with isArchived: bool (default false). Backend read path respects include_archived query param.",
+          "status": "done",
+          "assignee": null,
+          "priority": "high",
+          "layer": "backend",
+          "estimated_hours": 2,
+          "acceptance_criteria": ["AC-F15-1: Archived memories hidden by default", "AC-F15-3: Archived memories searchable"]
+        },
+        {
+          "id": "P20-F15-2",
+          "feature": "F-15",
+          "title": "Add PATCH /api/agentmemory/{id}/archive endpoint",
+          "description": "Toggle isArchived status for a memory. Returns updated memory.",
+          "status": "done",
+          "assignee": null,
+          "priority": "high",
+          "layer": "backend",
+          "estimated_hours": 1,
+          "acceptance_criteria": ["AC-F15-1: Archive action works", "AC-F15-4: Unarchive restores memory"]
+        },
+        {
+          "id": "P20-F15-3",
+          "feature": "F-15",
+          "title": "Add Archive action to memory card menu",
+          "description": "Three-dot menu on MemoryCard adds 'Archive' / 'Unarchive' action. Archived memories show muted styling.",
+          "status": "todo",
+          "assignee": null,
+          "priority": "high",
+          "layer": "frontend",
+          "estimated_hours": 2,
+          "acceptance_criteria": ["AC-F15-1: Archive action available", "AC-F15-2: Show archived toggle works"]
+        },
+        {
+          "id": "P20-F15-4",
+          "feature": "F-15",
+          "title": "Add include_archived filter to agentmemory store",
+          "description": "Pinia store agentmemory.ts adds includeArchived reactive ref. Filter bar adds 'Show archived' toggle checkbox.",
+          "status": "todo",
+          "assignee": null,
+          "priority": "medium",
+          "layer": "frontend",
+          "estimated_hours": 1,
+          "acceptance_criteria": ["AC-F15-2: Filter toggle reveals archived memories"]
+        },
+        {
+          "id": "P20-F28-1",
+          "feature": "F-28",
+          "title": "Create diagnosis.py diagnostic rule engine",
+          "description": "Service that runs diagnostic rules: (1) Duplicates: hash(title+content), flag if hash appears >1; (2) Orphaned concepts: concept not in any memory; (3) Strength anomalies: strength==0 or >10. Returns structured issue report.",
+          "status": "done",
+          "assignee": null,
+          "priority": "medium",
+          "layer": "backend",
+          "estimated_hours": 3,
+          "acceptance_criteria": ["AC-F28-2: Duplicates detected", "AC-F28-3: Orphaned concepts flagged", "AC-F28-4: Strength anomalies flagged"]
+        },
+        {
+          "id": "P20-F28-2",
+          "feature": "F-28",
+          "title": "Add GET /api/diagnosis endpoint",
+          "description": "New router/diagnosis.py. Returns {issues: [{type, severity, count, items}]}. Triggered manually or on page load.",
+          "status": "done",
+          "assignee": null,
+          "priority": "medium",
+          "layer": "backend",
+          "estimated_hours": 1,
+          "acceptance_criteria": ["AC-F28-1: Diagnosis runs and returns report"]
+        },
+        {
+          "id": "P20-F28-3",
+          "feature": "F-28",
+          "title": "Create DiagnosisView.vue frontend",
+          "description": "Display diagnosis report grouped by issue type. Severity badges (warning/error). Issue count summary. Accessible from settings menu.",
+          "status": "done",
+          "assignee": null,
+          "priority": "medium",
+          "layer": "frontend",
+          "estimated_hours": 2,
+          "acceptance_criteria": ["AC-F28-5: Report shows count per issue type + details"]
+        },
+        {
+          "id": "P20-F29-1",
+          "feature": "F-29",
+          "title": "Create audit.py audit log service",
+          "description": "Service for writing audit log entries. Append-only JSONL to backend/data/audit_log.json. Entry format: {timestamp, operation, memory_id, title, user}. Fire-and-forget on memory CRUD.",
+          "status": "done",
+          "assignee": null,
+          "priority": "medium",
+          "layer": "backend",
+          "estimated_hours": 2,
+          "acceptance_criteria": ["AC-F29-1: Create logged", "AC-F29-2: Update logged", "AC-F29-3: Delete logged"]
+        },
+        {
+          "id": "P20-F29-2",
+          "feature": "F-29",
+          "title": "Add GET /api/audit endpoint",
+          "description": "New router/audit.py. Supports filtering: operation (create/update/delete), from/to datetime, memory_id. Returns paginated audit entries.",
+          "status": "done",
+          "assignee": null,
+          "priority": "medium",
+          "layer": "backend",
+          "estimated_hours": 2,
+          "acceptance_criteria": ["AC-F29-4: Audit log UI shows filterable table"]
+        },
+        {
+          "id": "P20-F29-3",
+          "feature": "F-29",
+          "title": "Create AuditLogView.vue frontend",
+          "description": "Table view of audit entries with filters: operation type dropdown, date range picker. Columns: timestamp, operation, memory title, memory_id. Accessible from settings menu.",
+          "status": "done",
+          "assignee": null,
+          "priority": "medium",
+          "layer": "frontend",
+          "estimated_hours": 3,
+          "acceptance_criteria": ["AC-F29-4: Filterable audit log table"]
+        },
+        {
+          "id": "P20-F29-4",
+          "feature": "F-29",
+          "title": "Initialize audit_log.json data file",
+          "description": "Create empty audit_log.json in backend/data/ directory.",
+          "status": "done",
+          "assignee": null,
+          "priority": "low",
+          "layer": "backend",
+          "estimated_hours": 0.5,
+          "acceptance_criteria": ["AC-F29-5: Audit log persists across restarts"]
+        }
+      ]
+    },
+    "in_progress": {
+      "title": "In Progress",
+      "tasks": []
+    },
+    "review": {
+      "title": "Review",
+      "tasks": []
+    },
+    "done": {
+      "title": "Done",
+      "tasks": [
+        {
+          "id": "P20-F14-1",
+          "feature": "F-14",
+          "title": "Create TimelineView.vue component",
+          "description": "Date-grouped memory list. Group by updatedAt date (YYYY-MM-DD). Collapsible date headers with memory count. Uses existing MemoryCard components inside groups.",
+          "status": "done",
+          "assignee": null,
+          "priority": "high",
+          "layer": "frontend",
+          "estimated_hours": 4,
+          "acceptance_criteria": ["AC-F14-1: Memories grouped by date", "AC-F14-2: Date headers show count"]
+        },
+        {
+          "id": "P20-F14-2",
+          "feature": "F-14",
+          "title": "Add zoom control (Day/Week/Month)",
+          "description": "Zoom levels control grouping granularity. Day=individual dates, Week=Mon-Sun groups, Month=month groups. Toggle buttons in timeline header.",
+          "status": "done",
+          "assignee": null,
+          "priority": "high",
+          "layer": "frontend",
+          "estimated_hours": 2,
+          "acceptance_criteria": ["AC-F14-3: Zoom control switches grouping"]
+        }
+      ]
+    }
+  },
+  "metrics": {
+    "total_tasks": 14,
+    "by_status": {
+      "backlog": 0,
+      "todo": 12,
+      "in_progress": 0,
+      "review": 0,
+      "done": 2
+    },
+    "by_feature": {
+      "F-14": 3,
+      "F-15": 4,
+      "F-28": 3,
+      "F-29": 4
+    },
+    "total_estimated_hours": 26.5
+  }
+}

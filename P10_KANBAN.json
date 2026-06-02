@@ -1,0 +1,8 @@
+{
+  "project": "memory-viewer-p10",
+  "tasks": {
+    "t_a1b2c3": {"title": "P10 迭代计划", "assignee": "pm-orchestrator", "status": "done", "parents": []},
+    "t_d4e5f6": {"title": "P10 代码实现 (F-45~F-50)", "assignee": "dev-worker", "status": "done", "parents": ["t_a1b2c3"]},
+    "t_g7h8i9": {"title": "P10 QA测试 + 缺陷修复", "assignee": "qa-worker", "status": "done", "parents": ["t_d4e5f6"]}
+  }
+}

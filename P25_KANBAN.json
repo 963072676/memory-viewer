@@ -1,0 +1,23 @@
+{
+  "iteration": "P25",
+  "phase": "pm-orchestrator",
+  "created": "2026-05-31",
+  "status": "planned",
+  "focus": "Health Scanner (F-68)",
+  "tasks": [
+    {
+      "id": "P25-T1",
+      "type": "frontend+backend",
+      "title": "F-68 Health Scanner",
+      "description": "HealthScanView.vue + HealthScoreGauge.vue + health_scanner_service.py",
+      "status": "done",
+      "verification": "pytest + vue-tsc",
+      "estimated_hr": 2.5
+    }
+  ],
+  "constraints": {
+    "max_tasks": 2,
+    "verify_each": "pytest + vue-tsc",
+    "completable_in_one_iteration": true
+  }
+}

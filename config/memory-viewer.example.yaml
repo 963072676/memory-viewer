@@ -1,0 +1,65 @@
+# Memory Viewer 配置文件
+# 复制此文件为 memory-viewer.yaml 并按需修改
+# 环境变量（MV_ 前缀）优先级高于此文件
+
+# 服务端口（环境变量: MV_PORT）
+port: 8501
+
+# 监听地址（环境变量: MV_HOST）
+host: "0.0.0.0"
+
+# agentmemory 缓存文件路径（环境变量: MV_AGENTMEMORY_CACHE）
+agentmemory_cache: "./data/cache/agentmemory.json"
+
+# Hermes 记忆目录（环境变量: MV_HERMES_MEMORIES_DIR）
+hermes_memories_dir: "./data/memories"
+
+# Hermes Profile 目录（环境变量: MV_HERMES_PROFILES_DIR）
+hermes_profiles_dir: "./data/profiles"
+
+# 备份目录（环境变量: MV_BACKUP_DIR）
+backup_dir: "./data/backups"
+
+# 版本历史目录（环境变量: MV_VERSIONS_DIR）
+versions_dir: "./data/versions"
+
+# CORS 允许的源，逗号分隔（环境变量: MV_CORS_ORIGINS）
+cors_origins: "http://localhost:8501,http://localhost:5173"
+
+# 缓存刷新间隔，单位分钟（环境变量: MV_CACHE_REFRESH_INTERVAL）
+cache_refresh_interval: 30
+
+# 审计日志路径（环境变量: MV_AUDIT_LOG）
+audit_log: "./data/cache/audit.json"
+
+# ─────────────────────────────────────────
+# 高级用法：支持 ${ENV_VAR} 和 ${ENV_VAR:default} 语法
+# 示例：
+#   hermes_memories_dir: "${HERMES_HOME:./data}/memories"
+# ─────────────────────────────────────────
+
+# ─────────────────────────────────────────
+# P15: 记忆源适配器配置
+# 每个 source 定义一个记忆数据来源
+# enabled: true | false | auto（auto 表示根据条件自动判断）
+# ─────────────────────────────────────────
+sources:
+  - name: hermes
+    type: hermes
+    enabled: true
+    config:
+      memories_dir: ${MV_HERMES_MEMORIES_DIR:./data/memories}
+      profiles_dir: ${MV_HERMES_PROFILES_DIR:./data/profiles}
+
+  - name: agentmemory
+    type: agentmemory
+    enabled: true
+    config:
+      cache_path: ${MV_AGENTMEMORY_CACHE:./data/cache/agentmemory.json}
+
+  - name: mem0
+    type: mem0
+    enabled: auto
+    config:
+      api_key: ${MEM0_API_KEY:}
+      base_url: https://api.mem0.ai/v1

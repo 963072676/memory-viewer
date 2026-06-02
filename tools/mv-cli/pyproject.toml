@@ -1,0 +1,9 @@
+[project]
+name = "mv-cli"
+version = "2.2.0"
+description = "Memory Viewer CLI - Bulk operations for memory management"
+requires-python = ">=3.10"
+dependencies = ["click>=8.0", "rich>=13.0", "httpx>=0.25", "python-dotenv>=1.0"]
+
+[project.scripts]
+mv-cli = "mv_cli.cli:cli"

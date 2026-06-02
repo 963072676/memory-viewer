@@ -1,0 +1,18 @@
+{
+  "versions": [
+    {
+      "version": 1,
+      "snapshot": {
+        "title": "New Test Memory",
+        "content": "This is a newly created memory",
+        "concepts": [
+          "new",
+          "test"
+        ],
+        "strength": 6,
+        "type": "workflow"
+      },
+      "timestamp": "2026-06-01T00:04:50.739980Z"
+    }
+  ]
+}

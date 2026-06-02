@@ -1,0 +1,15 @@
+{
+  "versions": [
+    {
+      "version": 1,
+      "snapshot": {
+        "title": "Tagged Memory",
+        "content": "A memory with tags",
+        "concepts": [],
+        "strength": 5,
+        "type": "pattern"
+      },
+      "timestamp": "2026-06-01T00:03:13.620859Z"
+    }
+  ]
+}
