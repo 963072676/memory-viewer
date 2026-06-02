@@ -14,23 +14,27 @@
       <button class="btn-retry" @click="loadStats">点击重试</button>
     </div>
     <div v-else-if="stats" class="dashboard-grid">
-      <!-- Summary Cards -->
+      <!-- P37: Summary Cards — 三段式（标题-大值-副标）Geist 风格 -->
       <div class="summary-row">
         <div class="summary-card">
-          <div class="summary-value">{{ stats.total }}</div>
           <div class="summary-label">总记忆数</div>
+          <div class="summary-value">{{ stats.total.toLocaleString() }}</div>
+          <div class="summary-foot">All Sources</div>
         </div>
         <div class="summary-card">
-          <div class="summary-value">{{ stats.avg_strength }}</div>
           <div class="summary-label">平均强度</div>
+          <div class="summary-value">{{ stats.avg_strength.toFixed(1) }}</div>
+          <div class="summary-foot">/ 10.0</div>
         </div>
         <div class="summary-card">
-          <div class="summary-value">{{ Object.keys(stats.by_type).length }}</div>
           <div class="summary-label">类型数</div>
+          <div class="summary-value">{{ Object.keys(stats.by_type).length }}</div>
+          <div class="summary-foot">Categories</div>
         </div>
         <div class="summary-card">
-          <div class="summary-value">{{ Object.keys(stats.by_month).length }}</div>
           <div class="summary-label">活跃月份</div>
+          <div class="summary-value">{{ Object.keys(stats.by_month).length }}</div>
+          <div class="summary-foot">Months</div>
         </div>
       </div>
 
@@ -153,7 +157,9 @@ function onHeatmapDayClick(date: string) {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
+  margin-bottom: 32px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
 }
 
 .dashboard-header h2 {
@@ -161,21 +167,26 @@ function onHeatmapDayClick(date: string) {
   font-weight: 600;
   color: var(--primary);
   margin: 0;
+  letter-spacing: -0.02em;
 }
 
+/* P37: btn-refresh — Geist 风格 outline 按钮 */
 .btn-refresh {
   padding: 8px 14px;
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   background: var(--card);
   color: var(--primary);
-  font-size: 0.8rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
   font-family: var(--font);
   cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
 }
 
 .btn-refresh:hover {
-  background: var(--tag-bg);
+  background: var(--bg-recessed);
+  border-color: var(--border-strong);
 }
 
 .loading-state,
@@ -209,42 +220,68 @@ function onHeatmapDayClick(date: string) {
   background: var(--error-bg);
 }
 
-/* Summary Cards */
+/* P37: Summary Cards — Geist Stats 卡风格（标题-大值-副标） */
 .summary-row {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 12px;
-  margin-bottom: 24px;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
 }
 
 .summary-card {
   background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 20px;
-  text-align: center;
+  border-radius: var(--radius-md);
+  padding: 20px 24px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
 
-.summary-value {
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--accent);
-  line-height: 1.2;
+.summary-card:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-1px);
 }
 
 .summary-label {
-  font-size: 0.8rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
   color: var(--text-secondary);
-  margin-top: 4px;
+  letter-spacing: 0.01em;
+  line-height: 1.3;
 }
 
-/* Chart Cards */
+.summary-value {
+  font-family: var(--font-mono);
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--primary);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.summary-foot {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* P37: Chart Cards — 用 box-shadow 替代 border 营造悬浮感 */
 .chart-card {
   background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 24px;
+  border-radius: var(--radius-lg);
+  padding: 24px 28px;
   margin-bottom: 20px;
+  box-shadow: var(--shadow);
+  transition: box-shadow 0.2s ease;
+}
+
+.chart-card:hover {
+  box-shadow: var(--shadow-hover);
 }
 
 .chart-card h3 {

@@ -60,7 +60,13 @@
           <div v-for="i in 4" :key="'us-' + i" class="skeleton-card"></div>
         </div>
         <div v-else-if="unifiedMemories.length === 0" class="empty-state">
-          <p>暂无记忆数据</p>
+          <EmptyState
+            icon="🗂️"
+            title="还没有统一记忆"
+            message="导入或创建第一批记忆，开始构建你的知识库。所有来源的记忆都会汇聚在这里。"
+            action-text="导入记忆"
+            @action="showImportModal = true"
+          />
         </div>
         <div v-else class="card-grid">
           <div v-for="m in unifiedMemories" :key="m.id" class="unified-card">
@@ -101,7 +107,13 @@
           <div v-for="i in 6" :key="i" class="skeleton-card"></div>
         </div>
         <div v-else-if="filteredMemories.length === 0" class="empty-state">
-          <p>暂无 AgentMemory 记忆</p>
+          <EmptyState
+            icon="🤖"
+            title="还没有 AgentMemory 记忆"
+            message="点击右上角「创建」手动添加，或「导入」从其它来源批量导入。"
+            action-text="创建记忆"
+            @action="showCreateModal = true"
+          />
         </div>
         <VirtualCardGrid
           v-else-if="filteredMemories.length > 200"
@@ -133,7 +145,13 @@
           <div v-for="i in 4" :key="i" class="skeleton-card"></div>
         </div>
         <div v-else-if="hermesMemoryStore.totalEntries === 0" class="empty-state">
-          <p>暂无 Hermes Memory 数据</p>
+          <EmptyState
+            icon="🧠"
+            title="还没有 Hermes Memory"
+            message="从 Hermes Agent 同步记忆数据，或在「数据源」中配置连接。"
+            action-text="配置数据源"
+            @action="$router.push('/sources')"
+          />
         </div>
         <template v-else>
           <!-- Global -->
@@ -188,6 +206,7 @@ import CreateMemoryModal from '@/components/Layout/CreateMemoryModal.vue'
 import ImportModal from '@/components/Layout/ImportModal.vue'
 import FilterPanel from '@/components/Layout/FilterPanel.vue'
 import DuplicatePanel from '@/components/Layout/DuplicatePanel.vue'
+import EmptyState from '@/components/Layout/EmptyState.vue'
 import { sanitizeHighlight } from '@/utils/highlight'
 
 const agentMemoryStore = useAgentMemoryStore()
@@ -332,47 +351,9 @@ h2 {
   gap: 20px;
 }
 
-/* Memory Card Styling */
-.unified-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 0;
-  overflow: hidden;
-  transition: all 0.2s ease;
-  cursor: pointer;
-  position: relative;
-}
+/* P37: 重复 unified-card 块已合并到下方 "Card layout" 段（更具体位置），这里不再重复 */
 
-.unified-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--accent), var(--accent-secondary, #6366f1));
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
-
-.unified-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-  border-color: var(--accent);
-}
-
-.unified-card:hover::before {
-  opacity: 1;
-}
-
-.unified-card-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 16px 16px 0 16px;
-}
-
+/* Profile section (memory viewer list) */
 .profile-section {
   margin-bottom: 32px;
 }
@@ -382,13 +363,14 @@ h2 {
   font-weight: 600;
   margin-bottom: 16px;
   color: var(--primary);
+  letter-spacing: -0.01em;
 }
 
 .hermes-card {
   background: var(--card);
-  border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 16px;
+  box-shadow: var(--shadow);
 }
 
 .hermes-label {
@@ -421,11 +403,11 @@ h2 {
   100% { background-position: -200% 0; }
 }
 
+/* P37: empty-state wrapper 让 EmptyState 组件居中显示 */
 .empty-state {
-  text-align: center;
-  padding: 60px 20px;
-  color: var(--text-secondary);
-  font-size: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Search results */
@@ -555,15 +537,15 @@ h2 {
   border-color: var(--accent);
 }
 
-/* Card layout */
+/* P37: Card layout (desktop) — shadow-as-border */
 .unified-card {
   background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 16px;
+  border-radius: var(--radius-md);
   overflow: hidden;
-  transition: all 0.2s ease;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
   cursor: pointer;
   position: relative;
+  box-shadow: var(--shadow);
 }
 
 .unified-card::before {
@@ -572,16 +554,15 @@ h2 {
   top: 0;
   left: 0;
   right: 0;
-  height: 3px;
+  height: 2px;
   background: linear-gradient(90deg, var(--accent), var(--accent-secondary, #6366f1));
   opacity: 0;
   transition: opacity 0.2s ease;
 }
 
 .unified-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
 }
 
 .unified-card:hover::before {

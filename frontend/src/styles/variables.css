@@ -1,17 +1,34 @@
 :root {
-  --primary: #1d1d1f;
-  --bg: #f5f5f7;
-  --card: #ffffff;
-  --border: #e5e5e7;
-  --text-secondary: #6e6e73;
-  --accent: #007AFF;
-  --accent-hover: #0077ed;
-  --tag-bg: #e8e8ed;
+  /* ============ P37: Geist 风格设计 token 重构 ============ */
+  --primary: #171717;             /* Geist Ink — 标题/正文主色 */
+  --primary-muted: #4d4d4d;       /* 次要文字 */
+  --bg: #fafafa;                  /* Vercel 风格极浅画布（原 #f5f5f7 太灰） */
+  --bg-recessed: #f2f2f2;         /* 凹陷（input/搜索框） */
+  --card: #ffffff;                /* 卡片表面 */
+  --card-hover: #fafafa;          /* 卡片 hover */
+  --border: #ebebeb;              /* 极轻边框（原 #e5e5e7 偏深） */
+  --border-strong: #d4d4d4;       /* 强调边框 */
+  --text-secondary: #8f8f8f;      /* Geist muted（原 #6e6e73 偏深） */
+  --text-tertiary: #b3b3b3;       /* 三级弱化 */
+  --accent: #0072f5;              /* Vercel 蓝（原 Apple #007AFF 偏深蓝） */
+  --accent-hover: #0061d5;
+  --accent-subtle: #e6f0ff;       /* 蓝色背景（chips/active） */
+  --tag-bg: #f2f2f2;
   --radius: 12px;
-  --shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 4px 16px rgba(0, 0, 0, 0.06);
-  --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.08), 0 8px 28px rgba(0, 0, 0, 0.08);
-  --shadow-elevated: 0 8px 30px rgba(0, 0, 0, 0.12);
+  --radius-sm: 6px;               /* Geist 风格小圆角 */
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-pill: 9999px;
+  /* Shadow-as-border：用 box-shadow 替代 1px solid */
+  --shadow: 0 0 0 1px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-hover: 0 0 0 1px rgba(0, 0, 0, 0.10), 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-elevated: 0 0 0 1px rgba(0, 0, 0, 0.06), 0 8px 30px rgba(0, 0, 0, 0.10);
+  --shadow-focus: 0 0 0 2px var(--card), 0 0 0 4px var(--accent);
+  /* Header 专用：sticky + 模糊 */
+  --header-bg: rgba(250, 250, 250, 0.72);
+  --header-border: rgba(0, 0, 0, 0.06);
   --font: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: 'SF Mono', 'JetBrains Mono', Menlo, Consolas, monospace;
   --success: #34c759;
   --warning: #ff9f0a;
   --error: #ff3b30;
@@ -42,20 +59,30 @@
 }
 
 [data-theme='dark'] {
-  --primary: #f5f5f7;
-  --bg: #1d1d1f;
-  --card: #282829;
-  --border: #3a3a3c;
-  --text-secondary: #98989d;
-  --accent: #0A84FF;
-  --accent-hover: #409cff;
-  --tag-bg: #3a3a3c;
-  --shadow: 0 1px 3px rgba(0, 0, 0, 0.2), 0 4px 16px rgba(0, 0, 0, 0.2);
-  --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.25), 0 8px 28px rgba(0, 0, 0, 0.25);
-  --shadow-elevated: 0 8px 30px rgba(0, 0, 0, 0.4);
+  /* ============ P37: Dark mode 对比度修复 ============ */
+  /* 原来 dark 模式下 card=#282829, bg=#1d1d1f 差仅 11px，对比度严重不足 */
+  --primary: #ededed;
+  --primary-muted: #a1a1a1;
+  --bg: #0a0a0a;                  /* 接近纯黑（原 #1d1d1f 偏深灰） */
+  --bg-recessed: #161616;         /* 凹陷 */
+  --card: #171717;                /* 卡片表面（原 #282829 与 bg 几乎同色） */
+  --card-hover: #1f1f1f;
+  --border: #2c2c2c;              /* 极轻边框（原 #3a3a3c 偏亮） */
+  --border-strong: #3a3a3a;
+  --text-secondary: #a1a1a1;      /* muted（原 #98989d 偏浅） */
+  --text-tertiary: #6b6b6b;
+  --accent: #3291ff;              /* dark 模式独立调色（高饱和度） */
+  --accent-hover: #5aa6ff;
+  --accent-subtle: rgba(50, 145, 255, 0.12);
+  --tag-bg: #1f1f1f;
+  --shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-hover: 0 0 0 1px rgba(255, 255, 255, 0.12), 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-elevated: 0 0 0 1px rgba(255, 255, 255, 0.10), 0 8px 30px rgba(0, 0, 0, 0.5);
+  --header-bg: rgba(10, 10, 10, 0.72);
+  --header-border: rgba(255, 255, 255, 0.08);
   --highlight-bg: #4a4400;
-  --input-bg: #1d1d1f;
-  --input-focus: #2c2c2e;
+  --input-bg: #161616;
+  --input-focus: #1f1f1f;
   --success-bg: #1b3a1b;
   --success-text: #66bb6a;
   --error-bg: #3e1a1a;

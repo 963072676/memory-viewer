@@ -27,14 +27,26 @@ defineEmits<{
 </script>
 
 <style scoped>
+/* P37: Header 视觉边界 — sticky + blur + border */
 .app-header {
-  padding: 20px 0 16px;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--header-bg);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid var(--header-border);
+  padding: 0;
+  transition: background 0.2s ease;
 }
 
 .header-content {
   display: flex;
   align-items: center;
   gap: 16px;
+  padding: 12px 24px;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .header-title {
