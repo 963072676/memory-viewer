@@ -28,6 +28,10 @@ defineEmits<{
 
 <style scoped>
 /* P37: Header 视觉边界 — sticky + blur + border */
+/* P40: max-width 从 1400px → 1200px，与下方 .main-wrapper .container 一致。
+   原 1400px 让 header 在 1920+ 屏上比内容"漂"出 100px，header 居中轴线和
+   内容居中轴线错位 → 视觉不严谨。统一 1200px 后 header / 搜索 / 卡片栅格
+   三者的左右边界完全对齐。 */
 .app-header {
   position: sticky;
   top: 0;
@@ -45,7 +49,7 @@ defineEmits<{
   align-items: center;
   gap: 16px;
   padding: 12px 24px;
-  max-width: 1400px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 

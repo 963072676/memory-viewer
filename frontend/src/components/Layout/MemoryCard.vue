@@ -621,8 +621,9 @@ watch(() => props.forceExpanded, (newVal) => {
   color: var(--text-secondary);
 }
 
+/* P40: file-tag 字体用 --font-mono token（Geist 一致性） */
 .file-tag {
-  font-family: monospace;
+  font-family: var(--font-mono);
 }
 
 /* F46: Tag capsule in collapsed header */

@@ -73,13 +73,17 @@ const tabs = [
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
+/* P40: kbd 字体改用 --font-mono token（与 P38 搜索框的 hint-search/hint-palette 一致），
+   原 monospace generic 在 Chrome 上会回退到 Courier New / Times，视觉与 Geist 风格冲突。 */
 .tab-key {
   font-size: 0.65rem;
   padding: 1px 4px;
   border: 1px solid var(--border);
   border-radius: 3px;
   color: var(--text-secondary);
-  font-family: monospace;
+  font-family: var(--font-mono);
+  background: var(--card);
+  line-height: 1.2;
 }
 
 .expand-controls {

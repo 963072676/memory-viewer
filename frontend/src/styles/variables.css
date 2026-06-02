@@ -63,6 +63,22 @@
   --semantic-accent-subtle: rgba(139, 92, 246, 0.10);
   --semantic-accent-glow: rgba(139, 92, 246, 0.18);
   --accent-glow: rgba(0, 114, 245, 0.14);
+
+  /* P40: Spacing scale（Geist 4-px 节奏） — 让 section / card / 内边距有节奏系统，
+     避免 12px/16px/20px/24px/32px/48px 混用造成视觉不严谨。 */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 48px;
+  --space-9: 64px;
+  /* 语义化别名 */
+  --space-section-gap: var(--space-8);   /* section 之间间距 */
+  --space-header-gap: var(--space-5);    /* section-header 内部 */
+  --space-card-gap: var(--space-5);      /* card-grid 间距 */
 }
 
 [data-theme='dark'] {

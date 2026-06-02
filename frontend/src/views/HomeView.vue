@@ -301,28 +301,29 @@ function onImported() {
   padding-bottom: 40px;
 }
 
+/* P40: section 间距改用 spacing token，节奏系统化 */
 .section {
-  margin-bottom: 48px;
+  margin-bottom: var(--space-section-gap);
 }
 
 .section-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: var(--space-header-gap);
   flex-wrap: wrap;
-  gap: 12px;
+  gap: var(--space-3);
 }
 
 .section-actions {
   display: flex;
-  gap: 8px;
+  gap: var(--space-2);
 }
 
 .action-btn {
-  padding: 8px 14px;
+  padding: var(--space-2) var(--space-4);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   background: var(--card);
   color: var(--primary);
   font-size: 0.8rem;
@@ -361,17 +362,18 @@ h2 {
   font-size: 1.5rem;
   font-weight: 600;
   color: var(--primary);
-  margin-bottom: 20px;
+  margin-bottom: var(--space-5);
 }
 
 .section-header h2 {
   margin-bottom: 0;
 }
 
+/* P40: card-grid 间距改用 token */
 .card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 20px;
+  gap: var(--space-card-gap);
 }
 
 /* P37: 重复 unified-card 块已合并到下方 "Card layout" 段（更具体位置），这里不再重复 */
