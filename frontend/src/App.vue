@@ -2,8 +2,8 @@
   <div class="app">
     <AppSidebar ref="sidebarRef" />
     <div class="main-wrapper" :class="{ 'sidebar-collapsed': uiStore.sidebarCollapsed }">
+      <AppHeader @toggle-sidebar="onToggleSidebar" @open-more="onOpenMore" />
       <div class="container">
-        <AppHeader @toggle-sidebar="uiStore.toggleSidebar()" />
         <SearchBar />
         <QuickAccessBar />
         <StatsBar />
@@ -183,11 +183,15 @@ async function handleBulkAutoTagFromPalette() {
   }
 }
 
-/* 移动端优化 — sidebar 整体不渲染（display: none），main-wrapper 占满 */
+/* 移动端优化 — sidebar 整体不渲染（display: none），main-wrapper 占满
+   关键：顶栏 AppHeader 是 fixed (56px) + 底 Tab Bar fixed (64px)，
+   main-wrapper 需要 padding 让内容不被遮挡 */
 @media (max-width: 768px) {
   .main-wrapper {
     margin-left: 0 !important;
     max-width: 100vw !important;
+    padding-top: 56px;
+    padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
   }
   .main-wrapper .container {
     padding: 12px 16px;

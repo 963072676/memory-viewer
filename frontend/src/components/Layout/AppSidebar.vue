@@ -287,55 +287,6 @@ function isTabActive(tab: { path: string }) {
   transform: rotate(180deg);
 }
 
-/* ============ Mobile Top Header (< 768px) ============ */
-.mobile-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 56px;
-  background: var(--card);
-  border-bottom: 1px solid var(--border);
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 16px;
-  z-index: 50;
-  box-shadow: 0 1px 3px var(--border);
-}
-
-.mobile-brand {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.mobile-header .brand-logo {
-  font-size: 1.4rem;
-}
-
-.mobile-header .brand-text {
-  font-size: 0.95rem;
-  font-weight: 600;
-}
-
-.mobile-back-btn {
-  width: 36px;
-  height: 36px;
-  border: none;
-  background: transparent;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 1.5rem;
-  color: var(--text-primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.mobile-back-btn:hover {
-  background: var(--border);
-}
-
 /* ============ Mobile Bottom Tab Bar (< 768px) ============ */
 .mobile-tab-bar {
   position: fixed;
@@ -400,10 +351,33 @@ function isTabActive(tab: { path: string }) {
 .tab-icon {
   font-size: 1.4rem;
   line-height: 1;
+  display: block;
+  margin-bottom: 2px;
 }
 
 .tab-label {
   font-weight: 500;
+  display: block;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  font-size: 0.65rem;
+  line-height: 1.2;
+}
+
+@media (max-width: 767px) {
+  .tab-item {
+    padding: 4px 2px;
+  }
+  .tab-icon {
+    font-size: 1.3rem;
+    margin-bottom: 1px;
+  }
+  .tab-label {
+    font-size: 0.62rem;
+  }
 }
 
 /* ============ Bottom Sheet (More menu) ============ */
