@@ -41,12 +41,21 @@ defineEmits<{
   border-radius: var(--radius);
   padding: 16px;
   cursor: pointer;
-  transition: box-shadow 0.2s, transform 0.2s;
+  /* P38 r12: 与 MemoryCard / DashboardWidget / TemplateCard 4 套 Card hover 视觉同源
+     (var(--shadow-hover) + translateY(-2px) + 0.25s cubic-bezier 过渡 + border-strong 强化)
+     之前用 var(--shadow) (轻) + translateY(-2px), hover 反馈弱于同站其他 Card */
+  transition: box-shadow 0.25s cubic-bezier(0.25, 0.1, 0.25, 1),
+              transform 0.25s cubic-bezier(0.25, 0.1, 0.25, 1),
+              border-color 0.2s ease;
 }
 
 .collection-card:hover {
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-hover);
   transform: translateY(-2px);
+  border-left-color: var(--primary);
+  border-top-color: var(--border-strong);
+  border-right-color: var(--border-strong);
+  border-bottom-color: var(--border-strong);
 }
 
 .card-top {

@@ -769,7 +769,8 @@ watch(() => props.forceExpanded, (newVal) => {
 
 .compare-btn:hover:not(:disabled) {
   background: var(--accent);
-  color: white;
+  /* P38 r12: color: white 硬编码 → var(--card), 与 r11 sweep 同源 */
+  color: var(--card);
 }
 
 .ai-section {
@@ -791,7 +792,8 @@ watch(() => props.forceExpanded, (newVal) => {
 
 .ai-btn:hover:not(:disabled) {
   background: var(--accent);
-  color: white;
+  /* P38 r12: color: white 硬编码 → var(--card), 与 r11 sweep 同源 */
+  color: var(--card);
 }
 
 .ai-suggested-tags {
@@ -817,7 +819,8 @@ watch(() => props.forceExpanded, (newVal) => {
   padding: 3px 10px;
   border-radius: 12px;
   background: var(--accent);
-  color: white;
+  /* P38 r12: color: white 硬编码 → var(--card), 与 r11 sweep 同源 */
+  color: var(--card);
   cursor: pointer;
   transition: background 0.2s, transform 0.15s;
   white-space: nowrap;
