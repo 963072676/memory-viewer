@@ -33,17 +33,23 @@ const isFullscreen = ref(false)
 
 <style scoped>
 .dashboard-widget {
-  background: var(--card, #fff);
-  border: 1px solid var(--border, #e5e5ea);
-  border-radius: 12px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: box-shadow 0.2s ease;
+  /* P38 r12: 统一 hover transition 曲线 + 时长，与全站 Card 视觉同源
+     (MemoryCard 0.3s, CollectionCard 0.2s — 取中位 0.25s, cubic-bezier 与 P38 调色板一致) */
+  transition: box-shadow 0.25s cubic-bezier(0.25, 0.1, 0.25, 1),
+              transform 0.25s cubic-bezier(0.25, 0.1, 0.25, 1),
+              border-color 0.2s ease;
 }
 
 .dashboard-widget:hover {
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
+  border-color: var(--border-strong);
 }
 
 .widget-fullscreen {
@@ -54,7 +60,12 @@ const isFullscreen = ref(false)
   bottom: 0;
   z-index: 1000;
   border-radius: 0;
-  background: var(--bg, #fff);
+  background: var(--bg);
+  transform: none; /* 全屏态取消 hover 提升效果 */
+}
+
+.widget-fullscreen:hover {
+  transform: none;
 }
 
 .widget-header {
@@ -62,14 +73,15 @@ const isFullscreen = ref(false)
   justify-content: space-between;
   align-items: center;
   padding: 12px 16px;
-  border-bottom: 1px solid var(--border, #e5e5ea);
+  border-bottom: 1px solid var(--border);
   flex-shrink: 0;
 }
 
 .widget-title {
   font-size: 0.85rem;
   font-weight: 600;
-  color: var(--text, #1d1d1f);
+  /* P38 r12: var(--text) 不存在 → var(--primary)（与 MemoryCard / CollectionCard 同源） */
+  color: var(--primary);
   margin: 0;
 }
 
@@ -89,17 +101,20 @@ const isFullscreen = ref(false)
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--text-secondary, #86868b);
-  transition: background 0.15s ease;
+  color: var(--text-secondary);
+  transition: background 0.15s ease, color 0.15s ease;
 }
 
 .widget-btn:hover {
-  background: var(--tag-bg, #f2f2f7);
+  background: var(--tag-bg);
+  color: var(--primary);
 }
 
 .widget-btn--remove:hover {
-  background: #ffebee;
-  color: var(--error, #ff3b30);
+  /* P38 r12: pink 硬编码 #ffebee → var(--error-bg) token，与全站 danger 视觉同源
+     删除硬编码 #ffebee 之后, error hover 反馈会跟随主题变量切换 (Dark 模式自动加深) */
+  background: var(--error-bg);
+  color: var(--error);
 }
 
 .widget-body {

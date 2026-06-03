@@ -1,5 +1,5 @@
 {
-  "version": "0.9.x",
+  "version": "0.9.26",
   "memories": [
     {
       "id": "mem_mpll8an1_4976b2ceceae",
@@ -355,6 +355,242 @@
       "version": 1,
       "isLatest": true,
       "sessionIds": []
+    },
+    {
+      "id": "mem_mptyvkpe_56582ab32d96",
+      "type": "pattern",
+      "title": "Skill Bundle功能: 可将多个相关技能绑定为一个slash命令, 如/writing-day同时加载humanizer+ideation+obsidi",
+      "content": "Skill Bundle功能: 可将多个相关技能绑定为一个slash命令, 如/writing-day同时加载humanizer+ideation+obsidian+youtube-content, 需要在~/.hermes/config.yaml中配置bundle",
+      "concepts": [
+        "hermes",
+        "使用技巧",
+        "skill-bundle",
+        "AGENTS.md",
+        "SOUL.md"
+      ],
+      "files": [],
+      "createdAt": "2026-05-31T16:01:07.732Z",
+      "updatedAt": "2026-05-31T16:01:07.732Z",
+      "strength": 7,
+      "version": 1,
+      "isLatest": true,
+      "sessionIds": []
+    },
+    {
+      "id": "mem_mptyvlhh_594385cd984f",
+      "type": "pattern",
+      "title": "hermes update存在bug: 当前活跃profile的技能不会被同步, 会一直停留在旧版本直到切换profile再运行update. 临时解法: 每次",
+      "content": "hermes update存在bug: 当前活跃profile的技能不会被同步, 会一直停留在旧版本直到切换profile再运行update. 临时解法: 每次update后运行hermes profile use default && hermes update刷新",
+      "concepts": [
+        "hermes",
+        "bug",
+        "skills-update"
+      ],
+      "files": [],
+      "createdAt": "2026-05-31T16:01:08.741Z",
+      "updatedAt": "2026-05-31T16:01:08.741Z",
+      "strength": 7,
+      "version": 1,
+      "isLatest": true,
+      "sessionIds": []
+    },
+    {
+      "id": "mem_mptyvm9c_7d07e0fc1aec",
+      "type": "pattern",
+      "title": "hermes skills install支持直接HTTP(S) URL安装: hermes skills install https://example.co",
+      "content": "hermes skills install支持直接HTTP(S) URL安装: hermes skills install https://example.com/SKILL.md, 无需agent手动curl+patch+cp, 自动从URL更新(re来源: GitHub PR #16323)",
+      "concepts": [
+        "hermes",
+        "skill-install",
+        "URL"
+      ],
+      "files": [],
+      "createdAt": "2026-05-31T16:01:09.744Z",
+      "updatedAt": "2026-05-31T16:01:09.744Z",
+      "strength": 7,
+      "version": 1,
+      "isLatest": true,
+      "sessionIds": []
+    },
+    {
+      "id": "mem_mpvebi9y_f6af886edfc8",
+      "type": "pattern",
+      "title": "Hermes Agent v0.15.0 (Velocity Release 2026.5.28) 关键更新: 1) Tool Search 渐进式工具加载, ",
+      "content": "Hermes Agent v0.15.0 (Velocity Release 2026.5.28) 关键更新: 1) Tool Search 渐进式工具加载, MCP/插件工具按需载入, 节省85% tokens, 上下文占用超10%时自动激活; 2) session_search 重构为本地FTS5, 速度提升4500倍且免费, 三种调用形态(discovery/scroll/browse); 3) Kanban 升级为多Agent平台, 支持 orchestrator 自动分解任务, 104个PR; 4) run_agent.py 从16083行精简到3821行(-76%), 拆分为14个模块; 5) 冷启动性能优化, 每次对话函数调用减少47%; 6) Bitwarden Secrets Manager 整合, 减少每provider的key管理; 7) Skill Bundles 功能, 一个slash命令加载整个工作流; 8) ntfy 加入作为第23个消息平台; 9) 新增 Krea 2 Medium+Large 图像生成provider, FAL转为plugin; 10) xAI深度整合, 支持 Web Search 插件, OAuth代理, 模型退役检测, TTS自然停顿。",
+      "concepts": [
+        "hermes",
+        "使用技巧",
+        "tool-search",
+        "session-search",
+        "kanban",
+        "v0.15"
+      ],
+      "files": [],
+      "createdAt": "2026-06-01T16:01:11.496Z",
+      "updatedAt": "2026-06-01T16:01:11.496Z",
+      "strength": 7,
+      "version": 1,
+      "isLatest": true,
+      "sessionIds": []
+    },
+    {
+      "id": "mem_mpwtt6xq_54e16d285c01",
+      "type": "pattern",
+      "title": "xAI Grok API 免费额度机制: 新用户注册自动 $25 promotional credits (30天过期); 启用 data sharing (S",
+      "content": "xAI Grok API 免费额度机制: 新用户注册自动 $25 promotional credits (30天过期); 启用 data sharing (Settings > Data Sharing, 分享 API 输入用于训练) 额外 $150/月, 首月合计 $175; 关闭数据共享则只能用 $25; Grok 4.1 Fast $0.20 input 是最便宜试用档; 2M 上下文窗口",
+      "concepts": [
+        "hermes",
+        "使用技巧",
+        "xai",
+        "grok",
+        "free-credits",
+        "data-sharing"
+      ],
+      "files": [],
+      "createdAt": "2026-06-02T16:02:37.022Z",
+      "updatedAt": "2026-06-02T16:02:37.022Z",
+      "strength": 7,
+      "version": 1,
+      "isLatest": true,
+      "sessionIds": []
+    },
+    {
+      "id": "mem_mpwtt8hn_175483098931",
+      "type": "pattern",
+      "title": "主流 LLM 厂商免费 API 额度对比 (2026): OpenAI 新账号 $5 (3个月过期), Anthropic 新账号 $5, xAI Grok $",
+      "content": "主流 LLM 厂商免费 API 额度对比 (2026): OpenAI 新账号 $5 (3个月过期), Anthropic 新账号 $5, xAI Grok $25+$150/月 (data sharing), Google Gemini 无限速率限制免费, Mistral 无限 Experiment plan, DeepSeek 新开发者 5M tokens (30天), Groq/Cerebras 无限速率限制, Together AI 最高 $100, AI21 $10, Cohere 免费试用; 配合各 startup program 可获 $10K-$150K+ 信用",
+      "concepts": [
+        "hermes",
+        "使用技巧",
+        "llm",
+        "free-credits",
+        "comparison"
+      ],
+      "files": [],
+      "createdAt": "2026-06-02T16:02:39.036Z",
+      "updatedAt": "2026-06-02T16:02:39.036Z",
+      "strength": 7,
+      "version": 1,
+      "isLatest": true,
+      "sessionIds": []
+    },
+    {
+      "id": "mem_mpwvae9x_605f65f36123",
+      "type": "pattern",
+      "title": "Researched shadcn/ui and Geist Design System for Memory Viewer project. Key patt",
+      "content": "Researched shadcn/ui and Geist Design System for Memory Viewer project. Key patterns extracted: (1) Card composition - shadcn Card uses CardHeader/CardTitle/CardDescription/CardAction/CardContent/CardFooter slots; Geist uses Material materials (Base/Small/Medium/Large) with stacked shadow-as-border. (2) Button hierarchy: shadcn default/secondary/outline/ghost/destructive variants with cva; Geist has primary (default) / secondary / error only (success/ghost/violet invalid). (3) Typography: shadcn ships no styles (use utilities), Geist has 5 categories - text-heading-*, text-label-*, text-copy-*, text-button-* with 3 weights (400/500/600, no bold 700). (4) Spacing: 8pt grid with 4px sub-grid, use gap-* not space-x-*, prefer size-* over w-*/h-*. (5) Color: 60/30/10 rule, achromatic primary with blue accent, status colors only as 10px dots. (6) Data table: TanStack Table + shadcn Table primitives, Geist Table supports basic/striped/bordered/interactive variants, use tabular-nums for numbers, render '—' for missing values, title-case column headers. (7) Status indicators: Geist Status Dot for deployment lifecycle (QUEUED/BUILDING/READY/ERROR/CANCELED/DELETED), Badge for non-deployment states with 8 colors (gray/blue/purple/amber/red/pink/green/teal) + subtle variants. (8) Theming: CSS variables + OKLCH + semantic tokens, customization order: built-in variants -> semantic tokens -> CSS variables (never raw className for colors).",
+      "concepts": [
+        "shadcn-ui",
+        "geist-design-system",
+        "memory-viewer",
+        "design-patterns",
+        "card-hover",
+        "button-hierarchy",
+        "typography",
+        "spacing-system",
+        "color-tokens",
+        "data-table",
+        "status-indicator"
+      ],
+      "files": [],
+      "createdAt": "2026-06-02T16:43:59.301Z",
+      "updatedAt": "2026-06-02T16:43:59.301Z",
+      "strength": 7,
+      "version": 1,
+      "isLatest": true,
+      "sessionIds": []
+    },
+    {
+      "id": "mem_mpwvaf1u_a49907c645f0",
+      "type": "workflow",
+      "title": "Memory Viewer Design Differences Checklist (vs current implementation): Audit di",
+      "content": "Memory Viewer Design Differences Checklist (vs current implementation): Audit dimensions: (1) Card hover - check if using CardHeader/CardContent composition vs dumped content, check hover state uses semantic tokens not raw colors. (2) Button hierarchy - count primary buttons per section (max 1), check for non-dashed dropdown triggers. (3) Typography - count distinct font sizes (target 4-6), check if bold 700 weight is overused, check Geist-class-style naming. (4) Spacing - audit for 25px/15px/11px (replace with 24/16/12), check for space-y-* (use gap-*). (5) Colors - audit raw color usage (text-emerald-600, bg-blue-500), check 60/30/10 ratio. (6) Data table - check tabular-nums, sortable headers are buttons, missing cells render '—' not empty. (7) Status indicators - check if status colors used at appropriate size (dots ~10px max), check no text 'Status:' before state.",
+      "concepts": [
+        "memory-viewer",
+        "design-audit",
+        "checklist",
+        "diff-comparison"
+      ],
+      "files": [],
+      "createdAt": "2026-06-02T16:44:00.306Z",
+      "updatedAt": "2026-06-02T16:44:00.306Z",
+      "strength": 7,
+      "version": 1,
+      "isLatest": true,
+      "sessionIds": []
+    },
+    {
+      "id": "mem_mpwvb53k_d26a23c49500",
+      "type": "pattern",
+      "title": "Vercel Dashboard UI research completed. Key findings: 1) Achromatic design (blac",
+      "content": "Vercel Dashboard UI research completed. Key findings: 1) Achromatic design (black/white + 4-stop gray) with blue #0072F5 as sole accent, 2) Status indicators as 10px dots - never as backgrounds, 3) Shadow-as-border technique (box-shadow: 0 0 0 1px) replaces CSS borders, 4) Geist font family (Sans + Mono) with -0.02em tracking, 5) Pure black dark mode is default, not toggle, 6) Badge variants: gray/blue/purple/amber/red/pink/green/teal with -subtle suffix for density, 7) 5 deployment states: Queued (gray) → Building (spinner) → Ready (green) → Error (red) + Canceled, 8) Projects as filters in new 2026 sidebar redesign, 9) Deployment timeline: vertical line + nodes + sub-steps with timestamps, 10) Activity log: date-grouped, status-colored dots, monospace metadata. Source: vercel.com/geist, vercel.com/dashboard, dashboard redesign changelog Feb 2026.",
+      "concepts": [
+        "vercel",
+        "dashboard",
+        "UI design",
+        "dark mode",
+        "status badge",
+        "geist design system",
+        "deployment timeline",
+        "filter chips",
+        "stats cards"
+      ],
+      "files": [
+        "/home/vercel-dashboard-design-research.md"
+      ],
+      "createdAt": "2026-06-02T16:44:34.064Z",
+      "updatedAt": "2026-06-02T16:44:34.064Z",
+      "strength": 7,
+      "version": 1,
+      "isLatest": true,
+      "sessionIds": []
+    },
+    {
+      "id": "mem_mpwvifex_ca389ab7da04",
+      "type": "pattern",
+      "title": "Researched Notion UI design patterns for Memory Viewer project. 8 key patterns e",
+      "content": "Researched Notion UI design patterns for Memory Viewer project. 8 key patterns extracted covering: (1) sidebar collapse with Cmd+/Ctrl+\\ shortcut and 224px width, (2) view tabs with Text+Icon/Text Only/Icon Only display modes, (3) multi-select colored pill chips with 6px border-radius, (4) Quick Find Cmd+P modal with breadcrumb paths and preview pane, (5) database view switcher (table/board/gallery/list/calendar/timeline), (6) breadcrumb navigation with sibling hover dropdowns, (7) empty state with \"No filter results\" + \"New page\" button, (8) hover effects: subtle background color change + 200ms transitions, plus hover cards/peek page previews via Cmd+L. Design tokens: 4px spacing base, 8px buttons, 12px cards, 9999px pills.",
+      "concepts": [
+        "notion",
+        "ui-design",
+        "memory-viewer",
+        "design-patterns",
+        "sidebar",
+        "search",
+        "breadcrumb",
+        "empty-state",
+        "hover",
+        "view-switcher",
+        "database"
+      ],
+      "files": [],
+      "createdAt": "2026-06-02T16:50:14.025Z",
+      "updatedAt": "2026-06-02T16:50:14.025Z",
+      "strength": 7,
+      "version": 1,
+      "isLatest": true,
+      "sessionIds": []
+    },
+    {
+      "id": "mem_mpxdvl5x_66484ad27817",
+      "type": "workflow",
+      "title": "创建/修改 cron job 时 deliver 字段必须做语义校验（群名 ↔ 任务语义），不能只校验 chat_id 格式。前科 2026-06-03：bc4",
+      "content": "创建/修改 cron job 时 deliver 字段必须做语义校验（群名 ↔ 任务语义），不能只校验 chat_id 格式。前科 2026-06-03：bc46fdbac4a5 (memory-viewer-p38-ui-iter) / 470369403b75 (Cloudreve 同步) 早期误把\"开发进度/资源同步\"类任务 deliver 到 MiniMax 额度汇报群 (oc_6fca5326a5df04541627bff79044cb6a)，已挪到 `feishu:开发团队`。流程：create/update cron 前先 list send_message targets 核对群名；改完再 list 全部 job 跑一次 deliver 交叉检查。",
+      "concepts": [
+        "cron",
+        "deliver",
+        "feishu",
+        "semantic-validation",
+        "2026-06-03"
+      ],
+      "files": [],
+      "createdAt": "2026-06-03T01:24:21.095Z",
+      "updatedAt": "2026-06-03T01:24:21.095Z",
+      "strength": 7,
+      "version": 1,
+      "isLatest": true,
+      "sessionIds": []
     }
-  ]
+  ],
+  "sessions": []
 }

@@ -15253,6 +15253,15 @@
       "memory_id": "mem_a8d0fa52a2729f4f",
       "title": "E2E Test Memory",
       "timestamp": "2026-06-01T18:59:41.424468Z"
+    },
+    {
+      "operation": "set_tags",
+      "memory_id": "mem_qa_worker_workflow",
+      "title": "",
+      "timestamp": "2026-06-03T13:43:45.250961Z",
+      "tags": [
+        "qa"
+      ]
     }
   ]
 }

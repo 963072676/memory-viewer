@@ -19,6 +19,10 @@ from app.config import settings
 from app.routers import agentmemory, hermes_memory, profiles, search, health, changelog
 from app.routers import sources as sources_router
 from app.routers import favorites, collections, dashboard, compare
+from app.routers import metrics, webhook as webhook_router
+# P39: Restore per-memory P3 endpoints (decay / health / recommendations / suggest-tags / summarize)
+# from deprecated/ — they were complete and tested, just unregistered.
+from app.routers import decay, recommendation, memory_health, auto_tag
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(name)s] %(levelname)s: %(message)s")
@@ -66,6 +70,15 @@ app.include_router(favorites.router, prefix="/api", tags=["favorites"])
 app.include_router(collections.router, prefix="/api/collections", tags=["collections"])
 app.include_router(dashboard.router, prefix="/api", tags=["dashboard"])
 app.include_router(compare.router, prefix="/api/compare", tags=["compare"])
+# P38: register previously-deprecated metrics + webhook routers so dashboard & settings don't 404
+app.include_router(metrics.router, prefix="/api", tags=["metrics"])
+app.include_router(webhook_router.router, prefix="/api", tags=["webhook"])
+# P39: re-register per-memory P3 endpoints (under /api/agentmemory and /api/memories
+# to match frontend @/api/agentmemory.ts and @/api/p8.ts)
+app.include_router(decay.router, prefix="/api/agentmemory", tags=["decay"])
+app.include_router(recommendation.router, prefix="/api/agentmemory", tags=["recommendation"])
+app.include_router(memory_health.router, prefix="/api/agentmemory", tags=["memory-health"])
+app.include_router(auto_tag.router, prefix="/api/memories", tags=["auto-tag"])
 
 
 @app.get("/api/tags")
