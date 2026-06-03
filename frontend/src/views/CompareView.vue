@@ -132,7 +132,7 @@ h3 { font-size: 1rem; font-weight: 600; margin-bottom: 12px; color: var(--primar
 .action-btn { padding: 8px 16px; border: 1px solid var(--border); border-radius: 8px; background: var(--card); color: var(--primary); cursor: pointer; font-size: 0.85rem; }
 .action-btn:hover { background: var(--tag-bg); }
 .action-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-.action-btn.primary { background: var(--primary); color: white; border-color: var(--primary); }
+.action-btn.primary { background: var(--primary); color: var(--card); border-color: var(--primary); }
 .profile-select { display: flex; gap: 16px; margin-bottom: 24px; }
 .select-group { flex: 1; }
 .select-group label { display: block; font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 6px; font-weight: 500; }
@@ -163,7 +163,19 @@ h3 { font-size: 1rem; font-weight: 600; margin-bottom: 12px; color: var(--primar
 .item-title { font-size: 0.85rem; color: var(--primary); display: block; margin-bottom: 4px; }
 .item-content { font-size: 0.8rem; color: var(--text-secondary); margin: 0 0 8px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .item-concepts { display: flex; flex-wrap: wrap; gap: 4px; }
-.concept-tag { font-size: 0.65rem; padding: 2px 6px; border-radius: 8px; background: var(--accent); color: white; opacity: 0.8; }
+/* P38 r11: concept-tag 风格升级 — 旧实现 `background: accent + color: white + opacity: 0.8`
+   有两个问题：(1) 硬编码 white 违反 token 契约 (P44 漏网)；
+   (2) opacity: 0.8 让 tag 与父元素背景发生 alpha 混合，嵌套在 card 上时色相偏灰。
+   新实现用 --accent-soft bg + accent 文字 + 1px 1级 border，Geist 风格"轻量 tag"语言。
+   与 MemoryCard .card-type (P39 type chip 体系) 视觉语言一致。 */
+.concept-tag {
+  font-size: 0.65rem;
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 18%, transparent);
+}
 
 /* P38 (round 3): 三栏 diff 关系用 --diff-*-bg token 统一
    旧实现：3px 左边框 Material hex（#2196f3/#4caf50/#f44336） + dark mode 单独写一套 rgba

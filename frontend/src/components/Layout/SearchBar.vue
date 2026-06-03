@@ -188,7 +188,7 @@ function clear() {
 .mode-toggle--semantic:hover {
   background: var(--semantic-accent);
   border-color: var(--semantic-accent);
-  color: #fff;
+  color: var(--card);
 }
 
 .mode-toggle__label {

@@ -505,7 +505,7 @@ h2 {
 
 .filter-clear:hover {
   background: var(--accent);
-  color: white;
+  color: var(--card);
   border-color: var(--accent);
 }
 

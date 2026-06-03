@@ -294,17 +294,19 @@ async function saveFeishu() {
 }
 
 .settings-tab {
+  position: relative;
   padding: 10px 18px;
   background: none;
   border: none;
   border-bottom: 2px solid transparent;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
   cursor: pointer;
   font-family: var(--font);
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--text-secondary);
   white-space: nowrap;
-  transition: all 0.2s ease;
+  transition: color 0.15s, background 0.15s, border-color 0.15s;
 }
 
 .settings-tab:hover {
@@ -315,6 +317,8 @@ async function saveFeishu() {
 .settings-tab.active {
   color: var(--accent);
   border-bottom-color: var(--accent);
+  background: var(--accent-soft);
+  font-weight: 600;
 }
 
 .settings-content {
