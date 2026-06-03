@@ -256,6 +256,8 @@ function formatDate(dateStr: string | undefined): string {
   justify-content: center;
   z-index: 1000;
   backdrop-filter: blur(4px);
+  /* P38 r10: backdrop fade-in (与 CreateMemoryModal 节奏一致) */
+  animation: modal-backdrop-in 200ms ease-out;
 }
 
 .diff-modal {
@@ -267,6 +269,31 @@ function formatDate(dateStr: string | undefined): string {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  /* P38 r10: 弹窗弹出动画 (与 CreateMemoryModal 一致) */
+  animation: modal-pop-in 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modal-backdrop-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modal-pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .diff-modal-overlay,
+  .diff-modal {
+    animation: none;
+  }
 }
 
 .diff-header {

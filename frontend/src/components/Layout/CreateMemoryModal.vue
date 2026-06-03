@@ -179,6 +179,8 @@ async function onSubmit() {
   justify-content: center;
   z-index: 1000;
   backdrop-filter: blur(4px);
+  /* P38 r10: backdrop fade-in — 200ms 慢于页面切换 (150ms)，区分"打开"与"换页" */
+  animation: modal-backdrop-in 200ms ease-out;
 }
 
 .create-modal {
@@ -189,6 +191,33 @@ async function onSubmit() {
   max-width: 520px;
   max-height: 90vh;
   overflow-y: auto;
+  /* P38 r10: 弹窗弹出动画 — scale(0.96) + translateY(8px) → scale(1) + translateY(0)，
+     200ms ease-out，强调"目标到达"感。Apple/Vercel 模态的经典节奏。 */
+  animation: modal-pop-in 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modal-backdrop-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modal-pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* P38 r10: 减少动效偏好用户 — 直接显示 */
+@media (prefers-reduced-motion: reduce) {
+  .create-modal-overlay,
+  .create-modal {
+    animation: none;
+  }
 }
 
 h2 {
