@@ -1,7 +1,13 @@
 <template>
-  <div class="edit-modal-overlay" @click.self="$emit('close')">
-    <div class="edit-modal">
-      <h2>编辑记忆</h2>
+  <!-- P38 r14: a11y — role/aria-modal/aria-labelledby + Esc to close -->
+  <div class="edit-modal-overlay" @click.self="$emit('close')" @keydown.esc="$emit('close')">
+    <div
+      class="edit-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="edit-modal-title"
+    >
+      <h2 id="edit-modal-title">编辑记忆</h2>
       <form @submit.prevent="onSubmit">
         <div class="form-group">
           <label>Content</label>

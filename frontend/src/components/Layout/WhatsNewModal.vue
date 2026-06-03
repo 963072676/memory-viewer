@@ -1,11 +1,17 @@
 <template>
   <Teleport to="body">
     <transition name="modal-fade">
-      <div v-if="showModal" class="modal-overlay" @click.self="onClose">
-        <div class="modal-container">
+      <!-- P38 r14: a11y — role/aria-modal/aria-labelledby + Esc to close -->
+      <div v-if="showModal" class="modal-overlay" @click.self="onClose" @keydown.esc="onClose">
+        <div
+          class="modal-container"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="whatsnew-modal-title"
+        >
           <div class="modal-header">
-            <h2>🎉 What's New</h2>
-            <button class="close-btn" @click="onClose">&times;</button>
+            <h2 id="whatsnew-modal-title">🎉 What's New</h2>
+            <button class="close-btn" @click="onClose" aria-label="关闭更新说明">&times;</button>
           </div>
           <div class="modal-body">
             <div v-if="changelog.length === 0" class="empty-changelog">

@@ -1,8 +1,8 @@
 <template>
   <header class="app-header" :class="{ 'mobile-only-header': isMobile }">
     <div class="header-content">
-      <button class="sidebar-toggle" @click="$emit('toggle-sidebar')" :title="isMobile ? '打开导航' : '切换侧边栏'">
-        <span>☰</span>
+      <button class="sidebar-toggle" @click="$emit('toggle-sidebar')" :title="isMobile ? '打开导航' : '切换侧边栏'" :aria-label="isMobile ? '打开导航' : '切换侧边栏'">
+        <span aria-hidden="true">☰</span>
       </button>
 
       <div v-if="!isMobile" class="header-title">
@@ -15,8 +15,8 @@
       </div>
 
       <div class="header-right">
-        <button class="theme-toggle" @click="toggleTheme" :title="modeLabel()">
-          <span>{{ modeIcon() }}</span>
+        <button class="theme-toggle" @click="toggleTheme" :title="modeLabel()" :aria-label="modeLabel()">
+          <span aria-hidden="true">{{ modeIcon() }}</span>
         </button>
       </div>
     </div>

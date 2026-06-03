@@ -1,9 +1,15 @@
 <template>
-  <div class="share-modal-overlay" @click.self="$emit('close')">
-    <div class="share-modal">
+  <!-- P38 r14: a11y — role/aria-modal/aria-labelledby + Esc to close -->
+  <div class="share-modal-overlay" @click.self="$emit('close')" @keydown.esc="$emit('close')">
+    <div
+      class="share-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="share-modal-title"
+    >
       <div class="modal-header">
-        <h3>🔗 分享记忆</h3>
-        <button class="close-btn" @click="$emit('close')">✕</button>
+        <h3 id="share-modal-title">🔗 分享记忆</h3>
+        <button class="close-btn" @click="$emit('close')" aria-label="关闭分享对话框">✕</button>
       </div>
 
       <div class="modal-body">

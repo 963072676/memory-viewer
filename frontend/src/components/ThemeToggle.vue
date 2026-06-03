@@ -1,6 +1,7 @@
 <template>
-  <button class="theme-toggle" @click="toggleTheme" :title="modeLabel()">
-    <span>{{ modeIcon() }}</span>
+  <!-- P38 r14: a11y — aria-label 替代 title（title 不被屏幕阅读器可靠读取） -->
+  <button class="theme-toggle" @click="toggleTheme" :title="modeLabel()" :aria-label="modeLabel()">
+    <span aria-hidden="true">{{ modeIcon() }}</span>
   </button>
 </template>
 

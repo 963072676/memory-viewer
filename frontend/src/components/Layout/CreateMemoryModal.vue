@@ -1,7 +1,13 @@
 <template>
-  <div class="create-modal-overlay" @click.self="$emit('close')">
-    <div class="create-modal">
-      <h2>创建新记忆</h2>
+  <!-- P38 r14: a11y — role/aria-modal/aria-labelledby + Esc to close -->
+  <div class="create-modal-overlay" @click.self="$emit('close')" @keydown.esc="$emit('close')">
+    <div
+      class="create-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="create-modal-title"
+    >
+      <h2 id="create-modal-title">创建新记忆</h2>
       <form @submit.prevent="onSubmit">
         <div class="form-group">
           <label>模板</label>
@@ -251,9 +257,10 @@ h2 {
   appearance: auto;
 }
 
-.template-select:focus {
+/* P38 r14: :focus → :focus-visible (键盘焦点专用，不再 mouse click 触发) + rgba 改 token */
+.template-select:focus-visible {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+  box-shadow: 0 0 0 3px var(--accent-glow);
 }
 
 label {
@@ -283,10 +290,12 @@ select {
   transition: border-color 0.2s;
 }
 
-input:focus,
-textarea:focus,
-select:focus {
+/* P38 r14: :focus → :focus-visible (键盘焦点专用) */
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
   border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
 }
 
 .form-row {

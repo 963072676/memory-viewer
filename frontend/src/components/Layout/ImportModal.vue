@@ -1,7 +1,13 @@
 <template>
-  <div class="import-modal-overlay" @click.self="$emit('close')">
-    <div class="import-modal">
-      <h2>导入记忆</h2>
+  <!-- P38 r14: a11y — role/aria-modal/aria-labelledby + Esc to close -->
+  <div class="import-modal-overlay" @click.self="$emit('close')" @keydown.esc="$emit('close')">
+    <div
+      class="import-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="import-modal-title"
+    >
+      <h2 id="import-modal-title">导入记忆</h2>
       <div class="drop-zone" @dragover.prevent @drop.prevent="onDrop" @click="fileInput?.click()">
         <input ref="fileInput" type="file" accept=".json,.md" @change="onFileSelect" hidden />
         <div class="drop-content">

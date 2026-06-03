@@ -3,9 +3,11 @@
     class="favorite-btn"
     :class="{ favorited }"
     :title="favorited ? 'Remove from favorites' : 'Add to favorites'"
+    :aria-label="favorited ? '从收藏中移除' : '添加到收藏'"
+    :aria-pressed="favorited"
     @click.stop="$emit('toggle')"
   >
-    <span class="star">{{ favorited ? '★' : '☆' }}</span>
+    <span class="star" aria-hidden="true">{{ favorited ? '★' : '☆' }}</span>
   </button>
 </template>
 

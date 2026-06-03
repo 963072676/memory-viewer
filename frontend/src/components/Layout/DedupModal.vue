@@ -1,9 +1,15 @@
 <template>
-  <div class="dedup-modal-overlay" @click.self="$emit('close')">
-    <div class="dedup-modal">
+  <!-- P38 r14: a11y — role/aria-modal/aria-labelledby + Esc to close -->
+  <div class="dedup-modal-overlay" @click.self="$emit('close')" @keydown.esc="$emit('close')">
+    <div
+      class="dedup-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="dedup-modal-title"
+    >
       <div class="dedup-header">
-        <h2>🔍 重复记忆去重</h2>
-        <button class="close-btn" @click="$emit('close')">✕</button>
+        <h2 id="dedup-modal-title">🔍 重复记忆去重</h2>
+        <button class="close-btn" @click="$emit('close')" aria-label="关闭去重对话框">✕</button>
       </div>
 
       <div class="dedup-summary">

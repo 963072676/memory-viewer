@@ -1,9 +1,15 @@
 <template>
-  <div class="diff-modal-overlay" @click.self="$emit('close')">
-    <div class="diff-modal">
+  <!-- P38 r14: a11y — role/aria-modal/aria-labelledby + Esc to close -->
+  <div class="diff-modal-overlay" @click.self="$emit('close')" @keydown.esc="$emit('close')">
+    <div
+      class="diff-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="diff-modal-title"
+    >
       <div class="diff-header">
-        <h2>📋 记忆内容对比</h2>
-        <button class="close-btn" @click="$emit('close')">✕</button>
+        <h2 id="diff-modal-title">📋 记忆内容对比</h2>
+        <button class="close-btn" @click="$emit('close')" aria-label="关闭对比对话框">✕</button>
       </div>
 
       <div class="diff-meta">
