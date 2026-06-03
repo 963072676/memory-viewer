@@ -367,6 +367,23 @@ h2 {
 
 .section-header h2 {
   margin-bottom: 0;
+  /* P38 r15: section title 左侧 3px accent bar — 视觉锚点，区分 section title 与 card title。
+     模仿 AppSidebar 已有的 .nav-item.active::before 设计语言 (3px rail + accent),
+     形成全站一致的"被选中/重要"视觉语言。 */
+  padding-left: 12px;
+  position: relative;
+}
+
+.section-header h2::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 60%;
+  background: var(--accent);
+  border-radius: 0 2px 2px 0;
 }
 
 /* P40: card-grid 间距改用 token */
