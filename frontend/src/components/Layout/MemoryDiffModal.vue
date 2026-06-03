@@ -284,6 +284,8 @@ function formatDate(dateStr: string | undefined): string {
   margin: 0;
 }
 
+/* P38 (round 4): close-btn 全站统一 — Geist ghost 32×32 圆角方块
+   （与 ShareModal / WhatsNewModal / DedupModal 完全同款）。 */
 .close-btn {
   width: 32px;
   height: 32px;
@@ -296,10 +298,13 @@ function formatDate(dateStr: string | undefined): string {
   align-items: center;
   justify-content: center;
   font-size: 1rem;
+  line-height: 1;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
 
 .close-btn:hover {
   background: var(--tag-bg);
+  border-color: var(--border-strong);
   color: var(--primary);
 }
 

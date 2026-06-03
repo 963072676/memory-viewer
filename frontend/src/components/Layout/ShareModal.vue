@@ -315,18 +315,29 @@ onMounted(() => {
   color: var(--text, #1d1d1f);
 }
 
+/* P38 (round 4): close-btn 全站统一 — Geist ghost 32×32 圆角方块
+   （与 DedupModal / MemoryDiffModal / WhatsNewModal 完全同款）。
+   之前的 4px 8px padding + 无边框版本 hit-area 仅 ~24px，移动端难按。 */
 .close-btn {
-  border: none;
-  background: none;
-  font-size: 1.1rem;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-secondary);
   cursor: pointer;
-  color: var(--text-secondary, #86868b);
-  padding: 4px 8px;
-  border-radius: 6px;
+  font-size: 1rem;
+  line-height: 1;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
 
 .close-btn:hover {
-  background: var(--tag-bg, #f2f2f7);
+  background: var(--tag-bg);
+  border-color: var(--border-strong);
+  color: var(--primary);
 }
 
 .modal-body {

@@ -368,9 +368,12 @@ async function saveFeishu() {
   transition: border-color 0.2s ease;
 }
 
+/* P38 (round 4): form-input focus ring 与 SearchBar 对齐 — 4px accent glow。
+   之前只改 border-color 没有 box-shadow，键盘 Tab 聚焦时输入框没有清晰的"激活"反馈。 */
 .form-input:focus {
   outline: none;
   border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-glow);
 }
 
 .toggle-btn {

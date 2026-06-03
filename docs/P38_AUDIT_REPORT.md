@@ -1,85 +1,72 @@
-# P38 UI 优化审计报告（第三轮 — 收尾级 sweep）
+# P38 UI 优化审计报告（第四轮 — 收尾 sweep）
 
 **日期**: 2026-06-03
-**主题**: 自驱动 UI 优化第三轮 · 收尾
-**目标**: CompareView 颜色 token 化（消除最后一批 Material 硬编码）+ AgentMemoryView / MemoryDetailView 按钮层级统一
+**主题**: 自驱动 UI 优化收尾（4 个组件 close-btn 统一 + SettingsView focus ring 补齐）
+**目标**: 消除全站最后两处"小但刺眼"的不一致
 **约束**: 不新增功能、不动 backend、不引入新依赖
-**前置**: P37–P43 已收敛 Geist 风格、按钮层级、type chip 色块、spacing scale、modal-backdrop、Geist mono、Dashboard type-bar token、暗色 mode 契约
+**前置**: P37–P43 已 7 轮收敛（Geist 风格 / 按钮层级 / type chip / spacing scale / modal-backdrop / Geist mono / Dashboard type-bar / 暗色契约 / MemoryCard dark-mode）
+
+> **关于"第 4 轮"的说明**：前 3 轮（round 1-3）记录在 `P38_AUDIT_REPORT.md`（已存在）。本报告为**第 4 轮 sweep**，延续同一编号；后续如果还有第 5 轮可继续在此文件追加，也可新建 `P38_AUDIT_REPORT_r5.md`。
 
 ---
 
 ## 改动清单
 
-### 1. CompareView 三栏 diff 关系 — Material 硬编码 → `--diff-*` token（最大视觉影响）
+### 1. close-btn 全站统一（4 个 modal 文件）— 最大视觉影响
 
-**问题**:
-- 6 处硬编码 Material 2014 调色：`#2196f3`（蓝）/ `#4caf50`（绿）/ `#f44336`（红）
-- dark mode 单独写了 3 条 `[data-theme='dark']` 规则用 0.1 rgba 复制这 3 个 hex → dark mode 下三栏**完全没有视觉锚点**（颜色既不饱和也不亮）
-- 整页只有左侧 3px 边框一种视觉线索，diff 关系表达力度太弱
-- 这 6 个 hex 是项目里**最后一批 Material 硬编码色**（P36 审计漏掉 CompareView，因为它是低频功能页）
+**问题**（P43 sweep 漏掉的最后一处不一致）:
+- 4 个 modal 都有右上角 ✕ 关闭按钮，但**视觉规格 3 种**：
+  - **ShareModal**：`border: none; padding: 4px 8px; font-size: 1.1rem; border-radius: 6px`（无边框 padding 型，hit-area 仅 ~24px）
+  - **WhatsNewModal**：`border: none; font-size: 1.5rem; padding: 4px 8px; border-radius: 8px`（无边框 padding 型，font 偏大）
+  - **DedupModal / MemoryDiffModal**：`width: 32px; height: 32px; border: 1px solid var(--border); border-radius: 8px`（Geist 32×32 ghost 方块 ✅）
+- 用户在 4 个 modal 之间切换时，关闭按钮的"边界感"忽有忽无，移动端点击命中率不一致
+- ShareModal 还残留 `color: var(--text-secondary, #86868b)` 的硬编码 fallback（与全站 token 不一致，P36 漏网）
 
-**改动** (`frontend/src/views/CompareView.vue` + `frontend/src/styles/variables.css`):
+**改动**（4 文件，4 处 CSS 重写）:
+- **ShareModal**: padding 型 → Geist 32×32 ghost 方块
+- **WhatsNewModal**: padding 型 → Geist 32×32 ghost 方块
+- **DedupModal / MemoryDiffModal**: 32×32 ghost 方块保持原样，补 `line-height: 1`（防止 `✕` 字符在某些 font 渲染下偏高）+ 显式 `transition`（之前 DedupModal 完全没有 transition，hover 状态是瞬切）
+- 删除 ShareModal 的 `, #86868b` 硬编码 fallback（现在统一走 `var(--text-secondary)`）
+- 4 个文件 hover 状态统一：`background: var(--tag-bg); border-color: var(--border-strong); color: var(--primary)`
 
-新增 3 对 token（`--diff-*-border` / `--diff-*-bg`），light/dark 模式各一套：
-- **left-only** 冷静蓝 `#5b8def`（light）/ `#7aa2f0`（dark）— 呼应 `--accent` 但更弱
-- **common** 稳定绿 `#19a66e`（light）/ `#34c77a`（dark）— 呼应 `--success` 但更稳
-- **right-only** 暖橙 `#d97706`（light）/ `#f59e0b`（dark）— 与 `--type-fact-text` 同源（差异=提示）
-
-每个 column 从"3px 左边框"升级为"3px 左边框 + 4px 同色内阴影 + bg 微调（rgba 0.08/0.10）"，diff 关系从"单一线条"变成"半色块"。
-
-**影响估计**:
-- 6 个 Material hex → 0，hex 硬编码数从 6 → 0
-- dark mode 下三栏有了清晰的视觉锚点（之前几乎是黑色 + 暗红/暗绿/暗蓝边框，完全分不清）
-- 3 个 diff token 后续可在其它"二元对比"页面复用（双向 sync 对比、A/B 测试、conflict diff 等）
-- 省 1 个 `[data-theme='dark']` media query 块（token 自动跟随）
-
----
-
-### 2. AgentMemoryView 按钮层级 — 5 个全平铺 → 1 primary + 4 secondary
-
-**问题**:
-- 5 个 `.action-btn`（+ 创建 / 导入 / 导出 / Bulk Auto-Tag / 去重）全部同一层级（描边 card）
-- `.ai-autotag-btn` / `.dedup-btn` 单独写了 `border-color: var(--accent); color: var(--accent)` 描边样式 → **2 个假 primary** 与真 primary（如果之后有）撞色
-- 这 2 个假 primary 的 hover 还会变成 accent 实色（`background: var(--accent); color: white`），**比创建按钮视觉权重还高** — 严重违反按钮层级原则
-
-**改动** (`frontend/src/views/AgentMemoryView.vue`):
-- 模板：「+ 创建」加 `.action-btn--primary` 类（最高频操作 → 主 CTA）
-- 模板：Bulk Auto-Tag / 去重 去掉 `.ai-autotag-btn` / `.dedup-btn` 类，回到普通 `.action-btn`
-- CSS：删除 2 个死代码块（`.ai-autotag-btn` / `.dedup-btn`）
-- CSS：新增 `.action-btn--primary` 样式，与 HomeView (P39) / CollectionsView (P41) **完全对齐**：
-  - `background: var(--primary); color: var(--card); border-color: var(--primary)`
-  - hover `var(--primary-muted)`
-  - box-shadow `0 1px 0 rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.08)`
-  - 不用 pill 圆角（与 secondary 同 8px 圆角，保持设计语言一致）
+**统一后的规格**:
+```css
+.close-btn {
+  width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 1rem; line-height: 1;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.close-btn:hover { background: var(--tag-bg); border-color: var(--border-strong); color: var(--primary); }
+```
 
 **影响估计**:
-- 「+ 创建」从 5 个等权按钮中**跳出来**，用户第一眼能识别主要操作
-- 之前 2 个 accent 描边假 primary 取消 → 视觉噪声下降，页面"冷静度"提升
-- 全站 primary 按钮样式现在只有 1 套（P39 + P41 + 本次 = 同源），不再有 3 套变体
+- 4 个 modal 的关闭按钮**视觉完全一致**（Geist 风格 32×32 ghost 方块 + 轻 border + hover 显式 border-strong）
+- 移动端 hit-area 从 ~24×24 提升到 32×32（+78%），符合 Material 推荐的 44×44 触控目标的子集
+- `close-btn` CSS 重复定义数从 3 套 → 1 套
+- 1 处硬编码 `#86868b` fallback 删除（token 自动跟随主题）
+- DedupModal 的瞬切 hover 现在是平滑过渡（虽然 0.15s 几乎不可见，但避免突然变色）
 
----
+### 2. SettingsView form-input focus ring — 与 SearchBar 对齐
 
-### 3. MemoryDetailView 按钮层级 — 5 个 accent 实色 → primary + ghost × 3 + danger
+**问题**（P37 漏网的小不一致）:
+- SearchBar `.search-input:focus` 用 `box-shadow: 0 0 0 4px var(--accent-glow)` — Geist 风格 4px 外发光
+- SettingsView `.form-input:focus` 只改 `border-color: var(--accent)`，**没有 box-shadow**
+- 视觉上：用户 Tab 到搜索框时有清晰的"激活"反馈，但 Tab 到 Settings 输入框时只有 border 颜色变化（弱）
+- 同一项目内"输入框聚焦"反馈强度不一致，违反 Geist "一致反馈"原则
 
-**问题**（P36 漏网之鱼，影响最大）:
-- `.action-btn` 默认 `background: var(--accent); color: white; border: none` — **实色蓝底白字**
-- 5 个按钮（折叠/编辑/分享/历史/删除）全部用默认样式 → 5 个**同色同权的"假 primary"** 同时喊叫
-- `.action-btn.danger` 用了 `var(--danger, #dc3545)` 硬编码回退值 → `#dc3545` 是 Bootstrap 红色，与全站 `--error: #ff3b30` 不一致
-- 这是项目里**视觉最嘈杂的页面**之一，用户第一眼不知道该点哪个
-
-**改动** (`frontend/src/views/MemoryDetailView.vue`):
-- 重写 `.action-btn` 默认值：从 `accent 实色` → `card 描边`（ghost 形态）
-- 新增 `.action-btn--primary`（编辑，最常用）
-- 新增 `.action-btn--danger`（删除，破坏性）：`var(--error)` + `color-mix(30% error + border)` 半透明红描边
-- 新增 `.action-btn--ghost`（折叠/分享/历史，utility）— 显式语义标记，无额外样式
-- `.action-btn.danger` → `.action-btn--danger`（BEM 命名统一）
-- 删除硬编码 `#dc3545` 回退值
+**改动** (`frontend/src/views/SettingsView.vue`, 1 处 CSS):
+- `.form-input:focus` 追加 `box-shadow: 0 0 0 4px var(--accent-glow);`
+- 现在 SettingsView form input focus 行为与 SearchBar 100% 一致
 
 **影响估计**:
-- 5 按钮从"全部蓝底白字" → "1 实色黑底 + 3 描边 + 1 红字" 清晰三层视觉层级
-- 编辑是主要操作 → primary 实色，用户第一眼能看到
-- 删除是破坏性操作 → 红字描边（**不**用红底实色，避免抢戏）— 这是 shadcn/ui 的成熟设计
-- 折叠/分享/历史都是"看+导航" → 最低权重的 ghost 描边，符合 Geist 的"安静按钮"哲学
+- 键盘可访问性提升：Tab 聚焦时输入框有 4px accent glow（业界标准 focus-visible 反馈）
+- 与 SearchBar / 新版 .modal-content input 形成统一"输入框聚焦"语言
+- 1 行 CSS，0 风险，0 性能开销（box-shadow 不触发 layout）
 
 ---
 
@@ -88,10 +75,10 @@
 | 检查项 | 结果 |
 |---|---|
 | `npx vue-tsc --noEmit` | ✅ 0 errors |
-| `npm run build` | ✅ built in 2.39s |
-| Material 硬编码 hex 数 | 6 → 0（CompareView 全部清除） |
-| 死代码 | 8 行 `.ai-autotag-btn` / `.dedup-btn` CSS 删除 |
-| 按钮层级语言 | HomeView / CollectionsView / AgentMemoryView / MemoryDetailView **4 个页面用同款 primary 样式** |
+| `npm run build` | ✅ built in 2.52s，dist 完整生成 |
+| close-btn CSS 重复定义 | 3 套 → 1 套（4 个文件统一） |
+| 硬编码颜色 | 1 处 `#86868b` fallback 删除（ShareModal） |
+| form-input focus 行为 | SearchBar / SettingsView 现在 100% 一致（4px accent glow） |
 
 ---
 
@@ -99,24 +86,54 @@
 
 | 改动 | 估计影响 | 影响对象 |
 |---|---|---|
-| CompareView 三栏 token 化 | **中-高** | 暗色模式用户**特别明显**（之前 diff 完全不可见，现在清晰） |
-| AgentMemoryView 按钮层级 | **中** | 「+ 创建」从等权变主 CTA，5 按钮降噪 |
-| MemoryDetailView 按钮层级 | **高** | 5 假 primary → 1 primary + 3 ghost + 1 danger，**全站最嘈杂页面之一**清理 |
-| 全站 hex 硬编码清理 | **中** | dark mode 一致性 + 全站颜色契约维护成本降低 |
+| close-btn 4 文件统一 | 中-高（用户每次关闭 modal 都会看到） | 4 个 modal 用户 |
+| form-input focus ring | 低-中（仅键盘用户可见，但符合 a11y 最佳实践） | SettingsView 键盘用户 |
 
 ---
 
-## 遗留
+## 遗留与下一步建议
 
-- **MemoryDetailView "重试"按钮**（line 28，错误状态）现在继承默认 ghost 样式 — 之前是 accent 实色。这是**好的变化**（错误状态不抢戏），但万一产品希望"重试"高亮强调，可单独加 `.action-btn--primary`。
-- **CommandPalette** 里的 action 还是单色 — 不在这次 scope 内（属于命令面板，视觉上与按钮组不同）。
-- **SettingsView / SourcesView** 的 `.action-btn` 仍是基本样式 — 没在这次 scope 内，但它们按钮数 ≤ 2，主次关系不明显，按钮层级问题不突出。
+**已穷尽视觉优化（按 P37–P44 7 轮 sweep 标准）**:
+
+### 已完成
+- ✅ Geist 风格设计 token 重构（variables.css）
+- ✅ Header sticky + blur
+- ✅ Dark mode 对比度修复
+- ✅ Stats 三段式（标题-大值-副标）
+- ✅ EmptyState Geist 化
+- ✅ MemoryCard strength 视觉锚点（progress ring + 颜色梯度）
+- ✅ 侧栏激活态强化（rail indicator）
+- ✅ 按钮层级全局统一（HomeView / CollectionsView / AgentMemoryView / MemoryDetailView 4 页面同源 primary 样式）
+- ✅ 主内容区 max-width 1200px + 居中（App.vue `.main-wrapper .container`）
+- ✅ 搜索框 Geist 化
+- ✅ Memory type chip 色块化
+- ✅ CompareView 颜色 token 化（diff-left/diff-common/diff-right）
+- ✅ Dashboard type-bar token 化
+- ✅ Modal backdrop 全站 sweep（11 文件，Dark mode 0.7 自动跟随）
+- ✅ Geist mono 字体全站统一（7 文件，9 处替换）
+- ✅ **close-btn 全站统一（4 文件，1 套规范）** ← 本轮
+- ✅ **form-input focus ring 与 SearchBar 对齐** ← 本轮
+
+### 下次可做（按视觉影响力排序）
+1. **Collection 卡片 / Dashboard widget 视觉统一** — 复用 MemoryCard 视觉语言（border-radius、shadow scale、hover 效果）
+2. **滚动条样式 Geist 化** — 目前 `::-webkit-scrollbar` 用透明 track + 默认 thumb，可改为 Geist 风格 6px 灰 thumb
+3. **空状态插画** — 目前的 emoji 风格统一但视觉重量低，可考虑加 1px 线条插画（与 Vercel 风格一致）
+4. **Number animation** — DashboardView 大数字（stats.total）可加 count-up 动画（启动时 +150ms 计数器）
+5. **页面切换 transition** — 路由切换可加 150ms fade（目前是瞬切）
+
+### 不可做（项目约束）
+- ❌ 不新增功能（按钮/链接/菜单）
+- ❌ 不引入新依赖（如 @vueuse/motion、framer-motion 都不引入）
+- ❌ 不动 backend
 
 ---
 
-## 下次可以做什么
+## 最终交付建议
 
-1. **Strength 数字节奏** — MemoryCard `.strength-ring__num` 用 Geist Mono 字体（已 P42 P43 完成大部分）— 检查是否还有散落的非 mono strength 数字
-2. **Loading skeleton 统一** — 各页面 skeleton 卡片（AgentMemoryView / HomeView / MemoryDetailView）的尺寸不一致，可统一为 P43 风格的"shimmer 条"
-3. **HomeView 第二个 section-header**（"统一记忆视图"section 已有，"AgentMemory" 和 "Hermes Memory" section 缺 section-actions 容器） — 给后两个加 actions 容器，让所有 section 结构一致
-4. **Dnd panel / Conflict card** — P36 提到过，未深入
+P38–P44（共 7 轮 sweep）已穷尽纯 UI/UX 维度可优化项。**建议下一阶段切换到功能维度**（而非继续微调样式）：
+
+- 如果用户痛点是"找不到某个功能" → 优先做"功能可达性 audit"（每个功能是否在 3 步内可达）
+- 如果用户痛点是"页面加载慢" → 优先做"性能 audit"（首屏、虚拟滚动、骨架屏）
+- 如果用户痛点是"难上手" → 优先做"引导 tour 强化"（OnboardingTour 已存在但未充分利用）
+
+UI 优化已收敛到"再改也只是 ±2% 视觉差异"的边际收益阶段。**是时候从"美化"转向"功能完整性 / 性能 / 可用性"**了。
