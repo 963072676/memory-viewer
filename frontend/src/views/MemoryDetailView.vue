@@ -430,12 +430,15 @@ onMounted(() => {
   text-transform: capitalize;
 }
 
-.type-pattern { background: #e8f5e9; color: #2e7d32; }
-.type-fact { background: #e3f2fd; color: #1565c0; }
-.type-preference { background: #fce4ec; color: #c62828; }
-.type-bug { background: #fff3e0; color: #e65100; }
-.type-workflow { background: #f3e5f5; color: #7b1fa2; }
-.type-architecture { background: #e0f2f1; color: #00695c; }
+/* P38 (round 5): type-chip token 化 — 与 MemoryCard / CommandPalette / DedupModal / MemoryDiffModal 完全对齐。
+   之前用 Material Design hex（Google 调色板），与项目自有 --type-* token 撞色，且 dark 模式无适配。
+   修复后 dark 模式自动跟随 variables.css 的 [data-theme='dark'] 重定义（无需在此处重复）。 */
+.type-pattern { background: var(--type-pattern-bg); color: var(--type-pattern-text); }
+.type-fact { background: var(--type-fact-bg); color: var(--type-fact-text); }
+.type-preference { background: var(--type-preference-bg); color: var(--type-preference-text); }
+.type-bug { background: var(--type-bug-bg); color: var(--type-bug-text); }
+.type-workflow { background: var(--type-workflow-bg); color: var(--type-workflow-text); }
+.type-architecture { background: var(--type-architecture-bg); color: var(--type-architecture-text); }
 
 .archived-badge {
   font-size: 0.7rem;

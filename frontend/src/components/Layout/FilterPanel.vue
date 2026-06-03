@@ -352,19 +352,17 @@ restoreFromUrl()
   color: var(--text-secondary);
 }
 
-.type-pattern { background: #e8f5e9; color: #2e7d32; }
-.type-fact { background: #e3f2fd; color: #1565c0; }
-.type-preference { background: #fce4ec; color: #c62828; }
-.type-bug { background: #fff3e0; color: #e65100; }
-.type-workflow { background: #f3e5f5; color: #7b1fa2; }
-.type-architecture { background: #e0f2f1; color: #00695c; }
+/* P38 (round 5): type-chip token 化 — 删除 Material Design 硬编码 + 手动 [data-theme='dark'] 复制。
+   之前手工维护 light + dark 两套色（12 个 hex），与 variables.css 的 --type-*-bg/--type-*-text token 重复且容易漂移。
+   修复后 [data-theme='dark'] 由 variables.css :root 重定义统一接管。 */
+.type-pattern { background: var(--type-pattern-bg); color: var(--type-pattern-text); }
+.type-fact { background: var(--type-fact-bg); color: var(--type-fact-text); }
+.type-preference { background: var(--type-preference-bg); color: var(--type-preference-text); }
+.type-bug { background: var(--type-bug-bg); color: var(--type-bug-text); }
+.type-workflow { background: var(--type-workflow-bg); color: var(--type-workflow-text); }
+.type-architecture { background: var(--type-architecture-bg); color: var(--type-architecture-text); }
 
-[data-theme='dark'] .type-pattern { background: #1b3a1b; color: #66bb6a; }
-[data-theme='dark'] .type-fact { background: #0d2744; color: #64b5f6; }
-[data-theme='dark'] .type-preference { background: #3e1a1a; color: #ef9a9a; }
-[data-theme='dark'] .type-bug { background: #3e2a0a; color: #ffcc80; }
-[data-theme='dark'] .type-workflow { background: #2a1a3a; color: #ce93d8; }
-[data-theme='dark'] .type-architecture { background: #0a2a2a; color: #80cbc4; }
+/* dark 模式由 [data-theme='dark'] 在 :root 重定义 --type-*-* 接管 — 之前这里有 12 行手动 dark 模式 hex，已删除。 */
 
 .range-row {
   display: flex;
