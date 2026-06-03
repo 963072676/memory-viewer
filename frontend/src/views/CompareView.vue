@@ -149,9 +149,9 @@ h3 { font-size: 1rem; font-weight: 600; margin-bottom: 12px; color: var(--primar
 /* Three column layout */
 .three-column { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
 .column { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
-.column.left-only { border-left: 3px solid #2196f3; }
-.column.common { border-left: 3px solid #4caf50; }
-.column.right-only { border-left: 3px solid #f44336; }
+.column.left-only { border-left: 3px solid var(--diff-left-border); }
+.column.common { border-left: 3px solid var(--diff-common-border); }
+.column.right-only { border-left: 3px solid var(--diff-right-border); }
 .empty-col { color: var(--text-secondary); font-size: 0.85rem; padding: 20px 0; text-align: center; }
 
 /* Item cards */
@@ -165,10 +165,24 @@ h3 { font-size: 1rem; font-weight: 600; margin-bottom: 12px; color: var(--primar
 .item-concepts { display: flex; flex-wrap: wrap; gap: 4px; }
 .concept-tag { font-size: 0.65rem; padding: 2px 6px; border-radius: 8px; background: var(--accent); color: white; opacity: 0.8; }
 
-/* Dark theme */
-[data-theme='dark'] .column.left-only { background: rgba(33, 150, 243, 0.1); }
-[data-theme='dark'] .column.common { background: rgba(76, 175, 80, 0.1); }
-[data-theme='dark'] .column.right-only { background: rgba(244, 67, 54, 0.1); }
+/* P38 (round 3): 三栏 diff 关系用 --diff-*-bg token 统一
+   旧实现：3px 左边框 Material hex（#2196f3/#4caf50/#f44336） + dark mode 单独写一套 rgba
+   新实现：token 自动跟随 light/dark 调色板，省 1 个 dark-mode media query。
+   - left-only 冷静蓝（呼应 --accent）
+   - common 稳定绿（呼应 --success）
+   - right-only 暖橙（与 --type-fact 同源，差异=提示）*/
+.column.left-only {
+  border-left: 3px solid var(--diff-left-border);
+  background: var(--diff-left-bg);
+}
+.column.common {
+  border-left: 3px solid var(--diff-common-border);
+  background: var(--diff-common-bg);
+}
+.column.right-only {
+  border-left: 3px solid var(--diff-right-border);
+  background: var(--diff-right-bg);
+}
 
 /* Responsive */
 @media (max-width: 767px) {

@@ -3,18 +3,22 @@
     <div class="view-header">
       <h2>AgentMemory</h2>
       <div class="view-actions">
-        <button class="action-btn" @click="showCreateModal = true">+ 创建</button>
+        <!-- P38 (round 3): button hierarchy — 5 个按钮全平铺违反"primary 唯一"原则。
+             「+ 创建」是最高频动作（用户主要操作）→ primary 药丸。
+             其它（导入/导出/bulk-autotag/去重）都是次级批量操作 → secondary 统一处理。
+             ai-autotag/dedup 之前用 var(--accent) 描边属于"伪 primary"，与真 primary 撞色，改为普通 secondary。 -->
+        <button class="action-btn action-btn--primary" @click="showCreateModal = true">+ 创建</button>
         <button class="action-btn" @click="showImportModal = true">📥 导入</button>
         <ExportButton />
         <button
-          class="action-btn ai-autotag-btn"
+          class="action-btn"
           :disabled="autoTagLoading"
           @click="handleBulkAutoTag"
         >
           {{ autoTagLoading ? '⏳ 标注中...' : '✨ Bulk Auto-Tag' }}
         </button>
         <button
-          class="action-btn dedup-btn"
+          class="action-btn"
           :disabled="dedupLoading"
           @click="handleFindDuplicates"
         >
@@ -419,28 +423,26 @@ h2 {
   transform: translateY(-1px);
 }
 
-.ai-autotag-btn {
-  border-color: var(--accent);
-  color: var(--accent);
+/* P38 (round 3): primary 药丸 — 与 HomeView .action-btn--primary (P39) / CollectionsView (P41) 对齐
+   几何上：实色填充（黑底白字，dark mode 下自动反转）+ 与 secondary 同 8px 圆角（保持一致性，不引入 pill）。
+   视觉权重：比 secondary 高一档（实色 vs 描边），确保「+ 创建」是页面最强的视觉锚点。
+   用 var(--primary-muted) 作为 hover 而非 color-mix — 与 HomeView 保持完全同款 hover 行为。 */
+.action-btn--primary {
+  background: var(--primary);
+  color: var(--card);
+  border-color: var(--primary);
   font-weight: 500;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.08);
 }
 
-.ai-autotag-btn:hover:not(:disabled) {
-  background: var(--accent);
-  color: white;
-  box-shadow: 0 4px 12px rgba(0, 122, 255, 0.25);
+.action-btn--primary:hover {
+  background: var(--primary-muted);
+  border-color: var(--primary-muted);
+  transform: translateY(-1px);
 }
 
-.dedup-btn {
-  border-color: var(--accent);
-  color: var(--accent);
-  font-weight: 500;
-}
-
-.dedup-btn:hover:not(:disabled) {
-  background: var(--accent);
-  color: white;
-  box-shadow: 0 4px 12px rgba(0, 122, 255, 0.25);
+.action-btn--primary:active {
+  transform: translateY(0) scale(0.98);
 }
 
 .card-grid {

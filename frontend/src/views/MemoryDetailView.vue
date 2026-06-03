@@ -5,13 +5,16 @@
         ← 返回
       </button>
       <div class="view-actions">
-        <button class="action-btn" @click="toggleExpand">
+        <!-- P38 (round 3): 5 个按钮层级化 — 之前全用 accent 实色 → 5 个"假 primary"同时喊叫。
+             改为：编辑 = primary（最常用操作） / 展开 + 分享 + 历史 = ghost 描边（次级 utility） / 删除 = danger（破坏性，红字 + 红描边）。
+             注：折叠/展开按钮 + 分享 + 历史 都是"看+导航"类，不改变记忆内容 → ghost 更合适。 -->
+        <button class="action-btn action-btn--ghost" @click="toggleExpand">
           {{ isExpanded ? '折叠' : '展开' }}
         </button>
-        <button class="action-btn" @click="showEditModal = true">编辑</button>
-        <button class="action-btn" @click="showShareModal = true">分享</button>
-        <button class="action-btn" @click="router.push(`/memory/${route.params.id}/history`)">历史</button>
-        <button class="action-btn danger" @click="confirmDelete = true">删除</button>
+        <button class="action-btn action-btn--ghost" @click="router.push(`/memory/${route.params.id}/history`)">历史</button>
+        <button class="action-btn action-btn--ghost" @click="showShareModal = true">分享</button>
+        <button class="action-btn action-btn--primary" @click="showEditModal = true">编辑</button>
+        <button class="action-btn action-btn--danger" @click="confirmDelete = true">删除</button>
       </div>
     </div>
 
@@ -314,19 +317,58 @@ onMounted(() => {
   margin-left: auto;
 }
 
+/* P38 (round 3): 重写 button 层级 — 旧实现默认 .action-btn 就是 accent 实色，5 按钮全喊叫。
+   新实现：默认是 ghost 描边（"看+导航"类），primary/danger/ghost 三种变体覆盖。 */
 .action-btn {
   padding: 8px 16px;
-  border: none;
+  border: 1px solid var(--border);
   border-radius: 8px;
-  background: var(--accent);
-  color: white;
+  background: var(--card);
+  color: var(--primary);
   cursor: pointer;
   font-size: 0.85rem;
   font-family: var(--font);
+  font-weight: 500;
+  transition: background 0.15s, border-color 0.15s, color 0.15s, transform 0.1s;
 }
 
-.action-btn.danger {
-  background: var(--danger, #dc3545);
+.action-btn:hover {
+  background: var(--tag-bg);
+  border-color: var(--border-strong);
+}
+
+.action-btn:active {
+  transform: translateY(1px);
+}
+
+.action-btn--primary {
+  background: var(--primary);
+  color: var(--card);
+  border-color: var(--primary);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.action-btn--primary:hover {
+  background: var(--primary-muted);
+  border-color: var(--primary-muted);
+}
+
+/* P38 (round 3): danger — 改用 --error token (P36 已统一为 #ff3b30)，去掉硬编码 #dc3545。
+   红字 + 透明红底 + 1px 红描边 → "危险"提示到位但不会跳出来抢 primary 戏。 */
+.action-btn--danger {
+  background: transparent;
+  color: var(--error);
+  border-color: color-mix(in srgb, var(--error) 30%, var(--border));
+}
+
+.action-btn--danger:hover {
+  background: color-mix(in srgb, var(--error) 8%, var(--card));
+  border-color: var(--error);
+}
+
+/* ghost 是默认的 .action-btn 形态（描边 card），但用修饰类更显式，方便未来 grep */
+.action-btn--ghost {
+  /* 完全继承 .action-btn 默认值；这里仅为显式语义标记 */
 }
 
 .loading-state {
