@@ -9,7 +9,13 @@
         <StatsBar />
         <TabBar />
         <ErrorBanner v-if="agentMemoryStore.error || hermesMemoryStore.error" />
-        <router-view />
+        <!-- P38 r9: 页面切换 transition fade — 路由变化时 150ms 淡入淡出，
+             避免瞬切带来的"割裂感"。不重不浮，符合 Geist 克制风格。 -->
+        <router-view v-slot="{ Component, route: r }">
+          <transition name="page" mode="out-in">
+            <component :is="Component" :key="r.fullPath" />
+          </transition>
+        </router-view>
         <KeyboardHelp v-if="uiStore.showKeyboardHelp" />
       </div>
     </div>
@@ -137,7 +143,9 @@ async function handleBulkAutoTagFromPalette() {
 .app {
   display: flex;
   min-height: 100vh;
-  background: var(--bg-primary);
+  /* P38 r9: --bg-primary 不存在（设计系统用 --bg），修复潜在 fallback 问题。
+     light 模式 #fafafa，dark 模式 #0a0a0a。 */
+  background: var(--bg);
 }
 
 .main-wrapper {
@@ -177,6 +185,27 @@ async function handleBulkAutoTagFromPalette() {
 @media (max-width: 480px) {
   .main-wrapper .container {
     padding: 10px 12px;
+  }
+}
+
+/* P38 r9: 页面切换 fade — 150ms out-in，避免瞬切。
+   - out-in 先让旧页面 fade-out 完毕再 fade-in 新页面（避免重叠导致视觉混乱）
+   - 150ms：足够感知"切换"又不会觉得"卡"（Apple HIG 推荐 200-350ms，
+     Geist 偏克制取下界）。ease-out 曲线强调"进入"感。 */
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.15s ease-out;
+}
+.page-enter-from,
+.page-leave-to {
+  opacity: 0;
+}
+
+/* 减少动效偏好用户：完全跳过 fade（无障碍） */
+@media (prefers-reduced-motion: reduce) {
+  .page-enter-active,
+  .page-leave-active {
+    transition: none;
   }
 }
 </style>

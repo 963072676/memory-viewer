@@ -291,13 +291,13 @@ onMounted(() => {
 }
 
 .share-modal {
-  background: var(--card, #fff);
+  background: var(--card);
   border-radius: 16px;
   width: 480px;
   max-width: 95vw;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-modal);
 }
 
 .modal-header {
@@ -305,14 +305,15 @@ onMounted(() => {
   justify-content: space-between;
   align-items: center;
   padding: 16px 20px;
-  border-bottom: 1px solid var(--border, #e5e5ea);
+  border-bottom: 1px solid var(--border);
 }
 
 .modal-header h3 {
   margin: 0;
   font-size: 1rem;
   font-weight: 600;
-  color: var(--text, #1d1d1f);
+  /* P38 r9: var(--text) 不存在（设计系统用 --primary 作为文字主色） */
+  color: var(--primary);
 }
 
 /* P38 (round 4): close-btn 全站统一 — Geist ghost 32×32 圆角方块
@@ -351,7 +352,7 @@ onMounted(() => {
 .section-label {
   font-size: 0.75rem;
   font-weight: 600;
-  color: var(--text-secondary, #86868b);
+  color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-bottom: 8px;
@@ -369,9 +370,12 @@ onMounted(() => {
   align-items: center;
   gap: 4px;
   padding: 12px 8px;
-  border: 1px solid var(--border, #e5e5ea);
+  border: 1px solid var(--border);
   border-radius: 10px;
-  background: var(--bg, #fff);
+  /* P38 r9: var(--bg) 是页面底色 (#fafafa light / #0a0a0a dark)，不是 card 表面。
+     卡片表面应用 --card (#fff light / #171717 dark)，否则 light 模式下 access-btn
+     灰底与 modal 白底（也是 --card）有 ~5% 灰度差。 */
+  background: var(--card);
   cursor: pointer;
   transition: all 0.15s ease;
   font-family: var(--font);
@@ -392,12 +396,12 @@ onMounted(() => {
 .access-name {
   font-size: 0.8rem;
   font-weight: 600;
-  color: var(--text, #1d1d1f);
+  color: var(--primary);
 }
 
 .access-desc {
   font-size: 0.65rem;
-  color: var(--text-secondary, #86868b);
+  color: var(--text-secondary);
 }
 
 .expires-options {
@@ -408,13 +412,13 @@ onMounted(() => {
 
 .expires-btn {
   padding: 6px 14px;
-  border: 1px solid var(--border, #e5e5ea);
+  border: 1px solid var(--border);
   border-radius: 8px;
-  background: var(--bg, #fff);
+  background: var(--card);
   font-size: 0.8rem;
   cursor: pointer;
   font-family: var(--font);
-  color: var(--text, #1d1d1f);
+  color: var(--primary);
   transition: all 0.15s ease;
 }
 
@@ -432,7 +436,7 @@ onMounted(() => {
   cursor: pointer;
   font-size: 0.75rem;
   font-weight: 600;
-  color: var(--text-secondary, #86868b);
+  color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -440,7 +444,7 @@ onMounted(() => {
 .password-input {
   width: 100%;
   padding: 8px 12px;
-  border: 1px solid var(--border, #e5e5ea);
+  border: 1px solid var(--border);
   border-radius: 8px;
   font-size: 0.85rem;
   font-family: var(--font);
@@ -450,7 +454,9 @@ onMounted(() => {
 
 .password-input:focus {
   outline: none;
-  border-color: var(--primary, #007aff);
+  /* P38 r9: --primary 是文字主色（#171717 ink），不是品牌色。
+     焦点描边应该是 accent（蓝），与全站 input focus 一致。 */
+  border-color: var(--accent);
 }
 
 .create-share-btn {
@@ -458,7 +464,9 @@ onMounted(() => {
   padding: 10px;
   border: none;
   border-radius: 10px;
-  background: var(--primary, #007aff);
+  /* P38 r9: 同上 — 这里是关键 CTA 按钮（生成分享链接），主色背景应该是
+     品牌蓝 accent 而不是文字墨色。修复后 light/dark 都跟随主题。 */
+  background: var(--accent);
   color: #fff;
   font-size: 0.9rem;
   font-weight: 600;
@@ -479,14 +487,15 @@ onMounted(() => {
 .share-result {
   margin-top: 16px;
   padding: 14px;
-  background: var(--bg-secondary, #f9f9f9);
+  /* P38 r9: 浅灰底 fill，--tag-bg 是设计系统的"subtle fill surface" 语义 token */
+  background: var(--tag-bg);
   border-radius: 10px;
 }
 
 .result-label {
   font-size: 0.7rem;
   font-weight: 600;
-  color: var(--text-secondary, #86868b);
+  color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-bottom: 8px;
@@ -500,28 +509,28 @@ onMounted(() => {
 .result-url {
   flex: 1;
   padding: 8px 10px;
-  border: 1px solid var(--border, #e5e5ea);
+  border: 1px solid var(--border);
   border-radius: 8px;
   font-size: 0.8rem;
   font-family: var(--font-mono);
-  background: var(--card, #fff);
-  color: var(--text, #1d1d1f);
+  background: var(--card);
+  color: var(--primary);
 }
 
 .copy-btn {
   padding: 8px 14px;
-  border: 1px solid var(--border, #e5e5ea);
+  border: 1px solid var(--border);
   border-radius: 8px;
-  background: var(--card, #fff);
+  background: var(--card);
   font-size: 0.8rem;
   cursor: pointer;
   white-space: nowrap;
   font-family: var(--font);
-  color: var(--text, #1d1d1f);
+  color: var(--primary);
 }
 
 .copy-btn:hover {
-  background: var(--tag-bg, #f2f2f7);
+  background: var(--tag-bg);
 }
 
 .result-meta {
@@ -533,7 +542,7 @@ onMounted(() => {
 
 .meta-item {
   font-size: 0.75rem;
-  color: var(--text-secondary, #86868b);
+  color: var(--text-secondary);
 }
 
 .qr-section {
@@ -543,7 +552,8 @@ onMounted(() => {
 .qr-toggle {
   border: none;
   background: none;
-  color: var(--primary, #007aff);
+  /* P38 r9: 链接色用 --accent，--primary 是文字墨色 */
+  color: var(--accent);
   font-size: 0.8rem;
   cursor: pointer;
   font-family: var(--font);
@@ -561,7 +571,7 @@ onMounted(() => {
 .qr-box {
   width: 160px;
   height: 160px;
-  border: 2px dashed var(--border, #e5e5ea);
+  border: 2px dashed var(--border);
   border-radius: 10px;
   display: flex;
   flex-direction: column;
@@ -572,13 +582,13 @@ onMounted(() => {
 
 .qr-text {
   font-size: 0.8rem;
-  color: var(--text-secondary, #86868b);
+  color: var(--text-secondary);
   margin: 0;
 }
 
 .qr-url {
   font-size: 0.55rem;
-  color: var(--text-secondary, #86868b);
+  color: var(--text-secondary);
   margin: 0;
   text-align: center;
   padding: 0 8px;
@@ -586,7 +596,7 @@ onMounted(() => {
 }
 
 .modal-footer {
-  border-top: 1px solid var(--border, #e5e5ea);
+  border-top: 1px solid var(--border);
 }
 
 .shares-header {
@@ -597,11 +607,11 @@ onMounted(() => {
   cursor: pointer;
   font-size: 0.8rem;
   font-weight: 600;
-  color: var(--text-secondary, #86868b);
+  color: var(--text-secondary);
 }
 
 .shares-header:hover {
-  background: var(--bg-secondary, #f9f9f9);
+  background: var(--tag-bg);
 }
 
 .existing-shares {
@@ -614,7 +624,7 @@ onMounted(() => {
   padding: 16px 20px;
   text-align: center;
   font-size: 0.8rem;
-  color: var(--text-secondary, #86868b);
+  color: var(--text-secondary);
 }
 
 .shares-list {
@@ -626,7 +636,7 @@ onMounted(() => {
   justify-content: space-between;
   align-items: center;
   padding: 8px 0;
-  border-bottom: 1px solid var(--border, #e5e5ea);
+  border-bottom: 1px solid var(--border);
 }
 
 .share-item:last-child {
@@ -665,27 +675,28 @@ onMounted(() => {
 .share-item-id {
   font-size: 0.75rem;
   font-family: var(--font-mono);
-  color: var(--text-secondary, #86868b);
+  color: var(--text-secondary);
 }
 
 .share-item-expires {
   font-size: 0.7rem;
-  color: var(--text-secondary, #86868b);
+  color: var(--text-secondary);
 }
 
 .revoke-btn {
   padding: 4px 10px;
-  border: 1px solid var(--error, #ff3b30);
+  border: 1px solid var(--error);
   border-radius: 6px;
   background: transparent;
-  color: var(--error, #ff3b30);
+  color: var(--error);
   font-size: 0.7rem;
   cursor: pointer;
   font-family: var(--font);
 }
 
 .revoke-btn:hover {
-  background: #ffebee;
+  /* P38 r9: --error-bg 已是设计系统的 error 软底色，dark 模式自动变 #3e1a1a */
+  background: var(--error-bg);
 }
 
 .revoke-btn:disabled {
