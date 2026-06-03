@@ -2,15 +2,16 @@
   <div class="stats-bar">
     <div class="stats">
       <div class="stat-item">
-        <strong>{{ agentMemoryStore.memories.length }}</strong>
+        <!-- P38 r10: count-up 动画 — 首屏载入有"数字滚动"感（沿用 r9 useCountUp） -->
+        <strong>{{ agentMemoriesDisplay }}</strong>
         <span>AgentMemory 条目</span>
       </div>
       <div class="stat-item">
-        <strong>{{ hermesMemoryStore.totalEntries }}</strong>
+        <strong>{{ hermesTotalDisplay }}</strong>
         <span>Hermes Memory 条目</span>
       </div>
       <div class="stat-item">
-        <strong>{{ Object.keys(hermesMemoryStore.profiles).length }}</strong>
+        <strong>{{ profilesCountDisplay }}</strong>
         <span>Profiles</span>
       </div>
     </div>
@@ -19,12 +20,23 @@
 </template>
 
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
 import { useAgentMemoryStore } from '@/stores/agentmemory'
 import { useHermesMemoryStore } from '@/stores/hermes-memory'
+import { useCountUp } from '@/composables/useCountUp'
 import SortDropdown from './SortDropdown.vue'
 
 const agentMemoryStore = useAgentMemoryStore()
 const hermesMemoryStore = useHermesMemoryStore()
+
+// P38 r10: 3 个 stat 数字 count-up — 沿用 r9 的 useCountUp composable
+// duration 600ms 比 Dashboard 的 800ms 短一点（首页 3 个数字同步滚，更轻快）
+// storeToRefs 保持响应式（pinia store 直接解构会丢失响应性 + 类型推到 number[]）
+const { memories } = storeToRefs(agentMemoryStore)
+const { totalEntries, profileNames } = storeToRefs(hermesMemoryStore)
+const { value: agentMemoriesDisplay } = useCountUp(() => memories.value.length, { duration: 600 })
+const { value: hermesTotalDisplay } = useCountUp(() => totalEntries.value, { duration: 600 })
+const { value: profilesCountDisplay } = useCountUp(() => profileNames.value.length, { duration: 600 })
 </script>
 
 <style scoped>
@@ -56,6 +68,9 @@ const hermesMemoryStore = useHermesMemoryStore()
   font-size: 1.25rem;
   font-weight: 600;
   color: var(--primary);
+  /* P38 r10: tabular-nums 让 count-up 动画数字宽度稳定（不抖） */
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
 }
 
 .stat-item span {
