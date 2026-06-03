@@ -77,6 +77,21 @@
   --diff-right-border: #d97706;      /* Geist 暖橙（弱于 --type-fact） */
   --diff-right-bg: rgba(217, 119, 6, 0.08);
 
+  /* P38 (round 6): 强度/健康度三档语义色 — MemoryCard 的 strength ring / fill / num
+     以及 health dot / health-dim 共用同族色板。每档分 "fill"（饱和，用于 ring/fill/bar）
+     和 "ink"（深色，用于数字+文字，确保 light 模式可读）。三档共用 hue：绿/黄/红
+     （业内约定 — "traffic light" 模式）。 */
+  --strength-high-fill: #22c55e;     /* ≥70% — 强健 */
+  --strength-high-ink: #15803d;      /* 深绿 ink，light 模式 4.5:1 对比度 */
+  --strength-mid-fill: #eab308;      /* 40-69% — 平稳 */
+  --strength-mid-ink: #a16207;       /* 暖琥珀 ink */
+  --strength-low-fill: #ef4444;      /* <40% — 弱化 */
+  --strength-low-ink: #b91c1c;       /* 暖红 ink */
+  /* 健康度（独立于 strength：用于 HealthBadge/health-dot 顶层状态） */
+  --health-good: #22c55e;
+  --health-warn: #eab308;
+  --health-bad: #ef4444;
+
   /* P40: Spacing scale（Geist 4-px 节奏） — 让 section / card / 内边距有节奏系统，
      避免 12px/16px/20px/24px/32px/48px 混用造成视觉不严谨。 */
   --space-1: 4px;
@@ -157,4 +172,18 @@
   --diff-common-bg: rgba(52, 199, 122, 0.10);
   --diff-right-border: #f59e0b;
   --diff-right-bg: rgba(245, 158, 11, 0.10);
+
+  /* P38 (round 6): 强度/健康度 — Dark 模式（直接复用 #22c55e/#eab308/#ef4444 即可，
+     这三个 hue 在深色背景上对比度足；ink 改用亮一档的 #4ade80/#facc15/#f87171）。
+     之所以 fill 不变：Tailwind 调色板在 light/dark 共用同一组 fill（500 阶），保证
+     "看色知状态" 的识别一致性；ink 才是 light/dark 切换的可读性关键。 */
+  --strength-high-fill: #22c55e;
+  --strength-high-ink: #4ade80;
+  --strength-mid-fill: #eab308;
+  --strength-mid-ink: #facc15;
+  --strength-low-fill: #ef4444;
+  --strength-low-ink: #f87171;
+  --health-good: #22c55e;
+  --health-warn: #eab308;
+  --health-bad: #ef4444;
 }

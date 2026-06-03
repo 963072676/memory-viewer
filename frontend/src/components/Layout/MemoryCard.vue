@@ -426,9 +426,9 @@ watch(() => props.forceExpanded, (newVal) => {
   border-radius: 50%;
   flex-shrink: 0;
 }
-.dot-green { background: #22c55e; }
-.dot-yellow { background: #eab308; }
-.dot-red { background: #ef4444; }
+.dot-green { background: var(--health-good); }
+.dot-yellow { background: var(--health-warn); }
+.dot-red { background: var(--health-bad); }
 
 .card-type {
   display: inline-flex;
@@ -512,9 +512,9 @@ watch(() => props.forceExpanded, (newVal) => {
 }
 
 /* Tier 颜色（亮色 + Dark 模式自动通过变量切换） */
-.strength-ring--high .strength-ring__fill { stroke: #22c55e; }
-.strength-ring--mid  .strength-ring__fill { stroke: #eab308; }
-.strength-ring--low  .strength-ring__fill { stroke: #ef4444; }
+.strength-ring--high .strength-ring__fill { stroke: var(--strength-high-fill); }
+.strength-ring--mid  .strength-ring__fill { stroke: var(--strength-mid-fill); }
+.strength-ring--low  .strength-ring__fill { stroke: var(--strength-low-fill); }
 
 .strength-ring__num {
   position: absolute;
@@ -525,16 +525,11 @@ watch(() => props.forceExpanded, (newVal) => {
   color: var(--primary);
   line-height: 1;
 }
-.strength-ring--high .strength-ring__num { color: #15803d; }
-.strength-ring--mid  .strength-ring__num { color: #a16207; }
-.strength-ring--low  .strength-ring__num { color: #b91c1c; }
-
-/* P38: dark-mode overrides follow the app's [data-theme='dark'] contract.
-   The previous `prefers-color-scheme` query was OS-driven and bypassed the
-   user's in-app theme choice (light-while-OS-dark got dark ring colors). */
-[data-theme='dark'] .strength-ring--high .strength-ring__num { color: #4ade80; }
-[data-theme='dark'] .strength-ring--mid  .strength-ring__num { color: #facc15; }
-[data-theme='dark'] .strength-ring--low  .strength-ring__num { color: #f87171; }
+/* P38 (round 6): 数字颜色 token 化 — light 用 -ink（深色，4.5:1 对比度），
+   dark 模式由 variables.css [data-theme='dark'] 块接管 -ink 切换到亮一档。 */
+.strength-ring--high .strength-ring__num { color: var(--strength-high-ink); }
+.strength-ring--mid  .strength-ring__num { color: var(--strength-mid-ink); }
+.strength-ring--low  .strength-ring__num { color: var(--strength-low-ink); }
 
 .strength-bar {
   flex: 1;
@@ -552,9 +547,9 @@ watch(() => props.forceExpanded, (newVal) => {
   transition: width 0.4s cubic-bezier(0.25, 0.1, 0.25, 1), background 0.3s ease;
 }
 
-.strength-fill--high { background: #22c55e; }
-.strength-fill--mid  { background: #eab308; }
-.strength-fill--low  { background: #ef4444; }
+.strength-fill--high { background: var(--strength-high-fill); }
+.strength-fill--mid  { background: var(--strength-mid-fill); }
+.strength-fill--low  { background: var(--strength-low-fill); }
 
 .meta-text {
   font-size: 0.72rem;
@@ -565,14 +560,11 @@ watch(() => props.forceExpanded, (newVal) => {
   font-weight: 500;
 }
 
-.meta-text--high { color: #15803d; }
-.meta-text--mid  { color: #a16207; }
-.meta-text--low  { color: #b91c1c; }
+.meta-text--high { color: var(--strength-high-ink); }
+.meta-text--mid  { color: var(--strength-mid-ink); }
+.meta-text--low  { color: var(--strength-low-ink); }
 
-/* P38: same dark-mode swap — keyed to the in-app theme toggle, not the OS */
-[data-theme='dark'] .meta-text--high { color: #4ade80; }
-[data-theme='dark'] .meta-text--mid  { color: #facc15; }
-[data-theme='dark'] .meta-text--low  { color: #f87171; }
+/* P38 (round 6): dark 模式 -ink 自动跟随 variables.css（删除之前的 6 行手动 dark 覆盖） */
 
 .card-body {
   padding: 0 20px 20px;
@@ -662,9 +654,9 @@ watch(() => props.forceExpanded, (newVal) => {
   color: var(--text-secondary);
 }
 
-.health-green { color: #22c55e; }
-.health-yellow { color: #eab308; }
-.health-red { color: #ef4444; }
+.health-green { color: var(--health-good); }
+.health-yellow { color: var(--health-warn); }
+.health-red { color: var(--health-bad); }
 
 .expand-indicator {
   text-align: center;
