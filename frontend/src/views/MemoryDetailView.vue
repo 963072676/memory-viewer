@@ -37,10 +37,27 @@
         </div>
         <div class="meta-row">
           <HealthBadge v-if="healthDisplay" :score="healthDisplay.health_score" :color="healthDisplay.color" />
-          <span class="strength-bar">
-            <span class="strength-fill" :style="{ width: (memory.strength * 10) + '%' }"></span>
-          </span>
-          <span class="meta-text">Strength: {{ memory.strength * 10 }}%</span>
+          <!-- P38 r16: strength bar → 44px ring，对齐 MemoryCard r15。
+               旧 strength-bar + meta-text 是"线性进度条 + 文字"双重表达，
+               与 MemoryCard r15 收尾后的"单一 ring"语言不一致，用户在 list→detail
+               之间会感到"换了一套表达"。ring 配 tier 颜色 + 中心数字，一眼可读。 -->
+          <div
+            class="strength-ring"
+            :class="'strength-ring--' + strengthTier"
+            :title="`强度 ${strengthPercent}%`"
+            role="img"
+            :aria-label="`记忆强度 ${strengthPercent}%`"
+          >
+            <svg class="strength-ring__svg" viewBox="0 0 36 36" aria-hidden="true">
+              <circle class="strength-ring__track" cx="18" cy="18" r="15.5" />
+              <circle
+                class="strength-ring__fill"
+                cx="18" cy="18" r="15.5"
+                :stroke-dasharray="`${strengthPercent}, 100`"
+              />
+            </svg>
+            <span class="strength-ring__num">{{ strengthPercent }}</span>
+          </div>
         </div>
       </div>
 
@@ -186,6 +203,19 @@ const healthDisplay = computed(() => {
     health_score: score,
     color: color as 'green' | 'yellow' | 'red'
   }
+})
+
+// P38 r16: strength ring helpers — 与 MemoryCard r15 完全一致
+const strengthPercent = computed(() => {
+  const raw = (memory.value?.strength || 0) * 10
+  if (Number.isNaN(raw)) return 0
+  return Math.max(0, Math.min(100, Math.round(raw)))
+})
+
+const strengthTier = computed(() => {
+  if (strengthPercent.value >= 70) return 'high'
+  if (strengthPercent.value >= 40) return 'mid'
+  return 'low'
 })
 
 const sanitizedContent = computed(() => {
@@ -424,28 +454,66 @@ onMounted(() => {
 }
 
 .memory-type {
-  font-size: 0.75rem;
-  padding: 3px 10px;
-  border-radius: 12px;
-  text-transform: capitalize;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.6875rem;            /* 11px — small caps vibe, 对齐 MemoryCard */
+  font-weight: 600;
+  padding: 4px 10px 4px 8px;
+  border-radius: 6px;              /* P38 r16: 12px → 6px，对齐 MemoryCard */
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  text-transform: uppercase;       /* P38 r16: capitalize → uppercase，对齐 MemoryCard */
+  border: 1px solid transparent;
 }
 
-/* P38 (round 5): type-chip token 化 — 与 MemoryCard / CommandPalette / DedupModal / MemoryDiffModal 完全对齐。
-   之前用 Material Design hex（Google 调色板），与项目自有 --type-* token 撞色，且 dark 模式无适配。
-   修复后 dark 模式自动跟随 variables.css 的 [data-theme='dark'] 重定义（无需在此处重复）。 */
-.type-pattern { background: var(--type-pattern-bg); color: var(--type-pattern-text); }
-.type-fact { background: var(--type-fact-bg); color: var(--type-fact-text); }
-.type-preference { background: var(--type-preference-bg); color: var(--type-preference-text); }
-.type-bug { background: var(--type-bug-bg); color: var(--type-bug-text); }
-.type-workflow { background: var(--type-workflow-bg); color: var(--type-workflow-text); }
-.type-architecture { background: var(--type-architecture-bg); color: var(--type-architecture-text); }
+/* P38 r16: ::before dot prefix — 与 MemoryCard .card-type 完全一致。
+   之前 MemoryDetailView 的 type chip 没有"色块前的小圆点"，
+   用户在 list 卡片看到 dot+chip，在 detail 页面只看 chip，视觉跳变。
+   复用同样的 dot prefix 让"type"在两处是同一个表达。 */
+.memory-type::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.85;
+  flex-shrink: 0;
+}
+
+/* P38 r16: type-chip 补 1px border + color-mix（同 MemoryCard 配方）。
+   之前只有 bg+color，无 border → 在 tag-bg 卡片上边界感"糊"，
+   加 1px 与 chip 文字同色 18% 透明度的 border 提锐度。 */
+.type-pattern     { background: var(--type-pattern-bg);     color: var(--type-pattern-text);     border-color: color-mix(in srgb, var(--type-pattern-text) 18%, transparent); }
+.type-fact        { background: var(--type-fact-bg);        color: var(--type-fact-text);        border-color: color-mix(in srgb, var(--type-fact-text) 18%, transparent); }
+.type-preference  { background: var(--type-preference-bg);  color: var(--type-preference-text);  border-color: color-mix(in srgb, var(--type-preference-text) 18%, transparent); }
+.type-bug         { background: var(--type-bug-bg);         color: var(--type-bug-text);         border-color: color-mix(in srgb, var(--type-bug-text) 18%, transparent); }
+.type-workflow    { background: var(--type-workflow-bg);    color: var(--type-workflow-text);    border-color: color-mix(in srgb, var(--type-workflow-text) 18%, transparent); }
+.type-architecture{ background: var(--type-architecture-bg);color: var(--type-architecture-text);border-color: color-mix(in srgb, var(--type-architecture-text) 18%, transparent); }
 
 .archived-badge {
-  font-size: 0.7rem;
-  padding: 3px 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.6875rem;            /* P38 r16: 0.7rem → 0.6875rem，对齐 type chip 节奏 */
+  font-weight: 600;
+  padding: 4px 8px;
   background: var(--tag-bg);
-  border-radius: 4px;
+  border-radius: 6px;              /* P38 r16: 4px → 6px，对齐全站 badge 圆角 */
   color: var(--text-secondary);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* P38 r16: archived-badge ::before 复用"小圆点"设计语言（与 type chip 一致） */
+.archived-badge::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.7;
+  flex-shrink: 0;
 }
 
 .meta-row {
@@ -454,23 +522,55 @@ onMounted(() => {
   gap: 12px;
 }
 
-.strength-bar {
-  width: 100px;
-  height: 6px;
-  background: var(--tag-bg);
-  border-radius: 3px;
-  overflow: hidden;
+/* P38 r16: strength ring — 与 MemoryCard r15 同一规格（44px, 0.78rem/700, stroke 3.5）
+   之前 .strength-bar + .strength-fill 是 6px 高线性进度条 + 文字，与 MemoryCard 的 44px ring
+   视觉权重差距巨大（list 强 / detail 弱）。统一为 ring 让"强度"在 list→detail 是同一锚点。 */
+.strength-ring {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.strength-fill {
+.strength-ring__svg {
+  width: 100%;
   height: 100%;
-  background: var(--accent);
+  transform: rotate(-90deg);
 }
 
-.meta-text {
-  font-size: 0.85rem;
-  color: var(--text-secondary);
+.strength-ring__track {
+  fill: none;
+  stroke: var(--tag-bg);
+  stroke-width: 3.5;
 }
+
+.strength-ring__fill {
+  fill: none;
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  transition: stroke-dasharray 0.5s cubic-bezier(0.25, 0.1, 0.25, 1), stroke 0.3s ease;
+}
+
+.strength-ring--high .strength-ring__fill { stroke: var(--strength-high-fill); }
+.strength-ring--mid  .strength-ring__fill { stroke: var(--strength-mid-fill); }
+.strength-ring--low  .strength-ring__fill { stroke: var(--strength-low-fill); }
+
+.strength-ring__num {
+  position: absolute;
+  font-size: 0.78rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  color: var(--primary);
+  line-height: 1;
+}
+
+.strength-ring--high .strength-ring__num { color: var(--strength-high-ink); }
+.strength-ring--mid  .strength-ring__num { color: var(--strength-mid-ink); }
+.strength-ring--low  .strength-ring__num { color: var(--strength-low-ink); }
 
 .memory-body {
   margin-bottom: 20px;
