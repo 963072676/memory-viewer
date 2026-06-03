@@ -28,9 +28,11 @@
         >{{ tag }}</span>
       </div>
       <div class="card-meta" v-if="!isExpanded">
-        <!-- P38 r13: Strength 视觉去重 — 删除冗余 .strength-bar（与 ring 重复表达相同数值）。
-             保留 ring（视觉锚点 + 内含数字）+ meta-text（右侧数字回显，便于扫读），
-             从 3 种表达（ring + bar + text）收敛到 2 种（ring + text）。 -->
+        <!-- P38 r15: Strength 视觉锚点升级 — 直径 38px → 44px，字号 0.7rem → 0.78rem。
+             之前 ring 在缩略视图里"看起来像绿点"，数字小到看不清是 70 还是 76。
+             增大环 + 加大数字（保持 tabular-nums 等宽）让 strength 真正成为每张卡片的视觉锚点。
+             删除右侧冗余 .meta-text (数字 + 百分号 与 ring 内数字 + 标题 aria-label 重复)。
+             仅保留 ring 单一表达，更克制（v.s. P38 r13 之前 ring + bar + text 三种）。 -->
         <div
           class="strength-ring"
           :class="'strength-ring--' + strengthTier"
@@ -50,7 +52,6 @@
           </svg>
           <span class="strength-ring__num">{{ strengthPercent }}</span>
         </div>
-        <span class="meta-text meta-text--strong" :class="'meta-text--' + strengthTier">{{ strengthPercent }}%</span>
       </div>
     </div>
     <transition name="expand">
@@ -483,11 +484,13 @@ watch(() => props.forceExpanded, (newVal) => {
   margin-top: 6px;
 }
 
-/* P38: Strength 视觉锚点 — 圆形 SVG ring + 中心数字 + 渐变颜色 */
+/* P38 r15: Strength 视觉锚点 — 圆形 SVG ring + 中心数字 + 渐变颜色。
+   r15 升级：直径 38px → 44px，字号 0.7rem → 0.78rem，stroke-width 3 → 3.5。
+   让 ring 真正成为每张卡片的视觉锚点（之前在缩略视图里"看起来像绿点"）。 */
 .strength-ring {
   position: relative;
-  width: 38px;
-  height: 38px;
+  width: 44px;
+  height: 44px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -503,12 +506,12 @@ watch(() => props.forceExpanded, (newVal) => {
 .strength-ring__track {
   fill: none;
   stroke: var(--tag-bg);
-  stroke-width: 3;
+  stroke-width: 3.5;
 }
 
 .strength-ring__fill {
   fill: none;
-  stroke-width: 3;
+  stroke-width: 3.5;
   stroke-linecap: round;
   transition: stroke-dasharray 0.5s cubic-bezier(0.25, 0.1, 0.25, 1), stroke 0.3s ease;
 }
@@ -520,8 +523,8 @@ watch(() => props.forceExpanded, (newVal) => {
 
 .strength-ring__num {
   position: absolute;
-  font-size: 0.7rem;
-  font-weight: 600;
+  font-size: 0.78rem;
+  font-weight: 700;
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.02em;
   color: var(--primary);
@@ -532,24 +535,6 @@ watch(() => props.forceExpanded, (newVal) => {
 .strength-ring--high .strength-ring__num { color: var(--strength-high-ink); }
 .strength-ring--mid  .strength-ring__num { color: var(--strength-mid-ink); }
 .strength-ring--low  .strength-ring__num { color: var(--strength-low-ink); }
-
-/* P38 r13: 删除冗余 .strength-bar / .strength-fill CSS（与 ring 重复表达相同数值）。
-   保留 ring + meta-text 两层表达，更克制、更容易扫读。 */
-
-.meta-text {
-  font-size: 0.72rem;
-  color: var(--text-secondary);
-  font-variant-numeric: tabular-nums;
-  min-width: 36px;
-  text-align: right;
-  font-weight: 500;
-}
-
-.meta-text--high { color: var(--strength-high-ink); }
-.meta-text--mid  { color: var(--strength-mid-ink); }
-.meta-text--low  { color: var(--strength-low-ink); }
-
-/* P38 (round 6): dark 模式 -ink 自动跟随 variables.css（删除之前的 6 行手动 dark 覆盖） */
 
 .card-body {
   padding: 0 20px 20px;
