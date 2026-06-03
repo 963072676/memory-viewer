@@ -488,7 +488,7 @@ onMounted(() => {
   border: 1px solid var(--border, #e5e5ea);
   border-radius: 8px;
   font-size: 0.8rem;
-  font-family: monospace;
+  font-family: var(--font-mono);
   background: var(--card, #fff);
   color: var(--text, #1d1d1f);
 }
@@ -649,7 +649,7 @@ onMounted(() => {
 
 .share-item-id {
   font-size: 0.75rem;
-  font-family: monospace;
+  font-family: var(--font-mono);
   color: var(--text-secondary, #86868b);
 }
 

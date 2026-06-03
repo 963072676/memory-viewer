@@ -475,7 +475,7 @@ onMounted(() => {
 }
 
 .memory-id {
-  font-family: monospace;
+  font-family: var(--font-mono);
   font-size: 0.8rem;
   color: var(--accent);
 }

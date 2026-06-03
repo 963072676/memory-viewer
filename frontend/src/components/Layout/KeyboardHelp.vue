@@ -49,7 +49,7 @@ const uiStore = useUIStore()
 .keyboard-help-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: var(--modal-backdrop);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -93,7 +93,8 @@ h2 {
   background: var(--tag-bg);
   color: var(--primary);
   font-size: 0.875rem;
-  font-family: monospace;
+  font-family: var(--font-mono);
+  font-weight: 500;
 }
 
 .shortcut-item span {

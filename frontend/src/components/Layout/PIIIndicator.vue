@@ -175,7 +175,7 @@ onUnmounted(() => {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  font-family: monospace;
+  font-family: var(--font-mono);
 }
 
 .pii-masked {
@@ -214,7 +214,7 @@ onUnmounted(() => {
 .pii-confirm-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: var(--modal-backdrop);
   display: flex;
   align-items: center;
   justify-content: center;

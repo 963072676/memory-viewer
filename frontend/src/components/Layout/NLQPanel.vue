@@ -503,7 +503,7 @@ watch(searchMode, () => {
   border: 1px solid var(--border, #e5e5ea);
   border-radius: 8px;
   font-size: 0.8rem;
-  font-family: monospace;
+  font-family: var(--font-mono);
   resize: vertical;
   color: var(--text, #1d1d1f);
   background: var(--card, #fff);

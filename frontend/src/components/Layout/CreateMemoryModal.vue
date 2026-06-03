@@ -173,7 +173,7 @@ async function onSubmit() {
 .create-modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: var(--modal-backdrop);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -316,7 +316,8 @@ select:focus {
   border-radius: 4px;
   background: rgba(255,255,255,0.15);
   color: rgba(255,255,255,0.9);
-  font-family: monospace;
+  font-family: var(--font-mono);
+  font-weight: 500;
 }
 
 .error-msg {

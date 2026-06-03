@@ -179,7 +179,7 @@ onMounted(() => {
 .tour-spotlight {
   position: fixed;
   border-radius: 12px;
-  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 0 9999px var(--modal-backdrop);
   pointer-events: auto;
   transition: all 0.3s ease;
 }
