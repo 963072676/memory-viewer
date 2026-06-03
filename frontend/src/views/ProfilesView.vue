@@ -12,7 +12,7 @@
           <h3>{{ name }}</h3>
           <p class="profile-desc">Profile: {{ name }}</p>
         </div>
-        <router-link :to="{ path: '/hermes' }" class="profile-link">查看 →</router-link>
+        <router-link :to="{ path: '/hermes', query: { profile: name } }" class="profile-link">查看 →</router-link>
       </div>
     </div>
   </div>

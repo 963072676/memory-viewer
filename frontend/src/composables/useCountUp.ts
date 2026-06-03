@@ -26,7 +26,7 @@
  * ```
  */
 
-import { ref, watch, onUnmounted, type Ref } from 'vue'
+import { ref, computed, watch, onUnmounted, type Ref } from 'vue'
 
 export interface UseCountUpOptions {
   /** 动画时长（ms），默认 800 */
@@ -108,8 +108,14 @@ export function useCountUp(
 
   // 监听 source 变化，自动触发动画
   if (typeof source === 'function') {
-    // 函数形式：手动控制 — 暴露 animateTo
-    // 不自动 watch（避免闭包陷阱）
+    // 函数形式：包装成 computed 再 watch — 自动响应（替代原先"不自动 watch"的设计，
+    // 避免 StatsBar 这类场景下 value 永远是 0 的隐性 bug）。
+    // 保留 animateTo 暴露以支持外部手动控制（如延迟触发动画）。
+    const _computed = computed(() => {
+      const v = source()
+      return typeof v === 'number' && Number.isFinite(v) ? v : 0
+    })
+    watch(_computed, (newVal) => animateTo(newVal), { immediate: true })
   } else {
     watch(
       source,

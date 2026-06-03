@@ -1,9 +1,9 @@
 <template>
   <!-- ============ DESKTOP SIDEBAR (≥ 768px) ============ -->
+  <!-- 顶栏 ☰ 按钮已统一处理 desktop 收/展 + mobile 打开 more 抽屉,
+       侧栏内的 collapse 按钮是冗余的(同一功能,占用 24×24 空间),
+       因此移除 -->
   <aside class="sidebar desktop-only" :class="{ collapsed: uiStore.sidebarCollapsed }">
-    <button class="sidebar-collapse-btn" @click="uiStore.toggleSidebar()" :title="uiStore.sidebarCollapsed ? '展开侧边栏' : '收起侧边栏'">
-      <span class="collapse-icon" :class="{ rotated: uiStore.sidebarCollapsed }">‹</span>
-    </button>
 
     <div class="sidebar-brand">
       <span class="brand-logo">🧠</span>
@@ -255,37 +255,11 @@ function isTabActive(tab: { path: string }) {
   padding: 12px;
 }
 
-.sidebar-collapse-btn {
-  position: absolute;
-  top: 14px;
-  right: 10px;
-  width: 24px;
-  height: 24px;
-  border: none;
-  background: var(--tag-bg);
-  border-radius: 4px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-secondary);
-  transition: all 0.2s;
-  z-index: 5;
-}
-
-.sidebar-collapse-btn:hover {
-  background: var(--border);
-}
-
-.collapse-icon {
-  font-size: 16px;
-  transition: transform 0.3s;
-  display: inline-block;
-}
-
-.collapse-icon.rotated {
-  transform: rotate(180deg);
-}
+/* 桌面收/展按钮已并入顶栏 ☰ 按钮(AppHeader.onToggleSidebar),
+   这里不再需要 sidebar-collapse-btn 相关样式
+.sidebar-collapse-btn { ... 删除 ... }
+.collapse-icon { ... 删除 ... }
+.collapse-icon.rotated { ... 删除 ... */
 
 /* ============ Mobile Bottom Tab Bar (< 768px) ============ */
 .mobile-tab-bar {

@@ -3,15 +3,15 @@
     <div class="stats">
       <div class="stat-item">
         <!-- P38 r10: count-up 动画 — 首屏载入有"数字滚动"感（沿用 r9 useCountUp） -->
-        <strong>{{ agentMemoriesDisplay }}</strong>
+        <strong>{{ isLoaded ? agentMemoriesDisplay : '—' }}</strong>
         <span>AgentMemory 条目</span>
       </div>
       <div class="stat-item">
-        <strong>{{ hermesTotalDisplay }}</strong>
+        <strong>{{ isLoaded ? hermesTotalDisplay : '—' }}</strong>
         <span>Hermes Memory 条目</span>
       </div>
       <div class="stat-item">
-        <strong>{{ profilesCountDisplay }}</strong>
+        <strong>{{ isLoaded ? profilesCountDisplay : '—' }}</strong>
         <span>Profiles</span>
       </div>
     </div>
@@ -20,6 +20,7 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useAgentMemoryStore } from '@/stores/agentmemory'
 import { useHermesMemoryStore } from '@/stores/hermes-memory'
@@ -32,11 +33,19 @@ const hermesMemoryStore = useHermesMemoryStore()
 // P38 r10: 3 个 stat 数字 count-up — 沿用 r9 的 useCountUp composable
 // duration 600ms 比 Dashboard 的 800ms 短一点（首页 3 个数字同步滚，更轻快）
 // storeToRefs 保持响应式（pinia store 直接解构会丢失响应性 + 类型推到 number[]）
-const { memories } = storeToRefs(agentMemoryStore)
-const { totalEntries, profileNames } = storeToRefs(hermesMemoryStore)
-const { value: agentMemoriesDisplay } = useCountUp(() => memories.value.length, { duration: 600 })
-const { value: hermesTotalDisplay } = useCountUp(() => totalEntries.value, { duration: 600 })
-const { value: profilesCountDisplay } = useCountUp(() => profileNames.value.length, { duration: 600 })
+// BUG: useCountUp 接受函数 source 时不自动 watch（见 useCountUp.ts line 110-121），
+// 所以这里必须传 Ref/computed 而不是函数，否则 value 永远是初始 0。
+
+// P39 r1: 在 store 还没 fetch 完时显示 "—" 而不是 0（避免视觉"不一致"）。
+// 两个 store (`agentmemory` + `hermes-memory`) 都 fetch 完才显示数字,
+// 避免 count-up 动画中段被截图 / 用户看到中间值。
+const { memories, lastFetch: agentLastFetch } = storeToRefs(agentMemoryStore)
+const { totalEntries, profileNames, lastFetch: hermesLastFetch } = storeToRefs(hermesMemoryStore)
+const isLoaded = computed(() => agentLastFetch.value !== null && hermesLastFetch.value !== null)
+
+const { value: agentMemoriesDisplay } = useCountUp(computed(() => memories.value.length), { duration: 600 })
+const { value: hermesTotalDisplay } = useCountUp(computed(() => totalEntries.value), { duration: 600 })
+const { value: profilesCountDisplay } = useCountUp(computed(() => profileNames.value.length), { duration: 600 })
 </script>
 
 <style scoped>

@@ -19,22 +19,22 @@
       <div class="summary-row">
         <div class="summary-card">
           <div class="summary-label">总记忆数</div>
-          <div class="summary-value">{{ displayTotal }}</div>
+          <div class="summary-value">{{ stats ? displayTotal : '—' }}</div>
           <div class="summary-foot">All Sources</div>
         </div>
         <div class="summary-card">
           <div class="summary-label">平均强度</div>
-          <div class="summary-value">{{ displayAvgStrength }}</div>
+          <div class="summary-value">{{ stats ? displayAvgStrength : '—' }}</div>
           <div class="summary-foot">/ 10.0</div>
         </div>
         <div class="summary-card">
           <div class="summary-label">类型数</div>
-          <div class="summary-value">{{ displayTypeCount }}</div>
+          <div class="summary-value">{{ stats ? displayTypeCount : '—' }}</div>
           <div class="summary-foot">Categories</div>
         </div>
         <div class="summary-card">
           <div class="summary-label">活跃月份</div>
-          <div class="summary-value">{{ displayMonthCount }}</div>
+          <div class="summary-value">{{ stats ? displayMonthCount : '—' }}</div>
           <div class="summary-foot">Months</div>
         </div>
       </div>

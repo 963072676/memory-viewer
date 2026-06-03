@@ -401,6 +401,9 @@ watch(() => props.forceExpanded, (newVal) => {
   justify-content: space-between;
   gap: 12px;
   margin-bottom: 10px;
+  /* 给左侧 .select-checkbox (18px + 12px left offset) 让出空间,
+     否则 checkbox 浮在标题文字之上,造成"遮挡"视觉 */
+  padding-left: 30px;
 }
 
 .card-title {
