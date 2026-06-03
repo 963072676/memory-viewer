@@ -21,17 +21,6 @@
     </nav>
   </aside>
 
-  <!-- ============ MOBILE TOP HEADER (< 768px) ============ -->
-  <header class="mobile-header mobile-only">
-    <div class="mobile-brand">
-      <span class="brand-logo">🧠</span>
-      <span class="brand-text">Memory Viewer</span>
-    </div>
-    <button v-if="$route.path !== '/'" class="mobile-back-btn" @click="$router.back()" title="返回">
-      ‹
-    </button>
-  </header>
-
   <!-- ============ MOBILE BOTTOM TAB BAR (< 768px) ============ -->
   <nav class="mobile-tab-bar mobile-only">
     <router-link
@@ -84,6 +73,11 @@ import { useUIStore } from '@/stores/ui'
 const route = useRoute()
 const uiStore = useUIStore()
 const showMoreSheet = ref(false)
+
+// 暴露给父组件（App.vue）调用的方法
+function openMoreSheet() { showMoreSheet.value = true }
+function closeMobileSidebar() { showMoreSheet.value = false }
+defineExpose({ openMoreSheet, closeMobileSidebar })
 
 // All nav items in display order
 const allNavItems = [

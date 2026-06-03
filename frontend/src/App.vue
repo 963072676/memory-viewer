@@ -63,6 +63,19 @@ const toast = useToast()
 const showCommandPalette = ref(false)
 const sidebarRef = ref()
 
+// 顶栏菜单按钮：desktop 切换侧栏收起/展开；mobile 打开底部 More 抽屉
+function onToggleSidebar() {
+  if (typeof window !== 'undefined' && window.innerWidth < 768) {
+    sidebarRef.value?.openMoreSheet?.()
+  } else {
+    uiStore.toggleSidebar()
+  }
+}
+
+function onOpenMore() {
+  sidebarRef.value?.openMoreSheet?.()
+}
+
 useKeyboard()
 
 // Close mobile sidebar on navigation

@@ -14,26 +14,27 @@
       <button class="btn-retry" @click="loadStats">点击重试</button>
     </div>
     <div v-else-if="stats" class="dashboard-grid">
-      <!-- P37: Summary Cards — 三段式（标题-大值-副标）Geist 风格 -->
+      <!-- P38 r9: count-up 动画 — 从 0 滚动到目标值（800ms ease-out-cubic）。
+           替代原版"瞬时显示"，给 Dashboard 首屏"载入感"。 -->
       <div class="summary-row">
         <div class="summary-card">
           <div class="summary-label">总记忆数</div>
-          <div class="summary-value">{{ stats.total.toLocaleString() }}</div>
+          <div class="summary-value">{{ displayTotal }}</div>
           <div class="summary-foot">All Sources</div>
         </div>
         <div class="summary-card">
           <div class="summary-label">平均强度</div>
-          <div class="summary-value">{{ stats.avg_strength.toFixed(1) }}</div>
+          <div class="summary-value">{{ displayAvgStrength }}</div>
           <div class="summary-foot">/ 10.0</div>
         </div>
         <div class="summary-card">
           <div class="summary-label">类型数</div>
-          <div class="summary-value">{{ Object.keys(stats.by_type).length }}</div>
+          <div class="summary-value">{{ displayTypeCount }}</div>
           <div class="summary-foot">Categories</div>
         </div>
         <div class="summary-card">
           <div class="summary-label">活跃月份</div>
-          <div class="summary-value">{{ Object.keys(stats.by_month).length }}</div>
+          <div class="summary-value">{{ displayMonthCount }}</div>
           <div class="summary-foot">Months</div>
         </div>
       </div>
@@ -100,6 +101,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { request } from '@/api/index'
 import ActivityHeatmap from '@/components/Layout/ActivityHeatmap.vue'
+import { useCountUp } from '@/composables/useCountUp'
 
 interface Stats {
   total: number
@@ -112,6 +114,37 @@ interface Stats {
 const stats = ref<Stats | null>(null)
 const loading = ref(false)
 const error = ref<string | null>(null)
+
+/* P38 r9: count-up 动画 — 4 个 summary card 数字从 0 滚动到目标。
+ * 800ms 动画 + easeOutCubic（"快进 + 慢停"，强调目标到达）。
+ * 减少动效偏好的用户自动跳过（useCountUp 内部检测）。 */
+const { value: totalRaw } = useCountUp(
+  computed(() => stats.value?.total),
+  { duration: 800 },
+)
+const { value: avgStrengthRaw } = useCountUp(
+  computed(() => stats.value?.avg_strength),
+  { duration: 800, format: (n) => n.toFixed(1) },
+)
+const { value: typeCountRaw } = useCountUp(
+  computed(() => (stats.value ? Object.keys(stats.value.by_type).length : 0)),
+  { duration: 600 },
+)
+const { value: monthCountRaw } = useCountUp(
+  computed(() => (stats.value ? Object.keys(stats.value.by_month).length : 0)),
+  { duration: 600 },
+)
+
+/* 对 total 做千分位格式化（动画过程中也会保留千分位） */
+const displayTotal = computed(() => {
+  // 动画过程是字符串，尝试解析后重新格式化
+  const n = Number(totalRaw.value)
+  if (Number.isFinite(n)) return n.toLocaleString()
+  return totalRaw.value
+})
+const displayAvgStrength = avgStrengthRaw
+const displayTypeCount = typeCountRaw
+const displayMonthCount = monthCountRaw
 
 const maxTypeCount = computed(() => {
   if (!stats.value) return 1

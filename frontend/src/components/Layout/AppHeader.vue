@@ -1,13 +1,19 @@
 <template>
-  <header class="app-header">
+  <header class="app-header" :class="{ 'mobile-only-header': isMobile }">
     <div class="header-content">
-      <button class="sidebar-toggle" @click="$emit('toggle-sidebar')" title="切换侧边栏">
+      <button class="sidebar-toggle" @click="$emit('toggle-sidebar')" :title="isMobile ? '打开导航' : '切换侧边栏'">
         <span>☰</span>
       </button>
-      <div class="header-title">
+
+      <div v-if="!isMobile" class="header-title">
         <h1>Memory Viewer</h1>
         <p>Hermes Agent 记忆系统全景视图</p>
       </div>
+
+      <div v-else class="header-title mobile">
+        <h1>{{ mobilePageTitle }}</h1>
+      </div>
+
       <div class="header-right">
         <button class="theme-toggle" @click="toggleTheme" :title="modeLabel()">
           <span>{{ modeIcon() }}</span>
@@ -18,12 +24,49 @@
 </template>
 
 <script setup lang="ts">
+import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
 import { useTheme } from '@/composables/useTheme'
+
 const { toggleTheme, modeLabel, modeIcon } = useTheme()
+const route = useRoute()
 
 defineEmits<{
   'toggle-sidebar': []
+  'open-more': []
 }>()
+
+// 响应式：mobile 断点 768px
+const isMobile = ref(false)
+function updateIsMobile() {
+  isMobile.value = window.innerWidth < 768
+}
+onMounted(() => {
+  updateIsMobile()
+  window.addEventListener('resize', updateIsMobile)
+})
+onUnmounted(() => {
+  window.removeEventListener('resize', updateIsMobile)
+})
+
+const mobilePageTitle = computed(() => {
+  const p = route.path
+  const map: Record<string, string> = {
+    '/': '首页',
+    '/agentmemory': 'AgentMemory',
+    '/hermes': 'Hermes Memory',
+    '/profiles': 'Profiles',
+    '/dashboard': '仪表盘',
+    '/collections': '分类',
+    '/compare': '对比',
+    '/sources': '数据源',
+    '/settings': '设置',
+  }
+  if (map[p]) return map[p]
+  if (p.startsWith('/memory/')) return '记忆详情'
+  if (p.startsWith('/memory')) return '记忆'
+  return 'Memory Viewer'
+})
 </script>
 
 <style scoped>
@@ -125,23 +168,36 @@ defineEmits<{
 }
 
 @media (max-width: 767px) {
+  /* 移动端：top header fixed 占 56px，让内容 padding-top 避开 */
   .app-header {
-    padding: 12px 0 8px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 56px;
+    padding: 0;
+    box-shadow: 0 1px 3px var(--border);
+  }
+
+  .header-content {
+    padding: 0 12px;
+    height: 56px;
+    max-width: 100%;
   }
 
   .header-title h1 {
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
 
   .header-title p {
-    font-size: 0.75rem;
+    display: none;
   }
-  
+
   .sidebar-toggle,
   .theme-toggle {
-    width: 34px;
-    height: 34px;
-    font-size: 1rem;
+    width: 36px;
+    height: 36px;
+    font-size: 1.1rem;
   }
 }
 </style>
