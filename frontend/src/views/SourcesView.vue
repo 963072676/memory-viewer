@@ -99,8 +99,8 @@
         </div>
       </div>
 
-      <div v-if="sources.length === 0" class="empty-state">
-        <p>📭 暂无注册的记忆源</p>
+      <div v-if="sources.length === 0">
+        <EmptyState icon="📭" message="暂无注册的记忆源" />
       </div>
     </template>
   </div>
@@ -110,6 +110,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { fetchSources, type SourceInfo } from '@/api/sources'
+import EmptyState from '@/components/Layout/EmptyState.vue'
 
 const router = useRouter()
 
@@ -436,14 +437,6 @@ h2 {
 .expand-leave-from {
   opacity: 1;
   max-height: 300px;
-}
-
-/* Empty state */
-.empty-state {
-  text-align: center;
-  padding: 60px 20px;
-  color: var(--text-secondary);
-  font-size: 1rem;
 }
 
 /* Responsive */

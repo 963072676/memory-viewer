@@ -51,10 +51,12 @@
     <div v-if="store.loading" class="card-grid">
       <div v-for="i in 6" :key="i" class="skeleton-card"></div>
     </div>
-    <div v-else-if="filteredMemories.length === 0" class="empty-state">
-      <div class="empty-state-icon">🧠</div>
-      <h3>{{ activeCollection ? '该集合暂无记忆' : '暂无记忆' }}</h3>
-      <p>{{ activeCollection ? '尝试切换到其他集合，或创建新的记忆' : '创建第一条记忆开始你的知识管理之旅' }}</p>
+    <div v-else-if="filteredMemories.length === 0">
+      <EmptyState
+        icon="🧠"
+        :title="activeCollection ? '该集合暂无记忆' : '暂无记忆'"
+        :message="activeCollection ? '尝试切换到其他集合，或创建新的记忆' : '创建第一条记忆开始你的知识管理之旅'"
+      />
     </div>
     <div v-else class="card-grid">
       <BatchToolbar :loading="batchLoading" @batch="handleBatch" @export="handleBatchExport" />
@@ -108,6 +110,7 @@ import ConfirmDialog from '@/components/Layout/ConfirmDialog.vue'
 import MemoryDiffModal from '@/components/Layout/MemoryDiffModal.vue'
 import FilterPanel from '@/components/Layout/FilterPanel.vue'
 import { batchAction } from '@/api/agentmemory'
+import EmptyState from '@/components/Layout/EmptyState.vue'
 import { exportAgentMemory } from '@/api/agentmemory'
 import { bulkAutoTag } from '@/api/p8'
 import { getDuplicates, mergeMemories } from '@/api/agentmemory'
@@ -458,16 +461,6 @@ h2 {
 @keyframes shimmer {
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }
-}
-
-.empty-state {
-  text-align: center;
-  padding: 80px 20px;
-  color: var(--text-secondary);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
 }
 
 /* F48: Collection filter bar */

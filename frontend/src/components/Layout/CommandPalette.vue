@@ -441,11 +441,12 @@ onUnmounted(() => {
 
 <style scoped>
 /* ─── Backdrop ─── */
+/* P42: CommandPalette Geist 化 — 硬编码颜色全部走 token；圆角/阴影/font-mono 统一 */
 .palette-backdrop {
   position: fixed;
   inset: 0;
   z-index: 1000;
-  background: rgba(0, 0, 0, 0.5);
+  background: var(--modal-backdrop);
   display: flex;
   align-items: flex-start;
   justify-content: center;
@@ -458,8 +459,8 @@ onUnmounted(() => {
   width: 100%;
   max-width: 640px;
   background: var(--card);
-  border-radius: 12px;
-  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-elevated);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -470,8 +471,8 @@ onUnmounted(() => {
 .palette-input-wrapper {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 4px 20px;
+  gap: var(--space-3);
+  padding: var(--space-1) 20px;
   border-bottom: 1px solid var(--border);
 }
 
@@ -499,12 +500,13 @@ onUnmounted(() => {
 .palette-kbd {
   display: inline-flex;
   align-items: center;
-  padding: 2px 6px;
+  padding: 1px 5px;
   font-size: 0.7rem;
-  font-family: inherit;
+  /* P42: 与 TabBar.tab-key 对齐（Geist mono 字体 + 统一圆角 3px） */
+  font-family: var(--font-mono);
   background: var(--tag-bg);
   color: var(--text-secondary);
-  border-radius: 4px;
+  border-radius: 3px;
   border: 1px solid var(--border);
   flex-shrink: 0;
 }
@@ -516,7 +518,7 @@ onUnmounted(() => {
 }
 
 .palette-results-header {
-  padding: 8px 20px 4px;
+  padding: var(--space-2) 20px var(--space-1);
   font-size: 0.75rem;
   color: var(--text-secondary);
   text-transform: uppercase;
@@ -526,7 +528,7 @@ onUnmounted(() => {
 
 .palette-list {
   list-style: none;
-  padding: 4px 8px;
+  padding: var(--space-1) var(--space-2);
   margin: 0;
 }
 
@@ -534,9 +536,9 @@ onUnmounted(() => {
 .palette-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 10px 12px;
-  border-radius: 8px;
+  gap: var(--space-3);
+  padding: 10px var(--space-3);
+  border-radius: var(--radius-md);
   cursor: pointer;
   transition: background 0.1s;
 }
@@ -587,7 +589,7 @@ onUnmounted(() => {
 .palette-item-meta {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--space-2);
   flex-shrink: 0;
 }
 
@@ -608,59 +610,39 @@ onUnmounted(() => {
 }
 
 /* ─── Type badge colors ─── */
+/* P42: Geist 化 — 14 处硬编码 hex（Material Design 配色）替换为项目自身的 type token。
+   之前 light/dark 用了 Google Material 配色（#e8f0fe / #1a73e8 等），与 Geist 风格不一致；
+   而且 dark 模式下 preference 与 architecture 撞色（都是 #1b3a1b / #81c995），用户无法区分。 */
 .type-pattern {
-  background: #e8f0fe;
-  color: #1a73e8;
+  background: var(--type-pattern-bg);
+  color: var(--type-pattern-text);
 }
 .type-fact {
-  background: #fce8e6;
-  color: #d93025;
+  background: var(--type-fact-bg);
+  color: var(--type-fact-text);
 }
 .type-preference {
-  background: #e6f4ea;
-  color: #137333;
+  background: var(--type-preference-bg);
+  color: var(--type-preference-text);
 }
 .type-bug {
-  background: #fef7e0;
-  color: #b06000;
+  background: var(--type-bug-bg);
+  color: var(--type-bug-text);
 }
 .type-workflow {
-  background: #f3e8fd;
-  color: #8430ce;
+  background: var(--type-workflow-bg);
+  color: var(--type-workflow-text);
 }
 .type-architecture {
-  background: #e8f5e9;
-  color: #2e7d32;
+  background: var(--type-architecture-bg);
+  color: var(--type-architecture-text);
 }
 
-[data-theme='dark'] .type-pattern {
-  background: #1a3354;
-  color: #8ab4f8;
-}
-[data-theme='dark'] .type-fact {
-  background: #3e1a1a;
-  color: #f28b82;
-}
-[data-theme='dark'] .type-preference {
-  background: #1b3a1b;
-  color: #81c995;
-}
-[data-theme='dark'] .type-bug {
-  background: #3e2a0a;
-  color: #fdd663;
-}
-[data-theme='dark'] .type-workflow {
-  background: #2d1a4e;
-  color: #c58af9;
-}
-[data-theme='dark'] .type-architecture {
-  background: #1b3a1b;
-  color: #81c995;
-}
+/* Dark 模式由 [data-theme='dark'] 在 :root 重新定义 --type-*-* 接管，无需此处重复 */
 
 /* ─── Empty ─── */
 .palette-empty {
-  padding: 32px 20px;
+  padding: var(--space-7) 20px;
   text-align: center;
   color: var(--text-secondary);
   font-size: 0.9rem;
@@ -670,18 +652,18 @@ onUnmounted(() => {
 .palette-footer {
   display: flex;
   justify-content: space-between;
-  padding: 8px 20px;
+  padding: var(--space-2) 20px;
   border-top: 1px solid var(--border);
   font-size: 0.72rem;
   color: var(--text-secondary);
-  gap: 12px;
+  gap: var(--space-3);
   flex-wrap: wrap;
 }
 
 .palette-hint {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--space-1);
 }
 
 .palette-hint kbd {
@@ -692,7 +674,8 @@ onUnmounted(() => {
   height: 18px;
   padding: 0 4px;
   font-size: 0.65rem;
-  font-family: inherit;
+  /* P42: footer 的 kbd 也用 --font-mono（原 inherit 会回退到系统字体，与 Geist mono 体系脱节） */
+  font-family: var(--font-mono);
   background: var(--tag-bg);
   color: var(--text-secondary);
   border-radius: 3px;
@@ -725,8 +708,8 @@ onUnmounted(() => {
 @media (max-width: 767px) {
   .palette-backdrop {
     padding-top: 8vh;
-    padding-left: 12px;
-    padding-right: 12px;
+    padding-left: var(--space-3);
+    padding-right: var(--space-3);
   }
 
   .palette-panel {
@@ -736,7 +719,7 @@ onUnmounted(() => {
 
   .palette-footer {
     flex-direction: column;
-    gap: 4px;
+    gap: var(--space-1);
   }
 }
 </style>

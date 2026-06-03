@@ -2,8 +2,8 @@
   <div class="profiles-view">
     <h2>Profiles</h2>
     <div v-if="loading" class="loading">加载中...</div>
-    <div v-else-if="profiles.length === 0" class="empty-state">
-      <p>暂无 Profile</p>
+    <div v-else-if="profiles.length === 0">
+      <EmptyState icon="👤" message="暂无 Profile" />
     </div>
     <div v-else class="profile-list">
       <div v-for="name in profiles" :key="name" class="profile-card">
@@ -21,6 +21,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { fetchProfiles } from '@/api/profiles'
+import EmptyState from '@/components/Layout/EmptyState.vue'
 
 const profiles = ref<string[]>([])
 const loading = ref(true)
@@ -93,8 +94,7 @@ h2 {
   font-weight: 500;
 }
 
-.loading,
-.empty-state {
+.loading {
   text-align: center;
   padding: 60px 20px;
   color: var(--text-secondary);

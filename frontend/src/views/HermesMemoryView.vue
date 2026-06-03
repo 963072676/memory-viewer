@@ -4,8 +4,8 @@
     <div v-if="store.loading" class="card-grid">
       <div v-for="i in 4" :key="i" class="skeleton-card"></div>
     </div>
-    <div v-else-if="store.totalEntries === 0" class="empty-state">
-      <p>暂无 Hermes Memory 数据</p>
+    <div v-else-if="store.totalEntries === 0">
+      <EmptyState icon="🧠" message="暂无 Hermes Memory 数据" />
     </div>
     <template v-else>
       <!-- Global -->
@@ -42,6 +42,7 @@
 
 <script setup lang="ts">
 import { useHermesMemoryStore } from '@/stores/hermes-memory'
+import EmptyState from '@/components/Layout/EmptyState.vue'
 const store = useHermesMemoryStore()
 </script>
 
@@ -106,12 +107,6 @@ h2 {
 @keyframes shimmer {
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }
-}
-
-.empty-state {
-  text-align: center;
-  padding: 60px 20px;
-  color: var(--text-secondary);
 }
 
 /* Responsive */
