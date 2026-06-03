@@ -103,6 +103,15 @@
   --diff-change-ink: #ca8a04;         /* changed = 同 add 色（语义：注意/变更） */
   --diff-change-bg: rgba(234, 179, 8, 0.20);
 
+  /* P38 (round 6): HomeView source-badge 三源色 — 每源 bg 用 0.1 alpha（Geist 风格
+     极轻底色），text 用 600 阶主色，确保 light 模式可读。 */
+  --source-hermes-bg: rgba(59, 130, 246, 0.10);   /* 蓝（与 --accent 同源但更纯蓝） */
+  --source-hermes-text: #3b82f6;
+  --source-agentmemory-bg: rgba(34, 197, 94, 0.10); /* 绿（与 --health-good 同源） */
+  --source-agentmemory-text: #22c55e;
+  --source-mem0-bg: rgba(168, 85, 247, 0.10);     /* 紫（独立 hue） */
+  --source-mem0-text: #a855f7;
+
   /* P40: Spacing scale（Geist 4-px 节奏） — 让 section / card / 内边距有节奏系统，
      避免 12px/16px/20px/24px/32px/48px 混用造成视觉不严谨。 */
   --space-1: 4px;
@@ -207,4 +216,12 @@
   --diff-remove-bg: rgba(239, 68, 68, 0.15);
   --diff-change-ink: #fbbf24;
   --diff-change-bg: rgba(234, 179, 8, 0.20);
+
+  /* P38 (round 6): source-badge — Dark 模式（沿用 Tailwind 400 阶更亮档） */
+  --source-hermes-bg: rgba(59, 130, 246, 0.14);
+  --source-hermes-text: #60a5fa;
+  --source-agentmemory-bg: rgba(34, 197, 94, 0.14);
+  --source-agentmemory-text: #4ade80;
+  --source-mem0-bg: rgba(168, 85, 247, 0.14);
+  --source-mem0-text: #c084fc;
 }

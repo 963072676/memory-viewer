@@ -622,19 +622,21 @@ h2 {
   letter-spacing: 0.04em;
 }
 
+/* P38 (round 6): source-badge token 化 — 之前 6 个 hex (3 bg + 3 text) + 0 个 dark
+   适配 → 6 个 var() 引用，dark 模式由 variables.css 接管（与 type-chip 一致） */
 .source-badge.source-hermes {
-  background: rgba(59, 130, 246, 0.1);
-  color: #3b82f6;
+  background: var(--source-hermes-bg);
+  color: var(--source-hermes-text);
 }
 
 .source-badge.source-agentmemory {
-  background: rgba(34, 197, 94, 0.1);
-  color: #22c55e;
+  background: var(--source-agentmemory-bg);
+  color: var(--source-agentmemory-text);
 }
 
 .source-badge.source-mem0 {
-  background: rgba(168, 85, 247, 0.1);
-  color: #a855f7;
+  background: var(--source-mem0-bg);
+  color: var(--source-mem0-text);
 }
 
 .source-badge.source-unknown {
