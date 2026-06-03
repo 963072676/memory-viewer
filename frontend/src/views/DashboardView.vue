@@ -318,6 +318,22 @@ function onHeatmapDayClick(date: string) {
   color: var(--primary);
   text-transform: capitalize;
   text-align: right;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+/* P38: dot prefix mirrors the MemoryCard chip dot — same hue, same shape,
+   so dashboard "type distribution" reads as the same visual language */
+.bar-label::after {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.7;
+  flex-shrink: 0;
 }
 
 .bar-track {
@@ -335,12 +351,14 @@ function onHeatmapDayClick(date: string) {
   min-width: 4px;
 }
 
-.bar-fill.type-pattern { background: #4caf50; }
-.bar-fill.type-fact { background: #2196f3; }
-.bar-fill.type-preference { background: #e91e63; }
-.bar-fill.type-bug { background: #ff9800; }
-.bar-fill.type-workflow { background: #9c27b0; }
-.bar-fill.type-architecture { background: #009688; }
+/* P38: type bars reuse --type-*-text token so dark mode is auto and the
+   bar color matches the chip color elsewhere in the app (MemoryCard / UnifiedCard) */
+.bar-fill.type-pattern     { background: var(--type-pattern-text); }
+.bar-fill.type-fact        { background: var(--type-fact-text); }
+.bar-fill.type-preference  { background: var(--type-preference-text); }
+.bar-fill.type-bug         { background: var(--type-bug-text); }
+.bar-fill.type-workflow    { background: var(--type-workflow-text); }
+.bar-fill.type-architecture{ background: var(--type-architecture-text); }
 
 .bar-value {
   min-width: 30px;
@@ -431,10 +449,13 @@ function onHeatmapDayClick(date: string) {
 
 .timeline-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--accent), #64b5f6);
+  background: var(--accent);
   border-radius: 6px;
   transition: width 0.5s ease;
   min-width: 4px;
+  /* P38: hairline highlight at the top of the bar — gives the bar a
+     subtle "tube" feel without breaking the token system */
+  box-shadow: inset 0 1px 0 0 color-mix(in srgb, var(--card) 18%, transparent);
 }
 
 .timeline-value {

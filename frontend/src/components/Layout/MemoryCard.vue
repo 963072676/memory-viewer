@@ -529,11 +529,12 @@ watch(() => props.forceExpanded, (newVal) => {
 .strength-ring--mid  .strength-ring__num { color: #a16207; }
 .strength-ring--low  .strength-ring__num { color: #b91c1c; }
 
-@media (prefers-color-scheme: dark) {
-  .strength-ring--high .strength-ring__num { color: #4ade80; }
-  .strength-ring--mid  .strength-ring__num { color: #facc15; }
-  .strength-ring--low  .strength-ring__num { color: #f87171; }
-}
+/* P38: dark-mode overrides follow the app's [data-theme='dark'] contract.
+   The previous `prefers-color-scheme` query was OS-driven and bypassed the
+   user's in-app theme choice (light-while-OS-dark got dark ring colors). */
+[data-theme='dark'] .strength-ring--high .strength-ring__num { color: #4ade80; }
+[data-theme='dark'] .strength-ring--mid  .strength-ring__num { color: #facc15; }
+[data-theme='dark'] .strength-ring--low  .strength-ring__num { color: #f87171; }
 
 .strength-bar {
   flex: 1;
@@ -568,11 +569,10 @@ watch(() => props.forceExpanded, (newVal) => {
 .meta-text--mid  { color: #a16207; }
 .meta-text--low  { color: #b91c1c; }
 
-@media (prefers-color-scheme: dark) {
-  .meta-text--high { color: #4ade80; }
-  .meta-text--mid  { color: #facc15; }
-  .meta-text--low  { color: #f87171; }
-}
+/* P38: same dark-mode swap — keyed to the in-app theme toggle, not the OS */
+[data-theme='dark'] .meta-text--high { color: #4ade80; }
+[data-theme='dark'] .meta-text--mid  { color: #facc15; }
+[data-theme='dark'] .meta-text--low  { color: #f87171; }
 
 .card-body {
   padding: 0 20px 20px;
