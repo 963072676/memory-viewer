@@ -278,7 +278,8 @@ async function handleCreate() {
   gap: 6px;
   padding: 4px 10px;
   background: var(--accent);
-  color: white;
+  /* P38 r17: 改 hardcoded white → var(--card), 与 QuickAccessBar / AppSidebar 同源 */
+  color: var(--card);
   border-radius: 6px;
   font-size: 0.8rem;
 }
@@ -286,7 +287,8 @@ async function handleCreate() {
 .clear-btn {
   background: none;
   border: none;
-  color: white;
+  /* P38 r17: 同上, 改 white → var(--card) */
+  color: var(--card);
   cursor: pointer;
   font-size: 0.85rem;
   padding: 0;
@@ -318,7 +320,8 @@ async function handleCreate() {
 
 .btn-save {
   background: var(--accent);
-  color: #fff;
+  /* P38 r17: 改 hardcoded #fff → var(--card) */
+  color: var(--card);
   border: none;
 }
 

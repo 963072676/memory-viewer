@@ -115,7 +115,8 @@ onMounted(async () => {
   padding: 1px 6px;
   border-radius: 8px;
   background: var(--accent);
-  color: white;
+  /* P38 r17: 改 hardcoded white → var(--card), 与 QuickAccessBar 同源 */
+  color: var(--card);
 }
 
 .shared-tags {

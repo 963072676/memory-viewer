@@ -816,9 +816,12 @@ watch(() => props.forceExpanded, (newVal) => {
 
 .ai-error {
   font-size: 0.75rem;
-  color: #ef4444;
+  /* P38 r17: 改 hardcoded #ef4444 + rgba(239, 68, 68, 0.08) → --error-text / --error-bg.
+     此前 dark 模式 --error-bg = #3e1a1a, 但 hardcoded 0.08 alpha 不会跟随, 
+     dark 模式下错误提示几乎看不见. 改 token 后两套主题都走 --error-bg. */
+  color: var(--error-text);
   padding: 6px 10px;
-  background: rgba(239, 68, 68, 0.08);
+  background: var(--error-bg);
   border-radius: 6px;
   margin-bottom: 8px;
 }

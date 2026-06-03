@@ -173,7 +173,8 @@ function typeLabel(type: string): string {
   padding: 4px 12px;
   border-radius: 20px;
   background: var(--accent);
-  color: white;
+  /* P38 r17: 改 hardcoded white → var(--card) */
+  color: var(--card);
 }
 
 .version-date {
@@ -269,7 +270,8 @@ function typeLabel(type: string): string {
   border: none;
   border-radius: 10px;
   background: var(--accent);
-  color: white;
+  /* P38 r17: 改 hardcoded white → var(--card) */
+  color: var(--card);
   font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;

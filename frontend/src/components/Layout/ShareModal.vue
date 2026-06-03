@@ -473,7 +473,7 @@ onMounted(() => {
   /* P38 r9: 同上 — 这里是关键 CTA 按钮（生成分享链接），主色背景应该是
      品牌蓝 accent 而不是文字墨色。修复后 light/dark 都跟随主题。 */
   background: var(--accent);
-  color: #fff;
+  color: var(--card);
   font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
