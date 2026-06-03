@@ -12,6 +12,9 @@
   --text-tertiary: #b3b3b3;       /* 三级弱化 */
   --accent: #0072f5;              /* Vercel 蓝（原 Apple #007AFF 偏深蓝） */
   --accent-hover: #0061d5;
+  /* P38 r13: 渐变配色端点 — HomeView unified-card::before 顶部细线.
+     紫蓝色 (indigo-500) 与 --accent 蓝形成 90° hue 偏移，hover 时呈现"从蓝到紫"的渐入感。 */
+  --accent-secondary: #6366f1;
   --accent-subtle: #e6f0ff;       /* 蓝色背景（chips/active） */
   --tag-bg: #f2f2f2;
   --radius: 12px;
@@ -168,6 +171,8 @@
   --text-tertiary: #6b6b6b;
   --accent: #3291ff;              /* dark 模式独立调色（高饱和度） */
   --accent-hover: #5aa6ff;
+  /* P38 r13: dark 模式渐变端点 — 紫色提亮一档与 --accent 蓝呼应 */
+  --accent-secondary: #818cf8;
   --accent-subtle: rgba(50, 145, 255, 0.12);
   --tag-bg: #1f1f1f;
   --shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 1px 2px rgba(0, 0, 0, 0.3);

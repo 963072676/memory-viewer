@@ -499,7 +499,8 @@ h2 {
 
 /* Semantic result styles */
 .search-result-card--semantic {
-  border-left: 3px solid var(--semantic-accent, #8b5cf6);
+  /* P38 r13: 删除硬编码 #8b5cf6 fallback — --semantic-accent token 已稳定在 variables.css */
+  border-left: 3px solid var(--semantic-accent);
 }
 
 .semantic-badge {
@@ -509,7 +510,8 @@ h2 {
 
 .similarity-score {
   font-size: 0.75rem;
-  color: var(--semantic-accent, #8b5cf6);
+  /* P38 r13: 同上 */
+  color: var(--semantic-accent);
   font-weight: 500;
 }
 
@@ -518,13 +520,18 @@ h2 {
 }
 
 .match-type--semantic {
-  background: rgba(139, 92, 246, 0.1);
-  color: var(--semantic-accent, #8b5cf6);
+  /* P38 r13: token 化 — 复用 --semantic-accent + 0.1 alpha (用 color-mix 同源表达).
+     之前 rgba(139, 92, 246, 0.1) + var(--semantic-accent, #8b5cf6) 双重硬编码 */
+  background: color-mix(in srgb, var(--semantic-accent) 10%, transparent);
+  color: var(--semantic-accent);
 }
 
 .match-type--keyword {
-  background: rgba(59, 130, 246, 0.1);
-  color: #3b82f6;
+  /* P38 r13: token 化 — 复用 --accent (Vercel 蓝，与全站按钮/链接同源) + 0.1 alpha.
+     之前 rgba(59, 130, 246, 0.1) + #3b82f6 是 Tailwind blue-500 hardcoded，dark 模式无覆盖，
+     且与 --accent (#0072f5) 偏差 13 蓝度。 */
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  color: var(--accent);
 }
 
 /* Unified memories section (P16) */
@@ -562,12 +569,17 @@ h2 {
   border-color: var(--accent);
 }
 
-/* P37: Card layout (desktop) — shadow-as-border */
+/* P37: Card layout (desktop) - shadow-as-border */
 .unified-card {
   background: var(--card);
   border-radius: var(--radius-md);
   overflow: hidden;
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  /* P38 r13: 与 P38 r12 全站 4 套 Card (MemoryCard / CollectionCard / DashboardWidget / TemplateCard)
+     hover 视觉同源。transition 由 0.2s ease → 0.25s cubic-bezier (与 ring 0.5s / count-up 同手感)，
+     并补 border-color 0.2s ease 让 hover 时 border-strong 平滑切换（之前无 border-color 过渡）。 */
+  transition: box-shadow 0.25s cubic-bezier(0.25, 0.1, 0.25, 1),
+              transform 0.25s cubic-bezier(0.25, 0.1, 0.25, 1),
+              border-color 0.2s ease;
   cursor: pointer;
   position: relative;
   box-shadow: var(--shadow);
@@ -580,7 +592,7 @@ h2 {
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(90deg, var(--accent), var(--accent-secondary, #6366f1));
+  background: linear-gradient(90deg, var(--accent), var(--accent-secondary));
   opacity: 0;
   transition: opacity 0.2s ease;
 }
@@ -588,6 +600,8 @@ h2 {
 .unified-card:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-hover);
+  /* P38 r13: 补 border-strong hover，与 r12 4 套 Card 同源 */
+  border-color: var(--border-strong);
 }
 
 .unified-card:hover::before {
@@ -706,8 +720,10 @@ h2 {
   font-size: 0.7rem;
   padding: 3px 10px;
   border-radius: 12px;
-  background: rgba(251, 191, 36, 0.1);
-  color: #f59e0b;
+  /* P38 r13: token 化 — 复用 --strength-mid-fill/--strength-mid-ink (黄色，与 MemoryCard ring 同源)
+     之前 rgba(251, 191, 36, 0.1) / #f59e0b 是 Tailwind amber-400/100 hardcoded，dark 模式无覆盖 */
+  background: color-mix(in srgb, var(--strength-mid-fill) 10%, transparent);
+  color: var(--strength-mid-ink);
   font-weight: 500;
 }
 
