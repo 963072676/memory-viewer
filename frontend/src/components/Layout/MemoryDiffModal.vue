@@ -372,12 +372,14 @@ function formatDate(dateStr: string | undefined): string {
   font-weight: 600;
 }
 
+/* P38 (round 6): 与 MemoryCard 健康度共用 token — 绿色 "added" 与 strength-high-fill
+   同源（健康度 = 强），视觉上保持一致 */
 .stat-item.added {
-  color: #22c55e;
+  color: var(--health-good);
 }
 
 .stat-item.removed {
-  color: #ef4444;
+  color: var(--health-bad);
 }
 
 .diff-content {
@@ -427,34 +429,21 @@ function formatDate(dateStr: string | undefined): string {
   color: var(--primary);
 }
 
+/* P38 (round 6): diff 行 token 化 — 6 个 hex + 6 个 rgba → 6 个 var()，
+   删除 6 行手动 [data-theme='dark'] 覆盖（light/dark 由 variables.css 接管） */
 .diff-line.added {
-  background: rgba(234, 179, 8, 0.15);
-  color: #ca8a04;
+  background: var(--diff-add-bg);
+  color: var(--diff-add-ink);
 }
 
 .diff-line.removed {
-  background: rgba(239, 68, 68, 0.1);
-  color: #dc2626;
+  background: var(--diff-remove-bg);
+  color: var(--diff-remove-ink);
 }
 
 .diff-line.changed {
-  background: rgba(234, 179, 8, 0.2);
-  color: #ca8a04;
-}
-
-[data-theme='dark'] .diff-line.added {
-  background: rgba(234, 179, 8, 0.15);
-  color: #fbbf24;
-}
-
-[data-theme='dark'] .diff-line.removed {
-  background: rgba(239, 68, 68, 0.15);
-  color: #f87171;
-}
-
-[data-theme='dark'] .diff-line.changed {
-  background: rgba(234, 179, 8, 0.2);
-  color: #fbbf24;
+  background: var(--diff-change-bg);
+  color: var(--diff-change-ink);
 }
 
 .line-num {

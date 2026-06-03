@@ -92,6 +92,17 @@
   --health-warn: #eab308;
   --health-bad: #ef4444;
 
+  /* P38 (round 6): MemoryDiffModal 差异行 ink+bg — 与 CompareView 三栏色系不同源。
+     CompareView 用 --diff-left/-common/-right 表达"方向"；MemoryDiffModal 用
+     -add/-remove/-change 表达"git diff 操作"。两套 token 家族刻意分离以避免
+     语义混淆（同样是绿色，左面板独有 vs 增量行 的视觉含义不同）。 */
+  --diff-add-ink: #ca8a04;            /* 暖琥珀 — light 模式 4.5:1 对比度 */
+  --diff-add-bg: rgba(234, 179, 8, 0.15);
+  --diff-remove-ink: #dc2626;         /* 暖红 */
+  --diff-remove-bg: rgba(239, 68, 68, 0.10);
+  --diff-change-ink: #ca8a04;         /* changed = 同 add 色（语义：注意/变更） */
+  --diff-change-bg: rgba(234, 179, 8, 0.20);
+
   /* P40: Spacing scale（Geist 4-px 节奏） — 让 section / card / 内边距有节奏系统，
      避免 12px/16px/20px/24px/32px/48px 混用造成视觉不严谨。 */
   --space-1: 4px;
@@ -186,4 +197,14 @@
   --health-good: #22c55e;
   --health-warn: #eab308;
   --health-bad: #ef4444;
+
+  /* P38 (round 6): MemoryDiffModal 差异行 — Dark 模式（沿用 Tailwind bright 阶：
+     黄色从 700 (#ca8a04) 提到 400 (#fbbf24)，红色从 600 (#dc2626) 提到 400 (#f87171)，
+     背景透明度从 0.10/0.15 提到 0.15 让深色背景下更可见） */
+  --diff-add-ink: #fbbf24;
+  --diff-add-bg: rgba(234, 179, 8, 0.15);
+  --diff-remove-ink: #f87171;
+  --diff-remove-bg: rgba(239, 68, 68, 0.15);
+  --diff-change-ink: #fbbf24;
+  --diff-change-bg: rgba(234, 179, 8, 0.20);
 }
