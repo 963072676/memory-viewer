@@ -49,14 +49,18 @@ const { value: profilesCountDisplay } = useCountUp(computed(() => profileNames.v
 </script>
 
 <style scoped>
+/* P44: StatsBar 与 TabBar 形成"信息层 → 导航层"节奏。
+   - margin-bottom 从 20 → --space-3 (12px)，让位给 TabBar 的 --space-5 margin-top，
+     形成更清晰的 12 + 20 节奏（与 P40 spacing scale 一致）
+   - 其它样式（border-bottom 1px solid var(--border)）保留 — StatsBar 仍是"信息行" */
 .stats-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: var(--space-3);
   flex-wrap: wrap;
-  gap: 16px;
-  padding: 12px 0;
+  gap: var(--space-4);
+  padding: var(--space-3) 0;
   border-bottom: 1px solid var(--border);
 }
 
@@ -92,12 +96,12 @@ const { value: profilesCountDisplay } = useCountUp(computed(() => profileNames.v
   .stats-bar {
     flex-direction: column;
     align-items: flex-start;
-    gap: 12px;
-    margin-bottom: 16px;
+    gap: var(--space-3);
+    margin-bottom: var(--space-2);
   }
 
   .stats {
-    gap: 16px;
+    gap: var(--space-4);
     width: 100%;
     justify-content: space-between;
   }

@@ -392,7 +392,7 @@ async function saveFeishu() {
 .toggle-btn.active {
   background: var(--accent);
   border-color: var(--accent);
-  color: white;
+  color: var(--card);
 }
 
 .events-grid {
@@ -423,21 +423,27 @@ async function saveFeishu() {
   margin-top: 8px;
 }
 
+/* P44: token 化收尾 — color: white → var(--card)。
+   --card 是 P39 决策的"按钮文字 token"（亮色 #fff / 暗色 #000），
+   与 HomeView .action-btn--primary 保持一致 — 不同页面用同色 token，
+   未来调整主题色不用逐文件改。
+   注：本文件是"表单保存按钮"，颜色决策（--accent vs --primary）暂保留，
+   是 P41 #1 / P43 #2 的设计决策点，不在本轮范围。 */
 .btn-primary {
   padding: 10px 24px;
   border: none;
   border-radius: 8px;
   background: var(--accent);
-  color: white;
+  color: var(--card);
   cursor: pointer;
   font-size: 0.875rem;
   font-family: var(--font);
   font-weight: 500;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.2s ease, background 0.2s ease;
 }
 
-.btn-primary:hover {
-  opacity: 0.9;
+.btn-primary:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--accent) 88%, var(--primary) 12%);
 }
 
 .btn-primary:disabled {

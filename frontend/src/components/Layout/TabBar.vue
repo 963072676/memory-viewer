@@ -1,5 +1,5 @@
 <template>
-  <div class="search-bar">
+  <div class="tab-bar">
     <div class="tabs">
       <button
         v-for="tab in tabs"
@@ -34,13 +34,19 @@ const tabs = [
 </script>
 
 <style scoped>
-.search-bar {
+/* P44: TabBar 从 .search-bar 改名为 .tab-bar (语义修复)。
+   与上面 StatsBar 形成"信息层 → 导航层"的清晰层次。
+   - 顶部分隔线改用 --border + 透明柔和过渡，让分隔"轻一点"
+   - 增大 margin-top，与 StatsBar 之间形成"section break"节奏
+   - 减小的 margin-bottom（24 → 16），避免和下方 section 间距叠加导致"断层" */
+.tab-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
+  margin-top: var(--space-5);
+  margin-bottom: var(--space-5);
   flex-wrap: wrap;
-  gap: 12px;
+  gap: var(--space-3);
 }
 
 .tabs {
@@ -127,10 +133,10 @@ const tabs = [
 
 /* Responsive */
 @media (max-width: 767px) {
-  .search-bar {
+  .tab-bar {
     flex-direction: column;
     align-items: stretch;
-    gap: 8px;
+    gap: var(--space-2);
   }
 
   .tabs {

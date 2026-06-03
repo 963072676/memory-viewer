@@ -42,7 +42,10 @@
       <!-- Type Distribution Bar Chart -->
       <div class="chart-card">
         <h3>📋 按类型分布</h3>
-        <div v-if="Object.keys(stats.by_type).length === 0" class="chart-empty">暂无数据</div>
+        <div v-if="Object.keys(stats.by_type).length === 0" class="chart-empty">
+          <span class="chart-empty-mark" aria-hidden="true">∅</span>
+          <span class="chart-empty-text">暂无数据</span>
+        </div>
         <div v-else class="bar-chart">
           <div v-for="(count, type) in stats.by_type" :key="type" class="bar-row">
             <span class="bar-label">{{ type }}</span>
@@ -61,7 +64,10 @@
       <!-- Strength Distribution Histogram -->
       <div class="chart-card">
         <h3>💪 Strength 分布</h3>
-        <div v-if="maxStrengthCount === 0" class="chart-empty">暂无数据</div>
+        <div v-if="maxStrengthCount === 0" class="chart-empty">
+          <span class="chart-empty-mark" aria-hidden="true">∅</span>
+          <span class="chart-empty-text">暂无数据</span>
+        </div>
         <div v-else class="histogram">
           <div v-for="i in 11" :key="i - 1" class="hist-column">
             <div class="hist-bar-wrapper">
@@ -79,7 +85,10 @@
       <!-- Timeline (by month) -->
       <div class="chart-card">
         <h3>📅 按月创建趋势</h3>
-        <div v-if="Object.keys(stats.by_month).length === 0" class="chart-empty">暂无数据</div>
+        <div v-if="Object.keys(stats.by_month).length === 0" class="chart-empty">
+          <span class="chart-empty-mark" aria-hidden="true">∅</span>
+          <span class="chart-empty-text">暂无数据</span>
+        </div>
         <div v-else class="timeline-chart">
           <div v-for="(count, month) in stats.by_month" :key="month" class="timeline-bar">
             <div class="timeline-label">{{ month }}</div>
@@ -325,11 +334,37 @@ function onHeatmapDayClick(date: string) {
   margin-bottom: var(--space-5);          /* P41: 20 → --space-5 */
 }
 
+/* P44: chart-empty 增加视觉锚点（∅ mark + 文字），
+   三处保持单行但视觉重量提升，避免 chart card 显得空洞。
+   不引入完整 EmptyState 组件 — 数据返回时立即替换。 */
 .chart-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
   text-align: center;
-  padding: var(--space-8);                 /* P41: 40 → --space-8 (48px) */
-  color: var(--text-secondary);
+  padding: var(--space-8) var(--space-5);
+  color: var(--text-tertiary);
+  font-size: 0.8125rem;
+  letter-spacing: 0.01em;
+}
+
+.chart-empty-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: var(--tag-bg);
+  color: var(--text-tertiary);
   font-size: 0.875rem;
+  line-height: 1;
+  font-weight: 500;
+}
+
+.chart-empty-text {
+  color: var(--text-secondary);
 }
 
 /* Bar Chart (Type Distribution) */
