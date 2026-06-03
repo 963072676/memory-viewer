@@ -1,75 +1,85 @@
-# P38 UI 优化审计报告（第二轮 — 自驱动循环续）
+# P38 UI 优化审计报告（第三轮 — 收尾级 sweep）
 
 **日期**: 2026-06-03
-**主题**: 自驱动 UI 优化第二轮 · 续
-**目标**: Dashboard 数据可视化 token 化 + MemoryCard dark-mode 颜色契约统一
+**主题**: 自驱动 UI 优化第三轮 · 收尾
+**目标**: CompareView 颜色 token 化（消除最后一批 Material 硬编码）+ AgentMemoryView / MemoryDetailView 按钮层级统一
 **约束**: 不新增功能、不动 backend、不引入新依赖
-**前置**: P37–P43 已收敛 Geist 风格、按钮层级、type chip 色块、spacing scale、modal-backdrop、Geist mono
+**前置**: P37–P43 已收敛 Geist 风格、按钮层级、type chip 色块、spacing scale、modal-backdrop、Geist mono、Dashboard type-bar token、暗色 mode 契约
 
 ---
 
 ## 改动清单
 
-### 1. DashboardView type 分布条 — token 化（最大视觉影响）
+### 1. CompareView 三栏 diff 关系 — Material 硬编码 → `--diff-*` token（最大视觉影响）
 
 **问题**:
-- 6 条 `.bar-fill.type-*` 用了硬编码 Material 调色（`#4caf50 #2196f3 #e91e63 #ff9800 #9c27b0 #009688`），完全脱离 P39 建立的 `--type-*-bg` / `--type-*-text` token 体系
-- 暗色模式下这 6 个色块依然用亮色，色块饱和度过高，与暗色卡片背景冲突
-- Dashboard 是产品里**唯一有数据可视化的页面**（按 P36 第 8 条），所有色块在视觉权重上比 MemoryCard 顶部的 chip 还重，但风格不一致
-- 色块颜色和 chip 颜色（`--type-*-text`）是两套独立调色板 → 用户在 Dashboard 看到一个紫条，再到 HomeView 看到一个紫色 chip，会下意识以为它们是不同类型
+- 6 处硬编码 Material 2014 调色：`#2196f3`（蓝）/ `#4caf50`（绿）/ `#f44336`（红）
+- dark mode 单独写了 3 条 `[data-theme='dark']` 规则用 0.1 rgba 复制这 3 个 hex → dark mode 下三栏**完全没有视觉锚点**（颜色既不饱和也不亮）
+- 整页只有左侧 3px 边框一种视觉线索，diff 关系表达力度太弱
+- 这 6 个 hex 是项目里**最后一批 Material 硬编码色**（P36 审计漏掉 CompareView，因为它是低频功能页）
 
-**改动** (`frontend/src/views/DashboardView.vue`):
-- 6 条 `.bar-fill.type-*` 全部从硬编码 hex → `var(--type-*-text)` token（与 MemoryCard 顶部的 `.card-type` chip 同源）
-- 暗色模式自动跟随 `--type-*-text` 的 dark 调色板（`#66bb6a #64b5f6 #ffcc80 #ce93d8 #ef9a9a #80cbc4`），无需再写第二条 media query
-- bar-label 后追加一个 6px 圆点 prefix（`background: currentColor; opacity: 0.7`）
-  - 与 P39 在 `.card-type` 上加的 6px dot 完全同构（尺寸/形状/不透明度）
-  - 视觉语言统一：dashboard 的 "fact 17%" 紫条 + 紫点 + MemoryCard 顶部的 "fact" 紫 chip + 紫点，用户能立刻识别同种语言
-- 字段对齐更整齐：`justify-content: flex-end` 让点紧贴数字
+**改动** (`frontend/src/views/CompareView.vue` + `frontend/src/styles/variables.css`):
+
+新增 3 对 token（`--diff-*-border` / `--diff-*-bg`），light/dark 模式各一套：
+- **left-only** 冷静蓝 `#5b8def`（light）/ `#7aa2f0`（dark）— 呼应 `--accent` 但更弱
+- **common** 稳定绿 `#19a66e`（light）/ `#34c77a`（dark）— 呼应 `--success` 但更稳
+- **right-only** 暖橙 `#d97706`（light）/ `#f59e0b`（dark）— 与 `--type-fact-text` 同源（差异=提示）
+
+每个 column 从"3px 左边框"升级为"3px 左边框 + 4px 同色内阴影 + bg 微调（rgba 0.08/0.10）"，diff 关系从"单一线条"变成"半色块"。
 
 **影响估计**:
-- Dashboard 暗色模式的"刺眼色块"问题彻底消失 → dark mode 视觉一致性 +30%
-- bar 与 chip 颜色统一后，用户在两个页面间切换时无需重新建立"颜色↔类型"映射
-- 6px dot prefix 让色盲用户也能通过"位置+形状"识别类型（位置：bar 最右端，形状：圆点），不依赖纯色相
+- 6 个 Material hex → 0，hex 硬编码数从 6 → 0
+- dark mode 下三栏有了清晰的视觉锚点（之前几乎是黑色 + 暗红/暗绿/暗蓝边框，完全分不清）
+- 3 个 diff token 后续可在其它"二元对比"页面复用（双向 sync 对比、A/B 测试、conflict diff 等）
+- 省 1 个 `[data-theme='dark']` media query 块（token 自动跟随）
 
 ---
 
-### 2. DashboardView timeline 条 — 单色 token + 顶部高光
+### 2. AgentMemoryView 按钮层级 — 5 个全平铺 → 1 primary + 4 secondary
 
 **问题**:
-- `linear-gradient(90deg, var(--accent), #64b5f6)` 用了硬编码 `#64b5f6` 结束色（Material Light Blue 400）
-- 这个 `#64b5f6` 恰好是 dark mode `--type-workflow-text` 的色值 → 在 light mode 下用深蓝 → 浅蓝渐变，但在 dark mode 下用高饱和蓝 → 高饱和蓝渐变，对比度拉不开
-- 双色渐变在"按月创建趋势"语境下是过设计 — 趋势强调的是**时间维度的连续性**，不是色相变化
+- 5 个 `.action-btn`（+ 创建 / 导入 / 导出 / Bulk Auto-Tag / 去重）全部同一层级（描边 card）
+- `.ai-autotag-btn` / `.dedup-btn` 单独写了 `border-color: var(--accent); color: var(--accent)` 描边样式 → **2 个假 primary** 与真 primary（如果之后有）撞色
+- 这 2 个假 primary 的 hover 还会变成 accent 实色（`background: var(--accent); color: white`），**比创建按钮视觉权重还高** — 严重违反按钮层级原则
 
-**改动**:
-- `background: linear-gradient(...)` → `background: var(--accent)`（单色 token）
-- 顶部加 `box-shadow: inset 0 1px 0 0 color-mix(in srgb, var(--card) 18%, transparent)`：
-  - 1px 的顶部高光让条看起来"有立体感"（Geist 风格常见）
-  - 用 `color-mix` 把 card 色提亮 18% → 自动跟随 light/dark 切换
+**改动** (`frontend/src/views/AgentMemoryView.vue`):
+- 模板：「+ 创建」加 `.action-btn--primary` 类（最高频操作 → 主 CTA）
+- 模板：Bulk Auto-Tag / 去重 去掉 `.ai-autotag-btn` / `.dedup-btn` 类，回到普通 `.action-btn`
+- CSS：删除 2 个死代码块（`.ai-autotag-btn` / `.dedup-btn`）
+- CSS：新增 `.action-btn--primary` 样式，与 HomeView (P39) / CollectionsView (P41) **完全对齐**：
+  - `background: var(--primary); color: var(--card); border-color: var(--primary)`
+  - hover `var(--primary-muted)`
+  - box-shadow `0 1px 0 rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.08)`
+  - 不用 pill 圆角（与 secondary 同 8px 圆角，保持设计语言一致）
 
 **影响估计**:
-- dark mode 下 timeline 条不再"一团纯蓝"，有可识别的几何层次
-- 减一个硬编码 hex 颜色
-- 与 6 个 `.bar-fill.type-*` 形成对比：类型分布用"分类色"传达**类型维度**，timeline 用"单色 + 高光"传达**时间维度** — 视觉语义清晰分工
+- 「+ 创建」从 5 个等权按钮中**跳出来**，用户第一眼能识别主要操作
+- 之前 2 个 accent 描边假 primary 取消 → 视觉噪声下降，页面"冷静度"提升
+- 全站 primary 按钮样式现在只有 1 套（P39 + P41 + 本次 = 同源），不再有 3 套变体
 
 ---
 
-### 3. MemoryCard prefers-color-scheme → [data-theme='dark']
+### 3. MemoryDetailView 按钮层级 — 5 个 accent 实色 → primary + ghost × 3 + danger
 
-**问题**:
-- P38 上一轮在 `.strength-ring__num` 和 `.meta-text--*` 加了 `@media (prefers-color-scheme: dark)` 来给暗色模式提供更亮的环数字（`#4ade80 / #facc15 / #f87171`）
-- 这个 media query 是 **OS 驱动的**，与应用的 in-app 主题系统脱钩
-- 用户场景：在 light mode（应用内） + dark mode（OS）下，环数字会变成"OS 觉得是暗色"的色值 → 整张卡看起来不像在 light mode
-- 全站主题契约是 `html[data-theme='dark']`（见 `styles/variables.css:86`），唯独这两个 selector 走 OS 路径
+**问题**（P36 漏网之鱼，影响最大）:
+- `.action-btn` 默认 `background: var(--accent); color: white; border: none` — **实色蓝底白字**
+- 5 个按钮（折叠/编辑/分享/历史/删除）全部用默认样式 → 5 个**同色同权的"假 primary"** 同时喊叫
+- `.action-btn.danger` 用了 `var(--danger, #dc3545)` 硬编码回退值 → `#dc3545` 是 Bootstrap 红色，与全站 `--error: #ff3b30` 不一致
+- 这是项目里**视觉最嘈杂的页面**之一，用户第一眼不知道该点哪个
 
-**改动** (`frontend/src/components/Layout/MemoryCard.vue`):
-- 2 个 `@media (prefers-color-scheme: dark)` 块 → 2 个 `[data-theme='dark']` 选择器
-- 文字注释说明替换原因（避免下一个看代码的人把 prefers-color-scheme 改回去）
-- 颜色值不变（`#4ade80 #facc15 #f87171` 已经是合理的 dark 调色板）
+**改动** (`frontend/src/views/MemoryDetailView.vue`):
+- 重写 `.action-btn` 默认值：从 `accent 实色` → `card 描边`（ghost 形态）
+- 新增 `.action-btn--primary`（编辑，最常用）
+- 新增 `.action-btn--danger`（删除，破坏性）：`var(--error)` + `color-mix(30% error + border)` 半透明红描边
+- 新增 `.action-btn--ghost`（折叠/分享/历史，utility）— 显式语义标记，无额外样式
+- `.action-btn.danger` → `.action-btn--danger`（BEM 命名统一）
+- 删除硬编码 `#dc3545` 回退值
 
 **影响估计**:
-- 修复 light-mode-with-OS-dark 的视觉串台 bug
-- 与 SearchBar / P43 modal-backdrop 整站的 `[data-theme='dark']` 契约对齐
-- 全站 `prefers-color-scheme` CSS 用法现在只剩 `stores/ui.ts` 里的 `window.matchMedia`（合法的 OS 偏好读取），CSS 层完全统一
+- 5 按钮从"全部蓝底白字" → "1 实色黑底 + 3 描边 + 1 红字" 清晰三层视觉层级
+- 编辑是主要操作 → primary 实色，用户第一眼能看到
+- 删除是破坏性操作 → 红字描边（**不**用红底实色，避免抢戏）— 这是 shadcn/ui 的成熟设计
+- 折叠/分享/历史都是"看+导航" → 最低权重的 ghost 描边，符合 Geist 的"安静按钮"哲学
 
 ---
 
@@ -78,29 +88,35 @@
 | 检查项 | 结果 |
 |---|---|
 | `npx vue-tsc --noEmit` | ✅ 0 errors |
-| `npm run build` | ✅ 2.41s，dist 完整生成 |
-| 8501 服务进程 | 未触碰，仍在 serving `frontend/dist`（用户刷新即生效） |
-| 后端 / 新依赖 | 无 |
-| 硬编码颜色数 | DashboardView: 6 个 hex + 1 个 hex 渐变端点 → 0 个；MemoryCard: 0 新增 |
+| `npm run build` | ✅ built in 2.39s |
+| Material 硬编码 hex 数 | 6 → 0（CompareView 全部清除） |
+| 死代码 | 8 行 `.ai-autotag-btn` / `.dedup-btn` CSS 删除 |
+| 按钮层级语言 | HomeView / CollectionsView / AgentMemoryView / MemoryDetailView **4 个页面用同款 primary 样式** |
 
 ---
 
-## 视觉影响总结
+## 视觉影响估计
 
-| 维度 | 变化 |
-|---|---|
-| Dashboard dark mode | 6 个刺眼色块 → 6 个与 chip 同色系的低饱和色块 |
-| 跨页面视觉语言 | Dashboard bar dot ↔ MemoryCard chip dot 形态一致 |
-| Timeline 立体感 | 单色 + 1px 顶部高光，几何层次更明显 |
-| 主题契约 | MemoryCard 整页走 `data-theme` 契约，与全站统一 |
-| Token 覆盖率 | DashboardView: ~80% → 95% |
+| 改动 | 估计影响 | 影响对象 |
+|---|---|---|
+| CompareView 三栏 token 化 | **中-高** | 暗色模式用户**特别明显**（之前 diff 完全不可见，现在清晰） |
+| AgentMemoryView 按钮层级 | **中** | 「+ 创建」从等权变主 CTA，5 按钮降噪 |
+| MemoryDetailView 按钮层级 | **高** | 5 假 primary → 1 primary + 3 ghost + 1 danger，**全站最嘈杂页面之一**清理 |
+| 全站 hex 硬编码清理 | **中** | dark mode 一致性 + 全站颜色契约维护成本降低 |
 
 ---
 
-## 遗留 / 下次可做
+## 遗留
 
-- **Dashboard 真正的图表缺失** — type 分布 / strength 分布 / 月度趋势都是手画 SVG-like 的 div，不是 ECharts/Chart.js 这种正式图表。P36 第 8 条仍未根治
-- **Strength 分布柱状图** 用 `var(--accent)` 单色，缺少 P39 的高/中/低档颜色梯度（strength ring 已经有 3 档色了，但分布图没有）
-- **Timeline 横轴月份** 文字在窄屏会折行（断点 `767px` 还没单独处理）
-- **AppHeader 移动端** sidebar-toggle 38×38 在 iPad 上偏大（`min-height: 36px` 来自通用规范，但 header 有 3 个按钮可以更紧凑）
-- **MemoryCard expanded body** 的"对比"按钮（`🔍 对比`）和 AI 按钮（`✨ Suggest Tags`）都是 `--accent` outline + hover 翻转，缺少主次区分（两个 primary 互斥违规）
+- **MemoryDetailView "重试"按钮**（line 28，错误状态）现在继承默认 ghost 样式 — 之前是 accent 实色。这是**好的变化**（错误状态不抢戏），但万一产品希望"重试"高亮强调，可单独加 `.action-btn--primary`。
+- **CommandPalette** 里的 action 还是单色 — 不在这次 scope 内（属于命令面板，视觉上与按钮组不同）。
+- **SettingsView / SourcesView** 的 `.action-btn` 仍是基本样式 — 没在这次 scope 内，但它们按钮数 ≤ 2，主次关系不明显，按钮层级问题不突出。
+
+---
+
+## 下次可以做什么
+
+1. **Strength 数字节奏** — MemoryCard `.strength-ring__num` 用 Geist Mono 字体（已 P42 P43 完成大部分）— 检查是否还有散落的非 mono strength 数字
+2. **Loading skeleton 统一** — 各页面 skeleton 卡片（AgentMemoryView / HomeView / MemoryDetailView）的尺寸不一致，可统一为 P43 风格的"shimmer 条"
+3. **HomeView 第二个 section-header**（"统一记忆视图"section 已有，"AgentMemory" 和 "Hermes Memory" section 缺 section-actions 容器） — 给后两个加 actions 容器，让所有 section 结构一致
+4. **Dnd panel / Conflict card** — P36 提到过，未深入
