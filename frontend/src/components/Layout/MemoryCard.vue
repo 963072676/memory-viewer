@@ -28,7 +28,9 @@
         >{{ tag }}</span>
       </div>
       <div class="card-meta" v-if="!isExpanded">
-        <!-- P38: Strength 视觉锚点 — circular ring + 渐变颜色 + 大数字 -->
+        <!-- P38 r13: Strength 视觉去重 — 删除冗余 .strength-bar（与 ring 重复表达相同数值）。
+             保留 ring（视觉锚点 + 内含数字）+ meta-text（右侧数字回显，便于扫读），
+             从 3 种表达（ring + bar + text）收敛到 2 种（ring + text）。 -->
         <div
           class="strength-ring"
           :class="'strength-ring--' + strengthTier"
@@ -48,9 +50,6 @@
           </svg>
           <span class="strength-ring__num">{{ strengthPercent }}</span>
         </div>
-        <span class="strength-bar">
-          <span class="strength-fill" :style="{ width: strengthPercent + '%' }" :class="'strength-fill--' + strengthTier"></span>
-        </span>
         <span class="meta-text meta-text--strong" :class="'meta-text--' + strengthTier">{{ strengthPercent }}%</span>
       </div>
     </div>
@@ -534,25 +533,8 @@ watch(() => props.forceExpanded, (newVal) => {
 .strength-ring--mid  .strength-ring__num { color: var(--strength-mid-ink); }
 .strength-ring--low  .strength-ring__num { color: var(--strength-low-ink); }
 
-.strength-bar {
-  flex: 1;
-  height: 4px;
-  background: var(--tag-bg);
-  border-radius: 2px;
-  overflow: hidden;
-}
-
-.strength-fill {
-  display: block;
-  height: 100%;
-  background: var(--accent);
-  border-radius: 2px;
-  transition: width 0.4s cubic-bezier(0.25, 0.1, 0.25, 1), background 0.3s ease;
-}
-
-.strength-fill--high { background: var(--strength-high-fill); }
-.strength-fill--mid  { background: var(--strength-mid-fill); }
-.strength-fill--low  { background: var(--strength-low-fill); }
+/* P38 r13: 删除冗余 .strength-bar / .strength-fill CSS（与 ring 重复表达相同数值）。
+   保留 ring + meta-text 两层表达，更克制、更容易扫读。 */
 
 .meta-text {
   font-size: 0.72rem;
