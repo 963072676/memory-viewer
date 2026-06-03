@@ -307,12 +307,18 @@ h2 {
 }
 
 .source-type-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   font-size: 0.7rem;
   padding: 2px 8px;
-  border-radius: 12px;
+  border-radius: 6px;
   background: var(--tag-bg);
   color: var(--text-secondary);
-  font-weight: 500;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border: 1px solid var(--border);
 }
 
 .source-meta {
@@ -327,19 +333,28 @@ h2 {
 }
 
 .enabled-badge {
+  display: inline-flex;
+  align-items: center;
   font-size: 0.7rem;
   padding: 2px 8px;
-  border-radius: 12px;
-  font-weight: 500;
+  border-radius: 6px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
 .enabled-badge.enabled {
-  background: rgba(34, 197, 94, 0.1);
-  color: var(--success-text, #22c55e);
+  /* P38 r17: 改 hardcoded rgba(34, 197, 94, 0.1) → var(--success-bg).
+     此前是 P44 漏网: dark 模式 --success-bg = #1b3a1b (深绿), 但 hardcoded rgba 不会跟随主题,
+     导致 dark 模式 enabled badge 仍是浅绿底 (alpha 0.1) + 浅绿文字, 与 dark 卡片背景对比度不足.
+     改 token 后两套主题都走 --success-bg, 维持 light/dark 视觉一致性. */
+  background: var(--success-bg);
+  color: var(--success-text);
 }
 
 .enabled-badge.disabled {
-  background: rgba(156, 163, 175, 0.1);
+  /* P38 r17: 同步用 --tag-bg / --text-secondary token, 不再硬编码灰色 alpha */
+  background: var(--tag-bg);
   color: var(--text-secondary);
 }
 
@@ -352,13 +367,16 @@ h2 {
 }
 
 .health-dot.healthy {
-  background: var(--success-text, #22c55e);
-  box-shadow: 0 0 6px rgba(34, 197, 94, 0.4);
+  background: var(--success-text);
+  /* P38 r17: 改 hardcoded rgba 阴影 → color-mix + 主题色, 让阴影跟随 dark/light 自动调亮.
+     此前 0.4 alpha 固定值在 dark 背景上发光感很弱 (深绿 + alpha 模糊后几乎看不见).
+     改 color-mix(in srgb, var(--success-text) 40%, transparent) 在 dark 模式下也保持"健康发光"质感. */
+  box-shadow: 0 0 6px color-mix(in srgb, var(--success-text) 40%, transparent);
 }
 
 .health-dot.unhealthy {
-  background: var(--error-text, #ef4444);
-  box-shadow: 0 0 6px rgba(239, 68, 68, 0.4);
+  background: var(--error-text);
+  box-shadow: 0 0 6px color-mix(in srgb, var(--error-text) 40%, transparent);
 }
 
 .expand-icon {

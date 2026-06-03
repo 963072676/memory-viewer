@@ -418,7 +418,10 @@ function isTabActive(tab: { path: string }) {
 
 .sheet-item.active {
   background: var(--accent);
-  color: white;
+  /* P38 r17: 改 hardcoded white → var(--card), 与 QuickAccessBar .quick-btn.active 同源.
+     light 模式 sheet-item.active = accent 背景 + 白字 (视觉锚点).
+     dark 模式 sheet-item.active = accent 背景 + 深底色字, 避免 dark 上的"白上加白"刺眼. */
+  color: var(--card);
 }
 
 .sheet-icon {

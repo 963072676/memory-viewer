@@ -139,7 +139,10 @@ export default {
 
 .quick-btn.active {
   background: var(--accent);
-  color: #fff;
+  /* P38 r17: 改 hardcoded #fff → var(--card) (与全站 token 契约一致, light=白, dark=深底).
+     此前 dark 模式 active 按钮文字是 #fff (固定白), 在 dark 背景上对比度过高且刺眼。
+     用 --card 后 active 按钮的 fg 跟随主题底色翻转, 维持 "accent 背景 + 主题反色文字" 的对比. */
+  color: var(--card);
   border-color: var(--accent);
   font-weight: 500;
 }
