@@ -61,16 +61,19 @@ function icon(type: ToastType): string {
   -webkit-backdrop-filter: blur(10px);
 }
 
+/* P38 (round 7): Toast 跨主题色 token 化 — 之前 3 个 .92 alpha 硬编码 Apple 系统色。
+   --toast-info 改用项目 --accent 而非 Apple #007AFF（统一品牌蓝）；
+   --toast-success/--toast-error 与 --success/--error 同色源。 */
 .toast-success {
-  background: rgba(52, 199, 89, 0.92);
+  background: var(--toast-success);
 }
 
 .toast-error {
-  background: rgba(255, 59, 48, 0.92);
+  background: var(--toast-error);
 }
 
 .toast-info {
-  background: rgba(0, 122, 255, 0.92);
+  background: var(--toast-info);
 }
 
 .toast-icon {

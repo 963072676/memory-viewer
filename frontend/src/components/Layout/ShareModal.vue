@@ -377,9 +377,12 @@ onMounted(() => {
   font-family: var(--font);
 }
 
+/* P38 (round 7): 5% accent 浅蓝背景 + 0.5px 蓝边 — 之前硬编码 Apple rgba(0,122,255,0.05) +
+   var(--primary, #007aff) fallback（语义错配：--primary 是文字主色而非品牌色）。
+   现在 --accent-soft 自动跟随 light/dark 主题。 */
 .access-btn.active {
-  border-color: var(--primary, #007aff);
-  background: rgba(0, 122, 255, 0.05);
+  border-color: var(--accent);
+  background: var(--accent-soft);
 }
 
 .access-icon {
@@ -415,10 +418,11 @@ onMounted(() => {
   transition: all 0.15s ease;
 }
 
+/* P38 (round 7): 见 .access-btn.active — 同源 token 化 */
 .expires-btn.active {
-  border-color: var(--primary, #007aff);
-  background: rgba(0, 122, 255, 0.05);
-  color: var(--primary, #007aff);
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
 }
 
 .password-toggle {

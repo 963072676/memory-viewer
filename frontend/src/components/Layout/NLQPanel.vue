@@ -604,9 +604,11 @@ watch(searchMode, () => {
   transition: all 0.15s ease;
 }
 
+/* P38 (round 7): 2% accent 极轻蓝 + 蓝边 — 之前硬编码 Apple rgba(0,122,255,0.02) +
+   var(--primary, #007aff) fallback（语义错配，见 ShareModal 注释）。 */
 .result-item:hover {
-  border-color: var(--primary, #007aff);
-  background: rgba(0, 122, 255, 0.02);
+  border-color: var(--accent);
+  background: var(--accent-faint);
 }
 
 .result-title {

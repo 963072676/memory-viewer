@@ -65,6 +65,19 @@
   --semantic-accent-subtle: rgba(139, 92, 246, 0.10);
   --semantic-accent-glow: rgba(139, 92, 246, 0.18);
   --accent-glow: rgba(0, 114, 245, 0.14);
+  /* P38 (round 7): accent 多档 alpha — 替代 Apple #007AFF 系统色硬编码。
+     0.05 用于 selected/active 浅蓝背景（ShareModal/DedupModal 按钮组），
+     0.02 用于 hover 极轻蓝（NLQPanel result-item）。与 --accent-glow (0.14) 阶梯递减。 */
+  --accent-soft: rgba(0, 114, 245, 0.05);
+  --accent-faint: rgba(0, 114, 245, 0.02);
+  /* P38 (round 7): Toast 跨主题色 — 92% alpha 漂浮通知，light/dark 同一基准色。
+     info 用项目 --accent 而非 Apple #007AFF（统一品牌色），绿/红与 --success/--error 一致。 */
+  --toast-success: rgba(52, 199, 89, 0.92);
+  --toast-error: rgba(255, 59, 48, 0.92);
+  --toast-info: rgba(0, 114, 245, 0.92);
+  /* P38 (round 7): ::selection 背景色 — 用户选中文本时的高亮。light 模式 20% alpha，
+     dark 模式提到 30%（深色背景需要更强对比才能看到选中态）。 */
+  --selection-bg: rgba(0, 114, 245, 0.20);
 
   /* P38 (round 3): CompareView 三栏语义色 — 取代 Material 硬编码 #2196f3/#4caf50/#f44336
      关系语义：left-only = "方向 A 独有"、common = "共有"、right-only = "方向 B 独有"。
@@ -184,6 +197,15 @@
   --semantic-accent-subtle: rgba(167, 139, 250, 0.14);
   --semantic-accent-glow: rgba(167, 139, 250, 0.22);
   --accent-glow: rgba(50, 145, 255, 0.20);
+  /* P38 (round 7): accent 多档 alpha (Dark) — dark 背景更深，alpha 微调保持视觉重量一致 */
+  --accent-soft: rgba(50, 145, 255, 0.08);
+  --accent-faint: rgba(50, 145, 255, 0.04);
+  /* P38 (round 7): Toast (Dark) — 跨主题色不变，dark 模式下 0.92 alpha 通知已足够对比 */
+  --toast-success: rgba(52, 199, 89, 0.92);
+  --toast-error: rgba(255, 59, 48, 0.92);
+  --toast-info: rgba(50, 145, 255, 0.92);
+  /* P38 (round 7): ::selection (Dark) — 提到 30% 让深色背景下选中态更明显 */
+  --selection-bg: rgba(50, 145, 255, 0.30);
 
   /* P38 (round 3): CompareView 三栏语义色 — Dark 模式（更亮一档，弱化饱和） */
   --diff-left-border: #7aa2f0;

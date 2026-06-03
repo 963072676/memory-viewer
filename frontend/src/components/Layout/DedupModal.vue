@@ -244,9 +244,10 @@ async function handleMerge() {
   transition: all 0.2s;
 }
 
+/* P38 (round 7): 5% accent 浅蓝背景 + 蓝边 — 之前硬编码 Apple rgba(0,122,255,0.05) */
 .pair-item.selected {
   border-color: var(--accent);
-  background: rgba(0, 122, 255, 0.05);
+  background: var(--accent-soft);
 }
 
 .pair-checkbox {
