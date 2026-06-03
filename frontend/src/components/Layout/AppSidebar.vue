@@ -306,7 +306,7 @@ function isTabActive(tab: { path: string }) {
   justify-content: space-between;
   padding: 0 16px;
   z-index: 50;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 3px var(--border);
 }
 
 .mobile-brand {
@@ -355,10 +355,11 @@ function isTabActive(tab: { path: string }) {
   justify-content: space-around;
   padding: 0 4px env(safe-area-inset-bottom, 0);
   z-index: 50;
-  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 -2px 8px var(--shadow-toolbar);
 }
 
 .tab-item {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -373,12 +374,33 @@ function isTabActive(tab: { path: string }) {
   border: none;
   cursor: pointer;
   padding: 6px 0;
-  transition: color 0.15s;
+  transition: color 0.15s, background 0.15s;
   -webkit-tap-highlight-color: transparent;
 }
 
+/* P38 (round 8): 移动端 tab 激活态强化 — 对齐 desktop 侧栏的 "rail 指示器" 语言。
+   之前只改 color，弱于 desktop 的 left rail + bottom-sheet 的 filled bg。
+   镜像设计：desktop 用 3px left rail，mobile 用 3px top rail（iOS segmented 风格）。
+   同时追加 subtle 背景色（与 sheet-item 选中态一致），形成"全站 3 套选中态统一"的视觉语言：
+     - desktop sidebar nav-item: 3px left rail + accent-subtle bg
+     - mobile bottom tab:       3px top rail + accent-subtle bg
+     - mobile bottom sheet:     filled accent bg + white text */
 .tab-item.active {
   color: var(--accent);
+  background: var(--accent-subtle);
+  font-weight: 600;
+}
+
+.tab-item.active::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 24px;
+  height: 3px;
+  border-radius: 0 0 2px 2px;
+  background: var(--accent);
 }
 
 .tab-icon {
@@ -410,7 +432,7 @@ function isTabActive(tab: { path: string }) {
   padding: 12px 16px 32px;
   max-height: 80vh;
   overflow-y: auto;
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 -4px 20px var(--shadow-modal);
 }
 
 .sheet-handle {

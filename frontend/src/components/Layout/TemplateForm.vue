@@ -74,7 +74,7 @@ async function createMemory() {
 <style scoped>
 .template-form {
   background: var(--card, #fff); border-radius: 16px; width: 100%; max-width: 500px;
-  max-height: 80vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  max-height: 80vh; overflow-y: auto; box-shadow: var(--shadow-modal);
 }
 .form-header {
   display: flex; justify-content: space-between; align-items: center;

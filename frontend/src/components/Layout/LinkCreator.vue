@@ -156,7 +156,7 @@ async function handleCreate() {
   border-radius: 16px;
   width: 100%;
   max-width: 480px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow-modal);
 }
 
 .modal-header {

@@ -71,7 +71,7 @@ function submitBatchTag() {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-toolbar);
 }
 
 .toolbar-info {
@@ -152,7 +152,7 @@ function submitBatchTag() {
   padding: 8px;
   display: flex;
   gap: 6px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-toolbar);
   z-index: 60;
   min-width: 220px;
 }

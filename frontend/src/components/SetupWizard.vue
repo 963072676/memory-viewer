@@ -83,7 +83,7 @@ defineExpose({ restart: () => { currentStep.value = 0; visible.value = true } })
 
 <style scoped>
 .setup-wizard-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 2000; backdrop-filter: blur(4px); }
-.wizard-container { background: var(--card-bg, #fff); border-radius: 20px; width: 90%; max-width: 640px; max-height: 85vh; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+.wizard-container { background: var(--card-bg, #fff); border-radius: 20px; width: 90%; max-width: 640px; max-height: 85vh; display: flex; flex-direction: column; overflow: hidden; box-shadow: var(--shadow-modal); }
 .wizard-progress { display: flex; justify-content: center; gap: 24px; padding: 20px 20px 12px; border-bottom: 1px solid var(--border, #eee); }
 .step-dot { display: flex; flex-direction: column; align-items: center; gap: 4px; opacity: 0.4; transition: all 0.3s; }
 .step-dot.active { opacity: 1; }

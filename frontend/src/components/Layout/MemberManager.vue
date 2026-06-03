@@ -91,7 +91,7 @@ onMounted(() => loadMembers())
 <style scoped>
 .member-manager {
   background: var(--card, #fff); border-radius: 16px; width: 100%; max-width: 500px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  box-shadow: var(--shadow-modal);
 }
 .mm-header {
   display: flex; justify-content: space-between; align-items: center;

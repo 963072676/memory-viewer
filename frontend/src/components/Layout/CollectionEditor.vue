@@ -181,7 +181,7 @@ function handleSave() {
   border-radius: 16px;
   width: 100%;
   max-width: 520px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow-modal);
   max-height: 85vh;
   overflow-y: auto;
 }

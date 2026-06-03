@@ -345,7 +345,7 @@ onMounted(() => {
   background: var(--primary);
   color: var(--card);
   border-color: var(--primary);
-  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-press);
 }
 
 .action-btn--primary:hover {
