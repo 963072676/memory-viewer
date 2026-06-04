@@ -265,31 +265,8 @@ function typeLabel(type: string): string {
   text-align: right;
 }
 
-/* P38 r23: btn-primary → .action-btn (r21 global system). */
-
-/* Transition */
-.modal-fade-enter-active,
-.modal-fade-leave-active {
-  transition: opacity 0.3s ease;
-}
-
-.modal-fade-enter-from,
-.modal-fade-leave-to {
-  opacity: 0;
-}
-
-.modal-fade-enter-active .modal-container {
-  animation: slideUp 0.3s ease;
-}
-
-@keyframes slideUp {
-  from {
-    transform: translateY(20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
+/* P38 r23: btn-primary → .action-btn (r21 global system).
+   P38 r29: .modal-fade / .modal-container 动效改用 main.css 全局系统,
+   之前 5 行 transition + 6 行 @keyframes slideUp 已迁出, 与其他 6 个
+   modal 共享同一份 .modal-pop-in/.modal-pop-out keyframe + 200ms 缓动. */
 </style>

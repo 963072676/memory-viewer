@@ -1,5 +1,8 @@
 <template>
-  <!-- P38 r14: a11y — role/aria-modal/aria-labelledby + Esc to close -->
+  <!-- P38 r14: a11y — role/aria-modal/aria-labelledby + Esc to close
+       P38 r29: 包裹 .modal-fade transition — 之前硬切, 现在与 WhatsNewModal
+       共享 main.css 全局 .modal-pop-in / .modal-pop-out (200ms scale + fade). -->
+  <transition name="modal-fade">
   <div class="create-modal-overlay" @click.self="$emit('close')" @keydown.esc="$emit('close')">
     <div
       class="create-modal"
@@ -65,6 +68,7 @@
       </form>
     </div>
   </div>
+  </transition>
 </template>
 
 <script setup lang="ts">

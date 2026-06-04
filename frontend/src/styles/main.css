@@ -89,6 +89,76 @@ em {
   font-style: normal;
 }
 
+/* ─── Modal entry/exit transition (P38 r29) ───
+   Replaces 6 ad-hoc per-modal definitions (CreateMemoryModal/EditMemoryModal/
+   ImportModal/DedupModal/MemoryDiffModal/ShareModal were opening with
+   zero transition, abrupt cut-in from backdrop). WhatsNewModal already had a
+   similar system; this global version unifies the 3 phases:
+
+     - backdrop: opacity 0 → 1, 200ms ease (perceptual "tap, then close")
+     - panel:    scale(0.96) translateY(8px) → scale(1) translateY(0), 220ms
+                 cubic-bezier(0.16, 1, 0.3, 1) (Apple-soft spring)
+     - leave:    reverse with 160ms (snappier exit, "user already committed")
+
+   Per-modal class is the panel itself (.modal / .create-modal / .diff-modal /
+   ...). Selectors match anything starting with *-modal-overlay + its
+   direct panel child. Use the transition by adding `transition="modal"`
+   on a Teleport wrapper and ensuring the overlay + panel classes match.
+
+   Safe defaults:
+     - backdrop click / Esc still work; transition just animates the swap
+     - works in both light/dark (uses tokens, no hardcoded colors)
+     - prefers-reduced-motion fallback below  */
+.modal-fade-enter-active,
+.modal-fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.modal-fade-leave-active {
+  transition-duration: 0.16s;
+}
+
+.modal-fade-enter-from,
+.modal-fade-leave-to {
+  opacity: 0;
+}
+
+/* Panel slide+scale: target any direct child of the overlay that is
+   a "modal container" (class matches `*modal`, `*modal-container`, `*dialog`).
+   Kept narrow on purpose — overrides the WhatsNewModal slideUp keyframe. */
+.modal-fade-enter-active > [class$="-modal"]:not([class*="-overlay"]),
+.modal-fade-enter-active > [class$="-dialog"],
+.modal-fade-enter-active > [class$="-container"] {
+  animation: modal-pop-in 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-fade-leave-active > [class$="-modal"]:not([class*="-overlay"]),
+.modal-fade-leave-active > [class$="-dialog"],
+.modal-fade-leave-active > [class$="-container"] {
+  animation: modal-pop-out 0.16s ease;
+}
+
+@keyframes modal-pop-in {
+  from { transform: scale(0.96) translateY(8px); opacity: 0; }
+  to   { transform: scale(1) translateY(0);    opacity: 1; }
+}
+
+@keyframes modal-pop-out {
+  from { transform: scale(1) translateY(0);    opacity: 1; }
+  to   { transform: scale(0.97) translateY(4px); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal-fade-enter-active > [class$="-modal"]:not([class*="-overlay"]),
+  .modal-fade-enter-active > [class$="-dialog"],
+  .modal-fade-enter-active > [class$="-container"],
+  .modal-fade-leave-active > [class$="-modal"]:not([class*="-overlay"]),
+  .modal-fade-leave-active > [class$="-dialog"],
+  .modal-fade-leave-active > [class$="-container"] {
+    animation: none;
+  }
+}
+
 /* ─── Responsive breakpoints ─── */
 
 /* Mobile: <768px — single column, hamburger, horizontal scroll tables */

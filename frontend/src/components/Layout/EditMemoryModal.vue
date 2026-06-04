@@ -1,5 +1,7 @@
 <template>
-  <!-- P38 r14: a11y — role/aria-modal/aria-labelledby + Esc to close -->
+  <!-- P38 r14: a11y — role/aria-modal/aria-labelledby + Esc to close
+       P38 r29: 包裹 .modal-fade transition — 共享 main.css 全局 modal-pop-in. -->
+  <transition name="modal-fade">
   <div class="edit-modal-overlay" @click.self="$emit('close')" @keydown.esc="$emit('close')">
     <div
       class="edit-modal"
@@ -51,6 +53,7 @@
       </form>
     </div>
   </div>
+  </transition>
 </template>
 
 <script setup lang="ts">
