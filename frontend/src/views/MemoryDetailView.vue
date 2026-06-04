@@ -9,7 +9,7 @@
              改为：编辑 = primary（最常用操作） / 展开 + 分享 + 历史 = ghost 描边（次级 utility） / 删除 = danger（破坏性，红字 + 红描边）。
              注：折叠/展开按钮 + 分享 + 历史 都是"看+导航"类，不改变记忆内容 → ghost 更合适。 -->
         <button class="action-btn action-btn--ghost" @click="toggleExpand">
-          {{ isExpanded ? '折叠' : '展开' }}
+          {{ isExpanded ? $t('zh_006673') : $t('zh_0065b0') }}
         </button>
         <button class="action-btn action-btn--ghost" @click="router.push(`/memory/${route.params.id}/history`)">{{ $t('zh_006482') }}</button>
         <button class="action-btn action-btn--ghost" @click="showShareModal = true">{{ $t('zh_00644b') }}</button>

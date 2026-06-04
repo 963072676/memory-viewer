@@ -7,7 +7,7 @@
            与全站 7 个 view section-title 系统不一致 (AgentMemory/HermesMemory/Profiles/Sources/Dashboard/Compare/Collections 都有).
            加 class="section-title" + flex 安全 padding 复用 r20 模式. -->
       <div class="search-header">
-        <h2 class="section-title">{{ searchStore.searchMode === 'semantic' ? '🧠 语义搜索结果' : '搜索结果' }}</h2>
+        <h2 class="section-title">{{ searchStore.searchMode === 'semantic' ? '🧠 ' + $t('zh_89b112') : $t('zh_4394e2') }}</h2>
         <span v-if="searchStore.results" class="result-count">{{ $t('zh_00666e') }} {{ searchStore.results.total }} {{ $t('zh_0d4f37') }}</span>
         <span v-else-if="searchStore.semanticResults" class="result-count">{{ $t('zh_00666e') }} {{ searchStore.semanticResults.results.length }} {{ $t('zh_0d4f37') }}</span>
       </div>
@@ -36,7 +36,7 @@
             <span v-if="result.type" class="unified-type chip" :class="'chip--' + result.type">{{ result.type }}</span>
             <span v-for="tag in result.tags" :key="tag" class="type-badge">{{ tag }}</span>
             <span class="match-type-badge" :class="'match-type--' + result.match_type">
-              {{ result.match_type === 'semantic' ? '语义匹配' : '关键词匹配' }}
+              {{ result.match_type === 'semantic' ? $t('zh_8d42b9') : $t('zh_c24e53') }}
             </span>
           </div>
         </div>

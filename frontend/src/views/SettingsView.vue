@@ -63,7 +63,7 @@
           </div>
           <div class="form-actions">
             <button class="action-btn action-btn--accent" @click="saveWebhook" :disabled="webhookSaving">
-              {{ webhookSaving ? '保存中...' : '保存' }}
+              {{ webhookSaving ? $t('zh_0ce682') : $t('zh_006411') }}
             </button>
             <span v-if="webhookSaved" class="save-ok">✓ {{ $t('zh_0d20fc') }}</span>
           </div>
@@ -113,7 +113,7 @@
           </div>
           <div class="form-actions">
             <button class="action-btn action-btn--accent" @click="saveFeishu" :disabled="feishuSaving">
-              {{ feishuSaving ? '保存中...' : '保存' }}
+              {{ feishuSaving ? $t('zh_0ce682') : $t('zh_006411') }}
             </button>
             <span v-if="feishuSaved" class="save-ok">✓ {{ $t('zh_0d20fc') }}</span>
           </div>

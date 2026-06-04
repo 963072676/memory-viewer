@@ -3,7 +3,7 @@
     <div class="view-header">
       <h2 class="section-title">🔍 多 Agent {{ $t('zh_ca99ed') }}</h2>
       <button class="action-btn action-btn--primary" @click="compare" :disabled="!leftProfile || !rightProfile || loading">
-        {{ loading ? '对比中...' : '开始对比' }}
+        {{ loading ? $t('zh_7a3d1a') : $t('zh_2e2f2f') }}
       </button>
     </div>
 

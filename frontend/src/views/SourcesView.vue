@@ -55,7 +55,7 @@
                 <span
                   class="enabled-badge"
                   :class="source.enabled ? 'enabled' : 'disabled'"
-                >{{ source.enabled ? '已启用' : '已禁用' }}</span>
+                >{{ source.enabled ? $t('zh_5e8b8c') : $t('zh_5e8b8e') }}</span>
               </div>
             </div>
             <span class="expand-icon">{{ expandedSources.has(source.name) ? '▲' : '▼' }}</span>
@@ -75,7 +75,7 @@
                 <div class="detail-item">
                   <span class="detail-label">{{ $t('zh_aa14d3') }}</span>
                   <span class="detail-value" :class="source.healthy ? 'text-success' : 'text-error'">
-                    {{ source.healthy ? '正常' : '异常' }}
+                    {{ source.healthy ? $t('zh_4a7f3b') : $t('zh_4a7f3d') }}
                   </span>
                 </div>
                 <div class="detail-item">
@@ -85,7 +85,7 @@
                 <div class="detail-item">
                   <span class="detail-label">{{ $t('zh_ac8831') }}</span>
                   <span class="detail-value" :class="source.enabled ? 'text-success' : 'text-muted'">
-                    {{ source.enabled ? '启用' : '禁用' }}
+                    {{ source.enabled ? $t('zh_5e8b8c') : $t('zh_5e8b8e') }}
                   </span>
                 </div>
               </div>
