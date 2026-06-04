@@ -64,7 +64,8 @@ function submitBatchTag() {
   top: 0;
   z-index: 50;
   background: var(--accent);
-  color: white;
+  /* P38 r19: 改 hardcoded white → var(--card), 与全站 token 对齐 */
+  color: var(--card);
   padding: 12px 20px;
   border-radius: var(--radius);
   display: flex;
@@ -178,7 +179,8 @@ function submitBatchTag() {
   border: none;
   border-radius: 6px;
   background: var(--accent);
-  color: white;
+  /* P38 r19: 改 hardcoded white → var(--card), 与全站 token 对齐 */
+  color: var(--card);
   font-size: 0.75rem;
   font-family: var(--font);
   cursor: pointer;

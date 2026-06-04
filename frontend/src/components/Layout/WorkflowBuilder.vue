@@ -223,7 +223,8 @@ defineExpose({ form })
   border: none;
   border-radius: 8px;
   background: var(--accent, #007aff);
-  color: white;
+  /* P38 r19: 改 hardcoded white → var(--card), 与全站 token 对齐 */
+  color: var(--card);
   font-size: 0.85rem;
   cursor: pointer;
   font-family: var(--font);

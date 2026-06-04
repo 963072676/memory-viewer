@@ -100,7 +100,8 @@ if (store.collections.length === 0) {
 
 .collection-item.active {
   background: var(--accent);
-  color: white;
+  /* P38 r19: 改 hardcoded white → var(--card), 与全站 token 对齐 */
+  color: var(--card);
 }
 
 .collection-icon {
@@ -118,7 +119,8 @@ if (store.collections.length === 0) {
 
 .collection-count {
   background: var(--accent);
-  color: white;
+  /* P38 r19: 改 hardcoded white → var(--card), 与全站 token 对齐 */
+  color: var(--card);
   font-size: 0.65rem;
   font-weight: 600;
   padding: 2px 7px;

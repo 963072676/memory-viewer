@@ -274,7 +274,8 @@ restoreFromUrl()
   top: -6px;
   right: -6px;
   background: var(--accent);
-  color: white;
+  /* P38 r19: 改 hardcoded white → var(--card), 与全站 token 对齐 */
+  color: var(--card);
   font-size: 0.65rem;
   width: 18px;
   height: 18px;
@@ -442,7 +443,8 @@ restoreFromUrl()
 .source-btn.active {
   background: var(--accent);
   border-color: var(--accent);
-  color: white;
+  /* P38 r19: 改 hardcoded white → var(--card), 与全站 token 对齐 */
+  color: var(--card);
 }
 
 .filter-actions {
@@ -470,7 +472,8 @@ restoreFromUrl()
   border: none;
   border-radius: 8px;
   background: var(--accent);
-  color: white;
+  /* P38 r19: 改 hardcoded white → var(--card), 与全站 token 对齐 */
+  color: var(--card);
   cursor: pointer;
   font-size: 0.8rem;
   font-family: var(--font);

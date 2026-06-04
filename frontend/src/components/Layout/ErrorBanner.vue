@@ -27,16 +27,13 @@ function retry() {
   align-items: center;
   gap: 12px;
   padding: 12px 20px;
-  background: #fff2f0;
-  border: 1px solid #ffccc7;
+  background: var(--error-bg);
+  border: 1px solid var(--error-border);
   border-radius: var(--radius);
   margin-bottom: 24px;
 }
 
-[data-theme='dark'] .error-banner {
-  background: #3e1a1a;
-  border-color: #5a2020;
-}
+/* P38 r19: --error-bg / --error-border 已自带 dark 模式覆盖, 删除冗余 [data-theme='dark'] 手动 hex */
 
 .error-icon {
   font-size: 1.2rem;

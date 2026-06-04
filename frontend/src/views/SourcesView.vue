@@ -347,15 +347,22 @@ h2 {
   /* P38 r17: 改 hardcoded rgba(34, 197, 94, 0.1) → var(--success-bg).
      此前是 P44 漏网: dark 模式 --success-bg = #1b3a1b (深绿), 但 hardcoded rgba 不会跟随主题,
      导致 dark 模式 enabled badge 仍是浅绿底 (alpha 0.1) + 浅绿文字, 与 dark 卡片背景对比度不足.
-     改 token 后两套主题都走 --success-bg, 维持 light/dark 视觉一致性. */
+     改 token 后两套主题都走 --success-bg, 维持 light/dark 视觉一致性.
+     P38 r19: 加 1px border (color-mix 18%) 与全站 badge 节奏统一 — r17 之前 enabled-badge 无 border
+     是 P39 时代漏网 (dot 都没有), 现在补齐"6px radius + 1px border + uppercase + 600" 四件套,
+     与 MemoryCard .card-type / HomeView .source-badge / SourcesView .source-type-badge 视觉同源. */
   background: var(--success-bg);
   color: var(--success-text);
+  border: 1px solid color-mix(in srgb, var(--success-text) 18%, transparent);
 }
 
 .enabled-badge.disabled {
-  /* P38 r17: 同步用 --tag-bg / --text-secondary token, 不再硬编码灰色 alpha */
+  /* P38 r17: 同步用 --tag-bg / --text-secondary token, 不再硬编码灰色 alpha.
+     P38 r19: 加 1px border (var(--border) — disabled 不像 enabled 有独立 hue,
+     用通用 border 即可), 与 .enabled-badge.enabled 视觉同构 (都有 border). */
   background: var(--tag-bg);
   color: var(--text-secondary);
+  border: 1px solid var(--border);
 }
 
 /* Health dot */

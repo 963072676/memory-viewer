@@ -87,8 +87,9 @@ h3 {
   padding: 10px 20px;
   border: none;
   border-radius: 8px;
-  background: #e53935;
-  color: white;
+  /* P38 r19: 危险按钮 — 改 hardcoded #e53935 → var(--error), color: white → var(--card) */
+  background: var(--error);
+  color: var(--card);
   cursor: pointer;
   font-family: var(--font);
   font-size: 0.875rem;

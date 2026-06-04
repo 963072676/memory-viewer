@@ -309,7 +309,8 @@ textarea:focus {
   border: none;
   border-radius: 8px;
   background: var(--accent);
-  color: white;
+  /* P38 r19: 改 hardcoded white → var(--card), 与全站 token 对齐 */
+  color: var(--card);
   cursor: pointer;
   font-family: var(--font);
   font-weight: 500;

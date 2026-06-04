@@ -101,7 +101,8 @@ defineExpose({ refresh: loadFavorites })
 
 .header-count {
   background: var(--accent);
-  color: white;
+  /* P38 r19: 改 hardcoded white → var(--card), 与全站 token 对齐 */
+  color: var(--card);
   font-size: 0.6rem;
   padding: 1px 6px;
   border-radius: 10px;

@@ -318,7 +318,8 @@ async function handleMerge() {
 .similarity-badge {
   padding: 6px 12px;
   background: var(--accent);
-  color: white;
+  /* P38 r19: 改 hardcoded white → var(--card), 与全站 token 对齐 */
+  color: var(--card);
   border-radius: 20px;
   font-size: 0.75rem;
   font-weight: 600;
@@ -402,7 +403,8 @@ async function handleMerge() {
 .action-btn.primary {
   background: var(--accent);
   border-color: var(--accent);
-  color: white;
+  /* P38 r19: 改 hardcoded white → var(--card), 与全站 token 对齐 */
+  color: var(--card);
 }
 
 .action-btn.primary:hover:not(:disabled) {

@@ -55,6 +55,8 @@
   --success-text: #2e7d32;
   --error-bg: #ffebee;
   --error-text: #b71c1c;
+  /* P38 r19: error-border — 软错误边框（用于 ErrorBanner/警告边框），与 --error-bg 同色系但加深 10% */
+  --error-border: #ffcdd2;
   --info-bg: #e3f2fd;
   --info-text: #1565c0;
   --warn-bg: #fff3e0;
@@ -193,6 +195,7 @@
   --success-text: #66bb6a;
   --error-bg: #3e1a1a;
   --error-text: #ef9a9a;
+  --error-border: #5a2020;
   --info-bg: #0d2744;
   --info-text: #64b5f6;
   --warn-bg: #3e2a0a;
