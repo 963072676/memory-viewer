@@ -259,7 +259,9 @@ onMounted(() => {
 .btn-skip {
   background: none;
   border: none;
-  color: #999;
+  /* P45 r2: #999 → var(--text-tertiary). 之前硬编码 60% 灰, dark 模式不变,
+     light 模式与系统灰基本一致但与 token 契约脱节. */
+  color: var(--text-tertiary);
   font-size: 13px;
   cursor: pointer;
   padding: 4px 8px;
@@ -274,11 +276,13 @@ onMounted(() => {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #ddd;
+  /* P45 r2: #ddd → var(--border). */
+  background: var(--border);
 }
 
 .dot.active {
-  background: #007aff;
+  /* P45 r2: #007aff → var(--accent). */
+  background: var(--accent);
   width: 18px;
   border-radius: 3px;
 }
@@ -304,13 +308,18 @@ onMounted(() => {
 }
 
 .btn-next {
-  background: #007aff;
-  color: white;
+  /* P45 r2: #007aff / white → var(--accent) / var(--card). 与 P38 r17/r33 决策一致,
+     这次扩展到 OnboardingTour 内的 "下一步" 按钮. 之前 OnboardingTour 漏了
+     token sweep, 现在统一. */
+  background: var(--accent);
+  color: var(--card);
   border: none;
 }
 
 .btn-next:hover {
-  background: #0066dd;
+  /* P45 r2: #0066dd → color-mix(--accent 88%, --primary 12%). 与 P44 SettingsView
+     决策同源 (SettingsView btn hover 也用 12% 黑色混合 → "深蓝" hover). */
+  background: color-mix(in srgb, var(--accent) 88%, var(--primary) 12%);
 }
 
 /* Transitions */

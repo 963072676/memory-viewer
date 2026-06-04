@@ -89,7 +89,11 @@ function submitBatchTag() {
 .toolbar-link {
   background: none;
   border: none;
-  color: rgba(255, 255, 255, 0.8);
+  /* P45 r2: rgba(255,255,255,0.8) → color-mix(--card, transparent).
+     之前硬编码 white 在 dark 模式 --accent 仍蓝, white text 对比度仍 OK,
+     但与全站 token 契约脱节 (其他 on-accent 元素已用 --card, 见 P38 r17/r33).
+     color-mix 让 80% 透明等价于 "subdued on-accent" — 链接态可读但不抢戏. */
+  color: color-mix(in srgb, var(--card) 80%, transparent);
   cursor: pointer;
   font-size: 0.8rem;
   font-family: var(--font);
@@ -98,7 +102,8 @@ function submitBatchTag() {
 }
 
 .toolbar-link:hover {
-  color: white;
+  /* hover 时从 80% → 100%, 视觉强度提升 1 档 (Geist link 风格). */
+  color: var(--card);
 }
 
 .toolbar-actions {
@@ -109,18 +114,22 @@ function submitBatchTag() {
 
 .toolbar-btn {
   padding: 6px 14px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  /* P45 r2: 3 处 rgba(255,255,255,*) → color-mix(--card, transparent).
+     1px border (was 0.3 alpha) + 15% bg (was 0.15 alpha) + 文字 (was white).
+     之前 dark 模式 --accent 不变, 硬编码 white 仍可读; 但与全站 --card 契约脱节.
+     现在 color-mix 自动跟随 --card 翻转, future-proof. */
+  border: 1px solid color-mix(in srgb, var(--card) 30%, transparent);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.15);
-  color: white;
+  background: color-mix(in srgb, var(--card) 15%, transparent);
+  color: var(--card);
   font-size: 0.8rem;
   font-family: var(--font);
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.2s, border-color 0.2s;
 }
 
 .toolbar-btn:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: color-mix(in srgb, var(--card) 25%, transparent);
 }
 
 .toolbar-btn:disabled {
