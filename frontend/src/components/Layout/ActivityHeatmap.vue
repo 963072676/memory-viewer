@@ -322,46 +322,28 @@ onMounted(loadData)
   transform: scale(1.4);
 }
 
-/* Light mode levels */
+/* Levels — P38 r22: GitHub 硬编码绿 (9be9a8/40c463/30a14e/216e39) → 全站 --accent 蓝渐变。
+   5 档 token 已在 variables.css 定义（--heatmap-0/1/2/3/4），
+   color-mix 自动跟随 light/dark 两套 --accent，深色背景下 alpha 自动混 dark 底色。
+   删除原 dark-mode 9 行 hardcoded GitHub 绿（0e4429/006d32/26a641/39d353）— token 自适应。 */
 .heatmap-cell.level-0 {
-  background: var(--tag-bg, #ebedf0);
+  background: var(--heatmap-0);
 }
 
 .heatmap-cell.level-1 {
-  background: #9be9a8;
+  background: var(--heatmap-1);
 }
 
 .heatmap-cell.level-2 {
-  background: #40c463;
+  background: var(--heatmap-2);
 }
 
 .heatmap-cell.level-3 {
-  background: #30a14e;
+  background: var(--heatmap-3);
 }
 
 .heatmap-cell.level-4 {
-  background: #216e39;
-}
-
-/* Dark mode levels */
-[data-theme='dark'] .heatmap-cell.level-0 {
-  background: #161b22;
-}
-
-[data-theme='dark'] .heatmap-cell.level-1 {
-  background: #0e4429;
-}
-
-[data-theme='dark'] .heatmap-cell.level-2 {
-  background: #006d32;
-}
-
-[data-theme='dark'] .heatmap-cell.level-3 {
-  background: #26a641;
-}
-
-[data-theme='dark'] .heatmap-cell.level-4 {
-  background: #39d353;
+  background: var(--heatmap-4);
 }
 
 .heatmap-legend {

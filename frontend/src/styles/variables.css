@@ -61,6 +61,15 @@
   --info-text: #1565c0;
   --warn-bg: #fff3e0;
   --warn-text: #e65100;
+  /* P38 r21: ActivityHeatmap 5 档 token — 改 GitHub 硬编码绿 (9be9a8/40c463/30a14e/216e39) 为 accent 蓝渐变，
+     与全站 --accent 蓝 (#0072f5) 同源。level-0 = 透明空槽，level-1→4 渐强 alpha (12%/25%/45%/75%)。
+     color-mix 自动跟随 light/dark 两套 --accent，深色背景下 alpha 自动混 dark 底色，效果仍可读。 */
+  --heatmap-0: transparent;
+  --heatmap-1: color-mix(in srgb, var(--accent) 12%, transparent);
+  --heatmap-2: color-mix(in srgb, var(--accent) 25%, transparent);
+  --heatmap-3: color-mix(in srgb, var(--accent) 45%, transparent);
+  --heatmap-4: color-mix(in srgb, var(--accent) 75%, transparent);
+
   /* Type badge colors */
   --type-pattern-bg: #e3f8e8;
   --type-pattern-text: #1b7a35;
