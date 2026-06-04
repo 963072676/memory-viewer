@@ -179,9 +179,18 @@
         </div>
       </div>
     </transition>
-    <div class="expand-indicator">
-      <span>{{ isExpanded ? '▲' : '▼' }}</span>
-    </div>
+    <button
+      type="button"
+      class="expand-indicator"
+      :aria-expanded="isExpanded"
+      :aria-label="isExpanded ? $t('zh_006673') : $t('zh_0065b0')"
+      @click="toggle"
+    >
+      <span class="expand-indicator__text">
+        {{ isExpanded ? $t('zh_006673') : $t('zh_0065b0') }}
+      </span>
+      <span class="expand-indicator__icon" aria-hidden="true">{{ isExpanded ? '▲' : '▼' }}</span>
+    </button>
   </div>
 </template>
 
@@ -643,17 +652,54 @@ watch(() => props.forceExpanded, (newVal) => {
 .health-yellow { color: var(--health-warn); }
 .health-red { color: var(--health-bad); }
 
+/* P38 r34: expand-indicator 升级 — div → <button> + 文字 label + 顶部 hairline.
+   旧实现只是一个 4px 高的 ▼, 用户看不到"可点击", hover 也只有背景变色 (太弱).
+   新实现: 整条变成一个 ghost 按钮, 文字+icon 同行, 顶部 1px border 与 card-body 视觉分隔,
+   hover 时 icon 跳动 1px (微动效), 让"点击展开"语义一眼可读. */
 .expand-indicator {
-  text-align: center;
-  padding: 4px;
-  font-size: 0.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 0.72rem;
+  font-family: var(--font);
+  font-weight: 500;
   color: var(--text-secondary);
   background: transparent;
-  transition: background 0.2s;
+  border: none;
+  border-top: 1px solid var(--border);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .expand-indicator:hover {
   background: var(--tag-bg);
+  color: var(--primary);
+}
+
+.expand-indicator:hover .expand-indicator__icon {
+  /* hover 时 icon 微微下移 1px, 强化"可点击"反馈 */
+  transform: translateY(1px);
+}
+
+.expand-indicator__text {
+  /* 占位用 — 文字 "展开" / "折叠" */
+  letter-spacing: 0.02em;
+}
+
+.expand-indicator__icon {
+  font-size: 0.7rem;
+  line-height: 1;
+  display: inline-block;
+  transition: transform 0.15s ease;
+}
+
+/* P38 r34: expanded 状态下 icon 朝上 — 保持 transition 平滑, 不抖动 */
+.memory-card.expanded .expand-indicator__icon {
+  transform: translateY(-1px);
 }
 
 .select-checkbox {
