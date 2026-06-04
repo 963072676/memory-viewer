@@ -10,7 +10,7 @@
               ref="inputRef"
               v-model="query"
               class="palette-input"
-              placeholder="$t('zh_4394e2')..."
+              :placeholder="`${$t('zh_4394e2')}...`"
               autofocus
               @keydown.down.prevent="moveDown"
               @keydown.up.prevent="moveUp"

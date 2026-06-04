@@ -4,11 +4,11 @@
       <h4>{{ $t('zh_ae5cab') }}</h4>
       <div class="field-group">
         <label>{{ $t('zh_c950fe') }}</label>
-        <input v-model="form.name" type="text" placeholder="$t('zh_006404'): $t('zh_2f255f')" class="input-field" />
+        <input v-model="form.name" type="text" :placeholder="`${$t('zh_006404')}: ${$t('zh_2f255f')}`" class="input-field" />
       </div>
       <div class="field-group">
         <label>{{ $t('zh_0066d7') }}</label>
-        <input v-model="form.description" type="text" placeholder="$t('zh_c9531c')" class="input-field" />
+        <input v-model="form.description" type="text" :placeholder="$t('zh_c9531c')" class="input-field" />
       </div>
     </div>
 
@@ -73,7 +73,7 @@
           v-model="action.config.tag"
           type="text"
           class="input-field"
-          placeholder="$t('zh_0d5177')"
+          :placeholder="$t('zh_0d5177')"
         />
         <input
           v-if="action.type === 'adjust_strength'"
