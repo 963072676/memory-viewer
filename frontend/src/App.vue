@@ -1,5 +1,10 @@
 <template>
   <div class="app">
+    <!-- P38 r31: scroll progress bar — 顶部 1px accent 进度条，反映 main-wrapper 滚动位置。
+         之前 router-view 切换有 page fade (r9) + card stagger (r28) 三阶段载入感，但
+         页面滚动时无任何反馈。0.5px 高度在 light/dark 都"贴着但不被注意"，100% 时整条
+         满满前进感。transform scaleX 而非 width 避免 layout thrash。 -->
+    <div class="scroll-progress" :style="{ transform: `scaleX(${scrollProgress})` }" aria-hidden="true"></div>
     <AppSidebar ref="sidebarRef" />
     <div class="main-wrapper" :class="{ 'sidebar-collapsed': uiStore.sidebarCollapsed }">
       <AppHeader @toggle-sidebar="onToggleSidebar" @open-more="onOpenMore" />
@@ -109,6 +114,25 @@ window.addEventListener('toggle-command-palette', onTogglePalette)
 onUnmounted(() => {
   window.removeEventListener('app-refresh', onRefresh)
   window.removeEventListener('toggle-command-palette', onTogglePalette)
+  window.removeEventListener('scroll', onScrollProgress, { capture: true } as any)
+})
+
+// P38 r31: scroll progress — 0~1, requestAnimationFrame 节流避免 60fps 主线程阻塞。
+// 用 capture: true 监 window 滚动，兼容子元素 overflow:auto 滚动容器。
+const scrollProgress = ref(0)
+let _progressRaf = 0
+function onScrollProgress() {
+  if (_progressRaf) return
+  _progressRaf = requestAnimationFrame(() => {
+    _progressRaf = 0
+    const doc = document.documentElement
+    const max = (doc.scrollHeight - doc.clientHeight) || 1
+    scrollProgress.value = Math.min(1, Math.max(0, doc.scrollTop / max))
+  })
+}
+onMounted(() => {
+  window.addEventListener('scroll', onScrollProgress, { passive: true, capture: true } as any)
+  onScrollProgress()
 })
 
 // F47: Handle command palette commands
@@ -159,6 +183,29 @@ async function handleBulkAutoTagFromPalette() {
   /* P38 r9: --bg-primary 不存在（设计系统用 --bg），修复潜在 fallback 问题。
      light 模式 #fafafa，dark 模式 #0a0a0a。 */
   background: var(--bg);
+}
+
+/* P38 r31: scroll progress bar — 顶部 0.5px accent bar。
+   fixed 而非 sticky，避免 header 滚动时跟随抖动。
+   0 → 100% transform: scaleX 一次性 GPU 合成，不触发 layout。
+   120ms ease-out 缓动让滚动"松手后最后 1 秒" 进度条仍有惯性。 */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 0.5px;
+  background: var(--accent);
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  z-index: 10001; /* 高于 Toast (10000) 与 command palette */
+  pointer-events: none;
+  transition: transform 120ms ease-out;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-progress { transition: none; }
 }
 
 .main-wrapper {
