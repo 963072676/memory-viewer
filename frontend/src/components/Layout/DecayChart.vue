@@ -22,7 +22,7 @@
       <!-- Current position marker -->
       <circle
         :cx="currentX" :cy="currentY"
-        r="4" fill="var(--accent)" stroke="white" stroke-width="1.5" />
+        r="4" fill="var(--accent)" stroke="var(--card)" stroke-width="1.5" />
       <!-- Zero line label -->
       <text :x="svgW - padR + 2" :y="zeroY + 3" class="axis-label">0</text>
     </svg>
@@ -103,8 +103,8 @@ const currentY = computed(() => {
   font-size: 0.65rem;
   padding: 2px 6px;
   border-radius: 8px;
-  background: #fee2e2;
-  color: #dc2626;
+  background: var(--error-bg);
+  color: var(--error-text);
 }
 
 .chart-svg {

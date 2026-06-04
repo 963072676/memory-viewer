@@ -58,9 +58,9 @@ const dashOffset = computed(() => {
 })
 
 const gaugeColor = computed(() => {
-  if (normalizedScore.value >= 80) return '#22c55e'
-  if (normalizedScore.value >= 50) return '#eab308'
-  return '#ef4444'
+  if (normalizedScore.value >= 80) return 'var(--health-good)'
+  if (normalizedScore.value >= 50) return 'var(--health-warn)'
+  return 'var(--health-bad)'
 })
 
 const colorClass = computed(() => {
@@ -105,9 +105,9 @@ svg {
   line-height: 1;
 }
 
-.gauge-green .gauge-score { color: #22c55e; }
-.gauge-yellow .gauge-score { color: #eab308; }
-.gauge-red .gauge-score { color: #ef4444; }
+.gauge-green .gauge-score { color: var(--health-good); }
+.gauge-yellow .gauge-score { color: var(--health-warn); }
+.gauge-red .gauge-score { color: var(--health-bad); }
 
 .gauge-label {
   font-size: 0.65rem;

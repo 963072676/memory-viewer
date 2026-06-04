@@ -98,9 +98,9 @@ onMounted(() => loadData())
 
 <style scoped>
 .usage-chart {
-  background: var(--card, #fff);
-  border: 1px solid var(--border, #e5e5ea);
-  border-radius: 12px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
   padding: 16px;
   margin-bottom: 16px;
 }
@@ -116,16 +116,16 @@ onMounted(() => loadData())
   margin: 0;
   font-size: 1rem;
   font-weight: 600;
-  color: var(--text, #1d1d1f);
+  color: var(--primary);
 }
 
 .period-select {
   padding: 4px 8px;
-  border: 1px solid var(--border, #e5e5ea);
-  border-radius: 6px;
-  background: var(--bg, #f2f2f7);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-recessed);
   font-size: 0.8rem;
-  color: var(--text, #1d1d1f);
+  color: var(--primary);
   font-family: var(--font);
 }
 
@@ -133,7 +133,7 @@ onMounted(() => loadData())
 .chart-empty {
   text-align: center;
   padding: 40px;
-  color: var(--text-secondary, #86868b);
+  color: var(--text-secondary);
   font-size: 0.85rem;
 }
 
@@ -158,7 +158,7 @@ onMounted(() => loadData())
 .bar {
   width: 100%;
   max-width: 30px;
-  background: var(--primary, #007aff);
+  background: var(--accent);
   border-radius: 4px 4px 0 0;
   min-height: 2px;
   transition: height 0.3s ease;
@@ -166,7 +166,7 @@ onMounted(() => loadData())
 
 .bar-label {
   font-size: 0.6rem;
-  color: var(--text-secondary, #86868b);
+  color: var(--text-secondary);
   margin-top: 4px;
   white-space: nowrap;
   overflow: hidden;
@@ -180,7 +180,7 @@ onMounted(() => loadData())
   gap: 16px;
   margin-top: 12px;
   padding-top: 12px;
-  border-top: 1px solid var(--border, #e5e5ea);
+  border-top: 1px solid var(--border);
   flex-wrap: wrap;
 }
 
@@ -192,12 +192,12 @@ onMounted(() => loadData())
 
 .summary-label {
   font-size: 0.7rem;
-  color: var(--text-secondary, #86868b);
+  color: var(--text-secondary);
 }
 
 .summary-value {
   font-size: 1rem;
   font-weight: 600;
-  color: var(--primary, #007aff);
+  color: var(--accent);
 }
 </style>
