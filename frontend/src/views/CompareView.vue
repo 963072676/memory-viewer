@@ -133,7 +133,21 @@ h2.section-title { position: relative; padding-left: 12px; }
 h2.section-title::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 3px; height: 60%; background: var(--accent); border-radius: 0 2px 2px 0; }
 /* P38 r21: button system unification — .action-btn + .action-btn--primary
    are global. Local rules removed (old BEM-wrong .action-btn.primary). */
-h3 { font-size: 1rem; font-weight: 600; margin-bottom: 12px; color: var(--primary); }
+/* P38 r28: CompareView 3 列 h3 视觉锚点 — 1px subtle bottom border (不用 2px left bar).
+   与其他 h3 不同的设计决策: 这 3 个 h3 位于 .left-only/.common/.right-only 三色列内,
+   列本身有 3px diff-color left border, 再叠 2px accent bar 会"左 border 拥挤".
+   改用 1px bottom border 形成"column header underline"视觉语言 — h3 变成列的"小标题"而非
+   section 的"分组标题". 1px 是视觉权重, --border (light #ebebeb / dark #2c2c2c) 弱化不抢戏.
+   复用 r27 section-title 模式但变体为"horizontal underline" 应对特殊场景. */
+.three-column h3 {
+  position: relative;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  color: var(--primary);
+  border-bottom: 1px solid var(--border);
+}
 .profile-select { display: flex; gap: 16px; margin-bottom: 24px; }
 .select-group { flex: 1; }
 .select-group label { display: block; font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 6px; font-weight: 500; }

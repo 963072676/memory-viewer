@@ -89,9 +89,28 @@ h2 {
 }
 
 .profile-heading {
+  position: relative;
   font-size: 1.1rem;
   font-weight: 600;
   margin-bottom: 16px;
+  color: var(--primary);
+  /* P38 r28: h3 视觉锚点 — 2px accent bar 左侧 rail.
+     与 r27 section-title 3px bar 同源但 h3 视觉重量更轻 → 用 2px 而非 3px.
+     之前 h3 是无视觉锚点的纯文字, 在 in-page 多 section 排版时无分组感.
+     2px bar + 10px padding-left 让 h3 与下方 hermes-card 视觉断点更清晰. */
+  padding-left: 10px;
+}
+
+.profile-heading::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2px;
+  height: 70%;
+  background: var(--accent);
+  border-radius: 0 2px 2px 0;
 }
 
 /* P38 r20: .hermes-card 视觉升级 — 与 MemoryCard 视觉语言同源 (hover + shadow + translateY).
