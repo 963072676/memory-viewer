@@ -14,7 +14,7 @@
           <h3 v-if="result.title">{{ result.title }}</h3>
           <p class="match-snippet" v-html="sanitizeHighlight(result.matchSnippet)"></p>
           <div class="result-meta">
-            <span v-if="result.type" class="type-badge">{{ result.type }}</span>
+            <span v-if="result.type" class="unified-type chip" :class="'chip--' + result.type">{{ result.type }}</span>
             <span v-if="result.profile" class="profile-badge">{{ result.profile }}</span>
           </div>
         </div>
@@ -29,7 +29,7 @@
           <h3 v-if="result.title">{{ result.title }}</h3>
           <p class="match-snippet">{{ result.snippet }}</p>
           <div class="result-meta">
-            <span v-if="result.type" class="type-badge">{{ result.type }}</span>
+            <span v-if="result.type" class="unified-type chip" :class="'chip--' + result.type">{{ result.type }}</span>
             <span v-for="tag in result.tags" :key="tag" class="type-badge">{{ tag }}</span>
             <span class="match-type-badge" :class="'match-type--' + result.match_type">
               {{ result.match_type === 'semantic' ? '语义匹配' : '关键词匹配' }}
@@ -465,11 +465,25 @@ h2 {
   font-size: 0.875rem;
 }
 
+/* P38 r26: search-result-card hover — 复用 r12/r13 全站 4 套 Card 同源 hover 语言
+   (transition 0.25s cubic-bezier, box-shadow 强 + transform translateY(-2px))。
+   之前 .search-result-card 只有静态 border + radius, 无 hover, 与上下
+   MemoryCard / unified-card / hermes-card / collection-card 形成 "粗糙" 对比.
+   加上 hover 后跨 view 切换无视觉跳变. */
 .search-result-card {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 16px;
+  transition: box-shadow 0.25s cubic-bezier(0.25, 0.1, 0.25, 1),
+              transform 0.25s cubic-bezier(0.25, 0.1, 0.25, 1),
+              border-color 0.2s ease;
+}
+
+.search-result-card:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
+  border-color: var(--border-strong);
 }
 
 .result-source {
