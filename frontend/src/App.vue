@@ -169,8 +169,14 @@ async function handleBulkAutoTagFromPalette() {
   transition: margin-left 0.2s ease;
 }
 
+/* P38 r24: 主内容区 max-width → clamp() 流体 — 替代静态 1200px。
+   旧 1200px 在 1920+ 显示器（开发者常见工作屏）让内容"死贴左侧 360px 空白"，
+   因为 main-wrapper 已经被 sidebar 占去 220px，可用空间 1700px，但内容
+   永远卡在 1200px → 右边 500px 死区。
+   改用 --content-max token（见 variables.css）：clamp(800px, 92%, 1280px) 3 段语义。
+   与 AppHeader .header-content 共用同一 token，保证 header 居中轴线与内容轴线对齐。 */
 .main-wrapper .container {
-  max-width: 1200px;
+  max-width: var(--content-max);
   margin: 0 auto;
   padding: 20px 24px;
   padding-bottom: 60px;

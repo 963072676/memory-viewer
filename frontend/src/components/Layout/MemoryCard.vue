@@ -35,7 +35,7 @@
              仅保留 ring 单一表达，更克制（v.s. P38 r13 之前 ring + bar + text 三种）。 -->
         <div
           class="strength-ring"
-          :class="'strength-ring--' + strengthTier"
+          :class="['strength-ring--' + strengthTier, { 'strength-ring--perfect': strengthPercent === 100 }]"
           :title="`强度 ${strengthPercent}%`"
           role="img"
           :aria-label="`记忆强度 ${strengthPercent}%`"
@@ -520,6 +520,21 @@ watch(() => props.forceExpanded, (newVal) => {
 .strength-ring--high .strength-ring__fill { stroke: var(--strength-high-fill); }
 .strength-ring--mid  .strength-ring__fill { stroke: var(--strength-mid-fill); }
 .strength-ring--low  .strength-ring__fill { stroke: var(--strength-low-fill); }
+
+/* P38 r24: high tier 微光晕 — 用 stroke 自带的 filter drop-shadow 给"≥70% 强健"
+   记忆一个柔和的外发光，让它在缩略列表里"跳出来"（用户扫到时不会漏过）。
+   mid/low 故意不加 — 视觉上"安静的弱化"才符合"弱化状态"语义。 */
+.strength-ring--high {
+  filter: drop-shadow(0 0 4px color-mix(in srgb, var(--strength-high-fill) 40%, transparent));
+}
+
+/* P38 r24: 100% 满级里程碑 — 在 ring 容器外圈加一道 2px 细金线
+   （用 inset box-shadow 实现），表达"完美记忆"。仅 strengthPercent === 100 触发。 */
+.strength-ring--perfect {
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--strength-high-fill) 50%, transparent),
+              0 0 0 1px color-mix(in srgb, var(--strength-high-fill) 30%, transparent);
+  border-radius: 50%;
+}
 
 .strength-ring__num {
   position: absolute;

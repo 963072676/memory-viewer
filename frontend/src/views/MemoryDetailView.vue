@@ -43,7 +43,7 @@
                之间会感到"换了一套表达"。ring 配 tier 颜色 + 中心数字，一眼可读。 -->
           <div
             class="strength-ring"
-            :class="'strength-ring--' + strengthTier"
+            :class="['strength-ring--' + strengthTier, { 'strength-ring--perfect': strengthPercent === 100 }]"
             :title="`强度 ${strengthPercent}%`"
             role="img"
             :aria-label="`记忆强度 ${strengthPercent}%`"
@@ -558,6 +558,18 @@ onMounted(() => {
 .strength-ring--mid  .strength-ring__fill { stroke: var(--strength-mid-fill); }
 .strength-ring--low  .strength-ring__fill { stroke: var(--strength-low-fill); }
 
+/* P38 r24: 与 MemoryCard 同源 — high tier 微光晕 + 100% 满级里程碑环。
+   同步 list/detail 两个视图的"强度"视觉语言，避免 P38 r16 刚统一完又被本轮遗漏。 */
+.strength-ring--high {
+  filter: drop-shadow(0 0 4px color-mix(in srgb, var(--strength-high-fill) 40%, transparent));
+}
+
+.strength-ring--perfect {
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--strength-high-fill) 50%, transparent),
+              0 0 0 1px color-mix(in srgb, var(--strength-high-fill) 30%, transparent);
+  border-radius: 50%;
+}
+
 .strength-ring__num {
   position: absolute;
   font-size: 0.78rem;
@@ -580,10 +592,17 @@ onMounted(() => {
   max-height: none;
 }
 
+/* P38 r24: 阅读列宽 + 排版打磨 — 旧 .card-content 是 0.95rem / line-height 1.6，
+   在 900px 宽的 .memory-detail-view 里行可达 ~150 字符，远超可读舒适区（中文 ≤45 字符/行，
+   英文 ≤75 字符/行）。Geist 风格长文阅读最佳行宽 60-75 字符。
+   改：font-size 0.95rem → 1rem（接近 Apple 阅读器 17px），line-height 1.6 → 1.7（Vercel/Geist 偏好），
+   color 用 --primary 而非 --text-primary（token 治理，之前是错引），并加 max-width: 70ch
+   限制单行最大字符数。中文 1ch ≈ 1 字符，70ch ≈ 70 字符 → 体感舒适。 */
 .card-content {
-  font-size: 0.95rem;
-  line-height: 1.6;
-  color: var(--text-primary);
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--primary);
+  max-width: 70ch;
   max-height: 200px;
   overflow: hidden;
 }
