@@ -11,7 +11,7 @@
     >
       <div class="dedup-header">
         <h2 id="dedup-modal-title">🔍 {{ $t('zh_bbbfca') }}</h2>
-        <button class="close-btn" @click="$emit('close')" aria-label="$t('zh_bb950d')">✕</button>
+        <button class="close-btn" @click="$emit('close')" :aria-label="$t('zh_bb950d')">✕</button>
       </div>
 
       <div class="dedup-summary">

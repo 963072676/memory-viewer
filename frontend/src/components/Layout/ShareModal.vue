@@ -11,7 +11,7 @@
     >
       <div class="modal-header">
         <h3 id="share-modal-title">🔗 {{ $t('zh_aab872') }}</h3>
-        <button class="close-btn" @click="$emit('close')" aria-label="$t('zh_77e130')">✕</button>
+        <button class="close-btn" @click="$emit('close')" :aria-label="$t('zh_77e130')">✕</button>
       </div>
 
       <div class="modal-body">
@@ -59,7 +59,7 @@
             v-if="usePassword"
             v-model="password"
             type="password"
-            placeholder="$t('zh_513c9b')"
+            :placeholder="$t('zh_513c9b')"
             class="password-input"
           />
         </div>

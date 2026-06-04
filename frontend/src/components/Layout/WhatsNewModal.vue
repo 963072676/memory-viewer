@@ -11,7 +11,7 @@
         >
           <div class="modal-header">
             <h2 id="whatsnew-modal-title">🎉 What's New</h2>
-            <button class="close-btn" @click="onClose" aria-label="$t('zh_d9366f')">&times;</button>
+            <button class="close-btn" @click="onClose" :aria-label="$t('zh_d9366f')">&times;</button>
           </div>
           <div class="modal-body">
             <div v-if="changelog.length === 0" class="empty-changelog">

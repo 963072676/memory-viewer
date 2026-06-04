@@ -23,7 +23,7 @@
         {{ searchMode === 'semantic' ? '🧠 Semantic' : '🔤 Keyword' }}
       </span>
     </button>
-    <button v-if="uiStore.searchQuery" class="clear-btn" @click="clear" aria-label="$t('zh_bb3e9f')">✕</button>
+    <button v-if="uiStore.searchQuery" class="clear-btn" @click="clear" :aria-label="$t('zh_bb3e9f')">✕</button>
     <div class="shortcut-hints">
       <kbd v-if="!uiStore.searchQuery" class="hint-search">/</kbd>
       <kbd class="hint-palette">⌘K</kbd>

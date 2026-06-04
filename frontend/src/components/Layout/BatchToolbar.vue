@@ -19,7 +19,7 @@
                 v-model="batchTagInput"
                 type="text"
                 class="tag-batch-input"
-                placeholder="$t('zh_7c705f')"
+                :placeholder="$t('zh_7c705f')"
                 @keydown.enter.prevent="submitBatchTag"
               />
               <button class="tag-batch-confirm" @click="submitBatchTag">{{ $t('zh_00694c') }}</button>

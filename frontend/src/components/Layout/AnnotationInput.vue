@@ -16,7 +16,7 @@
         <option value="flag">🚩 {{ $t('zh_b7c731') }}</option>
         <option value="suggest">💡 {{ $t('zh_b2cea6') }}</option>
       </select>
-      <input v-model="author" type="text" placeholder="$t('zh_a9e6fb')" class="author-input" />
+      <input v-model="author" type="text" :placeholder="$t('zh_a9e6fb')" class="author-input" />
       <button class="action-btn action-btn--accent action-btn--sm" :disabled="!content.trim()" @click="submit">
         {{ submitLabel || '发送' }}
       </button>

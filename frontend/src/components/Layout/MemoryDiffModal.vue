@@ -11,7 +11,7 @@
     >
       <div class="diff-header">
         <h2 id="diff-modal-title">📋 {{ $t('zh_d2d745') }}</h2>
-        <button class="close-btn" @click="$emit('close')" aria-label="$t('zh_3be874')">✕</button>
+        <button class="close-btn" @click="$emit('close')" :aria-label="$t('zh_3be874')">✕</button>
       </div>
 
       <div class="diff-meta">

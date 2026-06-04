@@ -38,7 +38,7 @@
             <input
               v-model="webhookSecret"
               type="password"
-              placeholder="$t('zh_0064cc')"
+              :placeholder="$t('zh_0064cc')"
               class="form-input"
             />
           </div>
@@ -88,7 +88,7 @@
             <input
               v-model="feishuSecret"
               type="password"
-              placeholder="$t('zh_0064cc')"
+              :placeholder="$t('zh_0064cc')"
               class="form-input"
             />
           </div>

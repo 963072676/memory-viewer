@@ -13,7 +13,7 @@
       <form @submit.prevent="onSubmit">
         <div class="form-group">
           <label>Content</label>
-          <textarea v-model="form.content" rows="5" placeholder="$t('zh_ca9884')"></textarea>
+          <textarea v-model="form.content" rows="5" :placeholder="$t('zh_ca9884')"></textarea>
         </div>
         <div class="form-group">
           <label>Strength: <span class="strength-val">{{ form.strength * 10 }}%</span></label>
@@ -32,7 +32,7 @@
               <input
                 v-model="newConcept"
                 type="text"
-                placeholder="$t('zh_15b14d')"
+                :placeholder="$t('zh_15b14d')"
                 @keydown.enter.prevent="addConcept"
               />
               <button type="button" class="btn-add-tag" @click="addConcept">+</button>
