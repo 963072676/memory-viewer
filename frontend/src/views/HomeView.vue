@@ -645,12 +645,18 @@ h2 {
 }
 
 .source-badge {
-  font-size: 0.65rem;
-  padding: 2px 8px;
-  border-radius: 12px;
+  /* P38 r19: unify with .unified-type.chip — 6px radius + 1px border, no dot
+     (color already encodes source identity, dot would be redundant).
+     Previously 12px pill + no border, drifted from the row's adjacent type chip. */
+  font-size: 0.625rem;
+  padding: 3px 8px;
+  border-radius: 6px;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
+  border: 1px solid transparent;
+  display: inline-flex;
+  align-items: center;
 }
 
 /* P38 (round 6): source-badge token 化 — 之前 6 个 hex (3 bg + 3 text) + 0 个 dark
@@ -658,21 +664,25 @@ h2 {
 .source-badge.source-hermes {
   background: var(--source-hermes-bg);
   color: var(--source-hermes-text);
+  border-color: color-mix(in srgb, var(--source-hermes-text) 18%, transparent);
 }
 
 .source-badge.source-agentmemory {
   background: var(--source-agentmemory-bg);
   color: var(--source-agentmemory-text);
+  border-color: color-mix(in srgb, var(--source-agentmemory-text) 18%, transparent);
 }
 
 .source-badge.source-mem0 {
   background: var(--source-mem0-bg);
   color: var(--source-mem0-text);
+  border-color: color-mix(in srgb, var(--source-mem0-text) 18%, transparent);
 }
 
 .source-badge.source-unknown {
   background: var(--tag-bg);
   color: var(--text-secondary);
+  border-color: var(--border);
 }
 
 /* P39: type chip — matches MemoryCard's badge system (uppercase + colored dot + bordered) */
