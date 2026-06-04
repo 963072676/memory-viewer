@@ -1,7 +1,7 @@
 <template>
   <div class="agentmemory-view">
     <div class="view-header">
-      <h2>AgentMemory</h2>
+      <h2 class="section-title">AgentMemory</h2>
       <div class="view-actions">
         <!-- P38 (round 3): button hierarchy — 5 个按钮全平铺违反"primary 唯一"原则。
              「+ 创建」是最高频动作（用户主要操作）→ primary 药丸。
@@ -401,6 +401,25 @@ h2 {
   font-size: 1.5rem;
   font-weight: 600;
   letter-spacing: -0.02em;
+}
+
+/* P38 r20: section-title 左侧 3px accent bar — 与 HomeView / AppSidebar / HermesMemoryView 同源 (r15 模式).
+   全站 section title 现在共享同一视觉锚点语言 (3px rail + 12px padding-left). */
+.section-title {
+  position: relative;
+  padding-left: 12px;
+}
+
+.section-title::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 60%;
+  background: var(--accent);
+  border-radius: 0 2px 2px 0;
 }
 
 .action-btn {

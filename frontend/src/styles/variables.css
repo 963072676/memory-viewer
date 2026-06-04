@@ -193,6 +193,7 @@
   --input-focus: #1f1f1f;
   --success-bg: #1b3a1b;
   --success-text: #66bb6a;
+  --error: #ff453a;        /* P38 r19: dark 模式 destructive 按钮高对比红, 与 light 模式 --error (#ff3b30) 同档 (Apple system red dark) */
   --error-bg: #3e1a1a;
   --error-text: #ef9a9a;
   --error-border: #5a2020;

@@ -1,7 +1,7 @@
 <template>
   <div class="collections-view">
     <div class="cv-header">
-      <h2>📚 Collections</h2>
+      <h2 class="section-title">📚 Collections</h2>
       <button class="btn-create" @click="openEditor(null)">+ New Collection</button>
     </div>
 
@@ -119,6 +119,10 @@ onMounted(loadCollections)
   color: var(--primary);  /* P41: 去误导的 #007aff fallback — --primary 已是黑/白文字色 */
   margin: 0;
 }
+
+/* P38 r20: section-title 左侧 3px accent bar — 与全站其他 view 同源 (r15 模式). */
+.cv-header h2.section-title { position: relative; padding-left: 12px; }
+.cv-header h2.section-title::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 3px; height: 60%; background: var(--accent); border-radius: 0 2px 2px 0; }
 
 /* P41: 与 P39 HomeView 的 .action-btn--primary 对齐 — 主 CTA 用 --primary 黑/白药丸，
    避免与侧栏激活态/链接的蓝色信号混淆。 */

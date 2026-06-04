@@ -1,6 +1,6 @@
 <template>
   <div class="profiles-view">
-    <h2>Profiles</h2>
+    <h2 class="section-title">Profiles</h2>
     <div v-if="loading" class="loading">加载中...</div>
     <div v-else-if="profiles.length === 0">
       <EmptyState icon="👤" message="暂无 Profile" />
@@ -47,6 +47,10 @@ h2 {
   font-weight: 600;
   margin-bottom: 24px;
 }
+
+/* P38 r20: section-title 左侧 3px accent bar — 与全站其他 view 同源 (r15 模式). */
+h2.section-title { position: relative; padding-left: 12px; }
+h2.section-title::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 3px; height: 60%; background: var(--accent); border-radius: 0 2px 2px 0; }
 
 .profile-list {
   display: flex;

@@ -1,7 +1,7 @@
 <template>
   <div class="compare-view">
     <div class="view-header">
-      <h2>🔍 多 Agent 记忆对比</h2>
+      <h2 class="section-title">🔍 多 Agent 记忆对比</h2>
       <button class="action-btn primary" @click="compare" :disabled="!leftProfile || !rightProfile || loading">
         {{ loading ? '对比中...' : '开始对比' }}
       </button>
@@ -128,6 +128,9 @@ onMounted(() => loadProfiles())
 .compare-view { padding-bottom: 40px; }
 .view-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
 h2 { font-size: 1.5rem; font-weight: 600; color: var(--primary); }
+/* P38 r20: section-title 左侧 3px accent bar — 与全站其他 view 同源 (r15 模式). */
+h2.section-title { position: relative; padding-left: 12px; }
+h2.section-title::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 3px; height: 60%; background: var(--accent); border-radius: 0 2px 2px 0; }
 h3 { font-size: 1rem; font-weight: 600; margin-bottom: 12px; color: var(--primary); }
 .action-btn { padding: 8px 16px; border: 1px solid var(--border); border-radius: 8px; background: var(--card); color: var(--primary); cursor: pointer; font-size: 0.85rem; }
 .action-btn:hover { background: var(--tag-bg); }

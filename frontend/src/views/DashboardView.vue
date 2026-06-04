@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard-view">
     <div class="dashboard-header">
-      <h2>📊 统计仪表盘</h2>
+      <h2 class="section-title">📊 统计仪表盘</h2>
       <button class="btn-refresh" @click="loadStats">🔄 刷新</button>
     </div>
 
@@ -211,6 +211,24 @@ function onHeatmapDayClick(date: string) {
   color: var(--primary);
   margin: 0;
   letter-spacing: -0.02em;
+}
+
+/* P38 r20: section-title 左侧 3px accent bar — 与 HomeView / AppSidebar / HermesMemoryView / AgentMemoryView 同源 (r15 模式). */
+.dashboard-header h2.section-title {
+  position: relative;
+  padding-left: 12px;
+}
+
+.dashboard-header h2.section-title::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 60%;
+  background: var(--accent);
+  border-radius: 0 2px 2px 0;
 }
 
 /* P37: btn-refresh — Geist 风格 outline 按钮 */
