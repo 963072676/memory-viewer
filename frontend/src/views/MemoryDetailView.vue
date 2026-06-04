@@ -138,8 +138,8 @@
 
     <ConfirmDialog
       v-if="confirmDelete"
-      title="$t('zh_c0c40a')"
-      message="$t('zh_794546')？{{ $t('zh_974456') }}。"
+      :title="$t('zh_c0c40a')"
+      :message="`${$t('zh_794546')}？${$t('zh_974456')}。`"
       confirm-text="删除"
       cancel-text="取消"
       @confirm="handleDelete"

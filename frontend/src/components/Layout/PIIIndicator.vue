@@ -6,7 +6,7 @@
         v-if="!revealed"
         class="pii-reveal-btn"
         @click.stop="requestReveal"
-        :title="'$t('zh_ef6766')（'+countdown+'$t('zh_6ba6d9')）'"
+        :title="`${$t('zh_ef6766')}（${countdown}${$t('zh_6ba6d9')}）`"
       >
         👁️ {{ $t('zh_006711') }}
       </button>

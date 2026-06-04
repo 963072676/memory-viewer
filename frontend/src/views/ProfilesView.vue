@@ -3,7 +3,8 @@
     <h2 class="section-title">Profiles</h2>
     <div v-if="loading" class="loading">加载中...</div>
     <div v-else-if="profiles.length === 0">
-      <EmptyState icon="👤" message="$t('zh_006706') Profile" />
+      <!-- P38 r30: EmptyState message prop 改 v-bind -->
+      <EmptyState icon="👤" :message="`${$t('zh_006706')} Profile`" />
     </div>
     <div v-else class="profile-list">
       <div v-for="name in profiles" :key="name" class="profile-card">

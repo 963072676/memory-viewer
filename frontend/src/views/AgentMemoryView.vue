@@ -66,7 +66,7 @@
       <BatchToolbar :loading="batchLoading" @batch="handleBatch" @export="handleBatchExport" />
       <ConfirmDialog
         v-if="showDeleteConfirm"
-        title="$t('zh_0ade99')"
+        :title="$t('zh_0ade99')"
         :message="`确定要删除选中的 ${store.selectionCount} 条记忆吗？此操作不可撤销。`"
         confirm-text="删除"
         cancel-text="取消"

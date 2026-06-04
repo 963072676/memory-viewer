@@ -63,12 +63,14 @@
         <div v-if="unifiedLoading" class="card-grid">
           <div v-for="i in 4" :key="'us-' + i" class="skeleton-card"></div>
         </div>
+        <!-- P38 r30: EmptyState prop 改 v-bind — 原 $t() 字符串在 prop 里是死的，
+             渲染时直接显示 "$t('zh_b2f421')" 原文。现在用 :title="..." 触发 i18n 计算。 -->
         <div v-else-if="unifiedMemories.length === 0" class="empty-state">
           <EmptyState
             icon="🗂️"
-            title="$t('zh_b2f421')"
-            message="$t('zh_7af7d5')，{{ $t('zh_263636') }}。{{ $t('zh_9b64c7') }}。"
-            action-text="$t('zh_b03a5a')"
+            :title="$t('zh_b2f421')"
+            :message="`${$t('zh_7af7d5')}，${$t('zh_263636')}。${$t('zh_9b64c7')}。`"
+            :action-text="$t('zh_b03a5a')"
             @action="showImportModal = true"
           />
         </div>
@@ -112,11 +114,12 @@
           <div v-for="i in 6" :key="i" class="skeleton-card"></div>
         </div>
         <div v-else-if="filteredMemories.length === 0" class="empty-state">
+          <!-- P38 r30: EmptyState prop 改 v-bind (同 r30 上一组) -->
           <EmptyState
             icon="🤖"
-            title="$t('zh_0df900') AgentMemory 记忆"
-            message="$t('zh_2e2f2f')「{{ $t('zh_00645e') }}」{{ $t('zh_b3b16e') }}，或「{{ $t('zh_006597_1') }}」{{ $t('zh_e325b9') }}。"
-            action-text="$t('zh_ab0956')"
+            :title="`${$t('zh_0df900')} AgentMemory 记忆`"
+            :message="`${$t('zh_2e2f2f')}「${$t('zh_00645e')}」${$t('zh_b3b16e')}，或「${$t('zh_006597_1')}」${$t('zh_e325b9')}。`"
+            :action-text="$t('zh_ab0956')"
             @action="showCreateModal = true"
           />
         </div>

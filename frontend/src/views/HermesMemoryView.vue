@@ -5,7 +5,8 @@
       <div v-for="i in 4" :key="i" class="skeleton-card"></div>
     </div>
     <div v-else-if="store.totalEntries === 0">
-      <EmptyState icon="🧠" message="$t('zh_006706') Hermes Memory $t('zh_0066e1')" />
+      <!-- P38 r30: EmptyState message prop 改 v-bind (i18n 触发) -->
+      <EmptyState icon="🧠" :message="`${$t('zh_006706')} Hermes Memory ${$t('zh_0066e1')}`" />
     </div>
     <template v-else>
       <!-- Global -->

@@ -100,7 +100,8 @@
       </div>
 
       <div v-if="sources.length === 0">
-        <EmptyState icon="📭" message="$t('zh_d63364')" />
+        <!-- P38 r30: EmptyState message prop 改 v-bind -->
+        <EmptyState icon="📭" :message="$t('zh_d63364')" />
       </div>
     </template>
   </div>
