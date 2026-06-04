@@ -82,22 +82,41 @@ defineExpose({ restart: () => { currentStep.value = 0; visible.value = true } })
 </script>
 
 <style scoped>
-.setup-wizard-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 2000; backdrop-filter: blur(4px); }
-.wizard-container { background: var(--card-bg, #fff); border-radius: 20px; width: 90%; max-width: 640px; max-height: 85vh; display: flex; flex-direction: column; overflow: hidden; box-shadow: var(--shadow-modal); }
-.wizard-progress { display: flex; justify-content: center; gap: 24px; padding: 20px 20px 12px; border-bottom: 1px solid var(--border, #eee); }
+/* P46: SetupWizard 颜色 token 化 + dark mode 适配 — 旧实现 10+ 处硬编码 hex (Apple #007aff/#34c759/#e0e0e0/#666/#333/#999/#fff/#ddd/#f0f0f0) + rgba(0,0,0,0.6) 遮罩，dark 模式 0% 覆盖（首装用户在 dark 主题首次打开会看到亮色 wizard）。
+   替换策略：
+   - #e0e0e0 (inactive step dot) → var(--tag-bg)（与全站非活跃/无填充背景一致）
+   - #007aff (active step) → var(--accent)（与全站蓝统一 — 之前是 Apple system 蓝，与项目 --accent #0072f5 略有色差）
+   - #34c759 (done step) → var(--success)（与全站成功色统一）
+   - "color: white" (on-accent) → var(--card)（on-accent 文字 token 决策树第 7 个文件，与 P45 r2 同源）
+   - #666 (dot label) → var(--text-secondary)（让步骤标签在 dark 模式可读）
+   - #f0f0f0 (btn-prev bg) → var(--tag-bg)（与 disabled/secondary 按钮背景一致）
+   - #333 (btn-prev text) → var(--text-primary)（在 dark 模式自动反转为 #fafafa）
+   - #ddd (btn-prev border) → var(--border)（dark 模式 #ebebeb → #2a2a2a）
+   - #999 (btn-skip) → var(--text-tertiary)（与全站弱化文字一致）
+   - rgba(0,0,0,0.6) (overlay) → var(--modal-backdrop)（自动 dark 模式 0.5 → 0.7）
+   - var(--card-bg, #fff) 硬编码 fallback 全部删除（变量已在 :root 和 [data-theme='dark'] 都定义）
+   - var(--border, #eee) / var(--border, #ddd) 硬编码 fallback 全部删除 */
+.setup-wizard-overlay { position: fixed; inset: 0; background: var(--modal-backdrop); display: flex; align-items: center; justify-content: center; z-index: 2000; backdrop-filter: blur(4px); }
+.wizard-container { background: var(--card); border-radius: 20px; width: 90%; max-width: 640px; max-height: 85vh; display: flex; flex-direction: column; overflow: hidden; box-shadow: var(--shadow-modal); }
+.wizard-progress { display: flex; justify-content: center; gap: 24px; padding: 20px 20px 12px; border-bottom: 1px solid var(--border); }
 .step-dot { display: flex; flex-direction: column; align-items: center; gap: 4px; opacity: 0.4; transition: all 0.3s; }
 .step-dot.active { opacity: 1; }
 .step-dot.done { opacity: 0.7; }
-.dot-number { width: 28px; height: 28px; border-radius: 50%; background: #e0e0e0; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; }
-.step-dot.active .dot-number { background: #007aff; color: white; }
-.step-dot.done .dot-number { background: #34c759; color: white; }
-.dot-label { font-size: 11px; color: #666; }
+.dot-number { width: 28px; height: 28px; border-radius: 50%; background: var(--tag-bg); color: var(--text-secondary); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; }
+.step-dot.active .dot-number { background: var(--accent); color: var(--card); }
+.step-dot.done .dot-number { background: var(--success); color: var(--card); }
+.dot-label { font-size: 11px; color: var(--text-secondary); }
 .wizard-content { flex: 1; padding: 24px; overflow-y: auto; }
-.wizard-nav { display: flex; align-items: center; padding: 16px 24px; border-top: 1px solid var(--border, #eee); gap: 12px; }
+.wizard-nav { display: flex; align-items: center; padding: 16px 24px; border-top: 1px solid var(--border); gap: 12px; }
 .nav-spacer { flex: 1; }
-.btn-prev, .btn-skip, .btn-next, .btn-finish { padding: 8px 20px; border-radius: 8px; font-size: 14px; cursor: pointer; border: none; }
-.btn-prev { background: var(--card-bg, #f0f0f0); color: #333; border: 1px solid var(--border, #ddd); }
-.btn-skip { background: none; color: #999; }
-.btn-next { background: #007aff; color: white; }
-.btn-finish { background: #34c759; color: white; font-weight: 600; }
+.btn-prev, .btn-skip, .btn-next, .btn-finish { padding: 8px 20px; border-radius: 8px; font-size: 14px; font-family: var(--font); cursor: pointer; border: none; transition: background 0.15s, border-color 0.15s, color 0.15s, transform 0.1s; }
+.btn-prev { background: var(--tag-bg); color: var(--text-primary); border: 1px solid var(--border); }
+.btn-prev:hover { background: var(--card-hover); border-color: var(--border-strong); }
+.btn-skip { background: none; color: var(--text-tertiary); }
+.btn-skip:hover { color: var(--text-secondary); }
+.btn-next { background: var(--accent); color: var(--card); }
+.btn-next:hover { background: var(--accent-hover); }
+.btn-finish { background: var(--success); color: var(--card); font-weight: 600; }
+.btn-finish:hover { background: color-mix(in srgb, var(--success) 88%, var(--primary) 12%); }
+.btn-prev:active, .btn-skip:active, .btn-next:active, .btn-finish:active { transform: translateY(1px); }
 </style>
