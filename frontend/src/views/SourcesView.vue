@@ -90,7 +90,7 @@
                 </div>
               </div>
               <div class="detail-actions">
-                <button class="action-btn sm" @click.stop="viewSourceMemories(source.name)">
+                <button class="action-btn action-btn--sm" @click.stop="viewSourceMemories(source.name)">
                   查看记忆
                 </button>
               </div>
@@ -178,31 +178,8 @@ h2 {
 h2.section-title { position: relative; padding-left: 12px; }
 h2.section-title::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 3px; height: 60%; background: var(--accent); border-radius: 0 2px 2px 0; }
 
-.action-btn {
-  padding: 8px 16px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background: var(--card);
-  color: var(--primary);
-  cursor: pointer;
-  font-size: 0.85rem;
-  font-family: var(--font);
-  transition: background 0.2s;
-}
-
-.action-btn:hover {
-  background: var(--tag-bg);
-}
-
-.action-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.action-btn.sm {
-  padding: 6px 12px;
-  font-size: 0.8rem;
-}
+/* P38 r21: button system unification — .action-btn + .action-btn--sm
+   are global. Local rules removed. */
 
 .loading {
   text-align: center;

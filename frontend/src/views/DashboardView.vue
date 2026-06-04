@@ -2,7 +2,7 @@
   <div class="dashboard-view">
     <div class="dashboard-header">
       <h2 class="section-title">📊 统计仪表盘</h2>
-      <button class="btn-refresh" @click="loadStats">🔄 刷新</button>
+      <button class="action-btn" @click="loadStats">🔄 刷新</button>
     </div>
 
     <!-- F-37: Activity Heatmap -->
@@ -11,7 +11,7 @@
     <div v-if="loading" class="loading-state">加载中...</div>
     <div v-else-if="error" class="error-state">
       <p>⚠️ {{ error }}</p>
-      <button class="btn-retry" @click="loadStats">点击重试</button>
+      <button class="action-btn action-btn--danger" @click="loadStats">点击重试</button>
     </div>
     <div v-else-if="stats" class="dashboard-grid">
       <!-- P38 r9: count-up 动画 — 从 0 滚动到目标值（800ms ease-out-cubic）。
@@ -231,24 +231,8 @@ function onHeatmapDayClick(date: string) {
   border-radius: 0 2px 2px 0;
 }
 
-/* P37: btn-refresh — Geist 风格 outline 按钮 */
-.btn-refresh {
-  padding: var(--space-2) 14px;     /* P41: 8 → --space-2 (8px) */
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  background: var(--card);
-  color: var(--primary);
-  font-size: 0.8125rem;
-  font-weight: 500;
-  font-family: var(--font);
-  cursor: pointer;
-  transition: background 0.15s ease, border-color 0.15s ease;
-}
-
-.btn-refresh:hover {
-  background: var(--bg-recessed);
-  border-color: var(--border-strong);
-}
+/* P38 r21: button system unification — .action-btn + variants defined
+   globally in styles/main.css. Local .btn-refresh / .btn-retry removed. */
 
 .loading-state,
 .error-state {
@@ -262,23 +246,6 @@ function onHeatmapDayClick(date: string) {
   color: var(--error);
   text-align: center;
   padding: 60px var(--space-5);
-}
-
-.btn-retry {
-  margin-top: var(--space-3);       /* P41: 12 → --space-3 */
-  padding: var(--space-2) var(--space-5);   /* P41: 8 20 → --space-2 --space-5 */
-  border: 1px solid var(--error);
-  border-radius: var(--radius-md);  /* P41: 8 → --radius-md (8px) */
-  background: transparent;
-  color: var(--error);
-  font-size: 0.875rem;
-  font-family: var(--font);
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.btn-retry:hover {
-  background: var(--error-bg);
 }
 
 /* P37: Summary Cards — Geist Stats 卡风格（标题-大值-副标） */

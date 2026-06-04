@@ -62,7 +62,7 @@
             </div>
           </div>
           <div class="form-actions">
-            <button class="btn-primary" @click="saveWebhook" :disabled="webhookSaving">
+            <button class="action-btn action-btn--accent" @click="saveWebhook" :disabled="webhookSaving">
               {{ webhookSaving ? '保存中...' : '保存' }}
             </button>
             <span v-if="webhookSaved" class="save-ok">✓ 已保存</span>
@@ -112,7 +112,7 @@
             </div>
           </div>
           <div class="form-actions">
-            <button class="btn-primary" @click="saveFeishu" :disabled="feishuSaving">
+            <button class="action-btn action-btn--accent" @click="saveFeishu" :disabled="feishuSaving">
               {{ feishuSaving ? '保存中...' : '保存' }}
             </button>
             <span v-if="feishuSaved" class="save-ok">✓ 已保存</span>
@@ -427,30 +427,20 @@ async function saveFeishu() {
   margin-top: 8px;
 }
 
-/* P44: token 化收尾 — color: white → var(--card)。
-   --card 是 P39 决策的"按钮文字 token"（亮色 #fff / 暗色 #000），
-   与 HomeView .action-btn--primary 保持一致 — 不同页面用同色 token，
-   未来调整主题色不用逐文件改。
-   注：本文件是"表单保存按钮"，颜色决策（--accent vs --primary）暂保留，
-   是 P41 #1 / P43 #2 的设计决策点，不在本轮范围。 */
-.btn-primary {
-  padding: 10px 24px;
-  border: none;
-  border-radius: 8px;
+/* P38 r21: button system unification — base .action-btn is global in
+   styles/main.css. Local --accent override kept here because the page
+   needs the blue "submit" affordance (uses --accent, not --primary ink). */
+.action-btn--accent {
   background: var(--accent);
   color: var(--card);
-  cursor: pointer;
-  font-size: 0.875rem;
-  font-family: var(--font);
-  font-weight: 500;
-  transition: opacity 0.2s ease, background 0.2s ease;
+  border: none;
 }
 
-.btn-primary:hover:not(:disabled) {
+.action-btn--accent:hover:not(:disabled) {
   background: color-mix(in srgb, var(--accent) 88%, var(--primary) 12%);
 }
 
-.btn-primary:disabled {
+.action-btn--accent:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }

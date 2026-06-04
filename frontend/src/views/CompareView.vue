@@ -2,7 +2,7 @@
   <div class="compare-view">
     <div class="view-header">
       <h2 class="section-title">🔍 多 Agent 记忆对比</h2>
-      <button class="action-btn primary" @click="compare" :disabled="!leftProfile || !rightProfile || loading">
+      <button class="action-btn action-btn--primary" @click="compare" :disabled="!leftProfile || !rightProfile || loading">
         {{ loading ? '对比中...' : '开始对比' }}
       </button>
     </div>
@@ -131,11 +131,9 @@ h2 { font-size: 1.5rem; font-weight: 600; color: var(--primary); }
 /* P38 r20: section-title 左侧 3px accent bar — 与全站其他 view 同源 (r15 模式). */
 h2.section-title { position: relative; padding-left: 12px; }
 h2.section-title::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 3px; height: 60%; background: var(--accent); border-radius: 0 2px 2px 0; }
+/* P38 r21: button system unification — .action-btn + .action-btn--primary
+   are global. Local rules removed (old BEM-wrong .action-btn.primary). */
 h3 { font-size: 1rem; font-weight: 600; margin-bottom: 12px; color: var(--primary); }
-.action-btn { padding: 8px 16px; border: 1px solid var(--border); border-radius: 8px; background: var(--card); color: var(--primary); cursor: pointer; font-size: 0.85rem; }
-.action-btn:hover { background: var(--tag-bg); }
-.action-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-.action-btn.primary { background: var(--primary); color: var(--card); border-color: var(--primary); }
 .profile-select { display: flex; gap: 16px; margin-bottom: 24px; }
 .select-group { flex: 1; }
 .select-group label { display: block; font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 6px; font-weight: 500; }

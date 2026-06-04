@@ -2,14 +2,14 @@
   <div class="collections-view">
     <div class="cv-header">
       <h2 class="section-title">📚 Collections</h2>
-      <button class="btn-create" @click="openEditor(null)">+ New Collection</button>
+      <button class="action-btn action-btn--primary" @click="openEditor(null)">+ New Collection</button>
     </div>
 
     <div v-if="loading" class="loading-state">Loading collections...</div>
 
     <div v-else-if="collections.length === 0" class="empty-state">
       <p>📁 No collections yet</p>
-      <button class="btn-create" @click="openEditor(null)">Create your first collection</button>
+      <button class="action-btn action-btn--primary" @click="openEditor(null)">Create your first collection</button>
     </div>
 
     <div v-else class="collections-grid">
@@ -124,33 +124,8 @@ onMounted(loadCollections)
 .cv-header h2.section-title { position: relative; padding-left: 12px; }
 .cv-header h2.section-title::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 3px; height: 60%; background: var(--accent); border-radius: 0 2px 2px 0; }
 
-/* P41: 与 P39 HomeView 的 .action-btn--primary 对齐 — 主 CTA 用 --primary 黑/白药丸，
-   避免与侧栏激活态/链接的蓝色信号混淆。 */
-.btn-create {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: var(--space-2) var(--space-4);
-  border: 1px solid transparent;
-  border-radius: var(--radius-pill);
-  background: var(--primary);
-  color: var(--bg);
-  font-size: 0.85rem;
-  font-weight: 500;
-  font-family: var(--font);
-  cursor: pointer;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
-  transition: background 0.15s, box-shadow 0.15s, transform 0.05s;
-}
-
-.btn-create:hover {
-  background: var(--primary-muted);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-}
-
-.btn-create:active {
-  transform: translateY(1px);
-}
+/* P38 r21: button system unification — .action-btn + .action-btn--primary
+   now defined globally in styles/main.css. Local rules removed. */
 
 .loading-state,
 .empty-state {
