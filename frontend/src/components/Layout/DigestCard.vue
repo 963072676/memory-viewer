@@ -74,7 +74,7 @@ function formatDate(iso: string): string {
   font-size: 0.8rem; color: var(--text-secondary, #86868b);
 }
 .digest-type {
-  background: var(--accent, #007aff); color: #fff; padding: 2px 8px;
+  background: var(--accent, #007aff); color: var(--card); padding: 2px 8px;
   border-radius: 4px; font-weight: 600; text-transform: capitalize;
 }
 .digest-summary {

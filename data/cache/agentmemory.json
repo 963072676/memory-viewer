@@ -2,25 +2,6 @@
   "version": "0.9.26",
   "memories": [
     {
-      "id": "mem_mpll8an1_4976b2ceceae",
-      "type": "pattern",
-      "title": "Kanban multi-agent workflow: Hermes built-in Kanban board lets parent agent post",
-      "content": "Kanban multi-agent workflow: Hermes built-in Kanban board lets parent agent post cards while child subagents pull them, work in parallel, report back. Use `/kanban create ...` in chat or `hermes kanban create` CLI. Reddit (May 5, 2026) calling it game-changing.",
-      "concepts": [
-        "hermes",
-        "使用技巧",
-        "kanban",
-        "multi-agent"
-      ],
-      "files": [],
-      "createdAt": "2026-05-25T19:16:57.181Z",
-      "updatedAt": "2026-05-25T19:16:57.181Z",
-      "strength": 7,
-      "version": 1,
-      "isLatest": true,
-      "sessionIds": []
-    },
-    {
       "id": "mem_mpll8ift_4995820d70b5",
       "type": "pattern",
       "title": "Vectorless RAG with PageIndex: Instead of splitting docs into chunks and retriev",
@@ -34,25 +15,6 @@
       "files": [],
       "createdAt": "2026-05-25T19:17:07.289Z",
       "updatedAt": "2026-05-25T19:17:07.289Z",
-      "strength": 7,
-      "version": 1,
-      "isLatest": true,
-      "sessionIds": []
-    },
-    {
-      "id": "mem_mplli0kq_de091409c097",
-      "type": "pattern",
-      "title": "Hermes v0.13.0: Kanban durable multi-agent board with heartbeat, zombie detectio",
-      "content": "Hermes v0.13.0: Kanban durable multi-agent board with heartbeat, zombie detection, per-task retries; `/goal` locks agent on target across turns (Ralph loop); checkpoints v2 rewrites state persistence with real pruning; Gateway auto-resumes interrupted sessions after restart; cron `no_agent` watchdog mode",
-      "concepts": [
-        "hermes",
-        "使用技巧",
-        "Kanban",
-        "multi-agent"
-      ],
-      "files": [],
-      "createdAt": "2026-05-25T19:24:30.698Z",
-      "updatedAt": "2026-05-25T19:24:30.698Z",
       "strength": 7,
       "version": 1,
       "isLatest": true,
@@ -90,25 +52,6 @@
       "files": [],
       "createdAt": "2026-05-27T15:03:58.011Z",
       "updatedAt": "2026-05-27T15:03:58.011Z",
-      "strength": 7,
-      "version": 1,
-      "isLatest": true,
-      "sessionIds": []
-    },
-    {
-      "id": "mem_mpo72ofd_acaf27f29123",
-      "type": "pattern",
-      "title": "Hermes 支持 orchestrator profile 路由模式：一个主 profile 作为入口，将任务路由到 specialist profile 处",
-      "content": "Hermes 支持 orchestrator profile 路由模式：一个主 profile 作为入口，将任务路由到 specialist profile 处理，实现多 agent 协作。适合将不同职责（开发、QA、PM）分隔到独立 profile。",
-      "concepts": [
-        "hermes",
-        "profile",
-        "orchestrator",
-        "多agent"
-      ],
-      "files": [],
-      "createdAt": "2026-05-27T15:03:59.017Z",
-      "updatedAt": "2026-05-27T15:03:59.017Z",
       "strength": 7,
       "version": 1,
       "isLatest": true,

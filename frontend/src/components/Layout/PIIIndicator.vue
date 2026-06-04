@@ -277,7 +277,10 @@ onUnmounted(() => {
 .pii-confirm-ok {
   background: #ff9500;
   border: none;
-  color: #fff;
+  /* P38 r33: on-accent 文字 token 化 — 旧 #fff 改为 var(--card), 
+     修复 future 改 #ff9500 时的 dark 模式不一致风险 (虽然当前 #ff9500 不随主题变).
+     防御性修复, 0 视觉变化. */
+  color: var(--card);
 }
 
 .pii-confirm-ok:hover {

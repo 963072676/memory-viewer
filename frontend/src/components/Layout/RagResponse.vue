@@ -90,7 +90,7 @@ function formatAnswer(text: string): string {
   cursor: pointer; font-family: var(--font); color: var(--primary, #007aff);
   transition: all 0.2s;
 }
-.followup-chip:hover { background: var(--accent, #007aff); color: #fff; }
+.followup-chip:hover { background: var(--accent, #007aff); color: var(--card); }
 :deep(.citation-ref) {
   font-size: 0.7rem; color: var(--accent, #007aff); font-weight: 600; cursor: pointer;
 }

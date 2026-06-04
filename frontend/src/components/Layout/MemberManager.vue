@@ -104,7 +104,7 @@ onMounted(() => loadMembers())
 .add-member input { flex: 1; padding: 6px 10px; border: 1px solid var(--border, #e5e5ea); border-radius: 6px; font-size: 0.85rem; }
 .add-member select { padding: 6px; border: 1px solid var(--border, #e5e5ea); border-radius: 6px; font-size: 0.85rem; }
 .btn-add {
-  padding: 6px 12px; background: var(--accent, #007aff); color: #fff;
+  padding: 6px 12px; background: var(--accent, #007aff); color: var(--card);
   border: none; border-radius: 6px; font-size: 0.85rem; cursor: pointer;
 }
 .btn-add:disabled { opacity: 0.5; }

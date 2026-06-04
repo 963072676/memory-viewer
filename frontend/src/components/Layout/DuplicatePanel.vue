@@ -203,7 +203,9 @@ async function merge(keepId: string, mergeId: string) {
   padding: 2px 8px;
   border-radius: 12px;
   background: var(--accent);
-  color: white;
+  /* P38 r33: on-accent 文字 token 化 — 旧 color: white 在 dark 模式 --accent 不变,
+     但用户偏好"白上加白"刺眼。改 var(--card) 让 dark 模式下文字自动变深色 ink。 */
+  color: var(--card);
 }
 
 .similarity-detail {
@@ -274,7 +276,8 @@ async function merge(keepId: string, mergeId: string) {
 
 .merge-btn:hover {
   background: var(--accent);
-  color: white;
+  /* P38 r33: on-accent 文字 token 化 — 配 r33 .similarity-badge 修复，dark 模式自动跟随 */
+  color: var(--card);
 }
 
 .merge-btn:disabled {

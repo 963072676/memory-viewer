@@ -361,7 +361,10 @@ watch(searchMode, () => {
   border: none;
   border-radius: 10px;
   background: var(--primary, #007aff);
-  color: #fff;
+  /* P38 r33: 改 hardcoded #fff → var(--card) — 修复 dark 模式 NLQ submit 按钮文字不可见 bug.
+     --primary 在 dark 模式下是 #ededed (浅灰), #fff on #ededed 几乎不可读.
+     var(--card) 在 dark 模式下是 #1d1d1f (深底), 形成 4.5:1+ 对比度. */
+  color: var(--card);
   font-size: 1.1rem;
   cursor: pointer;
   flex-shrink: 0;
@@ -521,7 +524,8 @@ watch(searchMode, () => {
   border: none;
   border-radius: 8px;
   background: var(--primary, #007aff);
-  color: #fff;
+  /* P38 r33: 同上 — 修复 dark 模式 .parsed-apply-btn 文字不可见 bug */
+  color: var(--card);
   font-size: 0.8rem;
   cursor: pointer;
   font-family: var(--font);

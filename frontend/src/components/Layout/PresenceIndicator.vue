@@ -42,9 +42,11 @@ onUnmounted(() => {
 .presence-avatars { display: flex; gap: -4px; }
 .presence-dot {
   width: 24px; height: 24px; border-radius: 50%;
-  background: var(--accent, #007aff); color: #fff; font-size: 0.65rem;
+  background: var(--accent, #007aff); color: var(--card); font-size: 0.65rem;
   font-weight: 700; display: flex; align-items: center; justify-content: center;
-  border: 2px solid var(--card, #fff); margin-left: -4px;
+  /* P38 r33: border 保留 #fff 硬编码 — 这是 ring effect (avatar 之间的分隔环),
+     需要始终是白色才有"分离"感. 仅 inner text 改为 var(--card). */
+  border: 2px solid #fff; margin-left: -4px;
 }
 .presence-dot:first-child { margin-left: 0; }
 .presence-count {
