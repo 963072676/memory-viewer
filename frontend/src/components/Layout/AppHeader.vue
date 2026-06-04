@@ -7,11 +7,19 @@
 
       <div v-if="!isMobile" class="header-title">
         <h1>Memory Viewer</h1>
-        <p>Hermes Agent {{ $t('zh_bd0ba4') }}</p>
+        <!-- P45 r3: 副标题路由变化淡入 (P28 §遗留 #5). 之前副标题 "Hermes Agent {noun}"
+             是 static 字符串, 路由切换时无视觉反馈. 现在包 <Transition> + :key 触发
+             enter 动画, 每次路由变化副标题 "上新". 桌面 + 移动 page title 共用同一
+             模式 (mobile 用 v-else 块) — 移动端 mobilePageTitle 也加上动画. -->
+        <Transition name="subtitle-fade" mode="out-in">
+          <p :key="route.fullPath">Hermes Agent {{ $t('zh_bd0ba4') }}</p>
+        </Transition>
       </div>
 
       <div v-else class="header-title mobile">
-        <h1>{{ mobilePageTitle }}</h1>
+        <Transition name="subtitle-fade" mode="out-in">
+          <h1 :key="route.fullPath">{{ mobilePageTitle }}</h1>
+        </Transition>
       </div>
 
       <div class="header-right">
@@ -202,6 +210,35 @@ const mobilePageTitle = computed(() => {
     width: 36px;
     height: 36px;
     font-size: 1.1rem;
+  }
+}
+
+/* P45 r3: 副标题路由变化淡入 (P28 §遗留 #5). 180ms 淡入 + 4px 上移,
+   比 P38 r31 scroll-progress / r32 toast-overshoot 慢一些 (180 vs 120/450)
+   因为 header 是 sticky, 用户视线停留时间更长, 不需要"硬切".
+   移动端 mobile page title 共用同一动画, 因为 :key=route.fullPath
+   在桌面/移动两个 v-else 块都触发 Transition. */
+.subtitle-fade-enter-active,
+.subtitle-fade-leave-active {
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+.subtitle-fade-enter-from {
+  opacity: 0;
+  transform: translateY(4px);
+}
+.subtitle-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-4px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .subtitle-fade-enter-active,
+  .subtitle-fade-leave-active {
+    transition: opacity 0.12s ease;
+  }
+  .subtitle-fade-enter-from,
+  .subtitle-fade-leave-to {
+    transform: none;
   }
 }
 </style>
