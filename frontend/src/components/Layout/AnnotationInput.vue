@@ -17,7 +17,7 @@
         <option value="suggest">💡 建议修改</option>
       </select>
       <input v-model="author" type="text" placeholder="你的名字" class="author-input" />
-      <button class="btn-submit" :disabled="!content.trim()" @click="submit">
+      <button class="action-btn action-btn--accent action-btn--sm" :disabled="!content.trim()" @click="submit">
         {{ submitLabel || '发送' }}
       </button>
     </div>
@@ -53,11 +53,11 @@ function submit() {
 <style scoped>
 .annotation-input { margin-top: 8px; }
 .input-textarea { width: 100%; border: 1px solid var(--border, #ddd); border-radius: 8px; padding: 8px; font-size: 13px; resize: vertical; font-family: inherit; background: var(--card-bg, #fff); }
-.input-textarea:focus { outline: none; border-color: #007aff; }
+.input-textarea:focus { outline: none; border-color: var(--accent); }
 .input-actions { display: flex; gap: 8px; margin-top: 6px; align-items: center; }
 .type-select { border: 1px solid var(--border, #ddd); border-radius: 6px; padding: 4px 8px; font-size: 12px; background: var(--card-bg, #fff); }
 .author-input { border: 1px solid var(--border, #ddd); border-radius: 6px; padding: 4px 8px; font-size: 12px; width: 100px; background: var(--card-bg, #fff); }
-.btn-submit { background: #007aff; color: white; border: none; border-radius: 6px; padding: 6px 14px; font-size: 13px; cursor: pointer; margin-left: auto; }
-.btn-submit:disabled { opacity: 0.4; cursor: not-allowed; }
-.btn-submit:hover:not(:disabled) { background: #0056b3; }
+/* P38 r23: btn-submit → .action-btn + --accent + --sm. 之前 hardcoded #007aff (Apple 蓝)
+   不与全站 Vercel 蓝 token 同源, dark 模式 white text 也不跟随 var(--card). */
+.action-btn { margin-left: auto; }
 </style>

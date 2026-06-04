@@ -5,8 +5,8 @@
       <h3>{{ title }}</h3>
       <p class="confirm-message">{{ message }}</p>
       <div class="confirm-actions">
-        <button class="btn-cancel" @click="$emit('cancel')">{{ cancelText }}</button>
-        <button class="btn-confirm" @click="$emit('confirm')">{{ confirmText }}</button>
+        <button class="action-btn" @click="$emit('cancel')">{{ cancelText }}</button>
+        <button class="action-btn action-btn--danger" @click="$emit('confirm')">{{ confirmText }}</button>
       </div>
     </div>
   </div>
@@ -72,31 +72,7 @@ h3 {
   gap: 12px;
 }
 
-.btn-cancel {
-  padding: 10px 20px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background: transparent;
-  color: var(--text-secondary);
-  cursor: pointer;
-  font-family: var(--font);
-  font-size: 0.875rem;
-}
-
-.btn-confirm {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 8px;
-  /* P38 r19: 危险按钮 — 改 hardcoded #e53935 → var(--error), color: white → var(--card) */
-  background: var(--error);
-  color: var(--card);
-  cursor: pointer;
-  font-family: var(--font);
-  font-size: 0.875rem;
-  font-weight: 500;
-}
-
-.btn-confirm:hover {
-  background: #c62828;
-}
+/* P38 r23: btn-cancel / btn-confirm → .action-btn + --danger (r21 global system).
+   旧的 .btn-confirm 直接填充 --error 实底, 太抢眼; r21 --danger 是 outline + 软红 bg
+   (error 8% alpha), 更克制, 跟 MemoryDetailView 顶栏删除按钮同源。 */
 </style>

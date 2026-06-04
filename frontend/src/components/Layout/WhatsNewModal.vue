@@ -50,7 +50,7 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button class="btn-primary" @click="onClose">知道了</button>
+            <button class="action-btn action-btn--accent" @click="onClose">知道了</button>
           </div>
         </div>
       </div>
@@ -265,22 +265,7 @@ function typeLabel(type: string): string {
   text-align: right;
 }
 
-.btn-primary {
-  padding: 10px 24px;
-  border: none;
-  border-radius: 10px;
-  background: var(--accent);
-  /* P38 r17: 改 hardcoded white → var(--card) */
-  color: var(--card);
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.btn-primary:hover {
-  background: var(--accent-hover);
-}
+/* P38 r23: btn-primary → .action-btn (r21 global system). */
 
 /* Transition */
 .modal-fade-enter-active,

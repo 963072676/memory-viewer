@@ -27,8 +27,8 @@
       </div>
     </div>
     <div class="form-footer">
-      <button class="btn-cancel" @click="$emit('close')">Cancel</button>
-      <button class="btn-create" @click="createMemory" :disabled="submitting">
+      <button class="action-btn" @click="$emit('close')">Cancel</button>
+      <button class="action-btn action-btn--accent" @click="createMemory" :disabled="submitting">
         {{ submitting ? 'Creating...' : 'Create Memory' }}
       </button>
     </div>
@@ -96,10 +96,5 @@ async function createMemory() {
   display: flex; justify-content: flex-end; gap: 8px;
   padding: 12px 20px; border-top: 1px solid var(--border, #e5e5ea);
 }
-.btn-cancel, .btn-create {
-  padding: 8px 16px; border-radius: 8px; font-size: 0.85rem; cursor: pointer; font-family: var(--font);
-}
-.btn-cancel { background: var(--card, #fff); border: 1px solid var(--border, #e5e5ea); }
-.btn-create { background: var(--accent, #007aff); color: #fff; border: none; }
-.btn-create:disabled { opacity: 0.5; }
+/* P38 r23: btn-cancel / btn-create → .action-btn (r21 global system). */
 </style>

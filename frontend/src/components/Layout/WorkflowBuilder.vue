@@ -88,8 +88,8 @@
     </div>
 
     <div class="builder-actions">
-      <button class="btn-save" @click="$emit('save', form)" :disabled="!isValid">保存规则</button>
-      <button class="btn-cancel" @click="$emit('cancel')">取消</button>
+      <button class="action-btn action-btn--accent" @click="$emit('save', form)" :disabled="!isValid">保存规则</button>
+      <button class="action-btn" @click="$emit('cancel')">取消</button>
     </div>
   </div>
 </template>
@@ -218,29 +218,5 @@ defineExpose({ form })
   justify-content: flex-end;
 }
 
-.btn-save {
-  padding: 8px 20px;
-  border: none;
-  border-radius: 8px;
-  background: var(--accent, #007aff);
-  /* P38 r19: 改 hardcoded white → var(--card), 与全站 token 对齐 */
-  color: var(--card);
-  font-size: 0.85rem;
-  cursor: pointer;
-  font-family: var(--font);
-  font-weight: 500;
-}
-
-.btn-save:disabled { opacity: 0.5; cursor: not-allowed; }
-
-.btn-cancel {
-  padding: 8px 20px;
-  border: 1px solid var(--border, #e5e5ea);
-  border-radius: 8px;
-  background: var(--card, #fff);
-  color: var(--text-secondary, #86868b);
-  font-size: 0.85rem;
-  cursor: pointer;
-  font-family: var(--font);
-}
+/* P38 r23: btn-save / btn-cancel → .action-btn (r21 global system). */
 </style>

@@ -62,8 +62,8 @@
       </div>
     </div>
     <div class="editor-footer">
-      <button class="btn-cancel" @click="$emit('close')">Cancel</button>
-      <button class="btn-save" @click="save" :disabled="!form.name">Save</button>
+      <button class="action-btn" @click="$emit('close')">Cancel</button>
+      <button class="action-btn action-btn--accent" @click="save" :disabled="!form.name">Save</button>
     </div>
   </div>
 </template>
@@ -138,10 +138,5 @@ async function save() {
   display: flex; justify-content: flex-end; gap: 8px;
   padding: 12px 20px; border-top: 1px solid var(--border, #e5e5ea);
 }
-.btn-cancel, .btn-save {
-  padding: 8px 16px; border-radius: 8px; font-size: 0.85rem; cursor: pointer; font-family: var(--font);
-}
-.btn-cancel { background: var(--card, #fff); border: 1px solid var(--border, #e5e5ea); }
-.btn-save { background: var(--accent, #007aff); color: #fff; border: none; }
-.btn-save:disabled { opacity: 0.5; }
+/* P38 r23: btn-cancel / btn-save → .action-btn (r21 global system). */
 </style>

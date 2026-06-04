@@ -79,8 +79,8 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button class="btn-cancel" @click="$emit('close')">Cancel</button>
-        <button class="btn-save" @click="handleSave" :disabled="!form.name || saving">
+        <button class="action-btn" @click="$emit('close')">Cancel</button>
+        <button class="action-btn action-btn--accent" @click="handleSave" :disabled="!form.name || saving">
           {{ saving ? 'Saving...' : (isEditing ? 'Update' : 'Create') }}
         </button>
       </div>
@@ -318,29 +318,5 @@ function handleSave() {
   border-top: 1px solid var(--border);
 }
 
-.btn-cancel,
-.btn-save {
-  padding: 8px 16px;
-  border-radius: 8px;
-  font-size: 0.85rem;
-  cursor: pointer;
-  font-family: var(--font);
-}
-
-.btn-cancel {
-  background: var(--card);
-  border: 1px solid var(--border);
-  color: var(--primary);
-}
-
-.btn-save {
-  background: var(--accent);
-  color: #fff;
-  border: none;
-}
-
-.btn-save:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
+/* P38 r23: btn-cancel / btn-save → .action-btn (r21 global system). */
 </style>

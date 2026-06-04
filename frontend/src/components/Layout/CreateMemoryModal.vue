@@ -55,8 +55,8 @@
           <TagManager :tags="formTags" :all-tags="allTagNames" @update:tags="formTags = $event" />
         </div>
         <div class="form-actions">
-          <button type="button" class="btn-cancel" @click="$emit('close')">取消</button>
-          <button type="submit" class="btn-submit" :disabled="submitting">
+          <button type="button" class="action-btn" @click="$emit('close')">取消</button>
+          <button type="submit" class="action-btn action-btn--accent" :disabled="submitting">
             {{ submitting ? '创建中...' : '创建' }}
             <kbd class="submit-hint">⌘↵</kbd>
           </button>
@@ -320,31 +320,10 @@ select:focus-visible {
   margin-top: 24px;
 }
 
-.btn-cancel {
-  padding: 10px 20px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background: transparent;
-  color: var(--text-secondary);
-  cursor: pointer;
-  font-family: var(--font);
-}
-
-.btn-submit {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 8px;
-  background: var(--accent);
-  color: white;
-  cursor: pointer;
-  font-family: var(--font);
-  font-weight: 500;
-}
-
-.btn-submit:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
+/* P38 r23: btn-cancel / btn-submit → .action-btn (r21 global system).
+   .action-btn 默认 8px 16px padding + 0.85rem 字号与旧值接近, form-actions
+   的 padding 略缩到 6px 14px 让 modal 底部更克制。
+   .submit-hint 保留 — kbd hint 是 form 提交快捷键, 跟按钮系统无关。 */
 
 .submit-hint {
   margin-left: 8px;

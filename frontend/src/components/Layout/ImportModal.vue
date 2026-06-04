@@ -24,8 +24,8 @@
         <p>导入完成: 新增 {{ result.imported }}，跳过 {{ result.skipped }}，失败 {{ result.failed }}</p>
       </div>
       <div class="form-actions">
-        <button class="btn-cancel" @click="$emit('close')">关闭</button>
-        <button class="btn-submit" @click="onImport" :disabled="!selectedFile || importing">
+        <button class="action-btn" @click="$emit('close')">关闭</button>
+        <button class="action-btn action-btn--accent" @click="onImport" :disabled="!selectedFile || importing">
           {{ importing ? '导入中...' : '开始导入' }}
           <kbd v-if="selectedFile && !importing" class="submit-hint">↵</kbd>
         </button>
@@ -195,32 +195,7 @@ h2 {
   margin-top: 24px;
 }
 
-.btn-cancel {
-  padding: 10px 20px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background: transparent;
-  color: var(--text-secondary);
-  cursor: pointer;
-  font-family: var(--font);
-}
-
-.btn-submit {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 8px;
-  background: var(--accent);
-  /* P38 r19: 改 hardcoded white → var(--card), 与全站 token 对齐 */
-  color: var(--card);
-  cursor: pointer;
-  font-family: var(--font);
-  font-weight: 500;
-}
-
-.btn-submit:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
+/* P38 r23: btn-cancel / btn-submit → .action-btn (r21 global system). */
 
 .error-msg {
   color: var(--error);
