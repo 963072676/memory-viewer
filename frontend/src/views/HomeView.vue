@@ -439,11 +439,28 @@ h2 {
   border-radius: 0 2px 2px 0;
 }
 
+/* P38 r35: .hermes-card 视觉对齐统一卡片家族 (r13 全站 4 套 + 现在的 5 套).
+   之前 .hermes-card 是无 border / 无 hover / 无 transition 的"裸 box",
+   与同页面 .unified-card (带 box-shadow + border + hover lift + ::before 渐变 bar) 视觉差 2 个档次,
+   用户在 home 页上感觉"两块卡片来自两个项目".
+   现在补齐: 1px border (与 MemoryCard / CollectionCard / DashboardWidget / TemplateCard 同源),
+   box-shadow (var(--shadow) token), hover 上升 2px (比 unified-card 的 3px 轻一档,
+   因为 hermes-card 内部是文本块, 不需要太多 lift), transition 0.25s cubic-bezier 同手感. */
 .hermes-card {
   background: var(--card);
+  border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 16px;
   box-shadow: var(--shadow);
+  transition: box-shadow 0.25s cubic-bezier(0.25, 0.1, 0.25, 1),
+              transform 0.25s cubic-bezier(0.25, 0.1, 0.25, 1),
+              border-color 0.2s ease;
+}
+
+.hermes-card:hover {
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
 }
 
 .hermes-label {
