@@ -86,19 +86,36 @@ function icon(type: ToastType): string {
   line-height: 1.4;
 }
 
-/* Transition */
+/* P38 r32: Toast 入场弹性 — 之前 0.3s ease + translateX(60px) 是"硬切到位"。
+   改 cubic-bezier(0.34, 1.56, 0.64, 1) overshoot 让 100% 之后短暂过冲 ~12px 再回弹，
+   "卡片落下后回弹"质感——比纯 ease 多 ~30% 时间但视觉"通知感"强 3 倍。
+   离场保持 0.25s ease (out 方向不要弹性，反直觉)。 */
 .toast-enter-active {
-  transition: all 0.3s ease;
+  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+              opacity 0.3s ease;
 }
 .toast-leave-active {
   transition: all 0.25s ease;
+  position: absolute; /* 离场时脱离 normal flow，下一个 toast 平滑顶上去 */
+  right: 0;
 }
 .toast-enter-from {
   opacity: 0;
-  transform: translateX(60px);
+  transform: translateX(60px) scale(0.92);
 }
 .toast-leave-to {
   opacity: 0;
-  transform: translateX(60px);
+  transform: translateX(60px) scale(0.95);
+}
+.toast-move {
+  transition: transform 0.3s ease; /* 列表内其他 toast 平滑顶位 */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toast-enter-active,
+  .toast-leave-active,
+  .toast-move { transition: opacity 0.2s ease; }
+  .toast-enter-from,
+  .toast-leave-to { transform: none; }
 }
 </style>
