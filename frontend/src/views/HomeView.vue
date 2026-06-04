@@ -2,8 +2,12 @@
   <div class="home-view">
     <!-- Search Results -->
     <div v-if="uiStore.searchQuery && (searchStore.results || searchStore.semanticResults)" class="search-results">
+      <!-- P38 r27: search-header h2 → section-title 视觉锚点统一.
+           之前 <h2> 直接在 .search-header (flex container) 里, 无 3px accent bar.
+           与全站 7 个 view section-title 系统不一致 (AgentMemory/HermesMemory/Profiles/Sources/Dashboard/Compare/Collections 都有).
+           加 class="section-title" + flex 安全 padding 复用 r20 模式. -->
       <div class="search-header">
-        <h2>{{ searchStore.searchMode === 'semantic' ? '🧠 语义搜索结果' : '搜索结果' }}</h2>
+        <h2 class="section-title">{{ searchStore.searchMode === 'semantic' ? '🧠 语义搜索结果' : '搜索结果' }}</h2>
         <span v-if="searchStore.results" class="result-count">找到 {{ searchStore.results.total }} 条结果</span>
         <span v-else-if="searchStore.semanticResults" class="result-count">找到 {{ searchStore.semanticResults.results.length }} 条结果</span>
       </div>
@@ -141,7 +145,13 @@
 
       <!-- Hermes Memory Section -->
       <section v-if="uiStore.currentTab !== 'agentmemory'" class="section">
-        <h2>Hermes Memory</h2>
+        <!-- P38 r27: section-header wrapper + section-title class — 3px accent bar.
+             之前 <h2> 直接在 <section> 里, 无 section-header 父级, 无 3px accent bar.
+             与上方 AgentMemory section (line 96-106) + 7 个 view 顶层 section-title 系统不一致.
+             复用 r15 + r20 模式 (3px rail + 12px padding-left). -->
+        <div class="section-header">
+          <h2 class="section-title">Hermes Memory</h2>
+        </div>
         <div v-if="hermesMemoryStore.loading" class="card-grid">
           <div v-for="i in 4" :key="i" class="skeleton-card"></div>
         </div>
@@ -458,6 +468,28 @@ h2 {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+}
+
+/* P38 r27: search-header h2.section-title 3px accent bar — 与全站 7 个 view section-title 同源.
+   search-header 是 flex container, 之前 h2 没有视觉锚点, 与下方 section-header h2 系统不一致.
+   flex + ::before absolute: left 0 紧贴 h2 左缘, padding-left 12px 给文字留空间.
+   复用 r20 模式 (3px rail + 60% height + accent color + 2px right border-radius). */
+.search-header h2.section-title {
+  position: relative;
+  padding-left: 12px;
+  margin-bottom: 0;  /* search-header 自己控制 margin-bottom, 避免双重 margin */
+}
+
+.search-header h2.section-title::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 60%;
+  background: var(--accent);
+  border-radius: 0 2px 2px 0;
 }
 
 .result-count {

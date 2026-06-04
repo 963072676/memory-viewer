@@ -22,7 +22,7 @@
 
       <!-- Webhook -->
       <div v-if="activeTab === 'webhook'" class="settings-panel">
-        <h2>🔗 Webhook 配置</h2>
+        <h2 class="section-title">🔗 Webhook 配置</h2>
         <div class="form-section">
           <div class="form-field">
             <label>Webhook URL</label>
@@ -72,7 +72,7 @@
 
       <!-- 通知 -->
       <div v-if="activeTab === 'notifications'" class="settings-panel">
-        <h2>🔔 通知配置</h2>
+        <h2 class="section-title">🔔 通知配置</h2>
         <div class="form-section">
           <div class="form-field">
             <label>飞书 Webhook URL</label>
@@ -122,7 +122,7 @@
 
       <!-- 关于 -->
       <div v-if="activeTab === 'about'" class="settings-panel">
-        <h2>ℹ️ 关于</h2>
+        <h2 class="section-title">ℹ️ 关于</h2>
         <div class="about-section">
           <div class="about-row">
             <span class="about-label">应用</span>
@@ -330,6 +330,26 @@ async function saveFeishu() {
   font-weight: 600;
   color: var(--primary);
   margin-bottom: 20px;
+}
+
+/* P38 r27: section-title 左侧 3px accent bar — 与全站 7 个 view (AgentMemory/HermesMemory/Profiles/Sources/Dashboard/Compare/Collections) 同源.
+   之前 SettingsView 3 个 h2 (Webhook/通知/关于) 缺少 class, 与全站 section title 系统不一致.
+   复用 r20 模式 (3px rail + 12px padding-left) — 视觉锚点统一. */
+.settings-panel h2.section-title {
+  position: relative;
+  padding-left: 12px;
+}
+
+.settings-panel h2.section-title::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 60%;
+  background: var(--accent);
+  border-radius: 0 2px 2px 0;
 }
 
 /* Form */
