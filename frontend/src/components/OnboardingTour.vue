@@ -31,7 +31,7 @@
             {{ currentStep.description }}
           </div>
           <div class="tooltip-footer">
-            <button class="btn-skip" @click="skipTour">跳过引导</button>
+            <button class="btn-skip" @click="skipTour">{{ $t('zh_cca3f7') }}</button>
             <div class="nav-dots">
               <span
                 v-for="(_, i) in steps"
@@ -41,7 +41,7 @@
               />
             </div>
             <div class="nav-btns">
-              <button v-if="!isFirstStep" class="btn-nav" @click="prevStep">← 上一步</button>
+              <button v-if="!isFirstStep" class="btn-nav" @click="prevStep">← {{ $t('zh_0cdd24') }}</button>
               <button class="btn-nav btn-next" @click="nextStep">
                 {{ isLastStep ? '完成' : '下一步 →' }}
               </button>

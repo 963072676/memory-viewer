@@ -9,13 +9,13 @@
       aria-modal="true"
       aria-labelledby="import-modal-title"
     >
-      <h2 id="import-modal-title">导入记忆</h2>
+      <h2 id="import-modal-title">{{ $t('zh_b03a5a') }}</h2>
       <div class="drop-zone" @dragover.prevent @drop.prevent="onDrop" @click="fileInput?.click()">
         <input ref="fileInput" type="file" accept=".json,.md" @change="onFileSelect" hidden />
         <div class="drop-content">
           <span class="drop-icon">📁</span>
-          <p>拖拽文件到此处，或点击选择</p>
-          <p class="drop-hint">支持 JSON / Markdown 格式</p>
+          <p>{{ $t('zh_69d525') }}，{{ $t('zh_362e10') }}</p>
+          <p class="drop-hint">{{ $t('zh_0066d8') }} JSON / Markdown {{ $t('zh_006739') }}</p>
         </div>
       </div>
       <div v-if="selectedFile" class="file-info">
@@ -23,10 +23,10 @@
         <span class="file-size">{{ formatSize(selectedFile.size) }}</span>
       </div>
       <div v-if="result" class="import-result" :class="{ success: result.success }">
-        <p>导入完成: 新增 {{ result.imported }}，跳过 {{ result.skipped }}，失败 {{ result.failed }}</p>
+        <p>{{ $t('zh_b03427') }}: {{ $t('zh_0066de') }} {{ result.imported }}，{{ $t('zh_006c46') }} {{ result.skipped }}，{{ $t('zh_006576') }} {{ result.failed }}</p>
       </div>
       <div class="form-actions">
-        <button class="action-btn" @click="$emit('close')">关闭</button>
+        <button class="action-btn" @click="$emit('close')">{{ $t('zh_006480') }}</button>
         <button class="action-btn action-btn--accent" @click="onImport" :disabled="!selectedFile || importing">
           {{ importing ? '导入中...' : '开始导入' }}
           <kbd v-if="selectedFile && !importing" class="submit-hint">↵</kbd>

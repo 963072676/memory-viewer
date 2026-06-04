@@ -1,11 +1,11 @@
 <template>
   <div class="export-btn-group">
     <button class="export-btn" @click="showMenu = !showMenu">
-      导出 ▾
+      {{ $t('zh_006597') }} ▾
     </button>
     <div v-if="showMenu" class="export-menu">
-      <button @click="exportJson">JSON 格式</button>
-      <button @click="exportMarkdown">Markdown 格式</button>
+      <button @click="exportJson">JSON {{ $t('zh_006739') }}</button>
+      <button @click="exportMarkdown">Markdown {{ $t('zh_006739') }}</button>
     </div>
   </div>
 </template>

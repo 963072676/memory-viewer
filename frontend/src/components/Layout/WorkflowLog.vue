@@ -1,7 +1,7 @@
 <template>
   <div v-if="logs.length > 0" class="workflow-log">
     <div class="log-header" @click="expanded = !expanded">
-      <span>{{ expanded ? '▼' : '▶' }} 执行日志 ({{ logs.length }})</span>
+      <span>{{ expanded ? '▼' : '▶' }} {{ $t('zh_b4a3fa') }} ({{ logs.length }})</span>
     </div>
     <div v-if="expanded" class="log-entries">
       <div v-for="(log, i) in logs.slice(0, 10)" :key="i" class="log-entry">

@@ -10,7 +10,7 @@
               ref="inputRef"
               v-model="query"
               class="palette-input"
-              placeholder="搜索记忆或输入命令..."
+              placeholder="$t('zh_4394e2')..."
               autofocus
               @keydown.down.prevent="moveDown"
               @keydown.up.prevent="moveUp"
@@ -23,9 +23,9 @@
           <!-- Results list -->
           <div v-if="displayItems.length > 0" class="palette-results">
             <div class="palette-results-header">
-              <span v-if="mode === 'command'">命令</span>
+              <span v-if="mode === 'command'">{{ $t('zh_00649d') }}</span>
               <span v-else>
-                搜索结果
+                {{ $t('zh_b5675c') }}
                 <template v-if="totalResults > 0">（{{ totalResults }}）</template>
               </span>
             </div>

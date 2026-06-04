@@ -10,16 +10,16 @@
       aria-labelledby="dedup-modal-title"
     >
       <div class="dedup-header">
-        <h2 id="dedup-modal-title">🔍 重复记忆去重</h2>
-        <button class="close-btn" @click="$emit('close')" aria-label="关闭去重对话框">✕</button>
+        <h2 id="dedup-modal-title">🔍 {{ $t('zh_bbbfca') }}</h2>
+        <button class="close-btn" @click="$emit('close')" aria-label="$t('zh_bb950d')">✕</button>
       </div>
 
       <div class="dedup-summary">
-        <span class="summary-item">发现 <strong>{{ pairs.length }}</strong> 对重复记忆</span>
-        <span class="summary-item">已选择 <strong>{{ selectedIndices.length }}</strong> 对待合并</span>
+        <span class="summary-item">{{ $t('zh_0064ab') }} <strong>{{ pairs.length }}</strong> {{ $t('zh_d9cf3d') }}</span>
+        <span class="summary-item">{{ $t('zh_0d2949') }} <strong>{{ selectedIndices.length }}</strong> {{ $t('zh_b06d9d') }}</span>
         <label class="select-all">
           <input type="checkbox" v-model="selectAll" @change="toggleSelectAll" />
-          全选
+          {{ $t('zh_006478') }}
         </label>
       </div>
 
@@ -52,10 +52,10 @@
               </div>
             </div>
             <div class="pair-meta">
-              <span class="meta-item">概念相似度: {{ Math.round(pair.concepts_similarity * 100) }}%</span>
-              <span class="meta-item">标题相似度: {{ Math.round(pair.title_similarity * 100) }}%</span>
+              <span class="meta-item">{{ $t('zh_b3df5c') }}: {{ Math.round(pair.concepts_similarity * 100) }}%</span>
+              <span class="meta-item">{{ $t('zh_b823af') }}: {{ Math.round(pair.title_similarity * 100) }}%</span>
               <span class="meta-item" v-if="pair.shared_concepts.length > 0">
-                共享概念: {{ pair.shared_concepts.join(', ') }}
+                {{ $t('zh_aa6256') }}: {{ pair.shared_concepts.join(', ') }}
               </span>
             </div>
           </div>
@@ -64,12 +64,12 @@
 
       <div class="empty-state" v-else>
         <div class="empty-icon">✅</div>
-        <h3>没有发现重复记忆</h3>
-        <p>您的记忆库中没有发现语义相似度超过 70% 的重复记忆</p>
+        <h3>{{ $t('zh_3ccc97') }}</h3>
+        <p>{{ $t('zh_6ac69c') }} 70% {{ $t('zh_ba1fa5') }}</p>
       </div>
 
       <div class="dedup-footer">
-        <span class="footer-hint">选择要合并的记忆对，保留相似度较高的一条</span>
+        <span class="footer-hint">{{ $t('zh_eec2a3') }}，{{ $t('zh_13cc4a') }}</span>
         <div class="footer-actions">
           <button class="action-btn secondary" @click="$emit('close')">取消</button>
           <button

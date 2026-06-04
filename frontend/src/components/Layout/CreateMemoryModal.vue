@@ -10,13 +10,13 @@
       aria-modal="true"
       aria-labelledby="create-modal-title"
     >
-      <h2 id="create-modal-title">创建新记忆</h2>
+      <h2 id="create-modal-title">{{ $t('zh_0b988f') }}</h2>
       <form @submit.prevent="onSubmit">
         <div class="form-group">
-          <label>模板</label>
+          <label>{{ $t('zh_006780') }}</label>
           <div class="template-select-wrapper">
             <select v-model="selectedTemplateId" class="template-select" @change="onTemplateChange">
-              <option value="">✏️ 自定义</option>
+              <option value="">✏️ {{ $t('zh_0dbb74') }}</option>
               <option v-for="tpl in templates" :key="tpl.id" :value="tpl.id">
                 {{ tpl.icon }} {{ tpl.name }}
               </option>
@@ -25,11 +25,11 @@
         </div>
         <div class="form-group">
           <label>Title <span class="required">*</span></label>
-          <input v-model="form.title" type="text" required placeholder="记忆标题" />
+          <input v-model="form.title" type="text" required placeholder="$t('zh_ca9ba7')" />
         </div>
         <div class="form-group">
           <label>Content <span class="required">*</span></label>
-          <textarea v-model="form.content" required rows="4" placeholder="记忆内容"></textarea>
+          <textarea v-model="form.content" required rows="4" placeholder="$t('zh_ca9884')"></textarea>
         </div>
         <div class="form-row">
           <div class="form-group">
@@ -51,10 +51,10 @@
         </div>
         <div class="form-group">
           <label>Concepts</label>
-          <input v-model="conceptsStr" type="text" placeholder="逗号分隔，如: hermes, kanban" />
+          <input v-model="conceptsStr" type="text" placeholder="$t('zh_ccd093')，如: hermes, kanban" />
         </div>
         <div class="form-group">
-          <label>标签</label>
+          <label>{{ $t('zh_00674e') }}</label>
           <TagManager :tags="formTags" :all-tags="allTagNames" @update:tags="formTags = $event" />
         </div>
         <div class="form-actions">

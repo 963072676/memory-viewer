@@ -2,7 +2,7 @@
   <div class="memory-detail-view">
     <div class="view-header">
       <button class="back-btn" @click="goBack">
-        ← 返回
+        ← {{ $t('zh_006c4b') }}
       </button>
       <div class="view-actions">
         <!-- P38 (round 3): 5 个按钮层级化 — 之前全用 accent 实色 → 5 个"假 primary"同时喊叫。
@@ -11,9 +11,9 @@
         <button class="action-btn action-btn--ghost" @click="toggleExpand">
           {{ isExpanded ? '折叠' : '展开' }}
         </button>
-        <button class="action-btn action-btn--ghost" @click="router.push(`/memory/${route.params.id}/history`)">历史</button>
-        <button class="action-btn action-btn--ghost" @click="showShareModal = true">分享</button>
-        <button class="action-btn action-btn--primary" @click="showEditModal = true">编辑</button>
+        <button class="action-btn action-btn--ghost" @click="router.push(`/memory/${route.params.id}/history`)">{{ $t('zh_006482') }}</button>
+        <button class="action-btn action-btn--ghost" @click="showShareModal = true">{{ $t('zh_00644b') }}</button>
+        <button class="action-btn action-btn--primary" @click="showEditModal = true">{{ $t('zh_006a5b') }}</button>
         <button class="action-btn action-btn--danger" @click="confirmDelete = true">删除</button>
       </div>
     </div>
@@ -23,9 +23,9 @@
     </div>
 
     <div v-else-if="error" class="error-state">
-      <h3>加载失败</h3>
+      <h3>{{ $t('zh_ac1a4d') }}</h3>
       <p>{{ error }}</p>
-      <button class="action-btn" @click="loadMemory">重试</button>
+      <button class="action-btn" @click="loadMemory">{{ $t('zh_006cc1') }}</button>
     </div>
 
     <div v-else-if="memory" class="memory-content">
@@ -33,7 +33,7 @@
         <div class="title-row">
           <h1>{{ memory.title }}</h1>
           <span class="memory-type" :class="'type-' + memory.type">{{ memory.type }}</span>
-          <span v-if="memory.archived" class="archived-badge">已归档</span>
+          <span v-if="memory.archived" class="archived-badge">{{ $t('zh_0d2307') }}</span>
         </div>
         <div class="meta-row">
           <HealthBadge v-if="healthDisplay" :score="healthDisplay.health_score" :color="healthDisplay.color" />
@@ -75,7 +75,7 @@
         </div>
 
         <div class="detail-section">
-          <h4>标签</h4>
+          <h4>{{ $t('zh_00674e') }}</h4>
           <TagManager
             v-if="allTagNames.length"
             :tags="memory.tags || []"
@@ -108,22 +108,22 @@
 
       <!-- Health breakdown -->
       <div class="health-section" v-if="healthData">
-        <h4>健康度详情</h4>
+        <h4>{{ $t('zh_ec5ffb') }}</h4>
         <div class="health-breakdown">
           <div class="breakdown-item">
             <span class="breakdown-label">强度</span>
             <span class="breakdown-value">{{ healthData.breakdown.strength_score }}</span>
           </div>
           <div class="breakdown-item">
-            <span class="breakdown-label">年龄</span>
+            <span class="breakdown-label">{{ $t('zh_006636') }}</span>
             <span class="breakdown-value">{{ healthData.breakdown.age_score }}</span>
           </div>
           <div class="breakdown-item">
-            <span class="breakdown-label">概念</span>
+            <span class="breakdown-label">{{ $t('zh_006763') }}</span>
             <span class="breakdown-value">{{ healthData.breakdown.concepts_score }}</span>
           </div>
           <div class="breakdown-item">
-            <span class="breakdown-label">推荐</span>
+            <span class="breakdown-label">{{ $t('zh_0066c6') }}</span>
             <span class="breakdown-value">{{ healthData.breakdown.recommendation_score }}</span>
           </div>
         </div>
@@ -138,8 +138,8 @@
 
     <ConfirmDialog
       v-if="confirmDelete"
-      title="确认删除"
-      message="确定要删除这条记忆吗？此操作不可撤销。"
+      title="$t('zh_c0c40a')"
+      message="$t('zh_794546')？{{ $t('zh_974456') }}。"
       confirm-text="删除"
       cancel-text="取消"
       @confirm="handleDelete"

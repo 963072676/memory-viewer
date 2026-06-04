@@ -11,11 +11,11 @@
         >
           <div class="modal-header">
             <h2 id="whatsnew-modal-title">🎉 What's New</h2>
-            <button class="close-btn" @click="onClose" aria-label="关闭更新说明">&times;</button>
+            <button class="close-btn" @click="onClose" aria-label="$t('zh_d9366f')">&times;</button>
           </div>
           <div class="modal-body">
             <div v-if="changelog.length === 0" class="empty-changelog">
-              暂无更新记录
+              {{ $t('zh_930587') }}
             </div>
             <div v-else class="version-list">
               <div
@@ -50,7 +50,7 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button class="action-btn action-btn--accent" @click="onClose">知道了</button>
+            <button class="action-btn action-btn--accent" @click="onClose">{{ $t('zh_0d97a1') }}</button>
           </div>
         </div>
       </div>

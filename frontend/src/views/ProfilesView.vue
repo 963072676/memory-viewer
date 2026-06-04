@@ -3,7 +3,7 @@
     <h2 class="section-title">Profiles</h2>
     <div v-if="loading" class="loading">加载中...</div>
     <div v-else-if="profiles.length === 0">
-      <EmptyState icon="👤" message="暂无 Profile" />
+      <EmptyState icon="👤" message="$t('zh_006706') Profile" />
     </div>
     <div v-else class="profile-list">
       <div v-for="name in profiles" :key="name" class="profile-card">
@@ -12,7 +12,7 @@
           <h3>{{ name }}</h3>
           <p class="profile-desc">Profile: {{ name }}</p>
         </div>
-        <router-link :to="{ path: '/hermes', query: { profile: name } }" class="profile-link">查看 →</router-link>
+        <router-link :to="{ path: '/hermes', query: { profile: name } }" class="profile-link">{{ $t('zh_006745') }} →</router-link>
       </div>
     </div>
   </div>

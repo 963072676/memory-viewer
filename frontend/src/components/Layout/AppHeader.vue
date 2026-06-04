@@ -7,7 +7,7 @@
 
       <div v-if="!isMobile" class="header-title">
         <h1>Memory Viewer</h1>
-        <p>Hermes Agent 记忆系统全景视图</p>
+        <p>Hermes Agent {{ $t('zh_bd0ba4') }}</p>
       </div>
 
       <div v-else class="header-title mobile">
@@ -15,6 +15,7 @@
       </div>
 
       <div class="header-right">
+        <LanguageSwitcher />
         <button class="theme-toggle" @click="toggleTheme" :title="modeLabel()" :aria-label="modeLabel()">
           <span aria-hidden="true">{{ modeIcon() }}</span>
         </button>
@@ -27,6 +28,7 @@
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useTheme } from '@/composables/useTheme'
+import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
 
 const { toggleTheme, modeLabel, modeIcon } = useTheme()
 const route = useRoute()

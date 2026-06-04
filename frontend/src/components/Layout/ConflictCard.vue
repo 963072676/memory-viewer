@@ -6,7 +6,7 @@
         {{ conflict.severity }}
       </div>
       <div class="conflict-type">{{ conflictLabels[conflict.conflict_type] || conflict.conflict_type }}</div>
-      <div class="similarity">相似度: {{ (conflict.similarity * 100).toFixed(0) }}%</div>
+      <div class="similarity">{{ $t('zh_0d8b5d') }}: {{ (conflict.similarity * 100).toFixed(0) }}%</div>
     </div>
 
     <div class="conflict-body">
@@ -32,13 +32,13 @@
     </div>
 
     <div v-if="conflict.resolved" class="conflict-resolved">
-      ✅ 已解决: {{ conflict.resolution?.action }} ({{ conflict.resolution?.resolved_by }})
+      ✅ {{ $t('zh_0d286d') }}: {{ conflict.resolution?.action }} ({{ conflict.resolution?.resolved_by }})
     </div>
     <div v-else class="conflict-actions">
-      <button class="btn-resolve keep-a" @click="$emit('resolve', conflict.id, 'keep_a')">保留 A</button>
-      <button class="btn-resolve keep-b" @click="$emit('resolve', conflict.id, 'keep_b')">保留 B</button>
-      <button class="btn-resolve merge" @click="$emit('resolve', conflict.id, 'merge')">合并</button>
-      <button class="btn-resolve dismiss" @click="$emit('resolve', conflict.id, 'dismiss')">忽略</button>
+      <button class="btn-resolve keep-a" @click="$emit('resolve', conflict.id, 'keep_a')">{{ $t('zh_00642b') }} A</button>
+      <button class="btn-resolve keep-b" @click="$emit('resolve', conflict.id, 'keep_b')">{{ $t('zh_00642b') }} B</button>
+      <button class="btn-resolve merge" @click="$emit('resolve', conflict.id, 'merge')">{{ $t('zh_00649d_1') }}</button>
+      <button class="btn-resolve dismiss" @click="$emit('resolve', conflict.id, 'dismiss')">{{ $t('zh_00663f') }}</button>
     </div>
   </div>
 </template>

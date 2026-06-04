@@ -1,37 +1,37 @@
 <template>
   <div class="config-step">
-    <h3>🔗 连接记忆数据源</h3>
-    <p class="desc">配置 Memory Viewer 读取你的 Agent 记忆</p>
+    <h3>🔗 {{ $t('zh_1249c5') }}</h3>
+    <p class="desc">{{ $t('zh_006ca4') }} Memory Viewer {{ $t('zh_ca8eb0') }} Agent 记忆</p>
     
     <!-- 快速开始按钮 -->
     <div class="quick-start-section">
       <button class="btn-quick-start" @click="useQuickStart">
         <span class="quick-icon">🚀</span>
-        <span class="quick-text">快速开始</span>
+        <span class="quick-text">{{ $t('zh_b36798') }}</span>
       </button>
-      <span class="quick-hint">使用内置示例数据，无需配置</span>
+      <span class="quick-hint">{{ $t('zh_d3cc17') }}，{{ $t('zh_b6cfba') }}</span>
     </div>
     
-    <div class="divider"><span>或手动配置</span></div>
+    <div class="divider"><span>{{ $t('zh_2e4796') }}</span></div>
     
     <div class="config-form">
       <div class="field">
-        <label>数据源路径</label>
+        <label>{{ $t('zh_6c0370') }}</label>
         <input v-model="path" type="text" placeholder="/path/to/agentmemory.json" class="input" @keydown="handleKeydown" />
-        <span class="hint">agentmemory.json 文件的绝对路径</span>
+        <span class="hint">agentmemory.json {{ $t('zh_2daed4') }}</span>
       </div>
       <div class="field">
-        <label>API 端点 (可选)</label>
+        <label>API {{ $t('zh_0069b3') }} ({{ $t('zh_0064cc') }})</label>
         <input v-model="api" type="text" placeholder="http://localhost:8000" class="input" @keydown="handleKeydown" />
-        <span class="hint">如果 Memory Viewer 已运行，自动检测</span>
+        <span class="hint">{{ $t('zh_00655b') }} Memory Viewer {{ $t('zh_0d2967') }}，{{ $t('zh_c507cb') }}</span>
       </div>
       
       <!-- 预设配置 -->
       <div class="presets">
-        <span class="presets-label">预设配置:</span>
+        <span class="presets-label">{{ $t('zh_d264b7') }}:</span>
         <button class="preset-btn" @click="usePreset('hermes')">🤖 Hermes</button>
         <button class="preset-btn" @click="usePreset('agentmemory')">📦 AgentMemory</button>
-        <button class="preset-btn" @click="usePreset('local')">💻 本地</button>
+        <button class="preset-btn" @click="usePreset('local')">💻 {{ $t('zh_00670e') }}</button>
       </div>
       
       <div class="status" :class="status">
@@ -41,7 +41,7 @@
     
     <!-- 跳过按钮 -->
     <div class="skip-section">
-      <button class="btn-skip-config" @click="skipConfig">跳过配置 → 使用示例数据</button>
+      <button class="btn-skip-config" @click="skipConfig">{{ $t('zh_ccaa94') }} → {{ $t('zh_038820') }}</button>
     </div>
   </div>
 </template>

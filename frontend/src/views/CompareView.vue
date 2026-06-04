@@ -1,7 +1,7 @@
 <template>
   <div class="compare-view">
     <div class="view-header">
-      <h2 class="section-title">🔍 多 Agent 记忆对比</h2>
+      <h2 class="section-title">🔍 多 Agent {{ $t('zh_ca99ed') }}</h2>
       <button class="action-btn action-btn--primary" @click="compare" :disabled="!leftProfile || !rightProfile || loading">
         {{ loading ? '对比中...' : '开始对比' }}
       </button>
@@ -11,14 +11,14 @@
       <div class="select-group">
         <label>Left Profile</label>
         <select v-model="leftProfile" class="select-input">
-          <option value="">选择 Profile</option>
+          <option value="">{{ $t('zh_006c5e') }} Profile</option>
           <option v-for="p in profiles" :key="p" :value="p">{{ p }}</option>
         </select>
       </div>
       <div class="select-group">
         <label>Right Profile</label>
         <select v-model="rightProfile" class="select-input">
-          <option value="">选择 Profile</option>
+          <option value="">{{ $t('zh_006c5e') }} Profile</option>
           <option v-for="p in profiles" :key="p" :value="p">{{ p }}</option>
         </select>
       </div>
@@ -29,7 +29,7 @@
     <div v-else-if="result" class="compare-content">
       <!-- Similarity Score -->
       <div class="similarity-bar">
-        <span class="similarity-label">相似度</span>
+        <span class="similarity-label">{{ $t('zh_0d8b5d') }}</span>
         <div class="similarity-track">
           <div class="similarity-fill" :style="{ width: (result.similarity_score * 100) + '%' }"></div>
         </div>
@@ -39,8 +39,8 @@
       <!-- Three column layout -->
       <div class="three-column">
         <div class="column left-only">
-          <h3>🅰️ 仅在左侧 ({{ result.left_only.length }})</h3>
-          <div v-if="result.left_only.length === 0" class="empty-col">无独有记忆</div>
+          <h3>🅰️ {{ $t('zh_a90dcf') }} ({{ result.left_only.length }})</h3>
+          <div v-if="result.left_only.length === 0" class="empty-col">{{ $t('zh_7c4ca0') }}</div>
           <div v-for="item in result.left_only" :key="item.id" class="item-card">
             <div class="item-header">
               <span class="item-type">{{ item.type }}</span>
@@ -55,8 +55,8 @@
         </div>
 
         <div class="column common">
-          <h3>🔗 共有 ({{ result.common.length }})</h3>
-          <div v-if="result.common.length === 0" class="empty-col">无共有记忆</div>
+          <h3>🔗 {{ $t('zh_006450') }} ({{ result.common.length }})</h3>
+          <div v-if="result.common.length === 0" class="empty-col">{{ $t('zh_69f0ac') }}</div>
           <div v-for="item in result.common" :key="item.id" class="item-card">
             <div class="item-header">
               <span class="item-type">{{ item.type }}</span>
@@ -71,8 +71,8 @@
         </div>
 
         <div class="column right-only">
-          <h3>🅱️ 仅在右侧 ({{ result.right_only.length }})</h3>
-          <div v-if="result.right_only.length === 0" class="empty-col">无独有记忆</div>
+          <h3>🅱️ {{ $t('zh_a90c87') }} ({{ result.right_only.length }})</h3>
+          <div v-if="result.right_only.length === 0" class="empty-col">{{ $t('zh_7c4ca0') }}</div>
           <div v-for="item in result.right_only" :key="item.id" class="item-card">
             <div class="item-header">
               <span class="item-type">{{ item.type }}</span>

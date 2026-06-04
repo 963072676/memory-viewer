@@ -1,15 +1,15 @@
 <template>
   <div class="welcome-step">
     <div class="welcome-icon">🧠</div>
-    <h2>欢迎使用 Memory Viewer v2</h2>
-    <p class="welcome-desc">智能记忆管理平台 — 帮助你理解、组织和优化 Agent 记忆系统</p>
+    <h2>{{ $t('zh_b98aaf') }} Memory Viewer v2</h2>
+    <p class="welcome-desc">{{ $t('zh_620a0c') }} — {{ $t('zh_def3a9') }}、{{ $t('zh_44e04b') }} Agent {{ $t('zh_ca9e41') }}</p>
     <div class="feature-grid">
-      <div class="feature-item"><span>🔍</span> 智能搜索 & 自然语言查询</div>
-      <div class="feature-item"><span>🕸️</span> 记忆图谱 & 聚类分析</div>
-      <div class="feature-item"><span>⚠️</span> 冲突检测 & 异常告警</div>
-      <div class="feature-item"><span>⚙️</span> 自动化工作流</div>
+      <div class="feature-item"><span>🔍</span> {{ $t('zh_b6c0b4') }} & {{ $t('zh_62e500') }}</div>
+      <div class="feature-item"><span>🕸️</span> {{ $t('zh_ca9969') }} & {{ $t('zh_c4db6b') }}</div>
+      <div class="feature-item"><span>⚠️</span> {{ $t('zh_ab4068') }} & {{ $t('zh_b2125c') }}</div>
+      <div class="feature-item"><span>⚙️</span> {{ $t('zh_1a1246') }}</div>
     </div>
-    <p class="welcome-hint">接下来几个步骤将帮助你快速上手</p>
+    <p class="welcome-hint">{{ $t('zh_22a624') }}</p>
   </div>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
   <div class="settings-view">
-    <h1 class="settings-title">⚙️ 设置</h1>
+    <h1 class="settings-title">⚙️ {{ $t('zh_006bed') }}</h1>
 
     <div class="settings-tabs">
       <button
@@ -22,7 +22,7 @@
 
       <!-- Webhook -->
       <div v-if="activeTab === 'webhook'" class="settings-panel">
-        <h2 class="section-title">🔗 Webhook 配置</h2>
+        <h2 class="section-title">🔗 Webhook {{ $t('zh_006ca4') }}</h2>
         <div class="form-section">
           <div class="form-field">
             <label>Webhook URL</label>
@@ -38,12 +38,12 @@
             <input
               v-model="webhookSecret"
               type="password"
-              placeholder="可选"
+              placeholder="$t('zh_0064cc')"
               class="form-input"
             />
           </div>
           <div class="form-field row">
-            <label>启用</label>
+            <label>{{ $t('zh_0064b9') }}</label>
             <button
               class="toggle-btn"
               :class="{ active: webhookEnabled }"
@@ -53,7 +53,7 @@
             </button>
           </div>
           <div class="form-field">
-            <label>事件</label>
+            <label>{{ $t('zh_0063d9') }}</label>
             <div class="events-grid">
               <label v-for="evt in eventKeys" :key="evt" class="checkbox-label">
                 <input type="checkbox" v-model="webhookEvents[evt]" />
@@ -65,17 +65,17 @@
             <button class="action-btn action-btn--accent" @click="saveWebhook" :disabled="webhookSaving">
               {{ webhookSaving ? '保存中...' : '保存' }}
             </button>
-            <span v-if="webhookSaved" class="save-ok">✓ 已保存</span>
+            <span v-if="webhookSaved" class="save-ok">✓ {{ $t('zh_0d20fc') }}</span>
           </div>
         </div>
       </div>
 
       <!-- 通知 -->
       <div v-if="activeTab === 'notifications'" class="settings-panel">
-        <h2 class="section-title">🔔 通知配置</h2>
+        <h2 class="section-title">🔔 {{ $t('zh_cd7320') }}</h2>
         <div class="form-section">
           <div class="form-field">
-            <label>飞书 Webhook URL</label>
+            <label>{{ $t('zh_006d6d') }} Webhook URL</label>
             <input
               v-model="feishuUrl"
               type="url"
@@ -84,16 +84,16 @@
             />
           </div>
           <div class="form-field">
-            <label>飞书 Secret（签名校验）</label>
+            <label>{{ $t('zh_006d6d') }} Secret（{{ $t('zh_c18854') }}）</label>
             <input
               v-model="feishuSecret"
               type="password"
-              placeholder="可选"
+              placeholder="$t('zh_0064cc')"
               class="form-input"
             />
           </div>
           <div class="form-field row">
-            <label>启用飞书通知</label>
+            <label>{{ $t('zh_0410f6') }}</label>
             <button
               class="toggle-btn"
               :class="{ active: feishuEnabled }"
@@ -103,7 +103,7 @@
             </button>
           </div>
           <div class="form-field">
-            <label>通知事件</label>
+            <label>{{ $t('zh_cd6a55') }}</label>
             <div class="events-grid">
               <label v-for="evt in feishuEventKeys" :key="evt" class="checkbox-label">
                 <input type="checkbox" v-model="feishuEvents[evt]" />
@@ -115,34 +115,34 @@
             <button class="action-btn action-btn--accent" @click="saveFeishu" :disabled="feishuSaving">
               {{ feishuSaving ? '保存中...' : '保存' }}
             </button>
-            <span v-if="feishuSaved" class="save-ok">✓ 已保存</span>
+            <span v-if="feishuSaved" class="save-ok">✓ {{ $t('zh_0d20fc') }}</span>
           </div>
         </div>
       </div>
 
       <!-- 关于 -->
       <div v-if="activeTab === 'about'" class="settings-panel">
-        <h2 class="section-title">ℹ️ 关于</h2>
+        <h2 class="section-title">ℹ️ {{ $t('zh_006438_1') }}</h2>
         <div class="about-section">
           <div class="about-row">
-            <span class="about-label">应用</span>
+            <span class="about-label">{{ $t('zh_006610') }}</span>
             <span class="about-value">Memory Viewer v2</span>
           </div>
           <div class="about-row">
-            <span class="about-label">版本</span>
+            <span class="about-label">{{ $t('zh_00688c') }}</span>
             <span class="about-value">{{ appVersion }}</span>
           </div>
           <div class="about-row">
-            <span class="about-label">框架</span>
+            <span class="about-label">{{ $t('zh_006743') }}</span>
             <span class="about-value">Vue 3 + TypeScript + Vite</span>
           </div>
           <div class="about-row">
-            <span class="about-label">许可证</span>
+            <span class="about-label">{{ $t('zh_0de46a') }}</span>
             <span class="about-value">MIT</span>
           </div>
           <div class="about-links">
             <a href="https://github.com/NousResearch" target="_blank" class="about-link">GitHub</a>
-            <a href="/api-docs" class="about-link">API 文档</a>
+            <a href="/api-docs" class="about-link">API {{ $t('zh_0066e9') }}</a>
             <router-link to="/api-playground" class="about-link">API Playground</router-link>
           </div>
         </div>

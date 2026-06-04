@@ -1,13 +1,13 @@
 <template>
   <div class="lineage-graph" ref="graphContainer">
-    <div v-if="loading" class="loading-state">加载谱系数据中...</div>
+    <div v-if="loading" class="loading-state">{{ $t('zh_2c04aa') }}...</div>
     <div v-else-if="error" class="error-state">
       <p>⚠️ {{ error }}</p>
-      <button class="btn-retry" @click="loadGraph">重试</button>
+      <button class="btn-retry" @click="loadGraph">{{ $t('zh_006cc1') }}</button>
     </div>
     <div v-else-if="nodes.length === 0" class="empty-state">
-      <p>暂无谱系数据</p>
-      <p class="empty-hint">记忆创建后会自动记录来源和衍生关系</p>
+      <p>{{ $t('zh_a7cf2b') }}</p>
+      <p class="empty-hint">{{ $t('zh_72c825') }}</p>
     </div>
     <template v-else>
       <div class="graph-toolbar">

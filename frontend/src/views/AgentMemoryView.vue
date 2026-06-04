@@ -7,8 +7,8 @@
              「+ 创建」是最高频动作（用户主要操作）→ primary 药丸。
              其它（导入/导出/bulk-autotag/去重）都是次级批量操作 → secondary 统一处理。
              ai-autotag/dedup 之前用 var(--accent) 描边属于"伪 primary"，与真 primary 撞色，改为普通 secondary。 -->
-        <button class="action-btn action-btn--primary" @click="showCreateModal = true">+ 创建</button>
-        <button class="action-btn" @click="showImportModal = true">📥 导入</button>
+        <button class="action-btn action-btn--primary" @click="showCreateModal = true">+ {{ $t('zh_00645e') }}</button>
+        <button class="action-btn" @click="showImportModal = true">📥 {{ $t('zh_006597_1') }}</button>
         <ExportButton />
         <button
           class="action-btn"
@@ -35,7 +35,7 @@
     <!-- P21-T4: Quick filter/sort controls -->
     <div class="quick-controls">
       <select v-model="quickTypeFilter" class="control-select" @change="applyQuickFilter">
-        <option value="">全部类型</option>
+        <option value="">{{ $t('zh_ab7996') }}</option>
         <option value="pattern">Pattern</option>
         <option value="fact">Fact</option>
         <option value="preference">Preference</option>
@@ -44,12 +44,12 @@
         <option value="architecture">Architecture</option>
       </select>
       <select v-model="quickSortOrder" class="control-select" @change="applyQuickFilter">
-        <option value="updatedAt-desc">最新更新</option>
-        <option value="updatedAt-asc">最早更新</option>
-        <option value="createdAt-desc">最新创建</option>
-        <option value="createdAt-asc">最早创建</option>
-        <option value="strength-desc">强度高→低</option>
-        <option value="strength-asc">强度低→高</option>
+        <option value="updatedAt-desc">{{ $t('zh_b69653') }}</option>
+        <option value="updatedAt-asc">{{ $t('zh_b69745') }}</option>
+        <option value="createdAt-desc">{{ $t('zh_b6939c') }}</option>
+        <option value="createdAt-asc">{{ $t('zh_b6948f') }}</option>
+        <option value="strength-desc">{{ $t('zh_0d2896') }}→低</option>
+        <option value="strength-asc">{{ $t('zh_0d284b') }}→高</option>
       </select>
     </div>
     <div v-if="store.loading" class="card-grid">
@@ -66,7 +66,7 @@
       <BatchToolbar :loading="batchLoading" @batch="handleBatch" @export="handleBatchExport" />
       <ConfirmDialog
         v-if="showDeleteConfirm"
-        title="确认批量删除"
+        title="$t('zh_0ade99')"
         :message="`确定要删除选中的 ${store.selectionCount} 条记忆吗？此操作不可撤销。`"
         confirm-text="删除"
         cancel-text="取消"

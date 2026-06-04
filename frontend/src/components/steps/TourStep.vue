@@ -1,7 +1,7 @@
 <template>
   <div class="tour-step">
-    <h3>🗺️ 功能导览</h3>
-    <p class="desc">点击下方功能卡片查看它在界面上的位置</p>
+    <h3>🗺️ {{ $t('zh_abdc6b') }}</h3>
+    <p class="desc">{{ $t('zh_8d42b9') }}</p>
     <FeatureTour />
   </div>
 </template>

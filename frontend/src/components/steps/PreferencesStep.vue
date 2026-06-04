@@ -1,31 +1,31 @@
 <template>
   <div class="preferences-step">
-    <h3>🎨 个性化设置</h3>
+    <h3>🎨 {{ $t('zh_c49c09') }}</h3>
     <div class="pref-list">
       <div class="pref-item">
-        <div class="pref-label">主题</div>
+        <div class="pref-label">{{ $t('zh_006418_1') }}</div>
         <select v-model="theme" class="pref-select">
-          <option value="light">☀️ 浅色</option>
-          <option value="dark">🌙 深色</option>
-          <option value="auto">💻 跟随系统</option>
+          <option value="light">☀️ {{ $t('zh_006802') }}</option>
+          <option value="dark">🌙 {{ $t('zh_006818') }}</option>
+          <option value="auto">💻 {{ $t('zh_ccb9d6') }}</option>
         </select>
       </div>
       <div class="pref-item">
-        <div class="pref-label">自动刷新间隔</div>
+        <div class="pref-label">{{ $t('zh_19c267') }}</div>
         <select v-model="refresh" class="pref-select">
-          <option value="0">关闭</option>
-          <option value="15">每 15 分钟</option>
-          <option value="30">每 30 分钟</option>
-          <option value="60">每小时</option>
+          <option value="0">{{ $t('zh_006480') }}</option>
+          <option value="15">每 15 {{ $t('zh_006491') }}</option>
+          <option value="30">每 30 {{ $t('zh_006491') }}</option>
+          <option value="60">{{ $t('zh_0d5d92') }}</option>
         </select>
       </div>
       <div class="pref-item">
-        <div class="pref-label">默认视图</div>
+        <div class="pref-label">{{ $t('zh_d5db7d') }}</div>
         <select v-model="defaultView" class="pref-select">
-          <option value="/">首页</option>
+          <option value="/">{{ $t('zh_006dcf') }}</option>
           <option value="/agentmemory">Agent 记忆</option>
-          <option value="/dashboard">仪表盘</option>
-          <option value="/graph">图谱</option>
+          <option value="/dashboard">{{ $t('zh_0ce870') }}</option>
+          <option value="/graph">{{ $t('zh_00652d') }}</option>
         </select>
       </div>
     </div>

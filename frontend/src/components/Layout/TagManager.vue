@@ -16,7 +16,7 @@
         v-model="inputValue"
         type="text"
         class="tag-input"
-        placeholder="输入标签后回车添加"
+        placeholder="$t('zh_5a1514')"
         @keydown.enter.prevent="addTag"
         @input="onInput"
         @focus="showSuggestions = true"

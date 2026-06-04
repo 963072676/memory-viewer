@@ -35,7 +35,7 @@
     </router-link>
     <button class="tab-item more-btn" @click="showMoreSheet = true">
       <span class="tab-icon">☰</span>
-      <span class="tab-label">更多</span>
+      <span class="tab-label">{{ $t('zh_006708') }}</span>
     </button>
   </nav>
 
@@ -45,7 +45,7 @@
       <div v-if="showMoreSheet" class="bottom-sheet-overlay" @click="showMoreSheet = false">
         <div class="bottom-sheet" @click.stop>
           <div class="sheet-handle"></div>
-          <h3 class="sheet-title">所有页面</h3>
+          <h3 class="sheet-title">{{ $t('zh_b407d5') }}</h3>
           <div class="sheet-grid">
             <router-link
               v-for="item in allNavItems"

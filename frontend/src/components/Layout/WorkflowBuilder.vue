@@ -1,45 +1,45 @@
 <template>
   <div class="workflow-builder">
     <div class="builder-section">
-      <h4>基本信息</h4>
+      <h4>{{ $t('zh_ae5cab') }}</h4>
       <div class="field-group">
-        <label>规则名称</label>
-        <input v-model="form.name" type="text" placeholder="例如: 清理过期记忆" class="input-field" />
+        <label>{{ $t('zh_c950fe') }}</label>
+        <input v-model="form.name" type="text" placeholder="$t('zh_006404'): $t('zh_2f255f')" class="input-field" />
       </div>
       <div class="field-group">
-        <label>描述</label>
-        <input v-model="form.description" type="text" placeholder="规则描述" class="input-field" />
+        <label>{{ $t('zh_0066d7') }}</label>
+        <input v-model="form.description" type="text" placeholder="$t('zh_c9531c')" class="input-field" />
       </div>
     </div>
 
     <div class="builder-section">
-      <h4>触发器</h4>
+      <h4>{{ $t('zh_0ddc72') }}</h4>
       <select v-model="form.trigger.type" class="input-field">
-        <option value="manual">手动触发</option>
-        <option value="schedule">定时触发</option>
-        <option value="on_memory_create">记忆创建时</option>
-        <option value="on_memory_update">记忆更新时</option>
-        <option value="on_strength_change">强度变化时</option>
+        <option value="manual">{{ $t('zh_b3b509') }}</option>
+        <option value="schedule">{{ $t('zh_b05bd2') }}</option>
+        <option value="on_memory_create">{{ $t('zh_1dac5e') }}</option>
+        <option value="on_memory_update">{{ $t('zh_1e05eb') }}</option>
+        <option value="on_strength_change">{{ $t('zh_f886d6') }}</option>
       </select>
       <div v-if="form.trigger.type === 'schedule'" class="field-group">
-        <label>Cron 表达式</label>
+        <label>Cron {{ $t('zh_0ddddb') }}</label>
         <input v-model="form.trigger.config.cron" type="text" placeholder="0 2 * * *" class="input-field" />
-        <span class="field-hint">例: "0 2 * * *" = 每天凌晨2点</span>
+        <span class="field-hint">例: "0 2 * * *" = {{ $t('zh_b90156') }}2点</span>
       </div>
     </div>
 
     <div class="builder-section">
       <h4>
-        条件 (全部满足)
-        <button class="btn-add" @click="addCondition">+ 添加</button>
+        {{ $t('zh_00670c') }} ({{ $t('zh_ab780b') }})
+        <button class="btn-add" @click="addCondition">+ {{ $t('zh_0067ea') }}</button>
       </h4>
       <div v-for="(cond, i) in form.conditions" :key="i" class="condition-row">
         <select v-model="cond.field" class="input-field short">
-          <option value="age_days">天数</option>
+          <option value="age_days">{{ $t('zh_00654d') }}</option>
           <option value="strength">强度</option>
-          <option value="type">类型</option>
-          <option value="content">内容</option>
-          <option value="has_concept">包含概念</option>
+          <option value="type">{{ $t('zh_0069cd') }}</option>
+          <option value="content">{{ $t('zh_006448') }}</option>
+          <option value="has_concept">{{ $t('zh_ab5745') }}</option>
         </select>
         <select v-model="cond.op" class="input-field short">
           <option value=">">></option>
@@ -48,7 +48,7 @@
           <option value="<="><=</option>
           <option value="==">==</option>
           <option value="!=">!=</option>
-          <option value="contains">包含</option>
+          <option value="contains">{{ $t('zh_006472') }}</option>
         </select>
         <input v-model="cond.value" type="text" class="input-field short" placeholder="值" />
         <button class="btn-remove" @click="form.conditions.splice(i, 1)">✕</button>
@@ -57,23 +57,23 @@
 
     <div class="builder-section">
       <h4>
-        动作
-        <button class="btn-add" @click="addAction">+ 添加</button>
+        {{ $t('zh_006461') }}
+        <button class="btn-add" @click="addAction">+ {{ $t('zh_0067ea') }}</button>
       </h4>
       <div v-for="(action, i) in form.actions" :key="i" class="action-row">
         <select v-model="action.type" class="input-field short">
-          <option value="archive">归档</option>
+          <option value="archive">{{ $t('zh_00661c') }}</option>
           <option value="delete">删除</option>
-          <option value="add_tag">添加标签</option>
-          <option value="adjust_strength">调整强度</option>
-          <option value="send_notification">发送通知</option>
+          <option value="add_tag">{{ $t('zh_ba195e') }}</option>
+          <option value="adjust_strength">{{ $t('zh_cadff8') }}</option>
+          <option value="send_notification">{{ $t('zh_accabd') }}</option>
         </select>
         <input
           v-if="action.type === 'add_tag'"
           v-model="action.config.tag"
           type="text"
           class="input-field"
-          placeholder="标签名"
+          placeholder="$t('zh_0d5177')"
         />
         <input
           v-if="action.type === 'adjust_strength'"
@@ -88,7 +88,7 @@
     </div>
 
     <div class="builder-actions">
-      <button class="action-btn action-btn--accent" @click="$emit('save', form)" :disabled="!isValid">保存规则</button>
+      <button class="action-btn action-btn--accent" @click="$emit('save', form)" :disabled="!isValid">{{ $t('zh_a9bed3') }}</button>
       <button class="action-btn" @click="$emit('cancel')">取消</button>
     </div>
   </div>

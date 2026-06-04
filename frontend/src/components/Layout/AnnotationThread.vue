@@ -5,13 +5,13 @@
         <span class="ann-avatar" :style="{ background: avatarColor(ann.author) }">{{ (ann.author || '?')[0].toUpperCase() }}</span>
         <span class="ann-author">{{ ann.author || 'Anonymous' }}</span>
         <span class="ann-time">{{ formatTime(ann.timestamp) }}</span>
-        <span v-if="ann.type === 'flag'" class="ann-badge flag">🚩 待审</span>
-        <span v-if="ann.type === 'suggest'" class="ann-badge suggest">💡 建议</span>
+        <span v-if="ann.type === 'flag'" class="ann-badge flag">🚩 {{ $t('zh_006616') }}</span>
+        <span v-if="ann.type === 'suggest'" class="ann-badge suggest">💡 {{ $t('zh_006634') }}</span>
       </div>
       <div class="ann-content">{{ ann.content }}</div>
       <div class="ann-actions">
-        <button class="btn-link" @click="replyTo = ann.id">回复</button>
-        <button v-if="ann.type !== 'comment'" class="btn-link" @click="$emit('resolve', ann.id)">✅ 解决</button>
+        <button class="btn-link" @click="replyTo = ann.id">{{ $t('zh_0064f5') }}</button>
+        <button v-if="ann.type !== 'comment'" class="btn-link" @click="$emit('resolve', ann.id)">✅ {{ $t('zh_006b82') }}</button>
         <button class="btn-link danger" @click="$emit('delete', ann.id)">删除</button>
       </div>
       <!-- Nested replies -->
@@ -19,7 +19,7 @@
         <AnnotationThread :annotations="ann.replies" @reply="(id) => $emit('reply', id)" @resolve="(id) => $emit('resolve', id)" @delete="(id) => $emit('delete', id)" />
       </div>
     </div>
-    <div v-if="annotations.length === 0" class="empty-hint">暂无评论</div>
+    <div v-if="annotations.length === 0" class="empty-hint">{{ $t('zh_b656ec') }}</div>
   </div>
 </template>
 

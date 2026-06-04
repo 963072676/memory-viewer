@@ -1,26 +1,26 @@
 <template>
   <div class="import-step">
-    <h3>📥 导入现有记忆</h3>
-    <p class="desc">如果有已有的记忆数据，可以在这里导入</p>
+    <h3>📥 {{ $t('zh_9b417e') }}</h3>
+    <p class="desc">{{ $t('zh_7b9837') }}，{{ $t('zh_862088') }}</p>
     <div class="import-options">
       <div class="option-card" @click="mode = 'file'">
         <span class="option-icon">📄</span>
         <div>
-          <div class="option-title">从文件导入</div>
-          <div class="option-desc">JSON / Markdown 文件</div>
+          <div class="option-title">{{ $t('zh_d30e63') }}</div>
+          <div class="option-desc">JSON / Markdown {{ $t('zh_0066cf') }}</div>
         </div>
       </div>
       <div class="option-card" @click="mode = 'skip'">
         <span class="option-icon">⏭️</span>
         <div>
-          <div class="option-title">稍后再说</div>
-          <div class="option-desc">先看看演示数据</div>
+          <div class="option-title">{{ $t('zh_c0bb09') }}</div>
+          <div class="option-desc">{{ $t('zh_300a8c') }}</div>
         </div>
       </div>
     </div>
     <div v-if="mode === 'file'" class="file-upload">
       <input type="file" accept=".json,.md,.txt" @change="handleFile" class="file-input" />
-      <div v-if="imported" class="import-result">✅ 已导入 {{ count }} 条记忆</div>
+      <div v-if="imported" class="import-result">✅ {{ $t('zh_0d2282') }} {{ count }} 条记忆</div>
     </div>
   </div>
 </template>

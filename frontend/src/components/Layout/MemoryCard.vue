@@ -10,7 +10,7 @@
           <router-link :to="`/memory/${memory.id}`" class="memory-title-link" @click.stop>
             {{ memory.title }}
           </router-link>
-          <span v-if="memory.archived" class="archived-badge">已归档</span>
+          <span v-if="memory.archived" class="archived-badge">{{ $t('zh_0d2307') }}</span>
         </h3>
         <div class="card-right">
           <span v-if="healthDisplay" class="health-dot" :class="'dot-' + healthDisplay.color" :title="'健康度: ' + healthDisplay.health_score"></span>
@@ -72,7 +72,7 @@
           </div>
           <!-- F46: Tags section in expanded body -->
           <div class="detail-row">
-            <span class="detail-label">标签</span>
+            <span class="detail-label">{{ $t('zh_00674e') }}</span>
             <TagManager
               :tags="memory.tags || []"
               :all-tags="allTagNames"
@@ -93,7 +93,7 @@
           </div>
           <!-- Health breakdown (F-20) -->
           <div class="detail-row" v-if="healthDisplay">
-            <span class="detail-label">健康度</span>
+            <span class="detail-label">{{ $t('zh_0ce944') }}</span>
             <span class="health-detail">
               {{ healthDisplay.health_score }}/100
               <span v-if="healthData" class="health-dim" :class="'health-' + healthDisplay.color">
@@ -103,7 +103,7 @@
                 推{{ healthData.breakdown.recommendation_score }}
               </span>
               <span v-else class="health-dim" :class="'health-' + healthDisplay.color">
-                (列表预估)
+                ({{ $t('zh_abb8f8') }})
               </span>
             </span>
           </div>
@@ -136,7 +136,7 @@
 
           <!-- Suggested tags as clickable chips -->
           <div v-if="suggestedTags.length > 0" class="ai-suggested-tags">
-            <span class="ai-label">建议标签：</span>
+            <span class="ai-label">{{ $t('zh_b2d1d7') }}：</span>
             <span
               v-for="tag in suggestedTags"
               :key="tag"
@@ -150,7 +150,7 @@
 
           <!-- Summary display -->
           <div v-if="summary" class="ai-summary">
-            <span class="ai-label">摘要：</span>
+            <span class="ai-label">{{ $t('zh_0066e3') }}：</span>
             <p class="ai-summary-text">{{ summary }}</p>
           </div>
           <div v-if="summarizeError" class="ai-error">{{ summarizeError }}</div>
@@ -168,13 +168,13 @@
             class="action-btn"
             @click.stop="goToVersions"
           >
-            📋 版本历史
+            📋 {{ $t('zh_bcc9b7') }}
           </button>
           <button
             class="action-btn compare-btn"
             @click.stop="$emit('compare', memory)"
           >
-            🔍 对比
+            🔍 {{ $t('zh_0065b1') }}
           </button>
         </div>
       </div>

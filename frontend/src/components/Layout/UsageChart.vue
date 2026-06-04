@@ -4,15 +4,15 @@
       <h3>{{ title }}</h3>
       <div class="chart-controls">
         <select v-model="selectedPeriod" @change="loadData" class="period-select">
-          <option value="1h">1小时</option>
-          <option value="24h">24小时</option>
+          <option value="1h">1{{ $t('zh_0065ae') }}</option>
+          <option value="24h">24{{ $t('zh_0065ae') }}</option>
           <option value="7d">7天</option>
           <option value="30d">30天</option>
         </select>
       </div>
     </div>
     <div v-if="loading" class="chart-loading">加载中...</div>
-    <div v-else-if="data.length === 0" class="chart-empty">暂无数据</div>
+    <div v-else-if="data.length === 0" class="chart-empty">{{ $t('zh_b651d3') }}</div>
     <div v-else class="chart-body">
       <div class="chart-bars">
         <div

@@ -1,10 +1,10 @@
 <template>
   <div class="duplicate-panel" v-if="show">
     <div class="panel-header">
-      <h3>🔍 去重检查</h3>
+      <h3>🔍 {{ $t('zh_acc12f') }}</h3>
       <div class="panel-controls">
         <label class="threshold-label">
-          阈值:
+          {{ $t('zh_006d11') }}:
           <input type="range" v-model.number="threshold" min="0.3" max="1" step="0.05" class="threshold-slider" />
           <span>{{ threshold.toFixed(2) }}</span>
         </label>
@@ -15,10 +15,10 @@
       </div>
     </div>
 
-    <div v-if="scanning" class="scanning-state">正在扫描重复记忆...</div>
+    <div v-if="scanning" class="scanning-state">{{ $t('zh_61a39a') }}...</div>
 
     <div v-else-if="pairs.length === 0 && scanned" class="empty-state">
-      ✅ 未发现重复记忆
+      ✅ {{ $t('zh_55e4f2') }}
     </div>
 
     <div v-else class="pairs-list">
@@ -26,8 +26,8 @@
         <div class="pair-similarity">
           <span class="similarity-badge">{{ (pair.similarity * 100).toFixed(0) }}%</span>
           <span class="similarity-detail">
-            概念: {{ (pair.concepts_similarity * 100).toFixed(0) }}% |
-            标题: {{ (pair.title_similarity * 100).toFixed(0) }}%
+            {{ $t('zh_006763') }}: {{ (pair.concepts_similarity * 100).toFixed(0) }}% |
+            {{ $t('zh_00676b') }}: {{ (pair.title_similarity * 100).toFixed(0) }}%
           </span>
         </div>
         <div class="pair-items">
@@ -42,12 +42,12 @@
           </div>
         </div>
         <div class="pair-shared" v-if="pair.shared_concepts.length">
-          共享概念:
+          {{ $t('zh_aa6256') }}:
           <span class="shared-tag" v-for="c in pair.shared_concepts" :key="c">{{ c }}</span>
         </div>
         <div class="pair-actions">
           <button class="merge-btn" @click="merge(pair.memory_a.id, pair.memory_b.id)" :disabled="merging">
-            合并（保留「{{ pair.memory_a.strength >= pair.memory_b.strength ? pair.memory_a.title : pair.memory_b.title }}」）
+            {{ $t('zh_00649d_1') }}（{{ $t('zh_00642b') }}「{{ pair.memory_a.strength >= pair.memory_b.strength ? pair.memory_a.title : pair.memory_b.title }}」）
           </button>
         </div>
       </div>

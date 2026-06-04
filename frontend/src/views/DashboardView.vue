@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard-view">
     <div class="dashboard-header">
-      <h2 class="section-title">📊 统计仪表盘</h2>
+      <h2 class="section-title">📊 {{ $t('zh_4dc488') }}</h2>
       <button class="action-btn" @click="loadStats">🔄 刷新</button>
     </div>
 
@@ -11,29 +11,29 @@
     <div v-if="loading" class="loading-state">加载中...</div>
     <div v-else-if="error" class="error-state">
       <p>⚠️ {{ error }}</p>
-      <button class="action-btn action-btn--danger" @click="loadStats">点击重试</button>
+      <button class="action-btn action-btn--danger" @click="loadStats">点击{{ $t('zh_006cc1') }}</button>
     </div>
     <div v-else-if="stats" class="dashboard-grid">
       <!-- P38 r9: count-up 动画 — 从 0 滚动到目标值（800ms ease-out-cubic）。
            替代原版"瞬时显示"，给 Dashboard 首屏"载入感"。 -->
       <div class="summary-row">
         <div class="summary-card">
-          <div class="summary-label">总记忆数</div>
+          <div class="summary-label">{{ $t('zh_b380bf') }}</div>
           <div class="summary-value">{{ stats ? displayTotal : '—' }}</div>
           <div class="summary-foot">All Sources</div>
         </div>
         <div class="summary-card">
-          <div class="summary-label">平均强度</div>
+          <div class="summary-label">{{ $t('zh_b1a7a7') }}</div>
           <div class="summary-value">{{ stats ? displayAvgStrength : '—' }}</div>
           <div class="summary-foot">/ 10.0</div>
         </div>
         <div class="summary-card">
-          <div class="summary-label">类型数</div>
+          <div class="summary-label">{{ $t('zh_0da3e8') }}</div>
           <div class="summary-value">{{ stats ? displayTypeCount : '—' }}</div>
           <div class="summary-foot">Categories</div>
         </div>
         <div class="summary-card">
-          <div class="summary-label">活跃月份</div>
+          <div class="summary-label">{{ $t('zh_baab58') }}</div>
           <div class="summary-value">{{ stats ? displayMonthCount : '—' }}</div>
           <div class="summary-foot">Months</div>
         </div>
@@ -41,10 +41,10 @@
 
       <!-- Type Distribution Bar Chart -->
       <div class="chart-card">
-        <h3>📋 按类型分布</h3>
+        <h3>📋 {{ $t('zh_4ddd85') }}</h3>
         <div v-if="Object.keys(stats.by_type).length === 0" class="chart-empty">
           <span class="chart-empty-mark" aria-hidden="true">∅</span>
-          <span class="chart-empty-text">暂无数据</span>
+          <span class="chart-empty-text">{{ $t('zh_b651d3') }}</span>
         </div>
         <div v-else class="bar-chart">
           <div v-for="(count, type) in stats.by_type" :key="type" class="bar-row">
@@ -63,10 +63,10 @@
 
       <!-- Strength Distribution Histogram -->
       <div class="chart-card">
-        <h3>💪 Strength 分布</h3>
+        <h3>💪 Strength {{ $t('zh_00645b') }}</h3>
         <div v-if="maxStrengthCount === 0" class="chart-empty">
           <span class="chart-empty-mark" aria-hidden="true">∅</span>
-          <span class="chart-empty-text">暂无数据</span>
+          <span class="chart-empty-text">{{ $t('zh_b651d3') }}</span>
         </div>
         <div v-else class="histogram">
           <div v-for="i in 11" :key="i - 1" class="hist-column">
@@ -84,10 +84,10 @@
 
       <!-- Timeline (by month) -->
       <div class="chart-card">
-        <h3>📅 按月创建趋势</h3>
+        <h3>📅 {{ $t('zh_82acd7') }}</h3>
         <div v-if="Object.keys(stats.by_month).length === 0" class="chart-empty">
           <span class="chart-empty-mark" aria-hidden="true">∅</span>
-          <span class="chart-empty-text">暂无数据</span>
+          <span class="chart-empty-text">{{ $t('zh_b651d3') }}</span>
         </div>
         <div v-else class="timeline-chart">
           <div v-for="(count, month) in stats.by_month" :key="month" class="timeline-bar">

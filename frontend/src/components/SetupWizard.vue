@@ -16,11 +16,11 @@
 
       <!-- Navigation -->
       <div class="wizard-nav">
-        <button v-if="currentStep > 0" class="btn-prev" @click="prev">← 上一步</button>
+        <button v-if="currentStep > 0" class="btn-prev" @click="prev">← {{ $t('zh_0cdd24') }}</button>
         <div class="nav-spacer" />
-        <button class="btn-skip" @click="skip">跳过</button>
-        <button v-if="currentStep < steps.length - 1" class="btn-next" @click="next">下一步 →</button>
-        <button v-else class="btn-finish" @click="finish">🎉 开始使用</button>
+        <button class="btn-skip" @click="skip">{{ $t('zh_006c46') }}</button>
+        <button v-if="currentStep < steps.length - 1" class="btn-next" @click="next">{{ $t('zh_0cdd29') }} →</button>
+        <button v-else class="btn-finish" @click="finish">🎉 {{ $t('zh_b1fdbb') }}</button>
       </div>
     </div>
   </div>

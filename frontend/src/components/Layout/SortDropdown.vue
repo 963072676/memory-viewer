@@ -1,9 +1,9 @@
 <template>
   <div class="sort-dropdown">
     <select :value="uiStore.sortBy" @change="onSortChange" class="sort-select">
-      <option value="updatedAt">按时间</option>
-      <option value="strength">按强度</option>
-      <option value="type">按类型</option>
+      <option value="updatedAt">{{ $t('zh_0d39b6') }}</option>
+      <option value="strength">{{ $t('zh_0d38a1') }}</option>
+      <option value="type">{{ $t('zh_0d3c5f') }}</option>
     </select>
     <button class="order-btn" @click="uiStore.toggleSortOrder()" :title="uiStore.sortOrder === 'desc' ? '降序' : '升序'">
       {{ uiStore.sortOrder === 'desc' ? '↓' : '↑' }}

@@ -2,27 +2,27 @@
   <transition name="toolbar">
     <div v-if="store.hasSelection" class="batch-toolbar">
       <div class="toolbar-info">
-        <span class="selection-count">已选 {{ store.selectionCount }} 条</span>
-        <button class="toolbar-link" @click="store.clearSelection()">取消选择</button>
-        <button class="toolbar-link" @click="store.selectAll()">全选</button>
+        <span class="selection-count">{{ $t('zh_006616_1') }} {{ store.selectionCount }} 条</span>
+        <button class="toolbar-link" @click="store.clearSelection()">{{ $t('zh_ac3abf') }}</button>
+        <button class="toolbar-link" @click="store.selectAll()">{{ $t('zh_006478') }}</button>
       </div>
       <div class="toolbar-actions">
-        <button class="toolbar-btn" @click="$emit('batch', 'archive')" :disabled="loading">📦 归档</button>
-        <button class="toolbar-btn" @click="$emit('batch', 'unarchive')" :disabled="loading">📂 取消归档</button>
+        <button class="toolbar-btn" @click="$emit('batch', 'archive')" :disabled="loading">📦 {{ $t('zh_00661c') }}</button>
+        <button class="toolbar-btn" @click="$emit('batch', 'unarchive')" :disabled="loading">📂 {{ $t('zh_ac347d') }}</button>
         <button class="toolbar-btn danger" @click="$emit('batch', 'delete')" :disabled="loading">🗑️ 删除</button>
-        <button class="toolbar-btn" @click="$emit('export')" :disabled="loading">📥 导出</button>
+        <button class="toolbar-btn" @click="$emit('export')" :disabled="loading">📥 {{ $t('zh_006597') }}</button>
         <div class="tag-batch-wrapper">
-          <button class="toolbar-btn" @click="showTagInput = !showTagInput" :disabled="loading">🏷️ 添加标签</button>
+          <button class="toolbar-btn" @click="showTagInput = !showTagInput" :disabled="loading">🏷️ {{ $t('zh_ba195e') }}</button>
           <transition name="fade">
             <div v-if="showTagInput" class="tag-batch-popover">
               <input
                 v-model="batchTagInput"
                 type="text"
                 class="tag-batch-input"
-                placeholder="输入标签后回车"
+                placeholder="$t('zh_7c705f')"
                 @keydown.enter.prevent="submitBatchTag"
               />
-              <button class="tag-batch-confirm" @click="submitBatchTag">确定</button>
+              <button class="tag-batch-confirm" @click="submitBatchTag">{{ $t('zh_00694c') }}</button>
             </div>
           </transition>
         </div>

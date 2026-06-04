@@ -8,8 +8,8 @@
            加 class="section-title" + flex 安全 padding 复用 r20 模式. -->
       <div class="search-header">
         <h2 class="section-title">{{ searchStore.searchMode === 'semantic' ? '🧠 语义搜索结果' : '搜索结果' }}</h2>
-        <span v-if="searchStore.results" class="result-count">找到 {{ searchStore.results.total }} 条结果</span>
-        <span v-else-if="searchStore.semanticResults" class="result-count">找到 {{ searchStore.semanticResults.results.length }} 条结果</span>
+        <span v-if="searchStore.results" class="result-count">{{ $t('zh_00666e') }} {{ searchStore.results.total }} {{ $t('zh_0d4f37') }}</span>
+        <span v-else-if="searchStore.semanticResults" class="result-count">{{ $t('zh_00666e') }} {{ searchStore.semanticResults.results.length }} {{ $t('zh_0d4f37') }}</span>
       </div>
       <!-- Keyword results -->
       <div v-if="searchStore.results" class="card-grid">
@@ -28,7 +28,7 @@
         <div v-for="result in searchStore.semanticResults.results" :key="result.id" class="search-result-card search-result-card--semantic">
           <div class="result-source">
             <span class="semantic-badge">🧠</span>
-            <span class="similarity-score">相似度: {{ (result.similarity * 100).toFixed(1) }}%</span>
+            <span class="similarity-score">{{ $t('zh_0d8b5d') }}: {{ (result.similarity * 100).toFixed(1) }}%</span>
           </div>
           <h3 v-if="result.title">{{ result.title }}</h3>
           <p class="match-snippet">{{ result.snippet }}</p>
@@ -48,9 +48,9 @@
       <!-- Unified Memories Section (P16) -->
       <section class="section unified-section">
         <div class="section-header">
-          <h2>🗂️ 统一记忆视图</h2>
+          <h2>🗂️ {{ $t('zh_cbc6a5') }}</h2>
           <div class="unified-controls">
-            <label class="source-filter-label">数据源</label>
+            <label class="source-filter-label">{{ $t('zh_0d4374') }}</label>
             <select v-model="selectedSource" class="source-filter-select" @change="onSourceChange">
               <option value="">All</option>
               <option value="hermes">hermes</option>
@@ -66,9 +66,9 @@
         <div v-else-if="unifiedMemories.length === 0" class="empty-state">
           <EmptyState
             icon="🗂️"
-            title="还没有统一记忆"
-            message="导入或创建第一批记忆，开始构建你的知识库。所有来源的记忆都会汇聚在这里。"
-            action-text="导入记忆"
+            title="$t('zh_b2f421')"
+            message="$t('zh_7af7d5')，{{ $t('zh_263636') }}。{{ $t('zh_9b64c7') }}。"
+            action-text="$t('zh_b03a5a')"
             @action="showImportModal = true"
           />
         </div>
@@ -102,10 +102,10 @@
           <h2>AgentMemory</h2>
           <div class="section-actions">
             <!-- P39: button hierarchy — 创建 is the most common action → primary, others secondary -->
-            <button class="action-btn action-btn--primary" @click="showCreateModal = true">+ 创建记忆</button>
-            <button class="action-btn" @click="showImportModal = true">📥 导入</button>
+            <button class="action-btn action-btn--primary" @click="showCreateModal = true">+ {{ $t('zh_ab0956') }}</button>
+            <button class="action-btn" @click="showImportModal = true">📥 {{ $t('zh_006597_1') }}</button>
             <ExportButton />
-            <button class="action-btn" @click="showDedupPanel = !showDedupPanel">🔍 去重</button>
+            <button class="action-btn" @click="showDedupPanel = !showDedupPanel">🔍 {{ $t('zh_0064c7') }}</button>
           </div>
         </div>
         <div v-if="agentMemoryStore.loading" class="card-grid">
@@ -114,9 +114,9 @@
         <div v-else-if="filteredMemories.length === 0" class="empty-state">
           <EmptyState
             icon="🤖"
-            title="还没有 AgentMemory 记忆"
-            message="点击右上角「创建」手动添加，或「导入」从其它来源批量导入。"
-            action-text="创建记忆"
+            title="$t('zh_0df900') AgentMemory 记忆"
+            message="$t('zh_2e2f2f')「{{ $t('zh_00645e') }}」{{ $t('zh_b3b16e') }}，或「{{ $t('zh_006597_1') }}」{{ $t('zh_e325b9') }}。"
+            action-text="$t('zh_ab0956')"
             @action="showCreateModal = true"
           />
         </div>

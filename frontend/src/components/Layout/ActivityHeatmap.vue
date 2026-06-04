@@ -1,12 +1,12 @@
 <template>
   <div class="heatmap-container">
     <div class="heatmap-header">
-      <h3>🗓️ 记忆活动热力图</h3>
+      <h3>🗓️ {{ $t('zh_1e907a') }}</h3>
       <div class="heatmap-controls">
         <select v-model="selectedMetric" class="heatmap-select" @change="loadData">
-          <option value="created">创建</option>
-          <option value="modified">修改</option>
-          <option value="accessed">访问</option>
+          <option value="created">{{ $t('zh_00645e') }}</option>
+          <option value="modified">{{ $t('zh_00641d') }}</option>
+          <option value="accessed">{{ $t('zh_006c03') }}</option>
         </select>
         <button class="heatmap-refresh" @click="loadData" :disabled="loading">🔄</button>
       </div>
@@ -52,9 +52,9 @@
 
       <!-- Stats -->
       <div class="heatmap-stats" v-if="summary">
-        <span>📊 共 <strong>{{ summary.total_events }}</strong> 次活动</span>
-        <span>📅 活跃 <strong>{{ summary.active_days }}</strong> 天</span>
-        <span>🔥 单日最高 <strong>{{ summary.max_day_count }}</strong></span>
+        <span>📊 共 <strong>{{ summary.total_events }}</strong> {{ $t('zh_0d5cd1') }}</span>
+        <span>📅 {{ $t('zh_00680c') }} <strong>{{ summary.active_days }}</strong> 天</span>
+        <span>🔥 {{ $t('zh_abce73') }} <strong>{{ summary.max_day_count }}</strong></span>
       </div>
     </div>
   </div>

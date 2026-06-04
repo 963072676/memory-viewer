@@ -1,39 +1,39 @@
 <template>
   <div class="keyboard-help-overlay" @click.self="uiStore.toggleKeyboardHelp()">
     <div class="keyboard-help">
-      <h2>键盘快捷键</h2>
+      <h2>{{ $t('zh_d65312') }}</h2>
       <div class="shortcut-list">
         <div class="shortcut-item">
           <kbd>Ctrl K</kbd>
-          <span>打开命令面板</span>
+          <span>{{ $t('zh_49d894') }}</span>
         </div>
         <div class="shortcut-item">
           <kbd>/</kbd>
-          <span>聚焦搜索框</span>
+          <span>{{ $t('zh_5a6229') }}</span>
         </div>
         <div class="shortcut-item">
           <kbd>Esc</kbd>
-          <span>清除搜索 / 关闭弹窗</span>
+          <span>{{ $t('zh_bb3e9f') }} / {{ $t('zh_ab9156') }}</span>
         </div>
         <div class="shortcut-item">
           <kbd>R</kbd>
-          <span>刷新数据</span>
+          <span>{{ $t('zh_ab3052') }}</span>
         </div>
         <div class="shortcut-item">
           <kbd>1</kbd>
-          <span>切换到「全部」标签</span>
+          <span>{{ $t('zh_0cf0c4') }}「{{ $t('zh_006479') }}」{{ $t('zh_00674e') }}</span>
         </div>
         <div class="shortcut-item">
           <kbd>2</kbd>
-          <span>切换到「AgentMemory」标签</span>
+          <span>{{ $t('zh_0cf0c4') }}「AgentMemory」{{ $t('zh_00674e') }}</span>
         </div>
         <div class="shortcut-item">
           <kbd>3</kbd>
-          <span>切换到「Hermes Memory」标签</span>
+          <span>{{ $t('zh_0cf0c4') }}「Hermes Memory」{{ $t('zh_00674e') }}</span>
         </div>
         <div class="shortcut-item">
           <kbd>?</kbd>
-          <span>显示 / 隐藏此帮助</span>
+          <span>{{ $t('zh_006711') }} / {{ $t('zh_f7bd91') }}</span>
         </div>
       </div>
     </div>

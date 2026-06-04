@@ -1,7 +1,7 @@
 <template>
   <div class="sources-view">
     <div class="view-header">
-      <h2 class="section-title">🔌 记忆源管理</h2>
+      <h2 class="section-title">🔌 {{ $t('zh_1e292c') }}</h2>
       <button class="action-btn" @click="loadSources" :disabled="loading">
         {{ loading ? '加载中...' : '刷新' }}
       </button>
@@ -10,8 +10,8 @@
     <div v-if="loading && sources.length === 0" class="loading">加载中...</div>
 
     <div v-else-if="loadError" class="error-state">
-      <p>⚠️ 加载失败，点击重试</p>
-      <button class="action-btn" @click="loadSources">重试</button>
+      <p>⚠️ {{ $t('zh_ac1a4d') }}，点击{{ $t('zh_006cc1') }}</p>
+      <button class="action-btn" @click="loadSources">{{ $t('zh_006cc1') }}</button>
     </div>
 
     <template v-else>
@@ -19,19 +19,19 @@
       <div class="summary-row">
         <div class="summary-card">
           <div class="summary-value">{{ totalMemories }}</div>
-          <div class="summary-label">总记忆数</div>
+          <div class="summary-label">{{ $t('zh_b380bf') }}</div>
         </div>
         <div class="summary-card" :class="{ success: onlineCount > 0 }">
           <div class="summary-value">{{ onlineCount }}</div>
-          <div class="summary-label">在线源</div>
+          <div class="summary-label">{{ $t('zh_0d0a39') }}</div>
         </div>
         <div class="summary-card" :class="{ warn: offlineCount > 0 }">
           <div class="summary-value">{{ offlineCount }}</div>
-          <div class="summary-label">离线源</div>
+          <div class="summary-label">{{ $t('zh_0d9d4c') }}</div>
         </div>
         <div class="summary-card">
           <div class="summary-value">{{ sources.length }}</div>
-          <div class="summary-label">注册源总数</div>
+          <div class="summary-label">{{ $t('zh_e95636') }}</div>
         </div>
       </div>
 
@@ -65,25 +65,25 @@
             <div v-if="expandedSources.has(source.name)" class="source-detail">
               <div class="detail-grid">
                 <div class="detail-item">
-                  <span class="detail-label">名称</span>
+                  <span class="detail-label">{{ $t('zh_0064b9_1') }}</span>
                   <span class="detail-value">{{ source.name }}</span>
                 </div>
                 <div class="detail-item">
-                  <span class="detail-label">类型</span>
+                  <span class="detail-label">{{ $t('zh_0069cd') }}</span>
                   <span class="detail-value">{{ source.type }}</span>
                 </div>
                 <div class="detail-item">
-                  <span class="detail-label">健康状态</span>
+                  <span class="detail-label">{{ $t('zh_aa14d3') }}</span>
                   <span class="detail-value" :class="source.healthy ? 'text-success' : 'text-error'">
                     {{ source.healthy ? '正常' : '异常' }}
                   </span>
                 </div>
                 <div class="detail-item">
-                  <span class="detail-label">记忆数量</span>
+                  <span class="detail-label">{{ $t('zh_ca9b4b') }}</span>
                   <span class="detail-value">{{ source.count }}</span>
                 </div>
                 <div class="detail-item">
-                  <span class="detail-label">启用状态</span>
+                  <span class="detail-label">{{ $t('zh_ac8831') }}</span>
                   <span class="detail-value" :class="source.enabled ? 'text-success' : 'text-muted'">
                     {{ source.enabled ? '启用' : '禁用' }}
                   </span>
@@ -91,7 +91,7 @@
               </div>
               <div class="detail-actions">
                 <button class="action-btn action-btn--sm" @click.stop="viewSourceMemories(source.name)">
-                  查看记忆
+                  {{ $t('zh_b76270') }}
                 </button>
               </div>
             </div>
@@ -100,7 +100,7 @@
       </div>
 
       <div v-if="sources.length === 0">
-        <EmptyState icon="📭" message="暂无注册的记忆源" />
+        <EmptyState icon="📭" message="$t('zh_d63364')" />
       </div>
     </template>
   </div>

@@ -1,15 +1,15 @@
 <template>
   <div class="done-step">
     <div class="done-icon">🎉</div>
-    <h2>一切就绪！</h2>
-    <p class="done-desc">你已掌握 Memory Viewer 的核心功能</p>
+    <h2>{{ $t('zh_a88bee') }}！</h2>
+    <p class="done-desc">{{ $t('zh_a9807e') }} Memory Viewer {{ $t('zh_a367b9') }}</p>
     <div class="quick-links">
-      <div class="link-card" @click="$router.push('/agentmemory')">📝 浏览记忆</div>
-      <div class="link-card" @click="$router.push('/dashboard')">📊 查看仪表盘</div>
-      <div class="link-card" @click="$router.push('/conflicts')">⚠️ 检测冲突</div>
-      <div class="link-card" @click="$router.push('/workflows')">⚙️ 设置自动化</div>
+      <div class="link-card" @click="$router.push('/agentmemory')">📝 {{ $t('zh_baaa2b') }}</div>
+      <div class="link-card" @click="$router.push('/dashboard')">📊 {{ $t('zh_a2b3af') }}</div>
+      <div class="link-card" @click="$router.push('/conflicts')">⚠️ {{ $t('zh_b7a9ae') }}</div>
+      <div class="link-card" @click="$router.push('/workflows')">⚙️ {{ $t('zh_30cf4a') }}</div>
     </div>
-    <p class="hint">随时可在设置中重新启动此向导</p>
+    <p class="hint">{{ $t('zh_512cb0') }}</p>
   </div>
 </template>
 

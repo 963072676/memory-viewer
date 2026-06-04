@@ -4,7 +4,7 @@
     <span class="error-text">
       {{ agentMemoryStore.error || hermesMemoryStore.error }}
     </span>
-    <button class="retry-btn" @click="retry">重试</button>
+    <button class="retry-btn" @click="retry">{{ $t('zh_006cc1') }}</button>
   </div>
 </template>
 
