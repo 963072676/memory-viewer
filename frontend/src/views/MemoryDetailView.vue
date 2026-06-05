@@ -7,14 +7,29 @@
       <div class="view-actions">
         <!-- P38 (round 3): 5 个按钮层级化 — 之前全用 accent 实色 → 5 个"假 primary"同时喊叫。
              改为：编辑 = primary（最常用操作） / 展开 + 分享 + 历史 = ghost 描边（次级 utility） / 删除 = danger（破坏性，红字 + 红描边）。
-             注：折叠/展开按钮 + 分享 + 历史 都是"看+导航"类，不改变记忆内容 → ghost 更合适。 -->
+             注：折叠/展开按钮 + 分享 + 历史 都是"看+导航"类，不改变记忆内容 → ghost 更合适。
+             P49 r2: 按钮密度紧凑化 — 5 个按钮 ico+label 紧凑设计（8→10px padding, 0.85→0.8rem font,
+             加 unicode 图标前缀），桌面总宽度从 ~520px → ~370px（-30%），视觉节奏更轻盈。 -->
         <button class="action-btn action-btn--ghost" @click="toggleExpand">
-          {{ isExpanded ? $t('zh_006673') : $t('zh_0065b0') }}
+          <span class="btn-ico" aria-hidden="true">{{ isExpanded ? '▾' : '▸' }}</span>
+          <span class="btn-label">{{ isExpanded ? $t('zh_006673') : $t('zh_0065b0') }}</span>
         </button>
-        <button class="action-btn action-btn--ghost" @click="router.push(`/memory/${route.params.id}/history`)">{{ $t('zh_006482') }}</button>
-        <button class="action-btn action-btn--ghost" @click="showShareModal = true">{{ $t('zh_00644b') }}</button>
-        <button class="action-btn action-btn--primary" @click="showEditModal = true">{{ $t('zh_006a5b') }}</button>
-        <button class="action-btn action-btn--danger" @click="confirmDelete = true">删除</button>
+        <button class="action-btn action-btn--ghost" @click="router.push(`/memory/${route.params.id}/history`)">
+          <span class="btn-ico" aria-hidden="true">⟲</span>
+          <span class="btn-label">{{ $t('zh_006482') }}</span>
+        </button>
+        <button class="action-btn action-btn--ghost" @click="showShareModal = true">
+          <span class="btn-ico" aria-hidden="true">⤴</span>
+          <span class="btn-label">{{ $t('zh_00644b') }}</span>
+        </button>
+        <button class="action-btn action-btn--primary" @click="showEditModal = true">
+          <span class="btn-ico" aria-hidden="true">✎</span>
+          <span class="btn-label">{{ $t('zh_006a5b') }}</span>
+        </button>
+        <button class="action-btn action-btn--danger" @click="confirmDelete = true">
+          <span class="btn-ico" aria-hidden="true">🗑</span>
+          <span class="btn-label">删除</span>
+        </button>
       </div>
     </div>
 
@@ -67,7 +82,7 @@
 
       <div class="memory-details">
         <div class="detail-section">
-          <h4>Concepts</h4>
+          <h4>{{ $t('en_concepts') }}</h4>
           <div class="tags" v-if="memory.concepts && memory.concepts.length">
             <span class="tag" v-for="c in memory.concepts" :key="c">{{ c }}</span>
           </div>
@@ -86,12 +101,12 @@
         </div>
 
         <div class="detail-row">
-          <span class="detail-label">Created</span>
+          <span class="detail-label">{{ $t('en_created') }}</span>
           <span>{{ formatDate(memory.createdAt) }}</span>
         </div>
 
         <div class="detail-row">
-          <span class="detail-label">Updated</span>
+          <span class="detail-label">{{ $t('en_updated') }}</span>
           <span>{{ formatDate(memory.updatedAt) }}</span>
         </div>
 
@@ -101,7 +116,7 @@
         </div>
 
         <div class="detail-row" v-if="memory.version">
-          <span class="detail-label">Version</span>
+          <span class="detail-label">{{ $t('en_version') }}</span>
           <span>{{ memory.version }}</span>
         </div>
       </div>
@@ -343,23 +358,41 @@ onMounted(() => {
 
 .view-actions {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   margin-left: auto;
+  flex-wrap: wrap;
 }
 
 /* P38 (round 3): 重写 button 层级 — 旧实现默认 .action-btn 就是 accent 实色，5 按钮全喊叫。
-   新实现：默认是 ghost 描边（"看+导航"类），primary/danger/ghost 三种变体覆盖。 */
+   新实现：默认是 ghost 描边（"看+导航"类），primary/danger/ghost 三种变体覆盖。
+   P49 r2: 按钮密度紧凑化 — padding 8px 16px → 6px 10px (compact ico+label)，
+   font-size 0.85rem → 0.8rem，inline-flex 让 .btn-ico + .btn-label 同基线对齐。 */
 .action-btn {
-  padding: 8px 16px;
+  padding: 6px 10px;
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 6px;
   background: var(--card);
   color: var(--primary);
   cursor: pointer;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-family: var(--font);
   font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   transition: background 0.15s, border-color 0.15s, color 0.15s, transform 0.1s;
+}
+
+.action-btn .btn-ico {
+  font-size: 0.85rem;
+  line-height: 1;
+  flex-shrink: 0;
+  opacity: 0.85;
+  transition: opacity 0.15s;
+}
+
+.action-btn:hover .btn-ico {
+  opacity: 1;
 }
 
 .action-btn:hover {
@@ -735,9 +768,9 @@ onMounted(() => {
   }
 
   .action-btn {
-    padding: 8px 12px;
-    font-size: 0.8rem;
-    min-height: 40px;
+    padding: 6px 9px;
+    font-size: 0.75rem;
+    min-height: 36px;
   }
 }
 </style>
