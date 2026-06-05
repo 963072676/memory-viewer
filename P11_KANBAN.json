@@ -1,8 +1,0 @@
-{
-  "project": "memory-viewer-p11",
-  "tasks": {
-    "t_p11_plan": {"title": "P11 迭代计划 — AI Insights, Developer Tools & Team Readiness", "assignee": "pm-orchestrator", "status": "done", "parents": []},
-    "t_p11_dev": {"title": "P11 代码实现 (F-51~F-56): AI Digest, Templates, RAG Search, Workspaces/RBAC, Real-time Updates, Bulk CLI", "assignee": "dev-worker", "status": "done", "parents": ["t_p11_plan"]},
-    "t_p11_qa": {"title": "P11 QA测试 + 缺陷修复", "assignee": "qa-worker", "status": "ready", "parents": ["t_p11_dev"]}
-  }
-}

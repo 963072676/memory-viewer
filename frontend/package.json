@@ -5,16 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
-    "type-check": "vue-tsc --noEmit",
-    "build:check": "vue-tsc --noEmit && vite build"
+    "type-check": "vue-tsc --noEmit"
   },
   "dependencies": {
     "force-graph": "^1.51.4",
     "pinia": "^2.1.0",
     "vue": "^3.4.0",
-    "vue-i18n": "^9.14.5",
     "vue-router": "^4.3.0",
     "vue-virtual-scroller": "^2.0.0-beta.8"
   },

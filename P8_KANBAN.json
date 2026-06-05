@@ -1,8 +1,0 @@
-{
-  "project": "memory-viewer-p8",
-  "tasks": {
-    "t_p8_plan": {"title": "P8 PM 规划新功能路线图", "assignee": "pm-orchestrator", "status": "done", "parents": []},
-    "t_p8_dev": {"title": "P8 代码实现", "assignee": "dev-worker", "status": "done", "parents": ["t_p8_plan"]},
-    "t_p8_qa": {"title": "P8 QA 测试", "assignee": "qa-worker", "status": "done", "parents": ["t_p8_dev"]}
-  }
-}

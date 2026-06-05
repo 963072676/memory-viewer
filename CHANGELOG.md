@@ -4,6 +4,31 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.0.0] - 2026-06-06
+
+### Added
+- **i18n** — `zh-CN` (default) + `en-US` locales, 492 keys, manual edits + raw `$t()` sweep (P38 r30a/b, P50 r0)
+- **Design tokens** — full CSS variable system: avatar, collection, graph source palettes
+  (P47–P48); health badge, role badge, hex-sweep across all views (P47); `.hermes-card` family
+  unification (P38 r35); collection-card `migrateCollectionColor` for legacy hex
+- **CollectionCard** — token-ized with `iconBg` computed that accepts both new `var()` and legacy
+  hex (P49 r1/r3)
+- **MemoryDetailView** — compact action button density (5 buttons, ico+label, –30% desktop width,
+  P49 r2)
+- **Scroll progress bar** — 0.5px accent at top, rAF-throttled, GPU-composited, `reduce-motion`
+  aware (P38 r31)
+- **Toast spring animation** — cubic-bezier overshoot 0.45s, scale 0.92, `reduce-motion` aware
+  (P38 r32)
+- **Onboarding / Setup** — color-tokenized SetupWizard, 100% dark mode coverage (P46 r1)
+- **AppHeader subtitle** — route-change fade-in (P45 r3)
+- **Settings tab visual unification** — `accent-soft` → `accent-subtle` (P50 r1)
+
+### Changed
+- Simplified project structure for the v1.0 → v2.0 transition (10 views, 11 routers)
+- `fetch_agentmemory.py` cache path unified: writes to `data/cache/agentmemory.json` only
+- Memory-viewer 8501: now runs in a dedicated Docker container (see
+  `docs/DEPLOYMENT.md`); the legacy bare-uvicorn process + cron watchdog was retired in v0.18.2
+
 ## [1.0.1] - 2026-06-02
 
 ### Fixed
