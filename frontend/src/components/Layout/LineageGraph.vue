@@ -124,13 +124,18 @@ const sourceLabels: Record<string, string> = {
   legacy: '历史',
 }
 
+// P48 r3: 6 调色板 token 化 — SVG fill 用 var() 引用，dark 模式自动跟随。
+// 每个 source 一个语义 hue：manual=蓝(用户主操作), import=绿(成功), agent=紫(AI),
+// merge=橙(变更), derived=青(派生), legacy=灰(历史)。
+// 决策：6 个 Apple hex 与 Tailwind 500 阶视觉差异极小（同色相不同明度），
+// SVG circle 上视觉一致，仅 dark 模式自动亮一档。
 const sourceColors: Record<string, string> = {
-  manual: '#007aff',
-  import: '#34c759',
-  agent: '#af52de',
-  merge: '#ff9500',
-  derived: '#5ac8fa',
-  legacy: '#86868b',
+  manual: 'var(--graph-source-manual)',
+  import: 'var(--graph-source-import)',
+  agent: 'var(--graph-source-agent)',
+  merge: 'var(--graph-source-merge)',
+  derived: 'var(--graph-source-derived)',
+  legacy: 'var(--graph-source-legacy)',
 }
 
 const positionedNodes = computed<LineageNode[]>(() => {
@@ -160,7 +165,8 @@ function getNodePos(id: string) {
 }
 
 function getNodeColor(node: LineageNode): string {
-  return sourceColors[node.source] || '#86868b'
+  // P48 r3: fallback 走 --graph-source-legacy token 与 sourceColors.legacy 同源，dark 模式自动跟随。
+  return sourceColors[node.source] || 'var(--graph-source-legacy)'
 }
 
 function truncateLabel(label: string, maxLen: number): string {
