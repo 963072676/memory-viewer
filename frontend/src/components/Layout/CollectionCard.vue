@@ -1,12 +1,12 @@
 <template>
   <div class="collection-card" :style="{ borderLeftColor: collection.color }" @click="$emit('click')">
     <div class="card-top">
-      <span class="card-icon" :style="{ background: collection.color + '20', color: collection.color }">
+      <span class="card-icon" :style="{ background: iconBg, color: collection.color }">
         {{ collection.icon }}
       </span>
       <div class="card-actions">
-        <button class="btn-icon" title="Edit" @click.stop="$emit('edit')">✏️</button>
-        <button class="btn-icon" title="Delete" @click.stop="$emit('delete')">🗑️</button>
+        <button class="btn-icon" :title="$t('en_edit')" @click.stop="$emit('edit')">✏️</button>
+        <button class="btn-icon" :title="$t('en_delete')" @click.stop="$emit('delete')">🗑️</button>
       </div>
     </div>
     <h3 class="card-name">{{ collection.name }}</h3>
@@ -20,9 +20,10 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import type { Collection } from '@/api/collections'
 
-defineProps<{
+const props = defineProps<{
   collection: Collection
 }>()
 
@@ -31,6 +32,24 @@ defineEmits<{
   (e: 'edit'): void
   (e: 'delete'): void
 }>()
+
+/* P49 r1: CollectionCard 全面 token 化 — card-icon 背景色。
+   兼容两层数据：
+   - 新 collection（P48 r2 后）：collection.color = 'var(--collection-color-N)' 引用，
+     自动用对应的 --collection-color-N-bg token（dark 模式自动跟随 + 4.5:1 对比度保证）。
+   - 旧 collection（P48 r2 前）：collection.color = '#0072aff' 字面 hex，
+     退回到 hex + '20' 拼接（12.5% alpha）— 与新版的视觉差异极小（都是低饱和度色块）。 */
+const iconBg = computed(() => {
+  const c = props.collection.color
+  if (!c) return 'var(--collection-color-1-bg)'
+  // 匹配 var(--collection-color-N) 引用 → 找对应的 -bg token
+  const m = c.match(/var\(--collection-color-(\d+)\)/)
+  if (m) {
+    return `var(--collection-color-${m[1]}-bg)`
+  }
+  // legacy hex → 拼接 12% alpha（与 0.12 color-mix 视觉等价）
+  return c + '20'
+})
 </script>
 
 <style scoped>
