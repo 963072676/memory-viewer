@@ -7,16 +7,16 @@
       </div>
       <div class="modal-body">
         <div class="form-group">
-          <label>Name *</label>
-          <input v-model="form.name" placeholder="e.g. Important Patterns" />
+          <label>{{ $t('en_name_required') }}</label>
+          <input v-model="form.name" :placeholder="$t('en_collection_name_hint')" />
         </div>
         <div class="form-group">
-          <label>Description</label>
-          <textarea v-model="form.description" placeholder="What is this collection about?" rows="2"></textarea>
+          <label>{{ $t('en_description') }}</label>
+          <textarea v-model="form.description" :placeholder="$t('en_collection_desc_hint')" rows="2"></textarea>
         </div>
         <div class="form-row">
           <div class="form-group form-half">
-            <label>Icon</label>
+            <label>{{ $t('en_icon') }}</label>
             <div class="icon-picker">
               <button
                 v-for="icon in iconOptions"
@@ -30,7 +30,7 @@
             </div>
           </div>
           <div class="form-group form-half">
-            <label>Color</label>
+            <label>{{ $t('en_color') }}</label>
             <div class="color-picker">
               <button
                 v-for="color in colorOptions"
@@ -45,41 +45,41 @@
         </div>
 
         <div class="form-divider"></div>
-        <h4 class="filter-title">Query Filters</h4>
+        <h4 class="filter-title">{{ $t('en_query_filters') }}</h4>
 
         <div class="form-group">
-          <label>Memory Type</label>
+          <label>{{ $t('en_memory_type') }}</label>
           <select v-model="form.filters.type">
-            <option value="">All Types</option>
-            <option value="pattern">Pattern</option>
-            <option value="fact">Fact</option>
-            <option value="preference">Preference</option>
-            <option value="bug">Bug</option>
-            <option value="workflow">Workflow</option>
-            <option value="architecture">Architecture</option>
+            <option value="">{{ $t('en_all_types') }}</option>
+            <option value="pattern">{{ $t('en_type_pattern') }}</option>
+            <option value="fact">{{ $t('en_type_fact') }}</option>
+            <option value="preference">{{ $t('en_type_preference') }}</option>
+            <option value="bug">{{ $t('en_type_bug') }}</option>
+            <option value="workflow">{{ $t('en_type_workflow') }}</option>
+            <option value="architecture">{{ $t('en_type_architecture') }}</option>
           </select>
         </div>
         <div class="form-group">
-          <label>Tags (comma separated)</label>
-          <input v-model="tagsInput" placeholder="e.g. important, python" />
+          <label>{{ $t('en_tags_comma') }}</label>
+          <input v-model="tagsInput" :placeholder="$t('en_tags_hint')" />
         </div>
         <div class="form-row">
           <div class="form-group form-half">
-            <label>Min Strength</label>
+            <label>{{ $t('en_min_strength') }}</label>
             <input v-model.number="form.filters.strength_min" type="number" min="0" max="10" step="1" placeholder="0" />
           </div>
           <div class="form-group form-half">
-            <label>Max Strength</label>
+            <label>{{ $t('en_max_strength') }}</label>
             <input v-model.number="form.filters.strength_max" type="number" min="0" max="10" step="1" placeholder="10" />
           </div>
         </div>
         <div class="form-group">
-          <label>Search Query</label>
-          <input v-model="form.filters.query" placeholder="Text to match in title/content" />
+          <label>{{ $t('en_search_query') }}</label>
+          <input v-model="form.filters.query" :placeholder="$t('en_text_match_hint')" />
         </div>
       </div>
       <div class="modal-footer">
-        <button class="action-btn" @click="$emit('close')">Cancel</button>
+        <button class="action-btn" @click="$emit('close')">{{ $t('en_cancel') }}</button>
         <button class="action-btn action-btn--accent" @click="handleSave" :disabled="!form.name || saving">
           {{ saving ? 'Saving...' : (isEditing ? 'Update' : 'Create') }}
         </button>
@@ -105,13 +105,23 @@ const isEditing = computed(() => !!props.collection)
 const saving = ref(false)
 
 const iconOptions = ['📁', '📂', '⭐', '🔖', '📌', '🎯', '💡', '🔥', '💎', '🧩', '📚', '🏷️']
-const colorOptions = ['#007aff', '#34c759', '#ff9500', '#ff3b30', '#af52de', '#5856d6', '#ff2d55', '#00c7be', '#ff6482', '#30b0c7']
+// P48 r2: 10 调色板 token 化 — 数组存 'var(--collection-color-N)' 引用而非字面 hex。
+// dark 模式自动跟随 variables.css (light: 500 阶, dark: 前 5 色 400 阶，后 5 色 Apple hex 不变)。
+// 决策：保留 hex string 在 backend (向后兼容旧 collection 数据 — `col.color` 仍是 hex，
+// CollectionCard 仍可读 + 拼接 '20' alpha)；新 picker 选中的色存为 var() 引用。
+const colorOptions = [
+  'var(--collection-color-1)',  'var(--collection-color-2)',
+  'var(--collection-color-3)',  'var(--collection-color-4)',
+  'var(--collection-color-5)',  'var(--collection-color-6)',
+  'var(--collection-color-7)',  'var(--collection-color-8)',
+  'var(--collection-color-9)',  'var(--collection-color-10)',
+]
 
 const form = reactive({
   name: '',
   description: '',
   icon: '📁',
-  color: '#007aff',
+  color: 'var(--collection-color-1)',
   filters: {
     type: '',
     tags: [] as string[],
@@ -129,7 +139,8 @@ watch(() => props.collection, (col) => {
     form.name = col.name
     form.description = col.description || ''
     form.icon = col.icon || '📁'
-    form.color = col.color || '#007aff'
+    // P48 r2: 新 collection 默认 var() 引用，legacy hex 保留（CollectionCard 仍可读）。
+    form.color = col.color || 'var(--collection-color-1)'
     form.filters.type = col.filters?.type || ''
     form.filters.tags = col.filters?.tags || []
     form.filters.strength_min = col.filters?.strength_min
