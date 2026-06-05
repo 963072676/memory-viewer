@@ -314,10 +314,15 @@ async function saveFeishu() {
   background: var(--tag-bg);
 }
 
+/* P50 r1: settings-tab active bg --accent-soft → --accent-subtle — 统一 active 视觉语言.
+   旧 --accent-soft (rgba(0,114,245,0.05)) 在白卡上几乎不可见 (alpha 5% → 视觉权重 ~0),
+   仅有底部 1px border 和文字变色撑起 "active" 语义, 用户视觉上要"找半天才看到选中".
+   改用 --accent-subtle (#e6f0ff, 全站 AppSidebar .nav-item.active + bottom sheet active
+   都在用), 形成全站 "active = solid 浅蓝填充 + accent 文字 + 1px border" 统一语言. */
 .settings-tab.active {
   color: var(--accent);
   border-bottom-color: var(--accent);
-  background: var(--accent-soft);
+  background: var(--accent-subtle);
   font-weight: 600;
 }
 
