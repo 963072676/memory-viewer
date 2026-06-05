@@ -1,15 +1,15 @@
 <template>
   <div class="collections-view">
     <div class="cv-header">
-      <h2 class="section-title">📚 Collections</h2>
-      <button class="action-btn action-btn--primary" @click="openEditor(null)">+ New Collection</button>
+      <h2 class="section-title">{{ $t('en_collections') }}</h2>
+      <button class="action-btn action-btn--primary" @click="openEditor(null)">{{ $t('en_new_collection') }}</button>
     </div>
 
-    <div v-if="loading" class="loading-state">Loading collections...</div>
+    <div v-if="loading" class="loading-state">{{ $t('en_loading_collections') }}</div>
 
     <div v-else-if="collections.length === 0" class="empty-state">
-      <p>📁 No collections yet</p>
-      <button class="action-btn action-btn--primary" @click="openEditor(null)">Create your first collection</button>
+      <p>{{ $t('en_no_collections') }}</p>
+      <button class="action-btn action-btn--primary" @click="openEditor(null)">{{ $t('en_first_collection') }}</button>
     </div>
 
     <div v-else class="collections-grid">
@@ -38,6 +38,7 @@ import { useRouter } from 'vue-router'
 import { getCollections, createCollection, updateCollection, deleteCollection } from '@/api/collections'
 import type { Collection } from '@/api/collections'
 import { useToast } from '@/composables/useToast'
+import { migrateCollectionColor } from '@/utils/collection-color'
 import CollectionCard from '@/components/Layout/CollectionCard.vue'
 import CollectionEditor from '@/components/Layout/CollectionEditor.vue'
 
@@ -53,7 +54,12 @@ async function loadCollections() {
   loading.value = true
   try {
     const res = await getCollections()
-    collections.value = res.collections
+    // P49 r3: legacy hex → var() 自动迁移 — 让旧 collection 也享受 dark 模式正确渲染.
+    // 仅"显示时"迁移, 不写回 backend (避免 P48 r2 设计好的"两套数据共存"破裂).
+    collections.value = res.collections.map(c => ({
+      ...c,
+      color: migrateCollectionColor(c.color),
+    }))
   } catch {
     collections.value = []
   } finally {
