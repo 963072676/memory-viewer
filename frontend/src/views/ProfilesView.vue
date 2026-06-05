@@ -59,6 +59,12 @@ h2.section-title::before { content: ''; position: absolute; left: 0; top: 50%; t
   gap: 12px;
 }
 
+/* P46 r1: .profile-card 视觉对齐 P38 r35 的 5 套 Card 家族 (MemoryCard / CollectionCard /
+   DashboardWidget / TemplateCard / hermes-card / search-result-card) — 之前仅有静态 box-shadow
+   无 transition / 无 hover lift / 无 border-color 过渡, 视觉上比 hermes-card 弱 1 档 (她有
+   translateY -2px + shadow-hover + border-strong, ProfilesView 完全没有).
+   补齐: cubic-bezier(0.25, 0.1, 0.25, 1) 0.25s 节奏 (与 5 套 Card 同手感),
+   hover translateY -2px + shadow-hover + border-strong 联动, 跨 view 切换无视觉跳变. */
 .profile-card {
   display: flex;
   align-items: center;
@@ -67,11 +73,16 @@ h2.section-title::before { content: ''; position: absolute; left: 0; top: 50%; t
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  transition: box-shadow 0.2s;
+  box-shadow: var(--shadow);
+  transition: box-shadow 0.25s cubic-bezier(0.25, 0.1, 0.25, 1),
+              transform 0.25s cubic-bezier(0.25, 0.1, 0.25, 1),
+              border-color 0.2s ease;
 }
 
 .profile-card:hover {
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
+  border-color: var(--border-strong);
 }
 
 .profile-icon {

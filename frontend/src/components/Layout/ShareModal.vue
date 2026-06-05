@@ -666,19 +666,26 @@ onMounted(() => {
   text-transform: uppercase;
 }
 
+/* P46: ShareModal level badge token 化 — 旧实现 3 对硬编码 Material hex (#e8f5e9/#2e7d32 等)，
+   dark 模式 0% 覆盖（用户在 dark 主题打开 share modal 看到亮色 badge，与全站暗色 token 契约脱节）。
+   替换策略：
+   - .level-view (绿色) → --success-bg / --success-text（与全站"成功/已读"语义统一，dark 模式自动 #1b3a1b / #66bb6a）
+   - .level-comment (蓝色) → --info-bg / --info-text（与全站"信息"语义统一，dark 模式 #0d2744 / #64b5f6）
+   - .level-edit (橙色) → --warn-bg / --warn-text（与全站"提醒"语义统一，dark 模式 #3e2a0a / #ffcc80）
+   与 P38 r17/r33 + P45 r2 的 on-accent 文字 token 决策树同源 — 一切"语义色对"必须走 token */
 .level-view {
-  background: #e8f5e9;
-  color: #2e7d32;
+  background: var(--success-bg);
+  color: var(--success-text);
 }
 
 .level-comment {
-  background: #e3f2fd;
-  color: #1565c0;
+  background: var(--info-bg);
+  color: var(--info-text);
 }
 
 .level-edit {
-  background: #fff3e0;
-  color: #e65100;
+  background: var(--warn-bg);
+  color: var(--warn-text);
 }
 
 .share-item-id {
