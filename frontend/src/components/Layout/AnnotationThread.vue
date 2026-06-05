@@ -32,10 +32,20 @@ defineEmits(['reply', 'resolve', 'delete'])
 const replyTo = ref<string | null>(null)
 
 function avatarColor(name: string) {
-  const colors = ['#007aff', '#34c759', '#ff9500', '#af52de', '#ff3b30', '#5ac8fa']
+  // P48 r1: 6 调色板 token 化 — 返回 CSS var() 引用而非字面 hex，让 dark 模式
+  // 自动跟随 variables.css 中的 --avatar-N (light: 500 阶, dark: 400 阶).
+  // 顺序固定 (avatar-1..6) 保持 hash 派发的"同一 author 永远同色"语义。
+  // 决策：原 6 个 Apple hex (#007aff/#34c759/#ff9500/#af52de/#ff3b30/#5ac8fa) 与新
+  // 调色板 (#0072f5/#22c55e/#ff9f0a/#8b5cf6/#ef4444/#06b6d4) 视觉差异极小（500 阶同色相），
+  // "作者 A 头像" 仍是 蓝/绿/橙/紫/红/青，识别一致性保留。
+  const slot = (Math.abs(hashName(name)) % 6) + 1
+  return `var(--avatar-${slot})`
+}
+
+function hashName(name: string): number {
   let hash = 0
   for (const c of (name || '')) hash = ((hash << 5) - hash) + c.charCodeAt(0)
-  return colors[Math.abs(hash) % colors.length]
+  return hash
 }
 
 function formatTime(ts: string) {

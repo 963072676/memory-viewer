@@ -173,6 +173,41 @@
   --space-section-gap: var(--space-8);   /* section 之间间距 */
   --space-header-gap: var(--space-5);    /* section-header 内部 */
   --space-card-gap: var(--space-5);      /* card-grid 间距 */
+
+  /* P48: AnnotationThread avatar 6 调色板 — hash 派发，同一 author 永远同色。
+     选用 Tailwind 500 阶以保证 light 模式 24px 小圆上 12px 文字的 4.5:1 对比度。
+     顺序固定，hash % 6 决定色槽；调色板设计 6 个 hue 距离最大 (蓝/绿/橙/紫/红/青)。 */
+  --avatar-1: #0072f5;  /* 蓝 — 与 --accent 保持一致让"主色身份"在所有 avatar 中保留 1 槽 */
+  --avatar-2: #22c55e;  /* 绿 — 与 --health-good / --success 同源 */
+  --avatar-3: #ff9f0a;  /* 橙 — 与 --warning 同源（注意：原 #ff9500 偏黄，提到 500 阶 #ff9f0a 更稳） */
+  --avatar-4: #8b5cf6;  /* 紫 — 与 --semantic-accent 同源 */
+  --avatar-5: #ef4444;  /* 红 — 与 --health-bad / --error 同源但取 500 阶更轻 */
+  --avatar-6: #06b6d4;  /* 青 — 与 --type-architecture 同色系，区分蓝（avatar-1） */
+
+  /* P48: LineageGraph 源节点 6 调色板 — 每个 source 一个语义 hue：
+     manual = 蓝 (用户主操作 = --accent), import = 绿 (成功 = --success),
+     agent = 紫 (AI 生成 = --semantic-accent), merge = 橙 (变更 = --warning),
+     derived = 青 (派生关系 = 独立 hue), legacy = 中灰 (历史 = --text-secondary) */
+  --graph-source-manual: #0072f5;
+  --graph-source-import: #22c55e;
+  --graph-source-agent: #8b5cf6;
+  --graph-source-merge: #ff9f0a;
+  --graph-source-derived: #06b6d4;
+  --graph-source-legacy: #8f8f8f;
+
+  /* P48: CollectionEditor 10 调色板 — Collection color picker 候选色。
+     前 6 色复用 avatar 调色板保持"hash/identity 色"与"collection 身份色"语义一致；
+     后 4 色新增独立 hue 满足 10 色 picker 的多样性。 */
+  --collection-color-1: #0072f5;   /* 蓝 */
+  --collection-color-2: #22c55e;   /* 绿 */
+  --collection-color-3: #ff9f0a;   /* 橙 */
+  --collection-color-4: #ef4444;   /* 红 */
+  --collection-color-5: #8b5cf6;   /* 紫 */
+  --collection-color-6: #5856d6;   /* 靛 (Apple indigo) */
+  --collection-color-7: #ff2d55;   /* 玫红 (Apple pink) */
+  --collection-color-8: #00c7be;   /* 蓝绿 (Apple teal) */
+  --collection-color-9: #ff6482;   /* 粉 */
+  --collection-color-10: #30b0c7;  /* 中蓝绿 */
 }
 
 [data-theme='dark'] {
@@ -287,4 +322,38 @@
   --source-agentmemory-text: #4ade80;
   --source-mem0-bg: rgba(168, 85, 247, 0.14);
   --source-mem0-text: #c084fc;
+
+  /* P48: 6 调色板 — Dark 模式（沿用 Tailwind 400 阶，与 --source-* / --strength-*-ink 同源）。
+     与 light 模式对应关系：500 阶 → 400 阶，每色提亮一档补偿深色背景。
+     决策：dark 模式 avatar 仍要"识别同 author" → 同一 hash 派发到同一色槽。
+     若 light/dark 调色板不一一对应，dark 模式下"作者 A 的绿"会变成"作者 A 的蓝绿"，破坏身份一致性。 */
+  --avatar-1: #60a5fa;  /* 蓝 400 */
+  --avatar-2: #4ade80;  /* 绿 400 */
+  --avatar-3: #fbbf24;  /* 橙 400 — 注意：原 light #ff9f0a 是 amber 500，dark 用 amber 400 提亮一档 */
+  --avatar-4: #a78bfa;  /* 紫 400 — 与 --semantic-accent (dark) 同源 */
+  --avatar-5: #f87171;  /* 红 400 — 与 --strength-low-ink (dark) 同源 */
+  --avatar-6: #22d3ee;  /* 青 400 — cyan 500 → 400 提亮 */
+
+  /* P48: LineageGraph 6 调色板 — Dark 模式（同 avatar 决策：400 阶提亮补偿深色背景） */
+  --graph-source-manual: #60a5fa;
+  --graph-source-import: #4ade80;
+  --graph-source-agent: #a78bfa;
+  --graph-source-merge: #fbbf24;
+  --graph-source-derived: #22d3ee;
+  --graph-source-legacy: #a1a1a1;  /* --text-secondary (dark) — 与 light --text-secondary #8f8f8f 同档 */
+
+  /* P48: CollectionEditor 10 调色板 — Dark 模式。
+     前 5 色复用 avatar 400 阶保持"collection 身份色"在 dark 模式仍识别为同一 collection；
+     后 5 色 (#5856d6/#ff2d55/#00c7be/#ff6482/#30b0c7) Apple 系统色本身对深色背景已足够清晰，
+     维持原 hex 不变（dark 模式无需再提亮）。 */
+  --collection-color-1: #60a5fa;   /* 蓝 400 */
+  --collection-color-2: #4ade80;   /* 绿 400 */
+  --collection-color-3: #fbbf24;   /* 橙 400 */
+  --collection-color-4: #f87171;   /* 红 400 */
+  --collection-color-5: #a78bfa;   /* 紫 400 */
+  --collection-color-6: #5856d6;   /* 靛 — Apple indigo 深色背景下已足够亮，不动 */
+  --collection-color-7: #ff2d55;   /* 玫红 — Apple pink 同 */
+  --collection-color-8: #00c7be;   /* 蓝绿 — Apple teal 同 */
+  --collection-color-9: #ff6482;   /* 粉 — 已浅色，不动 */
+  --collection-color-10: #30b0c7;  /* 中蓝绿 — 已浅色，不动 */
 }
