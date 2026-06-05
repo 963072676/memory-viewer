@@ -114,9 +114,12 @@ function skipConfig() {
   align-items: center;
   margin-bottom: 20px;
   padding: 20px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  /* P47 r2: linear-gradient 硬编码 #667eea/#764ba2 → --accent-secondary (vars.css 已定义 #6366f1).
+     SetupWizard banner 之前是"紫色独立品牌" — 现在与全站 --accent 同源 hue 偏移 90° (indigo),
+     视觉上仍是 hero 横幅, 但已 token 化. 顺手把 on-accent color:white → var(--card). */
+  background: linear-gradient(135deg, var(--accent-secondary) 0%, var(--accent) 100%);
   border-radius: 12px;
-  color: white;
+  color: var(--card);
 }
 
 .btn-quick-start {
@@ -163,11 +166,12 @@ function skipConfig() {
 .divider span { padding: 0 12px; }
 
 /* Form styles */
-.field { margin-bottom: 16px; }
+/* Form styles */ .field { margin-bottom: 16px; }
 .field label { display: block; font-weight: 600; font-size: 14px; margin-bottom: 4px; }
-.input { width: 100%; padding: 10px 12px; border: 1px solid var(--border, #ddd); border-radius: 8px; font-size: 14px; background: var(--card-bg, #fff); }
-.input:focus { outline: none; border-color: #007aff; }
-.hint { font-size: 12px; color: #999; margin-top: 4px; display: block; }
+/* P47 r2: input / preset-btn / hint 硬编码 #007aff / #f0f7ff / #999 / #666 → 全站 token. */
+.input { width: 100%; padding: 10px 12px; border: 1px solid var(--border, #ddd); border-radius: 8px; font-size: 14px; background: var(--card, #fff); }
+.input:focus { outline: none; border-color: var(--accent); }
+.hint { font-size: 12px; color: var(--text-tertiary); margin-top: 4px; display: block; }
 
 /* Presets */
 .presets {
@@ -178,36 +182,39 @@ function skipConfig() {
   flex-wrap: wrap;
 }
 
-.presets-label { font-size: 13px; color: #666; }
+.presets-label { font-size: 13px; color: var(--text-secondary); }
 .preset-btn {
   padding: 6px 12px;
   border: 1px solid var(--border, #ddd);
   border-radius: 16px;
-  background: var(--card-bg, #fff);
+  background: var(--card, #fff);
   font-size: 12px;
   cursor: pointer;
   transition: all 0.2s;
 }
 
 .preset-btn:hover {
-  border-color: #007aff;
-  background: #f0f7ff;
+  border-color: var(--accent);
+  background: var(--accent-subtle);
 }
 
-.status { padding: 10px; border-radius: 8px; font-size: 14px; margin-top: 16px; background: #f8f9fa; }
-.status.connected { background: #e8f5e9; color: #2e7d32; }
-.status.error { background: #ffebee; color: #c62828; }
+/* P47 r2: ConfigStep status 硬编码 Material hex → 全站 token. .connected = success,
+   .error = error. 与 P46 r1 ShareModal level-view/level-comment/level-edit 决策树同源. */
+.status { padding: 10px; border-radius: 8px; font-size: 14px; margin-top: 16px; background: var(--bg-recessed); }
+.status.connected { background: var(--success-bg); color: var(--success-text); }
+.status.error { background: var(--error-bg); color: var(--error-text); }
 
-/* Skip section */
-.skip-section { margin-top: 16px; text-align: center; }
+/* Skip section */ .skip-section { margin-top: 16px; text-align: center; }
+/* P47 r2: btn-skip-config 硬编码 Apple #007aff / #0056b3 → --accent / --accent-hover.
+   SetupWizard 全套 (ImportStep/ConfigStep/DoneStep) 现在统一使用 --accent, 与全站主品牌色一致. */
 .btn-skip-config {
   background: none;
   border: none;
-  color: #007aff;
+  color: var(--accent);
   font-size: 13px;
   cursor: pointer;
   text-decoration: underline;
 }
 
-.btn-skip-config:hover { color: #0056b3; }
+.btn-skip-config:hover { color: var(--accent-hover); }
 </style>

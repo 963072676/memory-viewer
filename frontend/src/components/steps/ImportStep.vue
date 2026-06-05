@@ -50,14 +50,18 @@ async function handleFile(e: Event) {
 
 <style scoped>
 .import-step h3 { margin-bottom: 8px; }
-.desc { color: #666; margin-bottom: 20px; font-size: 14px; }
+.desc { color: var(--text-secondary); margin-bottom: 20px; font-size: 14px; }
 .import-options { display: flex; gap: 12px; margin-bottom: 20px; }
 .option-card { flex: 1; padding: 16px; border: 2px solid var(--border, #e0e0e0); border-radius: 12px; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: all 0.2s; }
-.option-card:hover { border-color: #007aff; }
+/* P47 r2: option-card hover 硬编码 Apple #007aff → --accent. 之前 border-color 在 dark 模式仍
+   是亮蓝, 与全站 --accent (#0072f5 light / #3291ff dark) 偏移 0x0A, 视觉上"几乎是同一个颜色"但
+   一旦将来 --accent 调整就会脱节. 顺手把 #e8f5e9/#2e7d32 改成 --success-bg/--success-text (与 P46 r1
+   ShareModal 决策树同源). */
+.option-card:hover { border-color: var(--accent); }
 .option-icon { font-size: 28px; }
 .option-title { font-weight: 600; font-size: 14px; }
-.option-desc { font-size: 12px; color: #666; }
+.option-desc { font-size: 12px; color: var(--text-secondary); }
 .file-upload { margin-top: 12px; }
 .file-input { font-size: 14px; }
-.import-result { margin-top: 12px; padding: 10px; background: #e8f5e9; border-radius: 8px; color: #2e7d32; }
+.import-result { margin-top: 12px; padding: 10px; background: var(--success-bg); border-radius: 8px; color: var(--success-text); }
 </style>

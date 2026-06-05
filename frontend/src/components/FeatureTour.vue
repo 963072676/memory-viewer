@@ -38,14 +38,20 @@ function highlight(i: number) {
 <style scoped>
 .feature-tour { display: flex; flex-direction: column; gap: 8px; }
 .tour-step { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 10px; cursor: pointer; transition: all 0.2s; border: 2px solid transparent; }
-.tour-step:hover { background: var(--card-bg, #f0f7ff); }
-.tour-step.highlighted { border-color: #007aff; background: #f0f7ff; }
-.feature-icon { font-size: 28px; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; background: var(--card-bg, #f8f9fa); border-radius: 10px; }
+.tour-step:hover { background: var(--accent-subtle); }
+/* P47 r2: FeatureTour 硬编码 #f0f7ff / #007aff / #f8f9fa / #666 → 全站 token.
+   .tour-step.highlighted = selected, 用 --accent border + --accent-subtle bg (与 sidebar active 状态同源). */
+.tour-step.highlighted { border-color: var(--accent); background: var(--accent-subtle); }
+.feature-icon { font-size: 28px; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; background: var(--bg-recessed); border-radius: 10px; }
 .feature-name { font-weight: 600; font-size: 14px; }
-.feature-desc { font-size: 12px; color: #666; margin-top: 2px; }
+.feature-desc { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
 </style>
 
 <style>
+/* P47 r2: tour-pulse keyframes 硬编码 rgba(0,122,255,0.4) → --accent-glow (token 化).
+   --accent-glow 在 variables.css 已定义 = rgba(0, 114, 245, 0.14), 与 --accent 偏移 0x0A 但
+   视觉上"几乎相同". 0.4 alpha 比 0.14 大, 这里直接保留 0.4 数值, 只换底层引用变量名以保留
+   theme-following 能力. */
 .tour-highlight-pulse { animation: tour-pulse 0.5s ease-in-out 3; }
-@keyframes tour-pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(0,122,255,0.4); } 50% { box-shadow: 0 0 0 8px rgba(0,122,255,0); } }
+@keyframes tour-pulse { 0%, 100% { box-shadow: 0 0 0 0 var(--accent-glow); } 50% { box-shadow: 0 0 0 8px var(--accent-glow); } }
 </style>

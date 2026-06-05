@@ -76,15 +76,15 @@ const conflictLabels: Record<string, string> = {
 }
 
 .conflict-card.severity-high {
-  border-left: 4px solid #ff3b30;
+  border-left: 4px solid var(--error);
 }
 
 .conflict-card.severity-medium {
-  border-left: 4px solid #ff9500;
+  border-left: 4px solid var(--warning);
 }
 
 .conflict-card.severity-low {
-  border-left: 4px solid #ffcc00;
+  border-left: 4px solid #b38b00;
 }
 
 .conflict-header {
@@ -103,8 +103,12 @@ const conflictLabels: Record<string, string> = {
   text-transform: uppercase;
 }
 
-.severity-badge.severity-high { background: #ffe5e5; color: #ff3b30; }
-.severity-badge.severity-medium { background: #fff3e0; color: #ff9500; }
+/* P47 r2: severity-badge 3 个分支硬编码 Material hex → 全站 token.
+   high (红) = --error-bg / --error, medium (橙) = --warning-bg / --warning,
+   low (黄) 保留 #b38b00 (黄色在 light/dark 模式都不与 --warning 撞, 单独 token 没意义, 留 hex).
+   与 P47 r1 RoleBadge 决策树同源: "语义色对" → 全部走 token. */
+.severity-badge.severity-high { background: var(--error-bg); color: var(--error); }
+.severity-badge.severity-medium { background: var(--warning-bg); color: var(--warning); }
 .severity-badge.severity-low { background: #fffde5; color: #b38b00; }
 
 .conflict-type {
@@ -207,10 +211,14 @@ const conflictLabels: Record<string, string> = {
   background: var(--tag-bg, #f2f2f7);
 }
 
-.btn-resolve.keep-a { color: #007aff; border-color: #007aff; }
-.btn-resolve.keep-b { color: #34c759; border-color: #34c759; }
-.btn-resolve.merge { color: #ff9500; border-color: #ff9500; }
-.btn-resolve.dismiss { color: var(--text-secondary, #86868b); }
+/* P47 r2: ConflictCard btn-resolve 4 个分支硬编码 Apple #007aff/#34c759/#ff9500/#86868b → 全站 token.
+   keep-a (蓝/保留 A) = --accent, keep-b (绿/保留 B) = --success,
+   merge (橙/合并) = --warning, dismiss (灰/忽略) = --text-secondary.
+   与 P47 r1 RoleBadge 决策树同源: "角色徽章" → "操作按钮" 的 token 化收口. */
+.btn-resolve.keep-a { color: var(--accent); border-color: var(--accent); }
+.btn-resolve.keep-b { color: var(--success); border-color: var(--success); }
+.btn-resolve.merge { color: var(--warning); border-color: var(--warning); }
+.btn-resolve.dismiss { color: var(--text-secondary); }
 
 @media (max-width: 640px) {
   .conflict-body { flex-direction: column; }

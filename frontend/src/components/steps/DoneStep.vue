@@ -16,9 +16,12 @@
 <style scoped>
 .done-step { text-align: center; }
 .done-icon { font-size: 64px; margin-bottom: 16px; }
-.done-desc { color: #666; font-size: 16px; margin-bottom: 24px; }
+.done-desc { color: var(--text-secondary); font-size: 16px; margin-bottom: 24px; }
 .quick-links { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-.link-card { padding: 16px; background: var(--card-bg, #f8f9fa); border-radius: 12px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.2s; border: 2px solid transparent; }
-.link-card:hover { border-color: #007aff; background: #f0f7ff; }
-.hint { color: #999; font-size: 13px; }
+/* P47 r2: DoneStep 硬编码 #f8f9fa / #999 / #007aff / #f0f7ff → 全站 token.
+   link-card 静态 bg = --bg-recessed (与 SearchBar 输入同源), hover = --accent border + --accent-subtle bg
+   (与 MemoryCard hover lift / SearchBar focus 同手感). hint = --text-tertiary (与全站"最弱文字"语义统一). */
+.link-card { padding: 16px; background: var(--bg-recessed); border-radius: 12px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.2s; border: 2px solid transparent; }
+.link-card:hover { border-color: var(--accent); background: var(--accent-subtle); }
+.hint { color: var(--text-tertiary); font-size: 13px; }
 </style>

@@ -32,10 +32,11 @@ function formatTime(ts: string) {
 
 <style scoped>
 .workflow-log { margin-top: 8px; border-top: 1px solid var(--border, #eee); padding-top: 8px; }
-.log-header { cursor: pointer; font-size: 12px; color: #666; user-select: none; }
-.log-header:hover { color: #007aff; }
+/* P47 r2: WorkflowLog 硬编码 #666/#999/#333 → 全站 token, hover #007aff → --accent. */
+.log-header { cursor: pointer; font-size: 12px; color: var(--text-secondary); user-select: none; }
+.log-header:hover { color: var(--accent); }
 .log-entries { margin-top: 6px; }
 .log-entry { display: flex; gap: 8px; align-items: center; font-size: 12px; padding: 3px 0; }
-.log-time { color: #999; min-width: 100px; }
-.log-detail { color: #333; }
+.log-time { color: var(--text-tertiary); min-width: 100px; }
+.log-detail { color: var(--primary); }
 </style>
