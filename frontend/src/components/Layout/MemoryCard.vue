@@ -59,13 +59,13 @@
         <div class="card-content" v-html="sanitizedContent"></div>
         <div class="card-details">
           <div class="detail-row" v-if="memory.concepts.length">
-            <span class="detail-label">Concepts</span>
+            <span class="detail-label">{{ $t('en_concepts') }}</span>
             <div class="tags">
               <span class="tag" v-for="c in memory.concepts" :key="c">{{ c }}</span>
             </div>
           </div>
           <div class="detail-row" v-if="memory.files.length">
-            <span class="detail-label">Files</span>
+            <span class="detail-label">{{ $t('en_files') }}</span>
             <div class="tags">
               <span class="tag file-tag" v-for="f in memory.files" :key="f">{{ f }}</span>
             </div>
@@ -80,15 +80,15 @@
             />
           </div>
           <div class="detail-row">
-            <span class="detail-label">Strength</span>
+            <span class="detail-label">{{ $t('en_strength') }}</span>
             <span>{{ memory.strength * 10 }}%</span>
           </div>
           <div class="detail-row">
-            <span class="detail-label">Updated</span>
+            <span class="detail-label">{{ $t('en_updated') }}</span>
             <span>{{ formatDate(memory.updatedAt) }}</span>
           </div>
           <div class="detail-row">
-            <span class="detail-label">Created</span>
+            <span class="detail-label">{{ $t('en_created') }}</span>
             <span>{{ formatDate(memory.createdAt) }}</span>
           </div>
           <!-- Health breakdown (F-20) -->

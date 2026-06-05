@@ -40,6 +40,6 @@ onMounted(() => {
 .ws-select {
   padding: 4px 8px; border: 1px solid var(--border, #e5e5ea);
   border-radius: 6px; background: var(--card, #fff); font-size: 0.8rem;
-  font-family: var(--font); color: var(--text, #1d1d1f); cursor: pointer;
+  font-family: var(--font); color: var(--primary); cursor: pointer;
 }
 </style>

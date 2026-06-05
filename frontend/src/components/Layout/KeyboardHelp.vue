@@ -4,7 +4,7 @@
       <h2>{{ $t('zh_d65312') }}</h2>
       <div class="shortcut-list">
         <div class="shortcut-item">
-          <kbd>Ctrl K</kbd>
+          <kbd>{{ $t('en_ctrl_k') }}</kbd>
           <span>{{ $t('zh_49d894') }}</span>
         </div>
         <div class="shortcut-item">
@@ -12,7 +12,7 @@
           <span>{{ $t('zh_5a6229') }}</span>
         </div>
         <div class="shortcut-item">
-          <kbd>Esc</kbd>
+          <kbd>{{ $t('en_esc') }}</kbd>
           <span>{{ $t('zh_bb3e9f') }} / {{ $t('zh_ab9156') }}</span>
         </div>
         <div class="shortcut-item">

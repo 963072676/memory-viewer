@@ -9,14 +9,14 @@
 
     <div class="profile-select">
       <div class="select-group">
-        <label>Left Profile</label>
+        <label>{{ $t('en_left_profile') }}</label>
         <select v-model="leftProfile" class="select-input">
           <option value="">{{ $t('zh_006c5e') }} Profile</option>
           <option v-for="p in profiles" :key="p" :value="p">{{ p }}</option>
         </select>
       </div>
       <div class="select-group">
-        <label>Right Profile</label>
+        <label>{{ $t('en_right_profile') }}</label>
         <select v-model="rightProfile" class="select-input">
           <option value="">{{ $t('zh_006c5e') }} Profile</option>
           <option v-for="p in profiles" :key="p" :value="p">{{ p }}</option>

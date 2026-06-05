@@ -7,18 +7,18 @@
       </div>
       <div class="modal-body">
         <div class="form-group">
-          <label>Source Memory</label>
+          <label>{{ $t('en_source_memory') }}</label>
           <div class="memory-display">
             <span class="memory-badge">{{ sourceTitle || sourceId }}</span>
           </div>
         </div>
 
         <div class="form-group">
-          <label>Target Memory *</label>
+          <label>{{ $t('en_target_memory') }}</label>
           <div class="search-wrapper">
             <input
               v-model="searchQuery"
-              placeholder="Search for target memory..."
+              :placeholder="$t('en_search_target')"
               @input="onSearch"
             />
             <div v-if="searchResults.length" class="search-dropdown">
@@ -42,26 +42,26 @@
         </div>
 
         <div class="form-group">
-          <label>Relation Type *</label>
+          <label>{{ $t('en_relation_type') }}</label>
           <select v-model="relationType">
-            <option value="">Select a relation type</option>
-            <option value="related">Related</option>
-            <option value="depends_on">Depends On</option>
-            <option value="contradicts">Contradicts</option>
-            <option value="extends">Extends</option>
-            <option value="derived_from">Derived From</option>
-            <option value="duplicates">Duplicates</option>
-            <option value="references">References</option>
+            <option value="">{{ $t('en_select_relation') }}</option>
+            <option value="related">{{ $t('en_related') }}</option>
+            <option value="depends_on">{{ $t('en_depends_on') }}</option>
+            <option value="contradicts">{{ $t('en_contradicts') }}</option>
+            <option value="extends">{{ $t('en_extends') }}</option>
+            <option value="derived_from">{{ $t('en_derived_from') }}</option>
+            <option value="duplicates">{{ $t('en_duplicates') }}</option>
+            <option value="references">{{ $t('en_references') }}</option>
           </select>
         </div>
 
         <div class="form-group">
-          <label>Label (optional)</label>
-          <input v-model="label" placeholder="e.g. implements pattern X" />
+          <label>{{ $t('en_label_optional') }}</label>
+          <input v-model="label" :placeholder="$t('en_link_label_hint')" />
         </div>
       </div>
       <div class="modal-footer">
-        <button class="action-btn" @click="$emit('close')">Cancel</button>
+        <button class="action-btn" @click="$emit('close')">{{ $t('en_cancel') }}</button>
         <button
           class="action-btn action-btn--accent"
           @click="handleCreate"

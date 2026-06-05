@@ -21,25 +21,6 @@
       "sessionIds": []
     },
     {
-      "id": "mem_mpmtq1g4_f7c67fec4ce2",
-      "type": "pattern",
-      "title": "Hermes Agent 技巧积累（2026-05-27）：1) hermes skills check/update 可检查和更新 skills；2) 多 p",
-      "content": "Hermes Agent 技巧积累（2026-05-27）：1) hermes skills check/update 可检查和更新 skills；2) 多 profile 模式下每个 profile 有独立配置、session 和 memory；3) hermes config migrate 可自动更新配置文件添加新选项；4) 工具改动需 /reset 新会话才生效；5) hermes-agent skill 支持配置、MCP 服务器、多 agent 调度等功能；6) v2026.5.16 为当前最新版本（2026-05）",
-      "concepts": [
-        "hermes",
-        "使用技巧",
-        "tips",
-        "技能系统"
-      ],
-      "files": [],
-      "createdAt": "2026-05-26T16:02:28.184Z",
-      "updatedAt": "2026-05-26T16:02:28.184Z",
-      "strength": 7,
-      "version": 1,
-      "isLatest": true,
-      "sessionIds": []
-    },
-    {
       "id": "mem_mpo72nnd_b1a9e9719bc9",
       "type": "pattern",
       "title": "用 cron job 每天自动检查 NousResearch/hermes-agent 最近 24 小时的 commits，对比本地安装与 origin/mai",
@@ -71,30 +52,6 @@
       "files": [],
       "createdAt": "2026-05-27T15:04:00.025Z",
       "updatedAt": "2026-05-27T15:04:00.025Z",
-      "strength": 7,
-      "version": 1,
-      "isLatest": true,
-      "sessionIds": []
-    },
-    {
-      "id": "mem_mpo9ie1a_0f841e32acc9",
-      "type": "architecture",
-      "title": "Memory Viewer 网站已交付：/opt/data/memory-viewer/，FastAPI 后端 + Apple 风格前端，展示 agentmem",
-      "content": "Memory Viewer 网站已交付：/opt/data/memory-viewer/，FastAPI 后端 + Apple 风格前端，展示 agentmemory（MCP JSON）和 Hermes 内置 memory（MEMORY.md/USER.md）。端口 8501，通过 docker-compose 或直接 python app.py 启动。agentmemory 缓存在 /opt/data/memory-viewer/cache/agentmemory.json，需通过 fetch_agentmemory.py 脚本定期更新。",
-      "concepts": [
-        "memory-viewer",
-        "hermes",
-        "agentmemory",
-        "fastapi",
-        "deployment"
-      ],
-      "files": [
-        "/opt/data/memory-viewer/app.py",
-        "/opt/data/memory-viewer/static/index.html",
-        "/opt/data/memory-viewer/docker-compose.yml"
-      ],
-      "createdAt": "2026-05-27T16:12:11.278Z",
-      "updatedAt": "2026-05-27T16:12:11.278Z",
       "strength": 7,
       "version": 1,
       "isLatest": true,
@@ -167,24 +124,6 @@
       "files": [],
       "createdAt": "2026-05-28T17:49:41.339Z",
       "updatedAt": "2026-05-28T17:49:41.339Z",
-      "strength": 7,
-      "version": 1,
-      "isLatest": true,
-      "sessionIds": []
-    },
-    {
-      "id": "mem_mprah193_d67c8a2f9958",
-      "type": "pattern",
-      "title": "Google Gemini API 免费层无需信用卡，所有 Gemini 模型均可使用（有速率限制）：Gemini 2.5 Pro 免费 50 请求/天，Gem",
-      "content": "Google Gemini API 免费层无需信用卡，所有 Gemini 模型均可使用（有速率限制）：Gemini 2.5 Pro 免费 50 请求/天，Gemini 2.0 Flash 最慷慨（15 RPM, 1500 RPD），适合小流量生产应用。新用户通过 LLM API 平台充值可获最高 $300 免费额度。",
-      "concepts": [
-        "hermes",
-        "大模型优惠",
-        "Gemini免费"
-      ],
-      "files": [],
-      "createdAt": "2026-05-29T19:02:26.199Z",
-      "updatedAt": "2026-05-29T19:02:26.199Z",
       "strength": 7,
       "version": 1,
       "isLatest": true,

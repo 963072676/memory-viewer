@@ -7,15 +7,15 @@
 
     <div class="sidebar-brand">
       <span class="brand-logo">🧠</span>
-      <span class="brand-text" v-show="!uiStore.sidebarCollapsed">Memory Viewer</span>
+      <span class="brand-text" v-show="!uiStore.sidebarCollapsed">{{ $t('en_app_title') }}</span>
     </div>
 
     <nav>
-      <div v-for="section in navSections" :key="section.title" class="nav-section">
-        <div v-show="!uiStore.sidebarCollapsed" class="nav-section-title">{{ section.title }}</div>
+      <div v-for="section in navSections" :key="section.titleKey" class="nav-section">
+        <div v-show="!uiStore.sidebarCollapsed" class="nav-section-title">{{ $t(section.titleKey) }}</div>
         <router-link v-for="item in section.items" :key="item.path" :to="item.path" class="nav-item" :class="{ active: $route.path === item.path }">
           <span class="nav-icon">{{ item.icon }}</span>
-          <span class="nav-label">{{ item.label }}</span>
+          <span class="nav-label">{{ $t(item.labelKey) }}</span>
         </router-link>
       </div>
     </nav>
@@ -31,7 +31,7 @@
       :class="{ active: isTabActive(tab) }"
     >
       <span class="tab-icon">{{ tab.icon }}</span>
-      <span class="tab-label">{{ tab.label }}</span>
+      <span class="tab-label">{{ $t(tab.labelKey) }}</span>
     </router-link>
     <button class="tab-item more-btn" @click="showMoreSheet = true">
       <span class="tab-icon">☰</span>
@@ -56,7 +56,7 @@
               @click="showMoreSheet = false"
             >
               <span class="sheet-icon">{{ item.icon }}</span>
-              <span class="sheet-label">{{ item.label }}</span>
+              <span class="sheet-label">{{ $t(item.labelKey) }}</span>
             </router-link>
           </div>
         </div>
@@ -81,29 +81,29 @@ defineExpose({ openMoreSheet, closeMobileSidebar })
 
 // All nav items in display order
 const allNavItems = [
-  { path: '/', icon: '🏠', label: '首页' },
-  { path: '/agentmemory', icon: '🤖', label: 'AgentMemory' },
-  { path: '/hermes', icon: '🧠', label: 'Hermes Memory' },
-  { path: '/profiles', icon: '👤', label: 'Profiles' },
-  { path: '/dashboard', icon: '📊', label: '仪表盘' },
-  { path: '/collections', icon: '📚', label: '分类' },
-  { path: '/compare', icon: '🔍', label: '对比' },
-  { path: '/sources', icon: '🔌', label: '数据源' },
-  { path: '/settings', icon: '⚙️', label: '设置' },
+  { path: '/', icon: '🏠', labelKey: 'en_nav_home' },
+  { path: '/agentmemory', icon: '🤖', labelKey: 'en_nav_agentmemory' },
+  { path: '/hermes', icon: '🧠', labelKey: 'en_nav_hermes' },
+  { path: '/profiles', icon: '👤', labelKey: 'en_nav_profiles' },
+  { path: '/dashboard', icon: '📊', labelKey: 'en_nav_dashboard' },
+  { path: '/collections', icon: '📚', labelKey: 'en_nav_collections' },
+  { path: '/compare', icon: '🔍', labelKey: 'en_nav_compare' },
+  { path: '/sources', icon: '🔌', labelKey: 'en_nav_sources' },
+  { path: '/settings', icon: '⚙️', labelKey: 'en_nav_settings' },
 ]
 
 // Group items for desktop sidebar
 const navSections = [
   {
-    title: '记忆浏览',
+    titleKey: 'en_nav_section_browse',
     items: allNavItems.filter(i => ['/', '/agentmemory', '/hermes', '/profiles'].includes(i.path))
   },
   {
-    title: '功能',
+    titleKey: 'en_nav_section_features',
     items: allNavItems.filter(i => ['/dashboard', '/collections', '/compare', '/sources'].includes(i.path))
   },
   {
-    title: '系统',
+    titleKey: 'en_nav_section_system',
     items: allNavItems.filter(i => ['/settings'].includes(i.path))
   },
 ]

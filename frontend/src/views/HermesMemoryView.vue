@@ -1,6 +1,6 @@
 <template>
   <div class="hermes-view">
-    <h2 class="section-title">Hermes Memory</h2>
+    <h2 class="section-title">{{ $t('en_hermes_memory') }}</h2>
     <div v-if="store.loading" class="card-grid">
       <div v-for="i in 4" :key="i" class="skeleton-card"></div>
     </div>
@@ -11,7 +11,7 @@
     <template v-else>
       <!-- Global -->
       <div class="profile-section">
-        <h3 class="profile-heading">🌐 Global</h3>
+        <h3 class="profile-heading">{{ $t('en_global_with_icon') }}</h3>
         <div class="card-grid">
           <div v-for="(entry, i) in store.globalData.memory" :key="'gm-' + i" class="hermes-card">
             <div class="hermes-label"><span class="hermes-label__dot" />MEMORY.md</div>

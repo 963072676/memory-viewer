@@ -10,7 +10,7 @@
 
     <!-- New Memories Section -->
     <div class="section" v-if="digest.sections?.new_memories?.length">
-      <h4>🆕 New Memories</h4>
+      <h4>{{ $t('en_new_memories') }}</h4>
       <div class="memory-list">
         <div v-for="m in digest.sections.new_memories" :key="m.id" class="memory-item">
           <span class="memory-type">{{ m.type }}</span>
@@ -22,7 +22,7 @@
 
     <!-- Top Changes Section -->
     <div class="section" v-if="digest.sections?.top_changes?.length">
-      <h4>🔄 Top Changes</h4>
+      <h4>{{ $t('en_top_changes') }}</h4>
       <div class="memory-list">
         <div v-for="m in digest.sections.top_changes" :key="m.id" class="memory-item">
           <span class="memory-type">{{ m.type }}</span>
@@ -33,7 +33,7 @@
 
     <!-- Emerging Themes -->
     <div class="section" v-if="digest.sections?.emerging_themes?.length">
-      <h4>🌟 Emerging Themes</h4>
+      <h4>{{ $t('en_emerging_themes') }}</h4>
       <div class="theme-cloud">
         <span v-for="t in digest.sections.emerging_themes" :key="t.theme" class="theme-tag" :style="{ fontSize: `${Math.min(1.2, 0.75 + t.count * 0.1)}rem` }">
           {{ t.theme }} ({{ t.count }})
@@ -43,7 +43,7 @@
 
     <!-- Health Alerts -->
     <div class="section" v-if="digest.sections?.health_alerts?.length">
-      <h4>⚠️ Health Alerts</h4>
+      <h4>{{ $t('en_health_alerts') }}</h4>
       <div class="alert-list">
         <div v-for="a in digest.sections.health_alerts" :key="a.id" class="alert-item" :class="a.alert">
           <span class="alert-icon">{{ a.alert === 'critical' ? '🔴' : '🟡' }}</span>

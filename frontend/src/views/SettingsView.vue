@@ -25,16 +25,16 @@
         <h2 class="section-title">🔗 Webhook {{ $t('zh_006ca4') }}</h2>
         <div class="form-section">
           <div class="form-field">
-            <label>Webhook URL</label>
+            <label>{{ $t('en_webhook_url') }}</label>
             <input
               v-model="webhookUrl"
               type="url"
-              placeholder="https://example.com/webhook"
+              :placeholder="$t('en_webhook_url_hint')"
               class="form-input"
             />
           </div>
           <div class="form-field">
-            <label>Secret</label>
+            <label>{{ $t('en_secret') }}</label>
             <input
               v-model="webhookSecret"
               type="password"
@@ -79,7 +79,7 @@
             <input
               v-model="feishuUrl"
               type="url"
-              placeholder="https://open.feishu.cn/open-apis/bot/v2/hook/..."
+              :placeholder="$t('en_feishu_url_hint')"
               class="form-input"
             />
           </div>
@@ -126,7 +126,7 @@
         <div class="about-section">
           <div class="about-row">
             <span class="about-label">{{ $t('zh_006610') }}</span>
-            <span class="about-value">Memory Viewer v2</span>
+            <span class="about-value">{{ $t('en_app_v2') }}</span>
           </div>
           <div class="about-row">
             <span class="about-label">{{ $t('zh_00688c') }}</span>
@@ -134,16 +134,16 @@
           </div>
           <div class="about-row">
             <span class="about-label">{{ $t('zh_006743') }}</span>
-            <span class="about-value">Vue 3 + TypeScript + Vite</span>
+            <span class="about-value">{{ $t('en_stack_info') }}</span>
           </div>
           <div class="about-row">
             <span class="about-label">{{ $t('zh_0de46a') }}</span>
             <span class="about-value">MIT</span>
           </div>
           <div class="about-links">
-            <a href="https://github.com/NousResearch" target="_blank" class="about-link">GitHub</a>
+            <a href="https://github.com/NousResearch" target="_blank" class="about-link">{{ $t('en_github') }}</a>
             <a href="/api-docs" class="about-link">API {{ $t('zh_0066e9') }}</a>
-            <router-link to="/api-playground" class="about-link">API Playground</router-link>
+            <router-link to="/api-playground" class="about-link">{{ $t('en_api_playground') }}</router-link>
           </div>
         </div>
       </div>

@@ -7,13 +7,13 @@
     <div class="mm-body">
       <!-- Add Member -->
       <div class="add-member">
-        <input v-model="newUserId" placeholder="User ID" />
+        <input v-model="newUserId" :placeholder="$t('en_user_id')" />
         <select v-model="newRole">
-          <option value="viewer">Viewer</option>
-          <option value="editor">Editor</option>
-          <option value="admin">Admin</option>
+          <option value="viewer">{{ $t('en_role_viewer') }}</option>
+          <option value="editor">{{ $t('en_role_editor') }}</option>
+          <option value="admin">{{ $t('en_role_admin') }}</option>
         </select>
-        <button class="btn-add" @click="addMember" :disabled="!newUserId">Add</button>
+        <button class="btn-add" @click="addMember" :disabled="!newUserId">{{ $t('en_add') }}</button>
       </div>
 
       <!-- Member List -->
@@ -22,13 +22,13 @@
           <span class="member-id">{{ m.user_id }}</span>
           <RoleBadge :role="m.role" />
           <select v-model="m.role" @change="updateRole(m)" class="role-select">
-            <option value="viewer">Viewer</option>
-            <option value="editor">Editor</option>
-            <option value="admin">Admin</option>
+            <option value="viewer">{{ $t('en_role_viewer') }}</option>
+            <option value="editor">{{ $t('en_role_editor') }}</option>
+            <option value="admin">{{ $t('en_role_admin') }}</option>
           </select>
           <button class="btn-remove" @click="removeMember(m)">✕</button>
         </div>
-        <div v-if="members.length === 0" class="empty-hint">No members yet</div>
+        <div v-if="members.length === 0" class="empty-hint">{{ $t('en_no_members') }}</div>
       </div>
     </div>
   </div>

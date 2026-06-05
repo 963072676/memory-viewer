@@ -7,44 +7,44 @@
     <div class="editor-body">
       <div class="form-group">
         <label>Name</label>
-        <input v-model="form.name" placeholder="Template name" />
+        <input v-model="form.name" :placeholder="$t('en_template_name')" />
       </div>
       <div class="form-group">
-        <label>Description</label>
-        <input v-model="form.description" placeholder="Description" />
+        <label>{{ $t('en_description') }}</label>
+        <input v-model="form.description" :placeholder="$t('en_description')" />
       </div>
       <div class="form-group">
-        <label>Icon</label>
-        <input v-model="form.icon" placeholder="📝" style="width: 60px;" />
+        <label>{{ $t('en_icon') }}</label>
+        <input v-model="form.icon" :placeholder="$t('en_template_icon')" style="width: 60px;" />
       </div>
       <div class="form-group">
         <label>Title Template</label>
-        <input v-model="form.title_template" placeholder="e.g. Task: {task_name}" />
+        <input v-model="form.title_template" :placeholder="$t('en_title_template_hint')" />
       </div>
       <div class="form-group">
         <label>Content Template</label>
         <textarea v-model="form.content_template" rows="4" placeholder="e.g. Task: {task_name}&#10;Outcome: {outcome}"></textarea>
       </div>
       <div class="form-group">
-        <label>Default Type</label>
+        <label>{{ $t('en_default_type') }}</label>
         <select v-model="form.default_type">
-          <option value="fact">Fact</option>
-          <option value="pattern">Pattern</option>
-          <option value="preference">Preference</option>
-          <option value="bug">Bug</option>
-          <option value="workflow">Workflow</option>
+          <option value="fact">{{ $t('en_type_fact') }}</option>
+          <option value="pattern">{{ $t('en_type_pattern') }}</option>
+          <option value="preference">{{ $t('en_type_preference') }}</option>
+          <option value="bug">{{ $t('en_type_bug') }}</option>
+          <option value="workflow">{{ $t('en_type_workflow') }}</option>
         </select>
       </div>
       <div class="form-group">
-        <label>Default Tags (comma-separated)</label>
-        <input v-model="tagsInput" placeholder="tag1, tag2" />
+        <label>{{ $t('en_default_tags') }}</label>
+        <input v-model="tagsInput" :placeholder="$t('en_tag_pair_hint')" />
       </div>
 
       <!-- Fields -->
       <div class="fields-section">
         <div class="fields-header">
-          <label>Fields</label>
-          <button class="btn-add-field" @click="addField">+ Add Field</button>
+          <label>{{ $t('en_fields') }}</label>
+          <button class="btn-add-field" @click="addField">{{ $t('en_add_field') }}</button>
         </div>
         <div v-for="(field, i) in form.fields" :key="i" class="field-row">
           <input v-model="field.name" placeholder="name" class="field-input" />
@@ -62,8 +62,8 @@
       </div>
     </div>
     <div class="editor-footer">
-      <button class="action-btn" @click="$emit('close')">Cancel</button>
-      <button class="action-btn action-btn--accent" @click="save" :disabled="!form.name">Save</button>
+      <button class="action-btn" @click="$emit('close')">{{ $t('en_cancel') }}</button>
+      <button class="action-btn action-btn--accent" @click="save" :disabled="!form.name">{{ $t('en_save') }}</button>
     </div>
   </div>
 </template>

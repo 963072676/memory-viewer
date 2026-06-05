@@ -103,7 +103,7 @@
             </button>
             <div v-if="showQR" class="qr-placeholder">
               <div class="qr-box">
-                <p class="qr-text">QR Code</p>
+                <p class="qr-text">{{ $t('en_qr_code') }}</p>
                 <p class="qr-url">{{ shareResult.share_url }}</p>
               </div>
             </div>

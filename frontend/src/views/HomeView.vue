@@ -52,7 +52,7 @@
           <div class="unified-controls">
             <label class="source-filter-label">{{ $t('zh_0d4374') }}</label>
             <select v-model="selectedSource" class="source-filter-select" @change="onSourceChange">
-              <option value="">All</option>
+              <option value="">{{ $t('en_all') }}</option>
               <option value="hermes">hermes</option>
               <option value="agentmemory">agentmemory</option>
               <option value="mem0">mem0</option>

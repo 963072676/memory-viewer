@@ -29,8 +29,8 @@
       <!-- 预设配置 -->
       <div class="presets">
         <span class="presets-label">{{ $t('zh_d264b7') }}:</span>
-        <button class="preset-btn" @click="usePreset('hermes')">🤖 Hermes</button>
-        <button class="preset-btn" @click="usePreset('agentmemory')">📦 AgentMemory</button>
+        <button class="preset-btn" @click="usePreset('hermes')">{{ $t('en_hermes_preset') }}</button>
+        <button class="preset-btn" @click="usePreset('agentmemory')">{{ $t('en_agentmemory_preset') }}</button>
         <button class="preset-btn" @click="usePreset('local')">💻 {{ $t('zh_00670e') }}</button>
       </div>
       

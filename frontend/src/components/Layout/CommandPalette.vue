@@ -17,7 +17,7 @@
               @keydown.enter.prevent="executeSelected"
               @keydown.escape.prevent="close"
             />
-            <kbd class="palette-kbd">Esc</kbd>
+            <kbd class="palette-kbd">{{ $t('en_esc') }}</kbd>
           </div>
 
           <!-- Results list -->
@@ -90,6 +90,7 @@
 
 <script setup lang="ts">
 import { ref, computed, watch, nextTick, onMounted, onUnmounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { quickSearch } from '@/api/search'
 import { useAgentMemoryStore } from '@/stores/agentmemory'
@@ -111,6 +112,7 @@ const emit = defineEmits<{
 // ─── Refs & State ───
 
 const router = useRouter()
+const { t } = useI18n()
 const agentMemoryStore = useAgentMemoryStore()
 const { toggleTheme } = useTheme()
 
@@ -125,7 +127,8 @@ const totalResults = ref(0)
 
 interface CommandItem {
   id: string
-  title: string
+  titleKey: string
+  title?: string
   icon: string
   shortcut?: string
   action: () => void
@@ -135,106 +138,106 @@ interface CommandItem {
 const commands: CommandItem[] = [
   {
     id: 'cmd-dashboard',
-    title: '仪表盘',
+    titleKey: 'en_cmd_dashboard',
     icon: '📊',
     shortcut: '',
-    keywords: ['dashboard', '仪表盘', '统计', '概览'],
+    keywords: ['dashboard', '仪表盘', '统计', '概览', 'stats', 'overview'],
     action: () => router.push('/dashboard'),
   },
   {
     id: 'cmd-graph',
-    title: '关系图',
+    titleKey: 'en_cmd_graph',
     icon: '🕸️',
-    keywords: ['graph', '关系图', '图谱', '网络'],
+    keywords: ['graph', '关系图', '图谱', '网络', 'network'],
     action: () => router.push('/graph'),
   },
   {
     id: 'cmd-timeline',
-    title: '时间线',
+    titleKey: 'en_cmd_timeline',
     icon: '📅',
-    keywords: ['timeline', '时间线', '历史'],
+    keywords: ['timeline', '时间线', '历史', 'history'],
     action: () => router.push('/timeline'),
   },
   {
     id: 'cmd-create',
-    title: '创建记忆',
+    titleKey: 'en_cmd_create',
     icon: '✏️',
-    keywords: ['create', '创建', '新建', '添加', '新增'],
+    keywords: ['create', '创建', '新建', '添加', '新增', 'new', 'add'],
     action: () => emit('command', 'create'),
   },
   {
     id: 'cmd-refresh',
-    title: '刷新记忆',
+    titleKey: 'en_cmd_refresh',
     icon: '🔄',
     keywords: ['refresh', '刷新', 'reload', '重新加载'],
     action: () => emit('command', 'refresh'),
   },
   {
     id: 'cmd-export',
-    title: '导出数据',
+    titleKey: 'en_cmd_export',
     icon: '📦',
-    keywords: ['export', '导出', '下载', 'backup'],
+    keywords: ['export', '导出', '下载', 'download', 'backup'],
     action: () => emit('command', 'export'),
   },
   {
     id: 'cmd-dark-mode',
-    title: '切换深色模式',
+    titleKey: 'en_cmd_dark_mode',
     icon: '🌙',
-    keywords: ['dark', '深色', '暗色', '主题', 'theme', 'settings', '设置'],
+    keywords: ['dark', '深色', '暗色', '主题', 'theme', 'settings', '设置', 'mode'],
     action: () => toggleTheme(),
   },
   {
     id: 'cmd-home',
-    title: '返回首页',
+    titleKey: 'en_cmd_home',
     icon: '🏠',
     keywords: ['home', '首页', '主页'],
     action: () => router.push('/'),
   },
   {
     id: 'cmd-diag',
-    title: '诊断',
+    titleKey: 'en_cmd_diag',
     icon: '🩺',
-    keywords: ['diagnostics', '诊断', '检查'],
+    keywords: ['diagnostics', '诊断', '检查', 'diagnostic'],
     action: () => router.push('/diagnostics'),
   },
   {
     id: 'cmd-backup',
-    title: '备份',
+    titleKey: 'en_cmd_backup',
     icon: '💾',
-    keywords: ['backup', '备份', '恢复'],
+    keywords: ['backup', '备份', '恢复', 'restore'],
     action: () => router.push('/backup'),
   },
   {
     id: 'cmd-plugins',
-    title: '插件管理',
+    titleKey: 'en_cmd_plugins',
     icon: '🧩',
-    keywords: ['plugins', '插件', '扩展', 'plugin'],
+    keywords: ['plugins', '插件', '扩展', 'plugin', 'extension'],
     action: () => router.push('/plugins'),
   },
   {
     id: 'cmd-subscriptions',
-    title: '订阅管理',
+    titleKey: 'en_cmd_subscriptions',
     icon: '🔔',
-    keywords: ['subscriptions', '订阅', 'webhook', '通知'],
+    keywords: ['subscriptions', '订阅', 'webhook', '通知', 'subscribe'],
     action: () => router.push('/subscriptions'),
   },
   {
     id: 'cmd-metrics',
-    title: '性能指标',
+    titleKey: 'en_cmd_metrics',
     icon: '📈',
-    keywords: ['metrics', '性能', '指标', '监控'],
+    keywords: ['metrics', '性能', '指标', '监控', 'performance', 'monitor'],
     action: () => router.push('/metrics'),
   },
   {
     id: 'cmd-audit',
-    title: '审计日志',
+    titleKey: 'en_cmd_audit',
     icon: '📋',
-    keywords: ['audit', '审计', '日志', 'log'],
+    keywords: ['audit', '审计', '日志', 'log', 'logs'],
     action: () => router.push('/audit'),
   },
   {
     id: 'cmd-bulk-autotag',
-    title: '批量自动标注 (AI)',
+    titleKey: 'en_cmd_bulk_autotag',
     icon: '✨',
     keywords: ['autotag', '自动标注', '标签', 'ai', 'tag', 'bulk'],
     action: () => emit('command', 'bulk-autotag'),
@@ -260,7 +263,7 @@ const filteredCommands = computed(() => {
   const q = queryForHighlight.value.toLowerCase()
   if (!q) return commands
   return commands.filter((cmd) => {
-    const haystack = [cmd.title, ...cmd.keywords].join(' ').toLowerCase()
+    const haystack = [t(cmd.titleKey), ...cmd.keywords].join(' ').toLowerCase()
     return fuzzyMatch(q, haystack)
   })
 })
@@ -292,7 +295,7 @@ const displayItems = computed<DisplayItem[]>(() => {
   if (mode.value === 'command') {
     return filteredCommands.value.map((cmd) => ({
       id: cmd.id,
-      title: cmd.title,
+      title: t(cmd.titleKey),
       icon: cmd.icon,
       shortcut: cmd.shortcut,
     }))

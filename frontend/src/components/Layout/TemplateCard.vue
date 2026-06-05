@@ -6,7 +6,7 @@
         <h3>{{ template.name }}</h3>
         <p>{{ template.description }}</p>
       </div>
-      <span v-if="template.builtin" class="builtin-badge">Built-in</span>
+      <span v-if="template.builtin" class="builtin-badge">{{ $t('en_builtin') }}</span>
     </div>
     <div class="card-fields">
       <span v-for="field in (template.fields || []).slice(0, 4)" :key="field.name" class="field-chip">
@@ -17,9 +17,9 @@
       <span v-for="tag in (template.default_tags || []).slice(0, 3)" :key="tag" class="tag">{{ tag }}</span>
     </div>
     <div class="card-actions">
-      <button class="btn-use" @click="$emit('use', template)">Use Template</button>
-      <button v-if="!template.builtin" class="btn-edit" @click="$emit('edit', template)">Edit</button>
-      <button v-if="!template.builtin" class="btn-delete" @click="$emit('delete', template)">Delete</button>
+      <button class="btn-use" @click="$emit('use', template)">{{ $t('en_use_template') }}</button>
+      <button v-if="!template.builtin" class="btn-edit" @click="$emit('edit', template)">{{ $t('en_edit') }}</button>
+      <button v-if="!template.builtin" class="btn-delete" @click="$emit('delete', template)">{{ $t('en_delete') }}</button>
     </div>
   </div>
 </template>

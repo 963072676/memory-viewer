@@ -6,7 +6,7 @@
       </button>
 
       <div v-if="!isMobile" class="header-title">
-        <h1>Memory Viewer</h1>
+        <h1>{{ $t('en_app_title') }}</h1>
         <!-- P45 r3: 副标题路由变化淡入 (P28 §遗留 #5). 之前副标题 "Hermes Agent {noun}"
              是 static 字符串, 路由切换时无视觉反馈. 现在包 <Transition> + :key 触发
              enter 动画, 每次路由变化副标题 "上新". 桌面 + 移动 page title 共用同一

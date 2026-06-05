@@ -29,7 +29,7 @@ defineProps<{ source: any; index: number }>()
   flex-shrink: 0;
 }
 .citation-content { flex: 1; min-width: 0; }
-.citation-title { font-size: 0.85rem; font-weight: 600; color: var(--text, #1d1d1f); }
+.citation-title { font-size: 0.85rem; font-weight: 600; color: var(--primary); }
 .citation-snippet {
   font-size: 0.8rem; color: var(--text-secondary, #86868b);
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;

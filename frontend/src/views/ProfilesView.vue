@@ -1,6 +1,6 @@
 <template>
   <div class="profiles-view">
-    <h2 class="section-title">Profiles</h2>
+    <h2 class="section-title">{{ $t('en_profiles') }}</h2>
     <div v-if="loading" class="loading">加载中...</div>
     <div v-else-if="profiles.length === 0">
       <!-- P38 r30: EmptyState message prop 改 v-bind -->

@@ -10,7 +10,7 @@
           aria-labelledby="whatsnew-modal-title"
         >
           <div class="modal-header">
-            <h2 id="whatsnew-modal-title">🎉 What's New</h2>
+            <h2 id="whatsnew-modal-title">{{ $t('en_whats_new') }}</h2>
             <button class="close-btn" @click="onClose" :aria-label="$t('zh_d9366f')">&times;</button>
           </div>
           <div class="modal-body">

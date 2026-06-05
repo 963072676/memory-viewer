@@ -23,11 +23,11 @@
           <option v-for="opt in (field.options || [])" :key="opt" :value="opt">{{ opt }}</option>
         </select>
         <!-- Tags input -->
-        <input v-else-if="field.type === 'tags'" v-model="values[field.name]" placeholder="tag1, tag2, tag3" />
+        <input v-else-if="field.type === 'tags'" v-model="values[field.name]" :placeholder="$t('en_tags_default_hint')" />
       </div>
     </div>
     <div class="form-footer">
-      <button class="action-btn" @click="$emit('close')">Cancel</button>
+      <button class="action-btn" @click="$emit('close')">{{ $t('en_cancel') }}</button>
       <button class="action-btn action-btn--accent" @click="createMemory" :disabled="submitting">
         {{ submitting ? 'Creating...' : 'Create Memory' }}
       </button>

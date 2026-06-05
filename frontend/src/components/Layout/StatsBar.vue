@@ -12,7 +12,7 @@
       </div>
       <div class="stat-item">
         <strong>{{ isLoaded ? profilesCountDisplay : '—' }}</strong>
-        <span>Profiles</span>
+        <span>{{ $t('en_profiles') }}</span>
       </div>
     </div>
     <SortDropdown />

@@ -33,24 +33,24 @@
         </div>
         <div class="form-row">
           <div class="form-group">
-            <label>Type</label>
+            <label>{{ $t('en_type') }}</label>
             <select v-model="form.type">
-              <option value="pattern">Pattern</option>
-              <option value="fact">Fact</option>
-              <option value="preference">Preference</option>
-              <option value="bug">Bug</option>
-              <option value="workflow">Workflow</option>
-              <option value="architecture">Architecture</option>
+              <option value="pattern">{{ $t('en_type_pattern') }}</option>
+              <option value="fact">{{ $t('en_type_fact') }}</option>
+              <option value="preference">{{ $t('en_type_preference') }}</option>
+              <option value="bug">{{ $t('en_type_bug') }}</option>
+              <option value="workflow">{{ $t('en_type_workflow') }}</option>
+              <option value="architecture">{{ $t('en_type_architecture') }}</option>
             </select>
           </div>
           <div class="form-group">
-            <label>Strength</label>
+            <label>{{ $t('en_strength') }}</label>
             <input v-model.number="form.strength" type="range" min="1" max="10" />
             <span class="strength-val">{{ form.strength * 10 }}%</span>
           </div>
         </div>
         <div class="form-group">
-          <label>Concepts</label>
+          <label>{{ $t('en_concepts') }}</label>
           <input v-model="conceptsStr" type="text" placeholder="$t('zh_ccd093')，如: hermes, kanban" />
         </div>
         <div class="form-group">

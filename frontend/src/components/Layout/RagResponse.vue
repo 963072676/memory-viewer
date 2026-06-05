@@ -1,9 +1,9 @@
 <template>
   <div class="rag-response" v-if="response">
     <div class="rag-header">
-      <h3>🤖 AI Answer</h3>
+      <h3>{{ $t('en_ai_answer') }}</h3>
       <div class="confidence-indicator">
-        <span class="confidence-label">Confidence:</span>
+        <span class="confidence-label">{{ $t('en_confidence') }}</span>
         <div class="confidence-bar">
           <div class="confidence-fill" :style="{ width: `${(response.confidence || 0) * 100}%` }" :class="confidenceClass"></div>
         </div>
@@ -15,13 +15,13 @@
 
     <!-- Sources with Citations -->
     <div class="rag-sources" v-if="response.sources?.length">
-      <h4>📚 Sources</h4>
+      <h4>{{ $t('en_sources') }}</h4>
       <RagCitation v-for="(src, i) in response.sources" :key="src.id" :source="src" :index="i + 1" />
     </div>
 
     <!-- Follow-up Questions -->
     <div class="rag-followup" v-if="response.follow_up_questions?.length">
-      <h4>💡 Follow-up Questions</h4>
+      <h4>{{ $t('en_followups') }}</h4>
       <div class="followup-chips">
         <button
           v-for="q in response.follow_up_questions"

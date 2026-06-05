@@ -12,7 +12,7 @@
       <h2 id="edit-modal-title">{{ $t('zh_c48258') }}</h2>
       <form @submit.prevent="onSubmit">
         <div class="form-group">
-          <label>Content</label>
+          <label>{{ $t('en_content') }}</label>
           <textarea v-model="form.content" rows="5" :placeholder="$t('zh_ca9884')"></textarea>
         </div>
         <div class="form-group">
@@ -20,7 +20,7 @@
           <input v-model.number="form.strength" type="range" min="1" max="10" class="strength-slider" />
         </div>
         <div class="form-group">
-          <label>Concepts</label>
+          <label>{{ $t('en_concepts') }}</label>
           <div class="concepts-editor">
             <div class="concept-tags">
               <span v-for="(c, i) in form.concepts" :key="i" class="concept-tag">

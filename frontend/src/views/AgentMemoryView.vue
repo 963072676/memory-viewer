@@ -36,12 +36,12 @@
     <div class="quick-controls">
       <select v-model="quickTypeFilter" class="control-select" @change="applyQuickFilter">
         <option value="">{{ $t('zh_ab7996') }}</option>
-        <option value="pattern">Pattern</option>
-        <option value="fact">Fact</option>
-        <option value="preference">Preference</option>
-        <option value="bug">Bug</option>
-        <option value="workflow">Workflow</option>
-        <option value="architecture">Architecture</option>
+        <option value="pattern">{{ $t('en_type_pattern') }}</option>
+        <option value="fact">{{ $t('en_type_fact') }}</option>
+        <option value="preference">{{ $t('en_type_preference') }}</option>
+        <option value="bug">{{ $t('en_type_bug') }}</option>
+        <option value="workflow">{{ $t('en_type_workflow') }}</option>
+        <option value="architecture">{{ $t('en_type_architecture') }}</option>
       </select>
       <select v-model="quickSortOrder" class="control-select" @change="applyQuickFilter">
         <option value="updatedAt-desc">{{ $t('zh_b69653') }}</option>

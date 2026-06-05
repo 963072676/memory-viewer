@@ -140,7 +140,7 @@ defineExpose({ form })
   margin: 0 0 10px;
   font-size: 0.9rem;
   font-weight: 600;
-  color: var(--text, #1d1d1f);
+  color: var(--primary);
   display: flex;
   align-items: center;
   gap: 8px;
@@ -167,7 +167,7 @@ defineExpose({ form })
   background: var(--card, #fff);
   font-size: 0.85rem;
   font-family: var(--font);
-  color: var(--text, #1d1d1f);
+  color: var(--primary);
   width: 100%;
   box-sizing: border-box;
 }

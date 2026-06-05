@@ -2,14 +2,14 @@
   <div class="favorites-panel">
     <div class="section-header" @click="expanded = !expanded">
       <span class="header-icon">⭐</span>
-      <span class="header-label">Favorites</span>
+      <span class="header-label">{{ $t('en_favorites') }}</span>
       <span class="header-count" v-if="favorites.length">{{ favorites.length }}</span>
       <span class="expand-arrow">{{ expanded ? '▲' : '▼' }}</span>
     </div>
     <transition name="slide">
       <div v-if="expanded" class="favorites-list">
-        <div v-if="loading" class="fav-loading">Loading...</div>
-        <div v-else-if="favorites.length === 0" class="fav-empty">No favorites yet</div>
+        <div v-if="loading" class="fav-loading">{{ $t('en_loading_dots') }}</div>
+        <div v-else-if="favorites.length === 0" class="fav-empty">{{ $t('en_no_favorites') }}</div>
         <div
           v-for="fav in favorites"
           :key="fav.memory_id"

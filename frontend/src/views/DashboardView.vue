@@ -20,7 +20,7 @@
         <div class="summary-card">
           <div class="summary-label">{{ $t('zh_b380bf') }}</div>
           <div class="summary-value">{{ stats ? displayTotal : '—' }}</div>
-          <div class="summary-foot">All Sources</div>
+          <div class="summary-foot">{{ $t('en_all_sources') }}</div>
         </div>
         <div class="summary-card">
           <div class="summary-label">{{ $t('zh_b1a7a7') }}</div>
@@ -30,12 +30,12 @@
         <div class="summary-card">
           <div class="summary-label">{{ $t('zh_0da3e8') }}</div>
           <div class="summary-value">{{ stats ? displayTypeCount : '—' }}</div>
-          <div class="summary-foot">Categories</div>
+          <div class="summary-foot">{{ $t('en_categories') }}</div>
         </div>
         <div class="summary-card">
           <div class="summary-label">{{ $t('zh_baab58') }}</div>
           <div class="summary-value">{{ stats ? displayMonthCount : '—' }}</div>
-          <div class="summary-foot">Months</div>
+          <div class="summary-foot">{{ $t('en_months') }}</div>
         </div>
       </div>
 

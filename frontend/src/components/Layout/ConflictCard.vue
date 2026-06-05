@@ -147,7 +147,7 @@ const conflictLabels: Record<string, string> = {
 .memory-title {
   font-size: 0.9rem;
   font-weight: 600;
-  color: var(--text, #1d1d1f);
+  color: var(--primary);
   margin-bottom: 4px;
 }
 

@@ -345,7 +345,7 @@ watch(searchMode, () => {
   border-radius: 10px;
   font-size: 0.9rem;
   font-family: var(--font);
-  color: var(--text, #1d1d1f);
+  color: var(--primary);
   background: var(--card, #fff);
   transition: border-color 0.15s ease;
 }
@@ -422,7 +422,7 @@ watch(searchMode, () => {
   padding: 10px 14px;
   cursor: pointer;
   font-size: 0.85rem;
-  color: var(--text, #1d1d1f);
+  color: var(--primary);
   transition: background 0.1s ease;
 }
 
@@ -456,7 +456,7 @@ watch(searchMode, () => {
   margin-bottom: 8px;
   font-size: 0.8rem;
   font-weight: 600;
-  color: var(--text, #1d1d1f);
+  color: var(--primary);
 }
 
 .parsed-edit-btn {
@@ -491,7 +491,7 @@ watch(searchMode, () => {
 }
 
 .chip-value {
-  color: var(--text, #1d1d1f);
+  color: var(--primary);
 }
 
 .parsed-editor {
@@ -508,7 +508,7 @@ watch(searchMode, () => {
   font-size: 0.8rem;
   font-family: var(--font-mono);
   resize: vertical;
-  color: var(--text, #1d1d1f);
+  color: var(--primary);
   background: var(--card, #fff);
   box-sizing: border-box;
 }
@@ -618,7 +618,7 @@ watch(searchMode, () => {
 .result-title {
   font-size: 0.9rem;
   font-weight: 600;
-  color: var(--text, #1d1d1f);
+  color: var(--primary);
   margin-bottom: 4px;
   display: flex;
   align-items: center;
