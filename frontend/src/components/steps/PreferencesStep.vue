@@ -47,7 +47,7 @@ watch(defaultView, (v) => localStorage.setItem('default-view', v))
 <style scoped>
 .preferences-step h3 { margin-bottom: 16px; }
 .pref-list { display: flex; flex-direction: column; gap: 16px; }
-.pref-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: var(--card-bg, #f8f9fa); border-radius: 10px; }
+.pref-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: var(--bg-recessed); border-radius: 10px; }
 .pref-label { font-weight: 600; font-size: 14px; }
-.pref-select { padding: 6px 12px; border: 1px solid var(--border, #ddd); border-radius: 6px; font-size: 14px; background: var(--card-bg, #fff); }
+.pref-select { padding: 6px 12px; border: 1px solid var(--border, #ddd); border-radius: 6px; font-size: 14px; background: var(--card); }
 </style>

@@ -214,7 +214,7 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--card-bg, #f0f7ff);
+  background: var(--accent-subtle);
   border-radius: 12px;
 }
 
@@ -297,7 +297,7 @@ onMounted(() => {
   padding: 6px 16px;
   border-radius: 8px;
   border: 1px solid var(--border, #e0e0e0);
-  background: var(--card-bg, #f8f9fa);
+  background: var(--bg-recessed);
   font-size: 13px;
   cursor: pointer;
   transition: all 0.2s;

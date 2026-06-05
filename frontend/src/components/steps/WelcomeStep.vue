@@ -18,7 +18,7 @@
 .welcome-icon { font-size: 64px; margin-bottom: 16px; }
 .welcome-desc { color: #666; font-size: 16px; margin-bottom: 24px; }
 .feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
-.feature-item { padding: 12px; background: var(--card-bg, #f8f9fa); border-radius: 10px; font-size: 14px; text-align: left; }
+.feature-item { padding: 12px; background: var(--bg-recessed); border-radius: 10px; font-size: 14px; text-align: left; }
 .feature-item span { margin-right: 8px; }
 .welcome-hint { color: #999; font-size: 13px; }
 </style>
