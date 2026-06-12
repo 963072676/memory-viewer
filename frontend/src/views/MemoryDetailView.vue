@@ -2,7 +2,7 @@
   <div class="memory-detail-view">
     <div class="view-header">
       <button class="back-btn" @click="goBack">
-        ← {{ $t('zh_006c4b') }}
+        ← {{ $t('i18n.back') }}
       </button>
       <div class="view-actions">
         <!-- P38 (round 3): 5 个按钮层级化 — 之前全用 accent 实色 → 5 个"假 primary"同时喊叫。
@@ -12,19 +12,19 @@
              加 unicode 图标前缀），桌面总宽度从 ~520px → ~370px（-30%），视觉节奏更轻盈。 -->
         <button class="action-btn action-btn--ghost" @click="toggleExpand">
           <span class="btn-ico" aria-hidden="true">{{ isExpanded ? '▾' : '▸' }}</span>
-          <span class="btn-label">{{ isExpanded ? $t('zh_006673') : $t('zh_0065b0') }}</span>
+          <span class="btn-label">{{ isExpanded ? $t('i18n.collapse') : $t('i18n.expand') }}</span>
         </button>
         <button class="action-btn action-btn--ghost" @click="router.push(`/memory/${route.params.id}/history`)">
           <span class="btn-ico" aria-hidden="true">⟲</span>
-          <span class="btn-label">{{ $t('zh_006482') }}</span>
+          <span class="btn-label">{{ $t('i18n.history') }}</span>
         </button>
         <button class="action-btn action-btn--ghost" @click="showShareModal = true">
           <span class="btn-ico" aria-hidden="true">⤴</span>
-          <span class="btn-label">{{ $t('zh_00644b') }}</span>
+          <span class="btn-label">{{ $t('i18n.share_00644b') }}</span>
         </button>
         <button class="action-btn action-btn--primary" @click="showEditModal = true">
           <span class="btn-ico" aria-hidden="true">✎</span>
-          <span class="btn-label">{{ $t('zh_006a5b') }}</span>
+          <span class="btn-label">{{ $t('i18n.edit') }}</span>
         </button>
         <button class="action-btn action-btn--danger" @click="confirmDelete = true">
           <span class="btn-ico" aria-hidden="true">🗑</span>
@@ -38,9 +38,9 @@
     </div>
 
     <div v-else-if="error" class="error-state">
-      <h3>{{ $t('zh_ac1a4d') }}</h3>
+      <h3>{{ $t('i18n.load_failed') }}</h3>
       <p>{{ error }}</p>
-      <button class="action-btn" @click="loadMemory">{{ $t('zh_006cc1') }}</button>
+      <button class="action-btn" @click="loadMemory">{{ $t('i18n.retry') }}</button>
     </div>
 
     <div v-else-if="memory" class="memory-content">
@@ -48,7 +48,7 @@
         <div class="title-row">
           <h1>{{ memory.title }}</h1>
           <span class="memory-type" :class="'type-' + memory.type">{{ memory.type }}</span>
-          <span v-if="memory.archived" class="archived-badge">{{ $t('zh_0d2307') }}</span>
+          <span v-if="memory.archived" class="archived-badge">{{ $t('i18n.archived') }}</span>
         </div>
         <div class="meta-row">
           <HealthBadge v-if="healthDisplay" :score="healthDisplay.health_score" :color="healthDisplay.color" />
@@ -90,7 +90,7 @@
         </div>
 
         <div class="detail-section">
-          <h4>{{ $t('zh_00674e') }}</h4>
+          <h4>{{ $t('i18n.label') }}</h4>
           <TagManager
             v-if="allTagNames.length"
             :tags="memory.tags || []"
@@ -123,22 +123,22 @@
 
       <!-- Health breakdown -->
       <div class="health-section" v-if="healthData">
-        <h4>{{ $t('zh_ec5ffb') }}</h4>
+        <h4>{{ $t('i18n.health_details') }}</h4>
         <div class="health-breakdown">
           <div class="breakdown-item">
             <span class="breakdown-label">强度</span>
             <span class="breakdown-value">{{ healthData.breakdown.strength_score }}</span>
           </div>
           <div class="breakdown-item">
-            <span class="breakdown-label">{{ $t('zh_006636') }}</span>
+            <span class="breakdown-label">{{ $t('i18n.age') }}</span>
             <span class="breakdown-value">{{ healthData.breakdown.age_score }}</span>
           </div>
           <div class="breakdown-item">
-            <span class="breakdown-label">{{ $t('zh_006763') }}</span>
+            <span class="breakdown-label">{{ $t('i18n.concepts') }}</span>
             <span class="breakdown-value">{{ healthData.breakdown.concepts_score }}</span>
           </div>
           <div class="breakdown-item">
-            <span class="breakdown-label">{{ $t('zh_0066c6') }}</span>
+            <span class="breakdown-label">{{ $t('i18n.recommended') }}</span>
             <span class="breakdown-value">{{ healthData.breakdown.recommendation_score }}</span>
           </div>
         </div>
@@ -153,8 +153,8 @@
 
     <ConfirmDialog
       v-if="confirmDelete"
-      :title="$t('zh_c0c40a')"
-      :message="`${$t('zh_794546')}？${$t('zh_974456')}。`"
+      :title="$t('i18n.delete')"
+      :message="`${$t('i18n.delete_memory')}？${$t('i18n.cannot_undone')}。`"
       confirm-text="删除"
       cancel-text="取消"
       @confirm="handleDelete"

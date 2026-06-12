@@ -1,5 +1,9 @@
 <template>
   <div class="feature-tour">
+    <div class="feature-tour-header">
+      <h3>功能介绍</h3>
+      <button class="btn-close" aria-label="关闭功能介绍" @click="$emit('close')">✕</button>
+    </div>
     <div v-for="(feature, i) in features" :key="i" class="tour-step" :class="{ highlighted: currentHighlight === i }" @click="highlight(i)">
       <div class="feature-icon">{{ feature.icon }}</div>
       <div class="feature-info">
@@ -12,6 +16,10 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+
+defineEmits<{
+  (e: 'close'): void
+}>()
 
 const currentHighlight = ref(-1)
 
@@ -37,6 +45,9 @@ function highlight(i: number) {
 
 <style scoped>
 .feature-tour { display: flex; flex-direction: column; gap: 8px; }
+.feature-tour-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+.feature-tour-header h3 { margin: 0; font-size: 1rem; font-weight: 600; }
+.btn-close { background: none; border: none; font-size: 1.1rem; cursor: pointer; color: var(--text-secondary); padding: 4px; }
 .tour-step { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 10px; cursor: pointer; transition: all 0.2s; border: 2px solid transparent; }
 .tour-step:hover { background: var(--accent-subtle); }
 /* P47 r2: FeatureTour 硬编码 #f0f7ff / #007aff / #f8f9fa / #666 → 全站 token.

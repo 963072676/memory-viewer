@@ -7,7 +7,7 @@
     <div class="mm-body">
       <!-- Add Member -->
       <div class="add-member">
-        <input v-model="newUserId" :placeholder="$t('en_user_id')" />
+        <input v-model="newUserId" aria-label="新成员用户 ID" :placeholder="$t('en_user_id')" />
         <select v-model="newRole">
           <option value="viewer">{{ $t('en_role_viewer') }}</option>
           <option value="editor">{{ $t('en_role_editor') }}</option>

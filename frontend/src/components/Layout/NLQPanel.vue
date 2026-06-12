@@ -30,8 +30,8 @@
     <!-- History dropdown -->
     <div v-if="showHistory && searchMode === 'nlq' && history.length > 0" class="nlq-history">
       <div class="history-header">
-        <span>{{ $t('zh_b749ce') }}</span>
-        <button class="history-clear" @click="clearHistory">{{ $t('zh_006813') }}</button>
+        <span>{{ $t('i18n.recent_queries') }}</span>
+        <button class="history-clear" @click="clearHistory">{{ $t('i18n.clear') }}</button>
       </div>
       <div
         v-for="(item, idx) in history"
@@ -47,7 +47,7 @@
     <!-- NLQ parsed conditions display -->
     <div v-if="nlqResult && searchMode === 'nlq'" class="nlq-parsed">
       <div class="parsed-header">
-        <span>🤖 AI {{ $t('zh_c9bfa0') }}</span>
+        <span>🤖 AI {{ $t('i18n.parse_conditions') }}</span>
         <button class="parsed-edit-btn" @click="editingParsed = !editingParsed">
           {{ editingParsed ? '完成' : '编辑' }}
         </button>
@@ -64,7 +64,7 @@
           class="parsed-textarea"
           rows="4"
         />
-        <button class="parsed-apply-btn" @click="applyEditedConditions">{{ $t('zh_ce0eec') }}</button>
+        <button class="parsed-apply-btn" @click="applyEditedConditions">{{ $t('i18n.query') }}</button>
       </div>
       <div v-if="nlqResult.interpretation" class="nlq-interpretation">
         💡 {{ nlqResult.interpretation }}
@@ -85,7 +85,7 @@
 
     <div v-else-if="results.length > 0" class="nlq-results">
       <div class="results-header">
-        <span>{{ $t('zh_00666e') }} {{ results.length }} {{ $t('zh_995fbf') }}</span>
+        <span>{{ $t('i18n.found') }} {{ results.length }} {{ $t('i18n.related_memories') }}</span>
         <span v-if="nlqResult?.query_time" class="results-time">
           {{ (nlqResult.query_time * 1000).toFixed(0) }}ms
         </span>

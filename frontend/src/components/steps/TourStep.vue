@@ -1,7 +1,7 @@
 <template>
   <div class="tour-step">
-    <h3>🗺️ {{ $t('zh_abdc6b') }}</h3>
-    <p class="desc">{{ $t('zh_8d42b9') }}</p>
+    <h3>🗺️ {{ $t('i18n.feature_tour') }}</h3>
+    <p class="desc">{{ $t('tour.feature_intro') }}</p>
     <FeatureTour />
   </div>
 </template>

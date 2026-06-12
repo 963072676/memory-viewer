@@ -1,7 +1,7 @@
 <template>
   <div class="sources-view">
     <div class="view-header">
-      <h2 class="section-title">🔌 {{ $t('zh_1e292c') }}</h2>
+      <h2 class="section-title">🔌 {{ $t('i18n.source_management') }}</h2>
       <button class="action-btn" @click="loadSources" :disabled="loading">
         {{ loading ? '加载中...' : '刷新' }}
       </button>
@@ -10,8 +10,8 @@
     <div v-if="loading && sources.length === 0" class="loading">加载中...</div>
 
     <div v-else-if="loadError" class="error-state">
-      <p>⚠️ {{ $t('zh_ac1a4d') }}，点击{{ $t('zh_006cc1') }}</p>
-      <button class="action-btn" @click="loadSources">{{ $t('zh_006cc1') }}</button>
+      <p>⚠️ {{ $t('i18n.load_failed') }}，点击{{ $t('i18n.retry') }}</p>
+      <button class="action-btn" @click="loadSources">{{ $t('i18n.retry') }}</button>
     </div>
 
     <template v-else>
@@ -19,19 +19,19 @@
       <div class="summary-row">
         <div class="summary-card">
           <div class="summary-value">{{ totalMemories }}</div>
-          <div class="summary-label">{{ $t('zh_b380bf') }}</div>
+          <div class="summary-label">{{ $t('i18n.total_memories') }}</div>
         </div>
         <div class="summary-card" :class="{ success: onlineCount > 0 }">
           <div class="summary-value">{{ onlineCount }}</div>
-          <div class="summary-label">{{ $t('zh_0d0a39') }}</div>
+          <div class="summary-label">{{ $t('i18n.online_source') }}</div>
         </div>
         <div class="summary-card" :class="{ warn: offlineCount > 0 }">
           <div class="summary-value">{{ offlineCount }}</div>
-          <div class="summary-label">{{ $t('zh_0d9d4c') }}</div>
+          <div class="summary-label">{{ $t('i18n.offline_source') }}</div>
         </div>
         <div class="summary-card">
           <div class="summary-value">{{ sources.length }}</div>
-          <div class="summary-label">{{ $t('zh_e95636') }}</div>
+          <div class="summary-label">{{ $t('i18n.total_registered') }}</div>
         </div>
       </div>
 
@@ -55,7 +55,7 @@
                 <span
                   class="enabled-badge"
                   :class="source.enabled ? 'enabled' : 'disabled'"
-                >{{ source.enabled ? $t('zh_5e8b8c') : $t('zh_5e8b8e') }}</span>
+                >{{ source.enabled ? $t('i18n.source_enabled') : $t('i18n.source_disabled') }}</span>
               </div>
             </div>
             <span class="expand-icon">{{ expandedSources.has(source.name) ? '▲' : '▼' }}</span>
@@ -65,33 +65,33 @@
             <div v-if="expandedSources.has(source.name)" class="source-detail">
               <div class="detail-grid">
                 <div class="detail-item">
-                  <span class="detail-label">{{ $t('zh_0064b9_1') }}</span>
+                  <span class="detail-label">{{ $t('i18n.name') }}</span>
                   <span class="detail-value">{{ source.name }}</span>
                 </div>
                 <div class="detail-item">
-                  <span class="detail-label">{{ $t('zh_0069cd') }}</span>
+                  <span class="detail-label">{{ $t('i18n.type') }}</span>
                   <span class="detail-value">{{ source.type }}</span>
                 </div>
                 <div class="detail-item">
-                  <span class="detail-label">{{ $t('zh_aa14d3') }}</span>
+                  <span class="detail-label">{{ $t('i18n.health_aa14d3') }}</span>
                   <span class="detail-value" :class="source.healthy ? 'text-success' : 'text-error'">
-                    {{ source.healthy ? $t('zh_4a7f3b') : $t('zh_4a7f3d') }}
+                    {{ source.healthy ? $t('i18n.source_healthy') : $t('i18n.source_unhealthy') }}
                   </span>
                 </div>
                 <div class="detail-item">
-                  <span class="detail-label">{{ $t('zh_ca9b4b') }}</span>
+                  <span class="detail-label">{{ $t('i18n.memory_count') }}</span>
                   <span class="detail-value">{{ source.count }}</span>
                 </div>
                 <div class="detail-item">
-                  <span class="detail-label">{{ $t('zh_ac8831') }}</span>
+                  <span class="detail-label">{{ $t('i18n.enabled_ac8831') }}</span>
                   <span class="detail-value" :class="source.enabled ? 'text-success' : 'text-muted'">
-                    {{ source.enabled ? $t('zh_5e8b8c') : $t('zh_5e8b8e') }}
+                    {{ source.enabled ? $t('i18n.source_enabled') : $t('i18n.source_disabled') }}
                   </span>
                 </div>
               </div>
               <div class="detail-actions">
                 <button class="action-btn action-btn--sm" @click.stop="viewSourceMemories(source.name)">
-                  {{ $t('zh_b76270') }}
+                  {{ $t('i18n.view_memory') }}
                 </button>
               </div>
             </div>
@@ -101,7 +101,7 @@
 
       <div v-if="sources.length === 0">
         <!-- P38 r30: EmptyState message prop 改 v-bind -->
-        <EmptyState icon="📭" :message="$t('zh_d63364')" />
+        <EmptyState icon="📭" :message="$t('i18n.registered_sources')" />
       </div>
     </template>
   </div>

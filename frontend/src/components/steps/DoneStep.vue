@@ -1,15 +1,15 @@
 <template>
   <div class="done-step">
     <div class="done-icon">🎉</div>
-    <h2>{{ $t('zh_a88bee') }}！</h2>
-    <p class="done-desc">{{ $t('zh_a9807e') }} Memory Viewer {{ $t('zh_a367b9') }}</p>
+    <h2>{{ $t('i18n.all_set') }}！</h2>
+    <p class="done-desc">{{ $t('i18n.got_a9807e') }} Memory Viewer {{ $t('i18n.core_functionality') }}</p>
     <div class="quick-links">
-      <div class="link-card" @click="$router.push('/agentmemory')">📝 {{ $t('zh_baaa2b') }}</div>
-      <div class="link-card" @click="$router.push('/dashboard')">📊 {{ $t('zh_a2b3af') }}</div>
-      <div class="link-card" @click="$router.push('/conflicts')">⚠️ {{ $t('zh_b7a9ae') }}</div>
-      <div class="link-card" @click="$router.push('/workflows')">⚙️ {{ $t('zh_30cf4a') }}</div>
+      <div class="link-card" @click="$router.push('/agentmemory')">📝 {{ $t('i18n.browse_memories') }}</div>
+      <div class="link-card" @click="$router.push('/dashboard')">📊 {{ $t('i18n.view_dashboard') }}</div>
+      <div class="link-card" @click="$router.push('/conflicts')">⚠️ {{ $t('i18n.detect_conflicts') }}</div>
+      <div class="link-card" @click="$router.push('/workflows')">⚙️ {{ $t('i18n.set_automation') }}</div>
     </div>
-    <p class="hint">{{ $t('zh_512cb0') }}</p>
+    <p class="hint">{{ $t('i18n.restart_tour') }}</p>
   </div>
 </template>
 

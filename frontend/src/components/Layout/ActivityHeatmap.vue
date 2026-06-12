@@ -1,12 +1,12 @@
 <template>
   <div class="heatmap-container">
     <div class="heatmap-header">
-      <h3>🗓️ {{ $t('zh_1e907a') }}</h3>
+      <h3>🗓️ {{ $t('i18n.memory_activity') }}</h3>
       <div class="heatmap-controls">
         <select v-model="selectedMetric" class="heatmap-select" @change="loadData">
-          <option value="created">{{ $t('zh_00645e') }}</option>
-          <option value="modified">{{ $t('zh_00641d') }}</option>
-          <option value="accessed">{{ $t('zh_006c03') }}</option>
+          <option value="created">{{ $t('i18n.create') }}</option>
+          <option value="modified">{{ $t('i18n.modify') }}</option>
+          <option value="accessed">{{ $t('i18n.visit') }}</option>
         </select>
         <button class="heatmap-refresh" @click="loadData" :disabled="loading">🔄</button>
       </div>
@@ -52,9 +52,9 @@
 
       <!-- Stats -->
       <div class="heatmap-stats" v-if="summary">
-        <span>📊 共 <strong>{{ summary.total_events }}</strong> {{ $t('zh_0d5cd1') }}</span>
-        <span>📅 {{ $t('zh_00680c') }} <strong>{{ summary.active_days }}</strong> 天</span>
-        <span>🔥 {{ $t('zh_abce73') }} <strong>{{ summary.max_day_count }}</strong></span>
+        <span>📊 共 <strong>{{ summary.total_events }}</strong> {{ $t('i18n.activities') }}</span>
+        <span>📅 {{ $t('i18n.active') }} <strong>{{ summary.active_days }}</strong> 天</span>
+        <span>🔥 {{ $t('i18n.daily_peak') }} <strong>{{ summary.max_day_count }}</strong></span>
       </div>
     </div>
   </div>

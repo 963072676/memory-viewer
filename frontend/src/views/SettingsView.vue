@@ -1,6 +1,6 @@
 <template>
   <div class="settings-view">
-    <h1 class="settings-title">⚙️ {{ $t('zh_006bed') }}</h1>
+    <h1 class="settings-title">⚙️ {{ $t('i18n.settings') }}</h1>
 
     <div class="settings-tabs">
       <button
@@ -22,7 +22,7 @@
 
       <!-- Webhook -->
       <div v-if="activeTab === 'webhook'" class="settings-panel">
-        <h2 class="section-title">🔗 Webhook {{ $t('zh_006ca4') }}</h2>
+        <h2 class="section-title">🔗 Webhook {{ $t('i18n.config') }}</h2>
         <div class="form-section">
           <div class="form-field">
             <label>{{ $t('en_webhook_url') }}</label>
@@ -38,12 +38,12 @@
             <input
               v-model="webhookSecret"
               type="password"
-              :placeholder="$t('zh_0064cc')"
+              :placeholder="$t('i18n.optional')"
               class="form-input"
             />
           </div>
           <div class="form-field row">
-            <label>{{ $t('zh_0064b9') }}</label>
+            <label>{{ $t('i18n.enable') }}</label>
             <button
               class="toggle-btn"
               :class="{ active: webhookEnabled }"
@@ -53,7 +53,7 @@
             </button>
           </div>
           <div class="form-field">
-            <label>{{ $t('zh_0063d9') }}</label>
+            <label>{{ $t('i18n.event') }}</label>
             <div class="events-grid">
               <label v-for="evt in eventKeys" :key="evt" class="checkbox-label">
                 <input type="checkbox" v-model="webhookEvents[evt]" />
@@ -63,19 +63,19 @@
           </div>
           <div class="form-actions">
             <button class="action-btn action-btn--accent" @click="saveWebhook" :disabled="webhookSaving">
-              {{ webhookSaving ? $t('zh_0ce682') : $t('zh_006411') }}
+              {{ webhookSaving ? $t('i18n.saving') : $t('i18n.save') }}
             </button>
-            <span v-if="webhookSaved" class="save-ok">✓ {{ $t('zh_0d20fc') }}</span>
+            <span v-if="webhookSaved" class="save-ok">✓ {{ $t('i18n.saved') }}</span>
           </div>
         </div>
       </div>
 
       <!-- 通知 -->
       <div v-if="activeTab === 'notifications'" class="settings-panel">
-        <h2 class="section-title">🔔 {{ $t('zh_cd7320') }}</h2>
+        <h2 class="section-title">🔔 {{ $t('i18n.notification_config') }}</h2>
         <div class="form-section">
           <div class="form-field">
-            <label>{{ $t('zh_006d6d') }} Webhook URL</label>
+            <label>{{ $t('i18n.feishu') }} Webhook URL</label>
             <input
               v-model="feishuUrl"
               type="url"
@@ -84,16 +84,16 @@
             />
           </div>
           <div class="form-field">
-            <label>{{ $t('zh_006d6d') }} Secret（{{ $t('zh_c18854') }}）</label>
+            <label>{{ $t('i18n.feishu') }} Secret（{{ $t('i18n.signature_check') }}）</label>
             <input
               v-model="feishuSecret"
               type="password"
-              :placeholder="$t('zh_0064cc')"
+              :placeholder="$t('i18n.optional')"
               class="form-input"
             />
           </div>
           <div class="form-field row">
-            <label>{{ $t('zh_0410f6') }}</label>
+            <label>{{ $t('i18n.enable_feishu') }}</label>
             <button
               class="toggle-btn"
               :class="{ active: feishuEnabled }"
@@ -103,7 +103,7 @@
             </button>
           </div>
           <div class="form-field">
-            <label>{{ $t('zh_cd6a55') }}</label>
+            <label>{{ $t('i18n.notification_event') }}</label>
             <div class="events-grid">
               <label v-for="evt in feishuEventKeys" :key="evt" class="checkbox-label">
                 <input type="checkbox" v-model="feishuEvents[evt]" />
@@ -113,36 +113,36 @@
           </div>
           <div class="form-actions">
             <button class="action-btn action-btn--accent" @click="saveFeishu" :disabled="feishuSaving">
-              {{ feishuSaving ? $t('zh_0ce682') : $t('zh_006411') }}
+              {{ feishuSaving ? $t('i18n.saving') : $t('i18n.save') }}
             </button>
-            <span v-if="feishuSaved" class="save-ok">✓ {{ $t('zh_0d20fc') }}</span>
+            <span v-if="feishuSaved" class="save-ok">✓ {{ $t('i18n.saved') }}</span>
           </div>
         </div>
       </div>
 
       <!-- 关于 -->
       <div v-if="activeTab === 'about'" class="settings-panel">
-        <h2 class="section-title">ℹ️ {{ $t('zh_006438_1') }}</h2>
+        <h2 class="section-title">ℹ️ {{ $t('i18n.about') }}</h2>
         <div class="about-section">
           <div class="about-row">
-            <span class="about-label">{{ $t('zh_006610') }}</span>
+            <span class="about-label">{{ $t('i18n.apply') }}</span>
             <span class="about-value">{{ $t('en_app_v2') }}</span>
           </div>
           <div class="about-row">
-            <span class="about-label">{{ $t('zh_00688c') }}</span>
+            <span class="about-label">{{ $t('i18n.version') }}</span>
             <span class="about-value">{{ appVersion }}</span>
           </div>
           <div class="about-row">
-            <span class="about-label">{{ $t('zh_006743') }}</span>
+            <span class="about-label">{{ $t('i18n.framework') }}</span>
             <span class="about-value">{{ $t('en_stack_info') }}</span>
           </div>
           <div class="about-row">
-            <span class="about-label">{{ $t('zh_0de46a') }}</span>
+            <span class="about-label">{{ $t('i18n.license') }}</span>
             <span class="about-value">MIT</span>
           </div>
           <div class="about-links">
             <a href="https://github.com/NousResearch" target="_blank" class="about-link">{{ $t('en_github') }}</a>
-            <a href="/api-docs" class="about-link">API {{ $t('zh_0066e9') }}</a>
+            <a href="/api-docs" class="about-link">API {{ $t('i18n.document') }}</a>
             <router-link to="/api-playground" class="about-link">{{ $t('en_api_playground') }}</router-link>
           </div>
         </div>

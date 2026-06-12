@@ -10,7 +10,7 @@
               ref="inputRef"
               v-model="query"
               class="palette-input"
-              :placeholder="`${$t('zh_4394e2')}...`"
+              :placeholder="`${$t('i18n.search_memories')}...`"
               autofocus
               @keydown.down.prevent="moveDown"
               @keydown.up.prevent="moveUp"
@@ -23,9 +23,9 @@
           <!-- Results list -->
           <div v-if="displayItems.length > 0" class="palette-results">
             <div class="palette-results-header">
-              <span v-if="mode === 'command'">{{ $t('zh_00649d') }}</span>
+              <span v-if="mode === 'command'">{{ $t('i18n.command') }}</span>
               <span v-else>
-                {{ $t('zh_b5675c') }}
+                {{ $t('i18n.results_b5675c') }}
                 <template v-if="totalResults > 0">（{{ totalResults }}）</template>
               </span>
             </div>

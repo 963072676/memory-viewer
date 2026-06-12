@@ -346,3 +346,19 @@ em {
     animation: none;
   }
 }
+
+/* ─── A11y utility: visually hide while keeping accessible ───
+   P1-2 PM-20260612-001 cleanup: AC-6 在 SortDropdown 加了 <label class="sr-only">，
+   但项目原本无 .sr-only 实现，文字会视觉显示破坏 UI。补上标准"clip pattern"实现
+   (Bootstrap/Tailwind 同款)，保证屏幕阅读器可读 + 视觉隐藏 + 1×1 占位避免布局塌陷。 */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

@@ -1,39 +1,39 @@
 <template>
   <div class="keyboard-help-overlay" @click.self="uiStore.toggleKeyboardHelp()">
     <div class="keyboard-help">
-      <h2>{{ $t('zh_d65312') }}</h2>
+      <h2>{{ $t('i18n.keyboard_shortcuts_d65312') }}</h2>
       <div class="shortcut-list">
         <div class="shortcut-item">
           <kbd>{{ $t('en_ctrl_k') }}</kbd>
-          <span>{{ $t('zh_49d894') }}</span>
+          <span>{{ $t('i18n.open_command') }}</span>
         </div>
         <div class="shortcut-item">
           <kbd>/</kbd>
-          <span>{{ $t('zh_5a6229') }}</span>
+          <span>{{ $t('i18n.focus_search') }}</span>
         </div>
         <div class="shortcut-item">
           <kbd>{{ $t('en_esc') }}</kbd>
-          <span>{{ $t('zh_bb3e9f') }} / {{ $t('zh_ab9156') }}</span>
+          <span>{{ $t('i18n.clear_search') }} / {{ $t('i18n.close_dialog') }}</span>
         </div>
         <div class="shortcut-item">
           <kbd>R</kbd>
-          <span>{{ $t('zh_ab3052') }}</span>
+          <span>{{ $t('i18n.refresh_data') }}</span>
         </div>
         <div class="shortcut-item">
           <kbd>1</kbd>
-          <span>{{ $t('zh_0cf0c4') }}「{{ $t('zh_006479') }}」{{ $t('zh_00674e') }}</span>
+          <span>{{ $t('i18n.switch') }}「{{ $t('i18n.all') }}」{{ $t('i18n.label') }}</span>
         </div>
         <div class="shortcut-item">
           <kbd>2</kbd>
-          <span>{{ $t('zh_0cf0c4') }}「AgentMemory」{{ $t('zh_00674e') }}</span>
+          <span>{{ $t('i18n.switch') }}「AgentMemory」{{ $t('i18n.label') }}</span>
         </div>
         <div class="shortcut-item">
           <kbd>3</kbd>
-          <span>{{ $t('zh_0cf0c4') }}「Hermes Memory」{{ $t('zh_00674e') }}</span>
+          <span>{{ $t('i18n.switch') }}「Hermes Memory」{{ $t('i18n.label') }}</span>
         </div>
         <div class="shortcut-item">
           <kbd>?</kbd>
-          <span>{{ $t('zh_006711') }} / {{ $t('zh_f7bd91') }}</span>
+          <span>{{ $t('i18n.show') }} / {{ $t('i18n.hide_help') }}</span>
         </div>
       </div>
     </div>

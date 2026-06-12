@@ -1,8 +1,8 @@
 <template>
   <div class="decay-chart" v-if="data">
     <div class="chart-header">
-      <span class="chart-title">📉 {{ $t('zh_c897c7') }}</span>
-      <span v-if="data.current_strength <= 0" class="forgotten-badge">{{ $t('zh_0d2950') }}</span>
+      <span class="chart-title">📉 {{ $t('i18n.decay_curve') }}</span>
+      <span v-if="data.current_strength <= 0" class="forgotten-badge">{{ $t('i18n.forgotten') }}</span>
     </div>
     <svg :viewBox="`0 0 ${svgW} ${svgH}`" class="chart-svg">
       <!-- Grid lines -->
@@ -27,9 +27,9 @@
       <text :x="svgW - padR + 2" :y="zeroY + 3" class="axis-label">0</text>
     </svg>
     <div class="chart-footer">
-      <span>{{ $t('zh_006606') }}: {{ data.current_strength.toFixed(1) }}</span>
-      <span v-if="data.predicted_zero_date">{{ $t('zh_d25de1') }}: {{ data.predicted_zero_date }}</span>
-      <span v-else>{{ $t('zh_0d2950') }}</span>
+      <span>{{ $t('i18n.current') }}: {{ data.current_strength.toFixed(1) }}</span>
+      <span v-if="data.predicted_zero_date">{{ $t('i18n.expected_reach') }}: {{ data.predicted_zero_date }}</span>
+      <span v-else>{{ $t('i18n.forgotten') }}</span>
     </div>
   </div>
 </template>

@@ -10,13 +10,13 @@
       aria-modal="true"
       aria-labelledby="create-modal-title"
     >
-      <h2 id="create-modal-title">{{ $t('zh_0b988f') }}</h2>
+      <h2 id="create-modal-title">{{ $t('i18n.create_memory') }}</h2>
       <form @submit.prevent="onSubmit">
         <div class="form-group">
-          <label>{{ $t('zh_006780') }}</label>
+          <label>{{ $t('i18n.template') }}</label>
           <div class="template-select-wrapper">
             <select v-model="selectedTemplateId" class="template-select" @change="onTemplateChange">
-              <option value="">✏️ {{ $t('zh_0dbb74') }}</option>
+              <option value="">✏️ {{ $t('i18n.custom') }}</option>
               <option v-for="tpl in templates" :key="tpl.id" :value="tpl.id">
                 {{ tpl.icon }} {{ tpl.name }}
               </option>
@@ -25,11 +25,11 @@
         </div>
         <div class="form-group">
           <label>Title <span class="required">*</span></label>
-          <input v-model="form.title" type="text" required :placeholder="$t('zh_ca9ba7')" />
+          <input v-model="form.title" type="text" required :placeholder="$t('i18n.title_ca9ba7')" />
         </div>
         <div class="form-group">
           <label>Content <span class="required">*</span></label>
-          <textarea v-model="form.content" required rows="4" :placeholder="$t('zh_ca9884')"></textarea>
+          <textarea v-model="form.content" required rows="4" :placeholder="$t('i18n.content_ca9884')"></textarea>
         </div>
         <div class="form-row">
           <div class="form-group">
@@ -51,10 +51,10 @@
         </div>
         <div class="form-group">
           <label>{{ $t('en_concepts') }}</label>
-          <input v-model="conceptsStr" type="text" placeholder="$t('zh_ccd093')，如: hermes, kanban" />
+          <input v-model="conceptsStr" type="text" placeholder="$t('i18n.comma_separated')，如: hermes, kanban" />
         </div>
         <div class="form-group">
-          <label>{{ $t('zh_00674e') }}</label>
+          <label>{{ $t('i18n.label') }}</label>
           <TagManager :tags="formTags" :all-tags="allTagNames" @update:tags="formTags = $event" />
         </div>
         <div class="form-actions">

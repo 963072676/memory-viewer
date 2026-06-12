@@ -35,7 +35,7 @@
     </router-link>
     <button class="tab-item more-btn" @click="showMoreSheet = true">
       <span class="tab-icon">☰</span>
-      <span class="tab-label">{{ $t('zh_006708') }}</span>
+      <span class="tab-label">{{ $t('i18n.more') }}</span>
     </button>
   </nav>
 
@@ -45,7 +45,7 @@
       <div v-if="showMoreSheet" class="bottom-sheet-overlay" @click="showMoreSheet = false">
         <div class="bottom-sheet" @click.stop>
           <div class="sheet-handle"></div>
-          <h3 class="sheet-title">{{ $t('zh_b407d5') }}</h3>
+          <h3 class="sheet-title">{{ $t('i18n.all_pages') }}</h3>
           <div class="sheet-grid">
             <router-link
               v-for="item in allNavItems"
@@ -184,7 +184,9 @@ function isTabActive(tab: { path: string }) {
   font-size: 0.7rem;
   font-weight: 600;
   text-transform: uppercase;
-  color: var(--text-secondary);
+  /* P1-1 PM-20260612-001 cleanup: 改用 --nav-section-title-color（light 6.4:1 / dark 7.66:1），
+     替代 --text-secondary（light 仅 3.10:1，AC-6 不达标）。 */
+  color: var(--nav-section-title-color);
   padding: 6px 12px 4px;
   letter-spacing: 0.05em;
 }

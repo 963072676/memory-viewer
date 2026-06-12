@@ -1,13 +1,13 @@
 <template>
   <div class="lineage-graph" ref="graphContainer">
-    <div v-if="loading" class="loading-state">{{ $t('zh_2c04aa') }}...</div>
+    <div v-if="loading" class="loading-state">{{ $t('i18n.loading_lineage') }}...</div>
     <div v-else-if="error" class="error-state">
       <p>⚠️ {{ error }}</p>
-      <button class="btn-retry" @click="loadGraph">{{ $t('zh_006cc1') }}</button>
+      <button class="btn-retry" @click="loadGraph">{{ $t('i18n.retry') }}</button>
     </div>
     <div v-else-if="nodes.length === 0" class="empty-state">
-      <p>{{ $t('zh_a7cf2b') }}</p>
-      <p class="empty-hint">{{ $t('zh_72c825') }}</p>
+      <p>{{ $t('i18n.lineage_data') }}</p>
+      <p class="empty-hint">{{ $t('memory.auto_derived_relation') }}</p>
     </div>
     <template v-else>
       <div class="graph-toolbar">

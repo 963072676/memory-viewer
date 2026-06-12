@@ -12,11 +12,11 @@
     </div>
     <div class="input-actions">
       <select v-model="annType" class="type-select">
-        <option value="comment">💬 {{ $t('zh_006bfa') }}</option>
-        <option value="flag">🚩 {{ $t('zh_b7c731') }}</option>
-        <option value="suggest">💡 {{ $t('zh_b2cea6') }}</option>
+        <option value="comment">💬 {{ $t('i18n.review') }}</option>
+        <option value="flag">🚩 {{ $t('i18n.mark_review') }}</option>
+        <option value="suggest">💡 {{ $t('i18n.suggested_revision') }}</option>
       </select>
-      <input v-model="author" type="text" :placeholder="$t('zh_a9e6fb')" class="author-input" />
+      <input v-model="author" type="text" :placeholder="$t('i18n.name')" class="author-input" />
       <button class="action-btn action-btn--accent action-btn--sm" :disabled="!content.trim()" @click="submit">
         {{ submitLabel || '发送' }}
       </button>

@@ -7,9 +7,9 @@
            与全站 7 个 view section-title 系统不一致 (AgentMemory/HermesMemory/Profiles/Sources/Dashboard/Compare/Collections 都有).
            加 class="section-title" + flex 安全 padding 复用 r20 模式. -->
       <div class="search-header">
-        <h2 class="section-title">{{ searchStore.searchMode === 'semantic' ? '🧠 ' + $t('zh_89b112') : $t('zh_4394e2') }}</h2>
-        <span v-if="searchStore.results" class="result-count">{{ $t('zh_00666e') }} {{ searchStore.results.total }} {{ $t('zh_0d4f37') }}</span>
-        <span v-else-if="searchStore.semanticResults" class="result-count">{{ $t('zh_00666e') }} {{ searchStore.semanticResults.results.length }} {{ $t('zh_0d4f37') }}</span>
+        <h2 class="section-title">{{ searchStore.searchMode === 'semantic' ? '🧠 ' + $t('i18n.truly_become') : $t('i18n.search_memories') }}</h2>
+        <span v-if="searchStore.results" class="result-count">{{ $t('i18n.found') }} {{ searchStore.results.total }} {{ $t('i18n.results') }}</span>
+        <span v-else-if="searchStore.semanticResults" class="result-count">{{ $t('i18n.found') }} {{ searchStore.semanticResults.results.length }} {{ $t('i18n.results') }}</span>
       </div>
       <!-- Keyword results -->
       <div v-if="searchStore.results" class="card-grid">
@@ -28,7 +28,7 @@
         <div v-for="result in searchStore.semanticResults.results" :key="result.id" class="search-result-card search-result-card--semantic">
           <div class="result-source">
             <span class="semantic-badge">🧠</span>
-            <span class="similarity-score">{{ $t('zh_0d8b5d') }}: {{ (result.similarity * 100).toFixed(1) }}%</span>
+            <span class="similarity-score">{{ $t('i18n.similarity') }}: {{ (result.similarity * 100).toFixed(1) }}%</span>
           </div>
           <h3 v-if="result.title">{{ result.title }}</h3>
           <p class="match-snippet">{{ result.snippet }}</p>
@@ -36,7 +36,7 @@
             <span v-if="result.type" class="unified-type chip" :class="'chip--' + result.type">{{ result.type }}</span>
             <span v-for="tag in result.tags" :key="tag" class="type-badge">{{ tag }}</span>
             <span class="match-type-badge" :class="'match-type--' + result.match_type">
-              {{ result.match_type === 'semantic' ? $t('zh_8d42b9') : $t('zh_c24e53') }}
+              {{ result.match_type === 'semantic' ? $t('tour.feature_intro') : $t('i18n.show_archived') }}
             </span>
           </div>
         </div>
@@ -48,9 +48,9 @@
       <!-- Unified Memories Section (P16) -->
       <section class="section unified-section">
         <div class="section-header">
-          <h2>🗂️ {{ $t('zh_cbc6a5') }}</h2>
+          <h2>🗂️ {{ $t('i18n.unified_memory') }}</h2>
           <div class="unified-controls">
-            <label class="source-filter-label">{{ $t('zh_0d4374') }}</label>
+            <label class="source-filter-label">{{ $t('i18n.data_source') }}</label>
             <select v-model="selectedSource" class="source-filter-select" @change="onSourceChange">
               <option value="">{{ $t('en_all') }}</option>
               <option value="hermes">hermes</option>
@@ -64,13 +64,13 @@
           <div v-for="i in 4" :key="'us-' + i" class="skeleton-card"></div>
         </div>
         <!-- P38 r30: EmptyState prop 改 v-bind — 原 $t() 字符串在 prop 里是死的，
-             渲染时直接显示 "$t('zh_b2f421')" 原文。现在用 :title="..." 触发 i18n 计算。 -->
+             渲染时直接显示 "$t('i18n.unified_memories')" 原文。现在用 :title="..." 触发 i18n 计算。 -->
         <div v-else-if="unifiedMemories.length === 0" class="empty-state">
           <EmptyState
             icon="🗂️"
-            :title="$t('zh_b2f421')"
-            :message="`${$t('zh_7af7d5')}，${$t('zh_263636')}。${$t('zh_9b64c7')}。`"
-            :action-text="$t('zh_b03a5a')"
+            :title="$t('i18n.unified_memories')"
+            :message="`${$t('i18n.import_create')}，${$t('i18n.start_building')}。${$t('i18n.memories_all')}。`"
+            :action-text="$t('i18n.import_memory')"
             @action="showImportModal = true"
           />
         </div>
@@ -104,10 +104,10 @@
           <h2>AgentMemory</h2>
           <div class="section-actions">
             <!-- P39: button hierarchy — 创建 is the most common action → primary, others secondary -->
-            <button class="action-btn action-btn--primary" @click="showCreateModal = true">+ {{ $t('zh_ab0956') }}</button>
-            <button class="action-btn" @click="showImportModal = true">📥 {{ $t('zh_006597_1') }}</button>
+            <button class="action-btn action-btn--primary" @click="showCreateModal = true">+ {{ $t('i18n.create_memory_ab0956') }}</button>
+            <button class="action-btn" @click="showImportModal = true">📥 {{ $t('i18n.import') }}</button>
             <ExportButton />
-            <button class="action-btn" @click="showDedupPanel = !showDedupPanel">🔍 {{ $t('zh_0064c7') }}</button>
+            <button class="action-btn" @click="showDedupPanel = !showDedupPanel">🔍 {{ $t('i18n.deduplicate') }}</button>
           </div>
         </div>
         <div v-if="agentMemoryStore.loading" class="card-grid">
@@ -117,9 +117,9 @@
           <!-- P38 r30: EmptyState prop 改 v-bind (同 r30 上一组) -->
           <EmptyState
             icon="🤖"
-            :title="`${$t('zh_0df900')} AgentMemory 记忆`"
-            :message="`${$t('zh_2e2f2f')}「${$t('zh_00645e')}」${$t('zh_b3b16e')}，或「${$t('zh_006597_1')}」${$t('zh_e325b9')}。`"
-            :action-text="$t('zh_ab0956')"
+            :title="`${$t('i18n.nohas')} AgentMemory 记忆`"
+            :message="`${$t('i18n.top_right')}「${$t('i18n.create')}」${$t('i18n.add_manually')}，或「${$t('i18n.import')}」${$t('i18n.bulk_import')}。`"
+            :action-text="$t('i18n.create_memory_ab0956')"
             @action="showCreateModal = true"
           />
         </div>

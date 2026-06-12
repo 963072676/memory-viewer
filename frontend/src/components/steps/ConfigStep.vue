@@ -1,37 +1,37 @@
 <template>
   <div class="config-step">
-    <h3>🔗 {{ $t('zh_1249c5') }}</h3>
-    <p class="desc">{{ $t('zh_006ca4') }} Memory Viewer {{ $t('zh_ca8eb0') }} Agent 记忆</p>
+    <h3>🔗 {{ $t('i18n.connect_memory') }}</h3>
+    <p class="desc">{{ $t('i18n.config') }} Memory Viewer {{ $t('i18n.read') }} Agent 记忆</p>
     
     <!-- 快速开始按钮 -->
     <div class="quick-start-section">
       <button class="btn-quick-start" @click="useQuickStart">
         <span class="quick-icon">🚀</span>
-        <span class="quick-text">{{ $t('zh_b36798') }}</span>
+        <span class="quick-text">{{ $t('i18n.quick_start_b36798') }}</span>
       </button>
-      <span class="quick-hint">{{ $t('zh_d3cc17') }}，{{ $t('zh_b6cfba') }}</span>
+      <span class="quick-hint">{{ $t('i18n.use_built') }}，{{ $t('i18n.config_needed') }}</span>
     </div>
     
-    <div class="divider"><span>{{ $t('zh_2e4796') }}</span></div>
+    <div class="divider"><span>{{ $t('i18n.configure_manually') }}</span></div>
     
     <div class="config-form">
       <div class="field">
-        <label>{{ $t('zh_6c0370') }}</label>
-        <input v-model="path" type="text" placeholder="/path/to/agentmemory.json" class="input" @keydown="handleKeydown" />
-        <span class="hint">agentmemory.json {{ $t('zh_2daed4') }}</span>
+        <label>{{ $t('i18n.source_path') }}</label>
+        <input v-model="path" type="text" aria-label="Hermes 配置路径" placeholder="/path/to/agentmemory.json" class="input" @keydown="handleKeydown" />
+        <span class="hint">agentmemory.json {{ $t('i18n.absolute_file') }}</span>
       </div>
       <div class="field">
-        <label>API {{ $t('zh_0069b3') }} ({{ $t('zh_0064cc') }})</label>
-        <input v-model="api" type="text" placeholder="http://localhost:8000" class="input" @keydown="handleKeydown" />
-        <span class="hint">{{ $t('zh_00655b') }} Memory Viewer {{ $t('zh_0d2967') }}，{{ $t('zh_c507cb') }}</span>
+        <label>API {{ $t('i18n.endpoint') }} ({{ $t('i18n.optional') }})</label>
+        <input v-model="api" type="text" aria-label="API 端点" placeholder="http://localhost:8000" class="input" @keydown="handleKeydown" />
+        <span class="hint">{{ $t('i18n.if') }} Memory Viewer {{ $t('i18n.ran') }}，{{ $t('i18n.auto_detect_c507cb') }}</span>
       </div>
       
       <!-- 预设配置 -->
       <div class="presets">
-        <span class="presets-label">{{ $t('zh_d264b7') }}:</span>
+        <span class="presets-label">{{ $t('i18n.preset_config') }}:</span>
         <button class="preset-btn" @click="usePreset('hermes')">{{ $t('en_hermes_preset') }}</button>
         <button class="preset-btn" @click="usePreset('agentmemory')">{{ $t('en_agentmemory_preset') }}</button>
-        <button class="preset-btn" @click="usePreset('local')">💻 {{ $t('zh_00670e') }}</button>
+        <button class="preset-btn" @click="usePreset('local')">💻 {{ $t('i18n.local') }}</button>
       </div>
       
       <div class="status" :class="status">
@@ -41,7 +41,7 @@
     
     <!-- 跳过按钮 -->
     <div class="skip-section">
-      <button class="btn-skip-config" @click="skipConfig">{{ $t('zh_ccaa94') }} → {{ $t('zh_038820') }}</button>
+      <button class="btn-skip-config" @click="skipConfig">{{ $t('i18n.skip_setup') }} → {{ $t('i18n.use_sample') }}</button>
     </div>
   </div>
 </template>

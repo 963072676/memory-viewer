@@ -9,11 +9,11 @@
       aria-modal="true"
       aria-labelledby="edit-modal-title"
     >
-      <h2 id="edit-modal-title">{{ $t('zh_c48258') }}</h2>
+      <h2 id="edit-modal-title">{{ $t('i18n.edit_memory') }}</h2>
       <form @submit.prevent="onSubmit">
         <div class="form-group">
           <label>{{ $t('en_content') }}</label>
-          <textarea v-model="form.content" rows="5" :placeholder="$t('zh_ca9884')"></textarea>
+          <textarea v-model="form.content" rows="5" :placeholder="$t('i18n.content_ca9884')"></textarea>
         </div>
         <div class="form-group">
           <label>Strength: <span class="strength-val">{{ form.strength * 10 }}%</span></label>
@@ -32,7 +32,7 @@
               <input
                 v-model="newConcept"
                 type="text"
-                :placeholder="$t('zh_15b14d')"
+                :placeholder="$t('i18n.type_press')"
                 @keydown.enter.prevent="addConcept"
               />
               <button type="button" class="btn-add-tag" @click="addConcept">+</button>
@@ -40,7 +40,7 @@
           </div>
         </div>
         <div class="form-group">
-          <label>{{ $t('zh_00674e') }}</label>
+          <label>{{ $t('i18n.label') }}</label>
           <TagManager :tags="formTags" :all-tags="allTagNames" @update:tags="formTags = $event" />
         </div>
         <div class="form-actions">
