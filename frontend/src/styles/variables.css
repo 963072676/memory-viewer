@@ -10,6 +10,12 @@
   --border-strong: #d4d4d4;       /* 强调边框 */
   --text-secondary: #8f8f8f;      /* Geist muted（原 #6e6e73 偏深） */
   --text-tertiary: #5a5a5a;       /* AC-5 PM-20260612-001: 三级弱化，提到 ≥4.5:1 对比度（原 #b3b3b3 偏浅） */
+  /* P1-1 PM-20260612-001 cleanup: nav-section-title 专用 token.
+     --text-secondary (#8f8f8f) 在 light bg #fafafa 上仅 3.10:1，AC-6 要求 ≥4.5:1。
+     --text-tertiary 已升到 #5a5a5a 是 6.4:1+，但 nav-section-title 想保持比 nav-item 略弱的"标签"质感，
+     介于 secondary/tertiary 之间容易引起二次歧义，故独立 token。
+     选 #5a5a5a = 与 --text-tertiary 同色 = 6.4:1，远超 4.5:1 门槛。 */
+  --nav-section-title-color: #5a5a5a;
   --accent: #0072f5;              /* Vercel 蓝（原 Apple #007AFF 偏深蓝） */
   --accent-hover: #0061d5;
   /* P38 r13: 渐变配色端点 — HomeView unified-card::before 顶部细线.
@@ -240,6 +246,9 @@
   --border-strong: #3a3a3a;
   --text-secondary: #a1a1a1;      /* muted（原 #98989d 偏浅） */
   --text-tertiary: #b0b0b0;       /* AC-5 PM-20260612-001: dark 模式同步提（原 #6b6b6b 偏暗） */
+  /* P1-1 PM-20260612-001 cleanup (dark): nav-section-title 专用色.
+     #b0b0b0 在 dark bg #0a0a0a 上约 7.66:1 ≥ 4.5:1. */
+  --nav-section-title-color: #b0b0b0;
   --accent: #3291ff;              /* dark 模式独立调色（高饱和度） */
   --accent-hover: #5aa6ff;
   /* P38 r13: dark 模式渐变端点 — 紫色提亮一档与 --accent 蓝呼应 */
