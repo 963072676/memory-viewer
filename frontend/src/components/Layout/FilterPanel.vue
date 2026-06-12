@@ -2,7 +2,7 @@
   <div class="filter-panel" :class="{ open: isOpen }">
     <button class="filter-toggle" @click="isOpen = !isOpen">
       <span>🔍</span>
-      <span>{{ $t('zh_d37116') }}</span>
+      <span>{{ $t('i18n.advanced_filter') }}</span>
       <span class="toggle-arrow">{{ isOpen ? '▲' : '▼' }}</span>
       <span v-if="activeFilterCount > 0" class="filter-badge">{{ activeFilterCount }}</span>
     </button>
@@ -10,7 +10,7 @@
       <div v-if="isOpen" class="filter-content">
         <!-- Type Filter -->
         <div class="filter-section">
-          <h4>{{ $t('zh_ca9e09') }}</h4>
+          <h4>{{ $t('i18n.type_ca9e09') }}</h4>
           <div class="type-checkboxes">
             <label v-for="t in memoryTypes" :key="t.value" class="checkbox-label">
               <input type="checkbox" :value="t.value" v-model="selectedTypes" />
@@ -21,15 +21,15 @@
 
         <!-- Strength Range -->
         <div class="filter-section">
-          <h4>Strength {{ $t('zh_006aa4') }}</h4>
+          <h4>Strength {{ $t('i18n.range') }}</h4>
           <div class="range-row">
             <div class="range-group">
-              <label>{{ $t('zh_00670d') }}</label>
+              <label>{{ $t('i18n.min_00670d') }}</label>
               <input v-model.number="strengthMin" type="range" min="0" max="10" />
               <span class="range-val">{{ strengthMin }}</span>
             </div>
             <div class="range-group">
-              <label>{{ $t('zh_00670a') }}</label>
+              <label>{{ $t('i18n.max') }}</label>
               <input v-model.number="strengthMax" type="range" min="0" max="10" />
               <span class="range-val">{{ strengthMax }}</span>
             </div>
@@ -38,7 +38,7 @@
 
         <!-- Date Range -->
         <div class="filter-section">
-          <h4>{{ $t('zh_b6d557') }}</h4>
+          <h4>{{ $t('i18n.time_range') }}</h4>
           <div class="date-row">
             <div class="date-group">
               <label>从</label>
@@ -53,7 +53,7 @@
 
         <!-- Source Toggle -->
         <div class="filter-section">
-          <h4>{{ $t('zh_0d4374') }}</h4>
+          <h4>{{ $t('i18n.data_source') }}</h4>
           <div class="source-toggle">
             <button
               v-for="s in sources"
@@ -69,17 +69,17 @@
 
         <!-- Show Archived Toggle (F-15) -->
         <div class="filter-section">
-          <h4>{{ $t('zh_b27074') }}</h4>
+          <h4>{{ $t('i18n.archive_memory') }}</h4>
           <label class="checkbox-label">
             <input type="checkbox" v-model="showArchived" />
-            <span>{{ $t('zh_c24e53') }}</span>
+            <span>{{ $t('i18n.show_archived') }}</span>
           </label>
         </div>
 
         <!-- F46: Tag Filter -->
         <div class="filter-section">
-          <h4>{{ $t('zh_b78898') }}</h4>
-          <div v-if="allTagsList.length === 0" class="no-tags">{{ $t('zh_b65241') }}</div>
+          <h4>{{ $t('i18n.label_filter') }}</h4>
+          <div v-if="allTagsList.length === 0" class="no-tags">{{ $t('i18n.tags') }}</div>
           <div v-else class="tag-checkboxes">
             <label v-for="t in allTagsList" :key="t" class="checkbox-label">
               <input type="checkbox" :value="t" v-model="selectedTags" />
@@ -90,8 +90,8 @@
 
         <!-- Actions -->
         <div class="filter-actions">
-          <button class="btn-reset" @click="resetFilters">{{ $t('zh_006cb5') }}</button>
-          <button class="btn-apply" @click="applyFilters">{{ $t('zh_b23cab') }}</button>
+          <button class="btn-reset" @click="resetFilters">{{ $t('i18n.reset') }}</button>
+          <button class="btn-apply" @click="applyFilters">{{ $t('i18n.apply_b23cab') }}</button>
         </div>
       </div>
     </transition>

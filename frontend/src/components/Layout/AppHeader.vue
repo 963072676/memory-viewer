@@ -12,7 +12,7 @@
              enter 动画, 每次路由变化副标题 "上新". 桌面 + 移动 page title 共用同一
              模式 (mobile 用 v-else 块) — 移动端 mobilePageTitle 也加上动画. -->
         <Transition name="subtitle-fade" mode="out-in">
-          <p :key="route.fullPath">Hermes Agent {{ $t('zh_bd0ba4') }}</p>
+          <p :key="route.fullPath">Hermes Agent {{ $t('i18n.memory_system') }}</p>
         </Transition>
       </div>
 

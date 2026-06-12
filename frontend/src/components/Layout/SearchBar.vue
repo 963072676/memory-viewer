@@ -7,6 +7,7 @@
     <input
       type="text"
       data-search-input
+      aria-label="搜索记忆"
       :value="uiStore.searchQuery"
       @input="onInput"
       :placeholder="searchMode === 'semantic' ? '🧠 语义搜索记忆...' : '搜索记忆... (按 / 聚焦)'"
@@ -17,13 +18,14 @@
       class="mode-toggle"
       :class="{ 'mode-toggle--semantic': searchMode === 'semantic' }"
       @click="toggleMode"
+      :aria-label="searchMode === 'semantic' ? '切换到关键词搜索' : '切换到语义搜索'"
       :title="searchMode === 'semantic' ? '切换到关键词搜索' : '切换到语义搜索'"
     >
       <span class="mode-toggle__label">
         {{ searchMode === 'semantic' ? '🧠 Semantic' : '🔤 Keyword' }}
       </span>
     </button>
-    <button v-if="uiStore.searchQuery" class="clear-btn" @click="clear" :aria-label="$t('zh_bb3e9f')">✕</button>
+    <button v-if="uiStore.searchQuery" class="clear-btn" @click="clear" :aria-label="$t('i18n.clear_search')">✕</button>
     <div class="shortcut-hints">
       <kbd v-if="!uiStore.searchQuery" class="hint-search">/</kbd>
       <kbd class="hint-palette">⌘K</kbd>

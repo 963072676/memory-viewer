@@ -4,10 +4,10 @@
       <h3 class="widget-title">{{ title }}</h3>
       <div class="widget-actions">
         <button class="widget-btn" title="刷新" @click="$emit('refresh')">🔄</button>
-        <button class="widget-btn" :title="$t('zh_006444_1')" @click="isFullscreen = !isFullscreen">
+        <button class="widget-btn" :title="$t('i18n.fullscreen')" @click="isFullscreen = !isFullscreen">
           {{ isFullscreen ? '🔲' : '⛶' }}
         </button>
-        <button class="widget-btn widget-btn--remove" :title="$t('zh_0069ba')" @click="$emit('remove')">✕</button>
+        <button class="widget-btn widget-btn--remove" :title="$t('i18n.remove')" @click="$emit('remove')">✕</button>
       </div>
     </div>
     <div class="widget-body">

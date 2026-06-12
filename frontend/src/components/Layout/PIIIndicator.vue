@@ -6,9 +6,9 @@
         v-if="!revealed"
         class="pii-reveal-btn"
         @click.stop="requestReveal"
-        :title="`${$t('zh_ef6766')}（${countdown}${$t('zh_6ba6d9')}）`"
+        :title="`${$t('i18n.click_show')}（${countdown}${$t('i18n.auto_hide')}）`"
       >
-        👁️ {{ $t('zh_006711') }}
+        👁️ {{ $t('i18n.show') }}
       </button>
       <template v-else>
         <span class="pii-revealed">{{ revealedValue }}</span>

@@ -1,9 +1,10 @@
 <template>
   <div class="sort-dropdown">
-    <select :value="uiStore.sortBy" @change="onSortChange" class="sort-select">
-      <option value="updatedAt">{{ $t('zh_0d39b6') }}</option>
-      <option value="strength">{{ $t('zh_0d38a1') }}</option>
-      <option value="type">{{ $t('zh_0d3c5f') }}</option>
+    <label for="sort-select" class="sr-only">排序方式</label>
+    <select id="sort-select" :value="uiStore.sortBy" @change="onSortChange" class="sort-select">
+      <option value="updatedAt">{{ $t('i18n.time') }}</option>
+      <option value="strength">{{ $t('i18n.strength') }}</option>
+      <option value="type">{{ $t('i18n.type_0d3c5f') }}</option>
     </select>
     <button class="order-btn" @click="uiStore.toggleSortOrder()" :title="uiStore.sortOrder === 'desc' ? '降序' : '升序'">
       {{ uiStore.sortOrder === 'desc' ? '↓' : '↑' }}

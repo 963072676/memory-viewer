@@ -9,7 +9,7 @@
   --border: #ebebeb;              /* 极轻边框（原 #e5e5e7 偏深） */
   --border-strong: #d4d4d4;       /* 强调边框 */
   --text-secondary: #8f8f8f;      /* Geist muted（原 #6e6e73 偏深） */
-  --text-tertiary: #b3b3b3;       /* 三级弱化 */
+  --text-tertiary: #5a5a5a;       /* AC-5 PM-20260612-001: 三级弱化，提到 ≥4.5:1 对比度（原 #b3b3b3 偏浅） */
   --accent: #0072f5;              /* Vercel 蓝（原 Apple #007AFF 偏深蓝） */
   --accent-hover: #0061d5;
   /* P38 r13: 渐变配色端点 — HomeView unified-card::before 顶部细线.
@@ -239,7 +239,7 @@
   --border: #2c2c2c;              /* 极轻边框（原 #3a3a3c 偏亮） */
   --border-strong: #3a3a3a;
   --text-secondary: #a1a1a1;      /* muted（原 #98989d 偏浅） */
-  --text-tertiary: #6b6b6b;
+  --text-tertiary: #b0b0b0;       /* AC-5 PM-20260612-001: dark 模式同步提（原 #6b6b6b 偏暗） */
   --accent: #3291ff;              /* dark 模式独立调色（高饱和度） */
   --accent-hover: #5aa6ff;
   /* P38 r13: dark 模式渐变端点 — 紫色提亮一档与 --accent 蓝呼应 */

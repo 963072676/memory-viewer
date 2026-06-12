@@ -1,11 +1,11 @@
 <template>
   <div class="related-memories" v-if="loaded">
     <div class="related-header">
-      <span class="related-title">🔗 {{ $t('zh_bf069f') }}</span>
+      <span class="related-title">🔗 {{ $t('i18n.related') }}</span>
       <span class="related-count" v-if="recommendations.length">{{ recommendations.length }} 条</span>
     </div>
     <div v-if="recommendations.length === 0" class="related-empty">
-      {{ $t('zh_9b77b2') }}
+      {{ $t('i18n.related_memories_9b77b2') }}
     </div>
     <div v-else class="related-list">
       <div

@@ -1,6 +1,6 @@
 <template>
   <div class="smart-collections">
-    <div class="section-header">{{ $t('zh_b6c713') }}</div>
+    <div class="section-header">{{ $t('i18n.smart_collection') }}</div>
     <div
       v-for="col in store.collections"
       :key="col.id"

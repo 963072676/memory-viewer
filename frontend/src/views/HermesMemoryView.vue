@@ -6,7 +6,7 @@
     </div>
     <div v-else-if="store.totalEntries === 0">
       <!-- P38 r30: EmptyState message prop 改 v-bind (i18n 触发) -->
-      <EmptyState icon="🧠" :message="`${$t('zh_006706')} Hermes Memory ${$t('zh_0066e1')}`" />
+      <EmptyState icon="🧠" :message="`${$t('i18n.no')} Hermes Memory ${$t('i18n.data')}`" />
     </div>
     <template v-else>
       <!-- Global -->

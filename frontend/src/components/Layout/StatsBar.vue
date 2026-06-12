@@ -4,11 +4,11 @@
       <div class="stat-item">
         <!-- P38 r10: count-up 动画 — 首屏载入有"数字滚动"感（沿用 r9 useCountUp） -->
         <strong>{{ isLoaded ? agentMemoriesDisplay : '—' }}</strong>
-        <span>AgentMemory {{ $t('zh_006734') }}</span>
+        <span>AgentMemory {{ $t('i18n.items') }}</span>
       </div>
       <div class="stat-item">
         <strong>{{ isLoaded ? hermesTotalDisplay : '—' }}</strong>
-        <span>Hermes Memory {{ $t('zh_006734') }}</span>
+        <span>Hermes Memory {{ $t('i18n.items') }}</span>
       </div>
       <div class="stat-item">
         <strong>{{ isLoaded ? profilesCountDisplay : '—' }}</strong>

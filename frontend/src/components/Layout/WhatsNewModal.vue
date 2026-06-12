@@ -11,11 +11,11 @@
         >
           <div class="modal-header">
             <h2 id="whatsnew-modal-title">{{ $t('en_whats_new') }}</h2>
-            <button class="close-btn" @click="onClose" :aria-label="$t('zh_d9366f')">&times;</button>
+            <button class="close-btn" @click="onClose" :aria-label="$t('i18n.close_changelog')">&times;</button>
           </div>
           <div class="modal-body">
             <div v-if="changelog.length === 0" class="empty-changelog">
-              {{ $t('zh_930587') }}
+              {{ $t('i18n.update_history') }}
             </div>
             <div v-else class="version-list">
               <div
@@ -50,7 +50,7 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button class="action-btn action-btn--accent" @click="onClose">{{ $t('zh_0d97a1') }}</button>
+            <button class="action-btn action-btn--accent" @click="onClose">{{ $t('i18n.got') }}</button>
           </div>
         </div>
       </div>

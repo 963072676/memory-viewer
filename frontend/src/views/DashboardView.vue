@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard-view">
     <div class="dashboard-header">
-      <h2 class="section-title">📊 {{ $t('zh_4dc488') }}</h2>
+      <h2 class="section-title">📊 {{ $t('i18n.statistics_dashboard') }}</h2>
       <button class="action-btn" @click="loadStats">🔄 刷新</button>
     </div>
 
@@ -11,29 +11,29 @@
     <div v-if="loading" class="loading-state">加载中...</div>
     <div v-else-if="error" class="error-state">
       <p>⚠️ {{ error }}</p>
-      <button class="action-btn action-btn--danger" @click="loadStats">点击{{ $t('zh_006cc1') }}</button>
+      <button class="action-btn action-btn--danger" @click="loadStats">点击{{ $t('i18n.retry') }}</button>
     </div>
     <div v-else-if="stats" class="dashboard-grid">
       <!-- P38 r9: count-up 动画 — 从 0 滚动到目标值（800ms ease-out-cubic）。
            替代原版"瞬时显示"，给 Dashboard 首屏"载入感"。 -->
       <div class="summary-row">
         <div class="summary-card">
-          <div class="summary-label">{{ $t('zh_b380bf') }}</div>
+          <div class="summary-label">{{ $t('i18n.total_memories') }}</div>
           <div class="summary-value">{{ stats ? displayTotal : '—' }}</div>
           <div class="summary-foot">{{ $t('en_all_sources') }}</div>
         </div>
         <div class="summary-card">
-          <div class="summary-label">{{ $t('zh_b1a7a7') }}</div>
+          <div class="summary-label">{{ $t('i18n.average_strength') }}</div>
           <div class="summary-value">{{ stats ? displayAvgStrength : '—' }}</div>
           <div class="summary-foot">/ 10.0</div>
         </div>
         <div class="summary-card">
-          <div class="summary-label">{{ $t('zh_0da3e8') }}</div>
+          <div class="summary-label">{{ $t('i18n.types') }}</div>
           <div class="summary-value">{{ stats ? displayTypeCount : '—' }}</div>
           <div class="summary-foot">{{ $t('en_categories') }}</div>
         </div>
         <div class="summary-card">
-          <div class="summary-label">{{ $t('zh_baab58') }}</div>
+          <div class="summary-label">{{ $t('i18n.active_months') }}</div>
           <div class="summary-value">{{ stats ? displayMonthCount : '—' }}</div>
           <div class="summary-foot">{{ $t('en_months') }}</div>
         </div>
@@ -41,10 +41,10 @@
 
       <!-- Type Distribution Bar Chart -->
       <div class="chart-card">
-        <h3>📋 {{ $t('zh_4ddd85') }}</h3>
+        <h3>📋 {{ $t('i18n.distribution_type') }}</h3>
         <div v-if="Object.keys(stats.by_type).length === 0" class="chart-empty">
           <span class="chart-empty-mark" aria-hidden="true">∅</span>
-          <span class="chart-empty-text">{{ $t('zh_b651d3') }}</span>
+          <span class="chart-empty-text">{{ $t('i18n.data_b651d3') }}</span>
         </div>
         <div v-else class="bar-chart">
           <div v-for="(count, type) in stats.by_type" :key="type" class="bar-row">
@@ -63,10 +63,10 @@
 
       <!-- Strength Distribution Histogram -->
       <div class="chart-card">
-        <h3>💪 Strength {{ $t('zh_00645b') }}</h3>
+        <h3>💪 Strength {{ $t('i18n.distribution') }}</h3>
         <div v-if="maxStrengthCount === 0" class="chart-empty">
           <span class="chart-empty-mark" aria-hidden="true">∅</span>
-          <span class="chart-empty-text">{{ $t('zh_b651d3') }}</span>
+          <span class="chart-empty-text">{{ $t('i18n.data_b651d3') }}</span>
         </div>
         <div v-else class="histogram">
           <div v-for="i in 11" :key="i - 1" class="hist-column">
@@ -84,10 +84,10 @@
 
       <!-- Timeline (by month) -->
       <div class="chart-card">
-        <h3>📅 {{ $t('zh_82acd7') }}</h3>
+        <h3>📅 {{ $t('i18n.monthcreatetrend') }}</h3>
         <div v-if="Object.keys(stats.by_month).length === 0" class="chart-empty">
           <span class="chart-empty-mark" aria-hidden="true">∅</span>
-          <span class="chart-empty-text">{{ $t('zh_b651d3') }}</span>
+          <span class="chart-empty-text">{{ $t('i18n.data_b651d3') }}</span>
         </div>
         <div v-else class="timeline-chart">
           <div v-for="(count, month) in stats.by_month" :key="month" class="timeline-bar">

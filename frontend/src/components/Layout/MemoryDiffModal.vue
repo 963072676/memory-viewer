@@ -10,8 +10,8 @@
       aria-labelledby="diff-modal-title"
     >
       <div class="diff-header">
-        <h2 id="diff-modal-title">📋 {{ $t('zh_d2d745') }}</h2>
-        <button class="close-btn" @click="$emit('close')" :aria-label="$t('zh_3be874')">✕</button>
+        <h2 id="diff-modal-title">📋 {{ $t('i18n.compare_memory') }}</h2>
+        <button class="close-btn" @click="$emit('close')" :aria-label="$t('i18n.close_compare')">✕</button>
       </div>
 
       <div class="diff-meta">
@@ -19,28 +19,28 @@
           <div class="meta-title">{{ memoryA?.title }}</div>
           <div class="meta-info">
             <span class="type-badge" :class="'type-' + memoryA?.type">{{ memoryA?.type }}</span>
-            <span class="meta-date">{{ $t('zh_006715') }}: {{ formatDate(memoryA?.updatedAt) }}</span>
+            <span class="meta-date">{{ $t('i18n.update') }}: {{ formatDate(memoryA?.updatedAt) }}</span>
           </div>
         </div>
         <div class="meta-card right">
           <div class="meta-title">{{ memoryB?.title }}</div>
           <div class="meta-info">
             <span class="type-badge" :class="'type-' + memoryB?.type">{{ memoryB?.type }}</span>
-            <span class="meta-date">{{ $t('zh_006715') }}: {{ formatDate(memoryB?.updatedAt) }}</span>
+            <span class="meta-date">{{ $t('i18n.update') }}: {{ formatDate(memoryB?.updatedAt) }}</span>
           </div>
         </div>
       </div>
 
       <div class="diff-stats">
-        <span class="stat-item">{{ $t('zh_0d8b5d') }}: <strong>{{ similarityPercent }}%</strong></span>
+        <span class="stat-item">{{ $t('i18n.similarity') }}: <strong>{{ similarityPercent }}%</strong></span>
         <span class="stat-item added">+{{ diffStats.added }} 行</span>
         <span class="stat-item removed">-{{ diffStats.removed }} 行</span>
-        <span class="stat-item unchanged">{{ diffStats.unchanged }} {{ $t('zh_0dd81e') }}</span>
+        <span class="stat-item unchanged">{{ diffStats.unchanged }} {{ $t('i18n.row_unchanged') }}</span>
       </div>
 
       <div class="diff-content" ref="diffContentRef">
         <div class="diff-panel left-panel">
-          <div class="panel-header">A {{ $t('zh_00688c') }}</div>
+          <div class="panel-header">A {{ $t('i18n.version') }}</div>
           <div class="panel-body">
             <template v-for="(line, idx) in diffLines" :key="'left-' + idx">
               <div v-if="line.type === 'removed'" class="diff-line removed">

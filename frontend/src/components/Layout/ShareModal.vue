@@ -10,14 +10,14 @@
       aria-labelledby="share-modal-title"
     >
       <div class="modal-header">
-        <h3 id="share-modal-title">🔗 {{ $t('zh_aab872') }}</h3>
-        <button class="close-btn" @click="$emit('close')" :aria-label="$t('zh_77e130')">✕</button>
+        <h3 id="share-modal-title">🔗 {{ $t('i18n.share_memory') }}</h3>
+        <button class="close-btn" @click="$emit('close')" :aria-label="$t('i18n.close_share')">✕</button>
       </div>
 
       <div class="modal-body">
         <!-- Create share link section -->
         <div class="share-section">
-          <div class="section-label">{{ $t('zh_cb8ce6') }}</div>
+          <div class="section-label">{{ $t('i18n.access_level') }}</div>
           <div class="access-options">
             <button
               v-for="opt in accessOptions"
@@ -34,7 +34,7 @@
         </div>
 
         <div class="share-section">
-          <div class="section-label">{{ $t('zh_ccf8c3') }}</div>
+          <div class="section-label">{{ $t('i18n.expiration') }}</div>
           <div class="expires-options">
             <button
               v-for="opt in expiresOptions"
@@ -52,14 +52,14 @@
           <div class="section-label">
             <label class="password-toggle">
               <input type="checkbox" v-model="usePassword" />
-              <span>{{ $t('zh_b0b947') }}</span>
+              <span>{{ $t('i18n.password_protected') }}</span>
             </label>
           </div>
           <input
             v-if="usePassword"
             v-model="password"
             type="password"
-            :placeholder="$t('zh_513c9b')"
+            :placeholder="$t('i18n.set_access')"
             class="password-input"
           />
         </div>
@@ -74,7 +74,7 @@
 
         <!-- Result -->
         <div v-if="shareResult" class="share-result">
-          <div class="result-label">{{ $t('zh_aab9a9') }}</div>
+          <div class="result-label">{{ $t('i18n.share_link') }}</div>
           <div class="result-url-row">
             <input
               ref="urlInput"
@@ -91,9 +91,9 @@
               {{ shareResult.access_level === 'view' ? '👁 仅查看' : shareResult.access_level === 'comment' ? '💬 可评论' : '✏️ 可编辑' }}
             </span>
             <span v-if="shareResult.expires_at" class="meta-item">
-              ⏰ {{ formatDate(shareResult.expires_at) }} {{ $t('zh_006c5a') }}
+              ⏰ {{ formatDate(shareResult.expires_at) }} {{ $t('i18n.expired') }}
             </span>
-            <span v-if="shareResult.pii_masked" class="meta-item">🔒 PII {{ $t('zh_0d2761') }}</span>
+            <span v-if="shareResult.pii_masked" class="meta-item">🔒 PII {{ $t('i18n.masked') }}</span>
           </div>
 
           <!-- QR Code area -->
@@ -114,13 +114,13 @@
       <!-- Existing shares management -->
       <div class="modal-footer">
         <div class="shares-header" @click="showExisting = !showExisting">
-          <span>📂 {{ $t('zh_a2fd47') }} ({{ existingShares.length }})</span>
+          <span>📂 {{ $t('i18n.existing_share') }} ({{ existingShares.length }})</span>
           <span>{{ showExisting ? '▲' : '▼' }}</span>
         </div>
         <transition name="expand">
           <div v-if="showExisting" class="existing-shares">
             <div v-if="loadingShares" class="shares-loading">加载中...</div>
-            <div v-else-if="existingShares.length === 0" class="shares-empty">{{ $t('zh_872abc') }}</div>
+            <div v-else-if="existingShares.length === 0" class="shares-empty">{{ $t('i18n.noshare_link') }}</div>
             <div v-else class="shares-list">
               <div v-for="share in existingShares" :key="share.share_id" class="share-item">
                 <div class="share-item-info">

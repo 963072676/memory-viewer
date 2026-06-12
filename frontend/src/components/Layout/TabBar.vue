@@ -16,7 +16,7 @@
       <button class="expand-btn" @click="uiStore.toggleAllExpanded()">
         {{ uiStore.allExpanded ? '全部折叠' : '全部展开' }}
       </button>
-      <button class="help-btn" @click="uiStore.toggleKeyboardHelp()" title="$t('zh_08c530') (?)">⌨️</button>
+      <button class="help-btn" @click="uiStore.toggleKeyboardHelp()" title="$t('i18n.keyboard_shortcuts') (?)">⌨️</button>
     </div>
   </div>
 </template>

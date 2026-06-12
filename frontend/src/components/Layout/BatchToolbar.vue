@@ -2,27 +2,27 @@
   <transition name="toolbar">
     <div v-if="store.hasSelection" class="batch-toolbar">
       <div class="toolbar-info">
-        <span class="selection-count">{{ $t('zh_006616_1') }} {{ store.selectionCount }} 条</span>
-        <button class="toolbar-link" @click="store.clearSelection()">{{ $t('zh_ac3abf') }}</button>
-        <button class="toolbar-link" @click="store.selectAll()">{{ $t('zh_006478') }}</button>
+        <span class="selection-count">{{ $t('i18n.selected') }} {{ store.selectionCount }} 条</span>
+        <button class="toolbar-link" @click="store.clearSelection()">{{ $t('i18n.cancel_selection') }}</button>
+        <button class="toolbar-link" @click="store.selectAll()">{{ $t('i18n.select_all') }}</button>
       </div>
       <div class="toolbar-actions">
-        <button class="toolbar-btn" @click="$emit('batch', 'archive')" :disabled="loading">📦 {{ $t('zh_00661c') }}</button>
-        <button class="toolbar-btn" @click="$emit('batch', 'unarchive')" :disabled="loading">📂 {{ $t('zh_ac347d') }}</button>
+        <button class="toolbar-btn" @click="$emit('batch', 'archive')" :disabled="loading">📦 {{ $t('i18n.archive') }}</button>
+        <button class="toolbar-btn" @click="$emit('batch', 'unarchive')" :disabled="loading">📂 {{ $t('i18n.unarchive') }}</button>
         <button class="toolbar-btn danger" @click="$emit('batch', 'delete')" :disabled="loading">🗑️ 删除</button>
-        <button class="toolbar-btn" @click="$emit('export')" :disabled="loading">📥 {{ $t('zh_006597') }}</button>
+        <button class="toolbar-btn" @click="$emit('export')" :disabled="loading">📥 {{ $t('i18n.export') }}</button>
         <div class="tag-batch-wrapper">
-          <button class="toolbar-btn" @click="showTagInput = !showTagInput" :disabled="loading">🏷️ {{ $t('zh_ba195e') }}</button>
+          <button class="toolbar-btn" @click="showTagInput = !showTagInput" :disabled="loading">🏷️ {{ $t('i18n.add_tag') }}</button>
           <transition name="fade">
             <div v-if="showTagInput" class="tag-batch-popover">
               <input
                 v-model="batchTagInput"
                 type="text"
                 class="tag-batch-input"
-                :placeholder="$t('zh_7c705f')"
+                :placeholder="$t('i18n.press_enter')"
                 @keydown.enter.prevent="submitBatchTag"
               />
-              <button class="tag-batch-confirm" @click="submitBatchTag">{{ $t('zh_00694c') }}</button>
+              <button class="tag-batch-confirm" @click="submitBatchTag">{{ $t('i18n.confirm') }}</button>
             </div>
           </transition>
         </div>

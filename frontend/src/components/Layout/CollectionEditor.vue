@@ -8,7 +8,7 @@
       <div class="modal-body">
         <div class="form-group">
           <label>{{ $t('en_name_required') }}</label>
-          <input v-model="form.name" :placeholder="$t('en_collection_name_hint')" />
+          <input v-model="form.name" aria-label="合集名称" :placeholder="$t('en_collection_name_hint')" />
         </div>
         <div class="form-group">
           <label>{{ $t('en_description') }}</label>
@@ -61,7 +61,7 @@
         </div>
         <div class="form-group">
           <label>{{ $t('en_tags_comma') }}</label>
-          <input v-model="tagsInput" :placeholder="$t('en_tags_hint')" />
+          <input v-model="tagsInput" aria-label="标签(逗号分隔)" :placeholder="$t('en_tags_hint')" />
         </div>
         <div class="form-row">
           <div class="form-group form-half">

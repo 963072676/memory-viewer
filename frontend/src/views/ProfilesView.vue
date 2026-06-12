@@ -4,7 +4,7 @@
     <div v-if="loading" class="loading">加载中...</div>
     <div v-else-if="profiles.length === 0">
       <!-- P38 r30: EmptyState message prop 改 v-bind -->
-      <EmptyState icon="👤" :message="`${$t('zh_006706')} Profile`" />
+      <EmptyState icon="👤" :message="`${$t('i18n.no')} Profile`" />
     </div>
     <div v-else class="profile-list">
       <div v-for="name in profiles" :key="name" class="profile-card">
@@ -13,7 +13,7 @@
           <h3>{{ name }}</h3>
           <p class="profile-desc">Profile: {{ name }}</p>
         </div>
-        <router-link :to="{ path: '/hermes', query: { profile: name } }" class="profile-link">{{ $t('zh_006745') }} →</router-link>
+        <router-link :to="{ path: '/hermes', query: { profile: name } }" class="profile-link">{{ $t('i18n.view') }} →</router-link>
       </div>
     </div>
   </div>
