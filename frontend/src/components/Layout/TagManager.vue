@@ -16,7 +16,7 @@
         v-model="inputValue"
         type="text"
         class="tag-input"
-        :placeholder="$t('i18n.type_press_5a1514')"
+        :placeholder="$t('i18n.create.tag_hint')"
         @keydown.enter.prevent="addTag"
         @input="onInput"
         @focus="showSuggestions = true"

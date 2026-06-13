@@ -25,11 +25,11 @@
         </div>
         <div class="form-group">
           <label>Title <span class="required">*</span></label>
-          <input v-model="form.title" type="text" required :placeholder="$t('i18n.title_ca9ba7')" />
+          <input v-model="form.title" type="text" required :placeholder="$t('i18n.create.title')" />
         </div>
         <div class="form-group">
           <label>Content <span class="required">*</span></label>
-          <textarea v-model="form.content" required rows="4" :placeholder="$t('i18n.content_ca9884')"></textarea>
+          <textarea v-model="form.content" required rows="4" :placeholder="$t('i18n.create.content')"></textarea>
         </div>
         <div class="form-row">
           <div class="form-group">

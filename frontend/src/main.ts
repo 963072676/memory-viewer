@@ -1,6 +1,7 @@
 import { createApp, watch } from 'vue'
 import { createPinia } from 'pinia'
 import { createI18n } from 'vue-i18n'
+// TODO: vue-i18n v9 EOL — see frontend/docs/VENDOR_EOL.md
 import App from './App.vue'
 import router from './router'
 import './styles/variables.css'

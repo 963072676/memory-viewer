@@ -19,6 +19,8 @@ export const useUIStore = defineStore('ui', () => {
   const allExpanded = ref<boolean | null>(null)
   const showKeyboardHelp = ref(false)
   const showArchived = ref(false)
+  // PM-20260612-002 F2: 控制 FeatureTour 弹层显隐 (TourStep.vue @close 触发)
+  const showTour = ref(false)
 
   function setTab(tab: 'all' | 'agentmemory' | 'hermes') {
     currentTab.value = tab
@@ -68,6 +70,10 @@ export const useUIStore = defineStore('ui', () => {
     showKeyboardHelp.value = !showKeyboardHelp.value
   }
 
+  function setShowTour(v: boolean) {
+    showTour.value = v
+  }
+
   // Apply theme on init
   applyTheme(theme.value)
 
@@ -89,6 +95,7 @@ export const useUIStore = defineStore('ui', () => {
     allExpanded,
     showKeyboardHelp,
     showArchived,
+    showTour,
     setTab,
     setSearch,
     setProfile,
@@ -98,5 +105,6 @@ export const useUIStore = defineStore('ui', () => {
     toggleSortOrder,
     toggleAllExpanded,
     toggleKeyboardHelp,
+    setShowTour,
   }
 })

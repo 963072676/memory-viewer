@@ -25,7 +25,7 @@
             <div class="palette-results-header">
               <span v-if="mode === 'command'">{{ $t('i18n.command') }}</span>
               <span v-else>
-                {{ $t('i18n.results_b5675c') }}
+                {{ $t('i18n.search.results') }}
                 <template v-if="totalResults > 0">（{{ totalResults }}）</template>
               </span>
             </div>

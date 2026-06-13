@@ -104,7 +104,7 @@
           <h2>AgentMemory</h2>
           <div class="section-actions">
             <!-- P39: button hierarchy — 创建 is the most common action → primary, others secondary -->
-            <button class="action-btn action-btn--primary" @click="showCreateModal = true">+ {{ $t('i18n.create_memory_ab0956') }}</button>
+            <button class="action-btn action-btn--primary" @click="showCreateModal = true">+ {{ $t('i18n.create.action') }}</button>
             <button class="action-btn" @click="showImportModal = true">📥 {{ $t('i18n.import') }}</button>
             <ExportButton />
             <button class="action-btn" @click="showDedupPanel = !showDedupPanel">🔍 {{ $t('i18n.deduplicate') }}</button>
@@ -119,7 +119,7 @@
             icon="🤖"
             :title="`${$t('i18n.nohas')} AgentMemory 记忆`"
             :message="`${$t('i18n.top_right')}「${$t('i18n.create')}」${$t('i18n.add_manually')}，或「${$t('i18n.import')}」${$t('i18n.bulk_import')}。`"
-            :action-text="$t('i18n.create_memory_ab0956')"
+            :action-text="$t('i18n.create.action')"
             @action="showCreateModal = true"
           />
         </div>

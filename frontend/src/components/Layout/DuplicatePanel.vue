@@ -47,7 +47,7 @@
         </div>
         <div class="pair-actions">
           <button class="merge-btn" @click="merge(pair.memory_a.id, pair.memory_b.id)" :disabled="merging">
-            {{ $t('i18n.merge') }}（{{ $t('i18n.keep_00642b') }}「{{ pair.memory_a.strength >= pair.memory_b.strength ? pair.memory_a.title : pair.memory_b.title }}」）
+            {{ $t('i18n.merge') }}（{{ $t('i18n.conflict.keep') }}「{{ pair.memory_a.strength >= pair.memory_b.strength ? pair.memory_a.title : pair.memory_b.title }}」）
           </button>
         </div>
       </div>

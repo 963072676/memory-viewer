@@ -44,7 +44,7 @@
         <h3>📋 {{ $t('i18n.distribution_type') }}</h3>
         <div v-if="Object.keys(stats.by_type).length === 0" class="chart-empty">
           <span class="chart-empty-mark" aria-hidden="true">∅</span>
-          <span class="chart-empty-text">{{ $t('i18n.data_b651d3') }}</span>
+          <span class="chart-empty-text">{{ $t('i18n.empty.chart_data') }}</span>
         </div>
         <div v-else class="bar-chart">
           <div v-for="(count, type) in stats.by_type" :key="type" class="bar-row">
@@ -66,7 +66,7 @@
         <h3>💪 Strength {{ $t('i18n.distribution') }}</h3>
         <div v-if="maxStrengthCount === 0" class="chart-empty">
           <span class="chart-empty-mark" aria-hidden="true">∅</span>
-          <span class="chart-empty-text">{{ $t('i18n.data_b651d3') }}</span>
+          <span class="chart-empty-text">{{ $t('i18n.empty.chart_data') }}</span>
         </div>
         <div v-else class="histogram">
           <div v-for="i in 11" :key="i - 1" class="hist-column">
@@ -87,7 +87,7 @@
         <h3>📅 {{ $t('i18n.monthcreatetrend') }}</h3>
         <div v-if="Object.keys(stats.by_month).length === 0" class="chart-empty">
           <span class="chart-empty-mark" aria-hidden="true">∅</span>
-          <span class="chart-empty-text">{{ $t('i18n.data_b651d3') }}</span>
+          <span class="chart-empty-text">{{ $t('i18n.empty.chart_data') }}</span>
         </div>
         <div v-else class="timeline-chart">
           <div v-for="(count, month) in stats.by_month" :key="month" class="timeline-bar">

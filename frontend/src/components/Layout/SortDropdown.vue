@@ -4,7 +4,7 @@
     <select id="sort-select" :value="uiStore.sortBy" @change="onSortChange" class="sort-select">
       <option value="updatedAt">{{ $t('i18n.time') }}</option>
       <option value="strength">{{ $t('i18n.strength') }}</option>
-      <option value="type">{{ $t('i18n.type_0d3c5f') }}</option>
+      <option value="type">{{ $t('i18n.search.by_type') }}</option>
     </select>
     <button class="order-btn" @click="uiStore.toggleSortOrder()" :title="uiStore.sortOrder === 'desc' ? '降序' : '升序'">
       {{ uiStore.sortOrder === 'desc' ? '↓' : '↑' }}

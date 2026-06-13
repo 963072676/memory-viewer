@@ -7,7 +7,7 @@
     <div class="quick-start-section">
       <button class="btn-quick-start" @click="useQuickStart">
         <span class="quick-icon">🚀</span>
-        <span class="quick-text">{{ $t('i18n.quick_start_b36798') }}</span>
+        <span class="quick-text">{{ $t('i18n.onboarding.quick_start') }}</span>
       </button>
       <span class="quick-hint">{{ $t('i18n.use_built') }}，{{ $t('i18n.config_needed') }}</span>
     </div>
@@ -23,7 +23,7 @@
       <div class="field">
         <label>API {{ $t('i18n.endpoint') }} ({{ $t('i18n.optional') }})</label>
         <input v-model="api" type="text" aria-label="API 端点" placeholder="http://localhost:8000" class="input" @keydown="handleKeydown" />
-        <span class="hint">{{ $t('i18n.if') }} Memory Viewer {{ $t('i18n.ran') }}，{{ $t('i18n.auto_detect_c507cb') }}</span>
+        <span class="hint">{{ $t('i18n.if') }} Memory Viewer {{ $t('i18n.ran') }}，{{ $t('i18n.onboarding.auto_detect') }}</span>
       </div>
       
       <!-- 预设配置 -->

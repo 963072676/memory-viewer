@@ -20,7 +20,7 @@
         </button>
         <button class="action-btn action-btn--ghost" @click="showShareModal = true">
           <span class="btn-ico" aria-hidden="true">⤴</span>
-          <span class="btn-label">{{ $t('i18n.share_00644b') }}</span>
+          <span class="btn-label">{{ $t('i18n.common.share') }}</span>
         </button>
         <button class="action-btn action-btn--primary" @click="showEditModal = true">
           <span class="btn-ico" aria-hidden="true">✎</span>
