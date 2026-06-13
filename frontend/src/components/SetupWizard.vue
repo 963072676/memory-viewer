@@ -16,7 +16,7 @@
 
       <!-- Navigation -->
       <div class="wizard-nav">
-        <button v-if="currentStep > 0" class="btn-prev" @click="prev">← {{ $t('i18n.back_0cdd24') }}</button>
+        <button v-if="currentStep > 0" class="btn-prev" @click="prev">← {{ $t('i18n.common.back') }}</button>
         <div class="nav-spacer" />
         <button class="btn-skip" @click="skip">{{ $t('i18n.skip') }}</button>
         <button v-if="currentStep < steps.length - 1" class="btn-next" @click="next">{{ $t('i18n.next') }} →</button>

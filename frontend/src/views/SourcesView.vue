@@ -73,7 +73,7 @@
                   <span class="detail-value">{{ source.type }}</span>
                 </div>
                 <div class="detail-item">
-                  <span class="detail-label">{{ $t('i18n.health_aa14d3') }}</span>
+                  <span class="detail-label">{{ $t('i18n.source.health') }}</span>
                   <span class="detail-value" :class="source.healthy ? 'text-success' : 'text-error'">
                     {{ source.healthy ? $t('i18n.source_healthy') : $t('i18n.source_unhealthy') }}
                   </span>
@@ -83,7 +83,7 @@
                   <span class="detail-value">{{ source.count }}</span>
                 </div>
                 <div class="detail-item">
-                  <span class="detail-label">{{ $t('i18n.enabled_ac8831') }}</span>
+                  <span class="detail-label">{{ $t('i18n.source.enabled') }}</span>
                   <span class="detail-value" :class="source.enabled ? 'text-success' : 'text-muted'">
                     {{ source.enabled ? $t('i18n.source_enabled') : $t('i18n.source_disabled') }}
                   </span>

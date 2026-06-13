@@ -10,7 +10,7 @@
       <div v-if="isOpen" class="filter-content">
         <!-- Type Filter -->
         <div class="filter-section">
-          <h4>{{ $t('i18n.type_ca9e09') }}</h4>
+          <h4>{{ $t('i18n.filter.type') }}</h4>
           <div class="type-checkboxes">
             <label v-for="t in memoryTypes" :key="t.value" class="checkbox-label">
               <input type="checkbox" :value="t.value" v-model="selectedTypes" />
@@ -24,7 +24,7 @@
           <h4>Strength {{ $t('i18n.range') }}</h4>
           <div class="range-row">
             <div class="range-group">
-              <label>{{ $t('i18n.min_00670d') }}</label>
+              <label>{{ $t('i18n.filter.min_similarity') }}</label>
               <input v-model.number="strengthMin" type="range" min="0" max="10" />
               <span class="range-val">{{ strengthMin }}</span>
             </div>
@@ -91,7 +91,7 @@
         <!-- Actions -->
         <div class="filter-actions">
           <button class="btn-reset" @click="resetFilters">{{ $t('i18n.reset') }}</button>
-          <button class="btn-apply" @click="applyFilters">{{ $t('i18n.apply_b23cab') }}</button>
+          <button class="btn-apply" @click="applyFilters">{{ $t('i18n.filter.apply') }}</button>
         </div>
       </div>
     </transition>

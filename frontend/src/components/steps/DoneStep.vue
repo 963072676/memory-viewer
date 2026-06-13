@@ -2,7 +2,7 @@
   <div class="done-step">
     <div class="done-icon">🎉</div>
     <h2>{{ $t('i18n.all_set') }}！</h2>
-    <p class="done-desc">{{ $t('i18n.got_a9807e') }} Memory Viewer {{ $t('i18n.core_functionality') }}</p>
+    <p class="done-desc">{{ $t('i18n.onboarding.mastered') }} Memory Viewer {{ $t('i18n.core_functionality') }}</p>
     <div class="quick-links">
       <div class="link-card" @click="$router.push('/agentmemory')">📝 {{ $t('i18n.browse_memories') }}</div>
       <div class="link-card" @click="$router.push('/dashboard')">📊 {{ $t('i18n.view_dashboard') }}</div>

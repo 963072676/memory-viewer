@@ -5,7 +5,7 @@
       <span class="related-count" v-if="recommendations.length">{{ recommendations.length }} 条</span>
     </div>
     <div v-if="recommendations.length === 0" class="related-empty">
-      {{ $t('i18n.related_memories_9b77b2') }}
+      {{ $t('i18n.empty.related_memories') }}
     </div>
     <div v-else class="related-list">
       <div

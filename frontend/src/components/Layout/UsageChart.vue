@@ -12,7 +12,7 @@
       </div>
     </div>
     <div v-if="loading" class="chart-loading">加载中...</div>
-    <div v-else-if="data.length === 0" class="chart-empty">{{ $t('i18n.data_b651d3') }}</div>
+    <div v-else-if="data.length === 0" class="chart-empty">{{ $t('i18n.empty.chart_data') }}</div>
     <div v-else class="chart-body">
       <div class="chart-bars">
         <div

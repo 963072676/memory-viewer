@@ -31,7 +31,7 @@
     <div class="builder-section">
       <h4>
         {{ $t('i18n.condition') }} ({{ $t('i18n.all_match') }})
-        <button class="btn-add" @click="addCondition">+ {{ $t('i18n.add_0067ea') }}</button>
+        <button class="btn-add" @click="addCondition">+ {{ $t('i18n.common.add') }}</button>
       </h4>
       <div v-for="(cond, i) in form.conditions" :key="i" class="condition-row">
         <select v-model="cond.field" class="input-field short">
@@ -58,7 +58,7 @@
     <div class="builder-section">
       <h4>
         {{ $t('i18n.action') }}
-        <button class="btn-add" @click="addAction">+ {{ $t('i18n.add_0067ea') }}</button>
+        <button class="btn-add" @click="addAction">+ {{ $t('i18n.common.add') }}</button>
       </h4>
       <div v-for="(action, i) in form.actions" :key="i" class="action-row">
         <select v-model="action.type" class="input-field short">

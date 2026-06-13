@@ -1,7 +1,7 @@
 <template>
   <div class="keyboard-help-overlay" @click.self="uiStore.toggleKeyboardHelp()">
     <div class="keyboard-help">
-      <h2>{{ $t('i18n.keyboard_shortcuts_d65312') }}</h2>
+      <h2>{{ $t('i18n.help.shortcuts') }}</h2>
       <div class="shortcut-list">
         <div class="shortcut-item">
           <kbd>{{ $t('en_ctrl_k') }}</kbd>

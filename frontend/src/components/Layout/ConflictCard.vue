@@ -35,8 +35,8 @@
       ✅ {{ $t('i18n.resolved') }}: {{ conflict.resolution?.action }} ({{ conflict.resolution?.resolved_by }})
     </div>
     <div v-else class="conflict-actions">
-      <button class="btn-resolve keep-a" @click="$emit('resolve', conflict.id, 'keep_a')">{{ $t('i18n.keep_00642b') }} A</button>
-      <button class="btn-resolve keep-b" @click="$emit('resolve', conflict.id, 'keep_b')">{{ $t('i18n.keep_00642b') }} B</button>
+      <button class="btn-resolve keep-a" @click="$emit('resolve', conflict.id, 'keep_a')">{{ $t('i18n.conflict.keep') }} A</button>
+      <button class="btn-resolve keep-b" @click="$emit('resolve', conflict.id, 'keep_b')">{{ $t('i18n.conflict.keep') }} B</button>
       <button class="btn-resolve merge" @click="$emit('resolve', conflict.id, 'merge')">{{ $t('i18n.merge') }}</button>
       <button class="btn-resolve dismiss" @click="$emit('resolve', conflict.id, 'dismiss')">{{ $t('i18n.ignore') }}</button>
     </div>

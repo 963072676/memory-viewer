@@ -2,7 +2,7 @@
   <div class="welcome-step">
     <div class="welcome-icon">🧠</div>
     <h2>{{ $t('i18n.welcome') }} Memory Viewer v2</h2>
-    <p class="welcome-desc">{{ $t('i18n.intelligent_memory') }} — {{ $t('i18n.help_understand') }}、{{ $t('i18n.organize_optimize') }} Agent {{ $t('i18n.memory_system_ca9e41') }}</p>
+    <p class="welcome-desc">{{ $t('i18n.intelligent_memory') }} — {{ $t('i18n.help_understand') }}、{{ $t('i18n.organize_optimize') }} Agent {{ $t('i18n.onboarding.memory_system') }}</p>
     <div class="feature-grid">
       <div class="feature-item"><span>🔍</span> {{ $t('i18n.smart') }} & {{ $t('i18n.natural_language') }}</div>
       <div class="feature-item"><span>🕸️</span> {{ $t('i18n.memory_graph') }} & {{ $t('i18n.clustering') }}</div>

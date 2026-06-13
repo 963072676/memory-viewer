@@ -13,7 +13,7 @@
       <form @submit.prevent="onSubmit">
         <div class="form-group">
           <label>{{ $t('en_content') }}</label>
-          <textarea v-model="form.content" rows="5" :placeholder="$t('i18n.content_ca9884')"></textarea>
+          <textarea v-model="form.content" rows="5" :placeholder="$t('i18n.create.content')"></textarea>
         </div>
         <div class="form-group">
           <label>Strength: <span class="strength-val">{{ form.strength * 10 }}%</span></label>

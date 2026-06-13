@@ -15,7 +15,7 @@
       </div>
 
       <div class="dedup-summary">
-        <span class="summary-item">{{ $t('i18n.discover') }} <strong>{{ pairs.length }}</strong> {{ $t('i18n.duplicate_memories_d9cf3d') }}</span>
+        <span class="summary-item">{{ $t('i18n.discover') }} <strong>{{ pairs.length }}</strong> {{ $t('i18n.dedup.for_duplicate') }}</span>
         <span class="summary-item">{{ $t('i18n.selected') }} <strong>{{ selectedIndices.length }}</strong> {{ $t('i18n.treat_merge') }}</span>
         <label class="select-all">
           <input type="checkbox" v-model="selectAll" @change="toggleSelectAll" />
@@ -65,7 +65,7 @@
       <div class="empty-state" v-else>
         <div class="empty-icon">✅</div>
         <h3>{{ $t('i18n.duplicate_memories') }}</h3>
-        <p>{{ $t('search.no_similar_match') }} 70% {{ $t('i18n.duplicate_memories_ba1fa5') }}</p>
+        <p>{{ $t('search.no_similar_match') }} 70% {{ $t('i18n.dedup.of_duplicate') }}</p>
       </div>
 
       <div class="dedup-footer">
