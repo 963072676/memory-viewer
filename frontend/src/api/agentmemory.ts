@@ -1,5 +1,14 @@
 import { request } from './index'
+import {
+  createMemory,
+  deleteMemory,
+  fetchMemories as fetchUnifiedMemories,
+  fetchMemory,
+  updateMemory,
+  type MemoryItem,
+} from './memories'
 import type {
+  AgentMemory,
   AgentMemoryResponse,
   AgentMemoryPaginatedResponse,
   DecayResponse,
@@ -13,11 +22,64 @@ import type {
   TemplatesResponse,
 } from '@/types'
 
+const AGENTMEMORY_PROVIDER = 'agentmemory'
+const DEFAULT_MEMORY_TYPE: AgentMemory['type'] = 'fact'
+
+function memoryType(value: unknown): AgentMemory['type'] {
+  const allowed: AgentMemory['type'][] = ['pattern', 'fact', 'preference', 'bug', 'workflow', 'architecture']
+  return allowed.includes(value as AgentMemory['type']) ? value as AgentMemory['type'] : DEFAULT_MEMORY_TYPE
+}
+
+function healthColor(value: unknown): AgentMemory['health_color'] {
+  return value === 'green' || value === 'yellow' || value === 'red' ? value : undefined
+}
+
+function rawMemory(item: MemoryItem): Record<string, any> {
+  return (item.metadata.raw && typeof item.metadata.raw === 'object')
+    ? item.metadata.raw as Record<string, any>
+    : {}
+}
+
+function toAgentMemory(item: MemoryItem): AgentMemory {
+  const raw = rawMemory(item)
+  const metadata = item.metadata || {}
+  return {
+    id: item.id,
+    type: memoryType(raw.type),
+    title: raw.title || item.content.slice(0, 80) || item.id,
+    content: item.content,
+    concepts: Array.isArray(raw.concepts) ? raw.concepts : [],
+    files: Array.isArray(raw.files) ? raw.files : [],
+    createdAt: raw.createdAt || raw.created_at || new Date(metadata.timestamp || Date.now()).toISOString(),
+    updatedAt: raw.updatedAt || raw.updated_at || new Date(metadata.timestamp || Date.now()).toISOString(),
+    strength: Number(raw.strength ?? 5),
+    version: Number(raw.version ?? 1),
+    isLatest: raw.isLatest ?? true,
+    sessionIds: Array.isArray(raw.sessionIds)
+      ? raw.sessionIds
+      : (metadata.sessionId ? [metadata.sessionId] : []),
+    archived: Boolean(raw.archived ?? false),
+    health_score: raw.health_score,
+    health_color: healthColor(raw.health_color),
+    tags: Array.isArray(metadata.tags)
+      ? metadata.tags
+      : (Array.isArray(raw.tags) ? raw.tags : []),
+  }
+}
+
+function toAgentMemoryResponse(item: MemoryItem): AgentMemoryResponse {
+  return { memories: [toAgentMemory(item)] }
+}
+
 export function fetchAgentMemory(includeArchived?: boolean): Promise<AgentMemoryResponse> {
   if (includeArchived) {
     return request<AgentMemoryResponse>('/agentmemory/paginated?limit=500&include_archived=true')
   }
-  return request<AgentMemoryResponse>('/agentmemory')
+  return fetchUnifiedMemories({
+    provider: AGENTMEMORY_PROVIDER,
+    limit: 500,
+    includeRaw: true,
+  }).then(response => ({ memories: response.items.map(toAgentMemory) }))
 }
 
 export function fetchAgentMemoryPaginated(params: {
@@ -28,14 +90,37 @@ export function fetchAgentMemoryPaginated(params: {
   type?: string
   tag?: string
 }): Promise<AgentMemoryPaginatedResponse> {
-  const searchParams = new URLSearchParams()
-  if (params.limit) searchParams.set('limit', String(params.limit))
-  if (params.offset) searchParams.set('offset', String(params.offset))
-  if (params.sort) searchParams.set('sort', params.sort)
-  if (params.order) searchParams.set('order', params.order)
-  if (params.type) searchParams.set('type', params.type)
-  if (params.tag) searchParams.set('tag', params.tag)
-  return request<AgentMemoryPaginatedResponse>(`/agentmemory/paginated?${searchParams}`)
+  return fetchUnifiedMemories({
+    provider: AGENTMEMORY_PROVIDER,
+    limit: 500,
+    includeRaw: true,
+  }).then(response => {
+    let memories = response.items.map(toAgentMemory)
+    if (params.type) {
+      memories = memories.filter(memory => memory.type === params.type)
+    }
+    if (params.tag) {
+      const tag = params.tag.toLowerCase()
+      memories = memories.filter(memory => (memory.tags || []).some(t => t.toLowerCase() === tag))
+    }
+
+    const sort = params.sort || 'updatedAt'
+    const order = params.order === 'asc' ? 1 : -1
+    memories.sort((a, b) => {
+      if (sort === 'strength') return (a.strength - b.strength) * order
+      if (sort === 'type') return a.type.localeCompare(b.type) * order
+      return (new Date(a[sort as 'updatedAt' | 'createdAt']).getTime() - new Date(b[sort as 'updatedAt' | 'createdAt']).getTime()) * order
+    })
+
+    const offset = params.offset || 0
+    const limit = params.limit || 50
+    return {
+      total: memories.length,
+      limit,
+      offset,
+      memories: memories.slice(offset, offset + limit),
+    }
+  })
 }
 
 export function createAgentMemory(data: {
@@ -46,10 +131,15 @@ export function createAgentMemory(data: {
   strength?: number
   tags?: string[]
 }): Promise<any> {
-  return request('/agentmemory', {
-    method: 'POST',
-    body: JSON.stringify(data),
-  })
+  return createMemory({
+    provider: AGENTMEMORY_PROVIDER,
+    content: data.content,
+    title: data.title,
+    type: data.type,
+    concepts: data.concepts,
+    strength: data.strength,
+    tags: data.tags,
+  }).then(response => ({ success: true, memory: toAgentMemory(response.memory) }))
 }
 
 // F-08: Update memory
@@ -58,17 +148,17 @@ export function updateAgentMemory(id: string, data: {
   concepts?: string[]
   strength?: number
 }): Promise<any> {
-  return request(`/agentmemory/${id}`, {
-    method: 'PUT',
-    body: JSON.stringify(data),
-  })
+  return updateMemory(id, {
+    provider: AGENTMEMORY_PROVIDER,
+    content: data.content,
+    concepts: data.concepts,
+    strength: data.strength,
+  }).then(response => ({ success: response.success, memory: toAgentMemory(response.memory) }))
 }
 
 // F-09: Delete single memory
 export function deleteAgentMemory(id: string): Promise<any> {
-  return request(`/agentmemory/${id}`, {
-    method: 'DELETE',
-  })
+  return deleteMemory(id, AGENTMEMORY_PROVIDER)
 }
 
 // F-09: Batch delete memories
@@ -151,10 +241,10 @@ export function getGraph(): Promise<GraphResponse> {
 
 // F46: Set memory tags
 export function setMemoryTags(id: string, tags: string[]): Promise<any> {
-  return request(`/agentmemory/${id}/tags`, {
-    method: 'PUT',
-    body: JSON.stringify({ tags }),
-  })
+  return updateMemory(id, {
+    provider: AGENTMEMORY_PROVIDER,
+    tags,
+  }).then(response => ({ success: response.success, memory: toAgentMemory(response.memory) }))
 }
 
 // F46: Fetch all tags
@@ -174,5 +264,5 @@ export function fetchTemplates(): Promise<TemplatesResponse> {
 
 // P21-T2: Fetch single memory by ID
 export function fetchAgentMemoryById(id: string): Promise<AgentMemoryResponse> {
-  return request<AgentMemoryResponse>(`/agentmemory/${id}`)
+  return fetchMemory(id, AGENTMEMORY_PROVIDER).then(response => toAgentMemoryResponse(response.memory))
 }

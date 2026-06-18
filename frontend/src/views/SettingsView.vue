@@ -20,6 +20,10 @@
         <SourcesView />
       </div>
 
+      <div v-if="activeTab === 'providers'" class="settings-panel">
+        <ProviderPanel />
+      </div>
+
       <!-- Webhook -->
       <div v-if="activeTab === 'webhook'" class="settings-panel">
         <h2 class="section-title">🔗 Webhook {{ $t('i18n.config') }}</h2>
@@ -153,18 +157,27 @@
 
 <script setup lang="ts">
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
+import { useRoute } from 'vue-router'
 import { fetchWebhookConfig, updateWebhookConfig } from '@/api/webhook'
 
 const SourcesView = defineAsyncComponent(() => import('@/views/SourcesView.vue'))
+const ProviderPanel = defineAsyncComponent(() => import('@/components/Layout/ProviderPanel.vue'))
+
+type SettingsTab = 'sources' | 'providers' | 'webhook' | 'notifications' | 'about'
 
 const tabs = [
   { id: 'sources' as const, icon: '🔌', label: '记忆源' },
+  { id: 'providers' as const, icon: 'P', label: 'Providers' },
   { id: 'webhook' as const, icon: '🔗', label: 'Webhook' },
   { id: 'notifications' as const, icon: '🔔', label: '通知' },
   { id: 'about' as const, icon: 'ℹ️', label: '关于' },
 ]
 
-const activeTab = ref<'sources' | 'webhook' | 'notifications' | 'about'>('sources')
+const route = useRoute()
+const tabParam = typeof route.query.tab === 'string' ? route.query.tab : ''
+const activeTab = ref<SettingsTab>(
+  tabs.some(tab => tab.id === tabParam) ? tabParam as SettingsTab : 'sources',
+)
 
 // Webhook config
 const webhookUrl = ref('')

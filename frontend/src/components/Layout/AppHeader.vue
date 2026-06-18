@@ -23,6 +23,7 @@
       </div>
 
       <div class="header-right">
+        <ProviderStatusBadge />
         <LanguageSwitcher />
         <button class="theme-toggle" @click="toggleTheme" :title="modeLabel()" :aria-label="modeLabel()">
           <span aria-hidden="true">{{ modeIcon() }}</span>
@@ -37,6 +38,7 @@ import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useTheme } from '@/composables/useTheme'
 import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
+import ProviderStatusBadge from '@/components/Layout/ProviderStatusBadge.vue'
 
 const { toggleTheme, modeLabel, modeIcon } = useTheme()
 const route = useRoute()
