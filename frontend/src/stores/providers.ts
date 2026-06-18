@@ -1,12 +1,14 @@
 import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 import {
+  fetchProviderObservability,
   fetchProviders,
   fetchProviderHealth,
   switchProvider as apiSwitchProvider,
   updateProviderStrategy,
   type ProviderHealthInfo,
   type ProviderInfo,
+  type ProviderObservability,
   type ProviderStrategy,
   type ProviderStrategyUpdate,
 } from '@/api/providers'
@@ -15,9 +17,12 @@ export const useProviderStore = defineStore('providers', () => {
   const providers = ref<ProviderInfo[]>([])
   const strategy = ref<ProviderStrategy | null>(null)
   const health = ref<Record<string, ProviderHealthInfo>>({})
+  const observability = ref<ProviderObservability | null>(null)
   const loading = ref(false)
+  const observabilityLoading = ref(false)
   const saving = ref(false)
   const error = ref<string | null>(null)
+  const observabilityError = ref<string | null>(null)
   const loaded = ref(false)
   const lastFetch = ref<Date | null>(null)
 
@@ -83,6 +88,20 @@ export const useProviderStore = defineStore('providers', () => {
     }
   }
 
+  async function loadObservability(limit = 50) {
+    observabilityLoading.value = true
+    observabilityError.value = null
+    try {
+      const response = await fetchProviderObservability(limit)
+      observability.value = response.observability
+    } catch (e: any) {
+      observabilityError.value = e?.message || 'Failed to load provider observability'
+      throw e
+    } finally {
+      observabilityLoading.value = false
+    }
+  }
+
   async function saveStrategy(update: ProviderStrategyUpdate) {
     saving.value = true
     error.value = null
@@ -115,9 +134,12 @@ export const useProviderStore = defineStore('providers', () => {
     providers,
     strategy,
     health,
+    observability,
     loading,
+    observabilityLoading,
     saving,
     error,
+    observabilityError,
     loaded,
     lastFetch,
     activeProvider,
@@ -127,6 +149,7 @@ export const useProviderStore = defineStore('providers', () => {
     unhealthyCount,
     load,
     refreshHealth,
+    loadObservability,
     saveStrategy,
     switchActiveProvider,
   }

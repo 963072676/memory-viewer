@@ -43,6 +43,118 @@
         </div>
       </div>
 
+      <section class="observability-section">
+        <div class="subsection-header">
+          <div>
+            <h3>Provider Observability</h3>
+          </div>
+          <button
+            class="action-btn"
+            type="button"
+            :disabled="providerStore.observabilityLoading"
+            @click="refreshObservability"
+          >
+            {{ providerStore.observabilityLoading ? 'Refreshing...' : 'Refresh telemetry' }}
+          </button>
+        </div>
+
+        <div
+          v-if="providerStore.observabilityLoading && !providerStore.observability"
+          class="loading loading--compact"
+        >
+          Loading telemetry...
+        </div>
+
+        <div v-else-if="providerStore.observabilityError" class="error-state error-state--compact">
+          <p>{{ providerStore.observabilityError }}</p>
+          <button class="action-btn" type="button" @click="refreshObservability">Retry</button>
+        </div>
+
+        <template v-else-if="observability">
+          <div class="telemetry-grid">
+            <div class="telemetry-card">
+              <div class="telemetry-label">Active latency</div>
+              <div class="telemetry-value">{{ formatLatency(activeStats?.avgLatencyMs) }}</div>
+              <div class="telemetry-note">{{ providerStore.activeProvider || 'no active provider' }}</div>
+            </div>
+            <div class="telemetry-card">
+              <div class="telemetry-label">Fallback used</div>
+              <div class="telemetry-value">{{ observability.routing.fallbackUsed }}</div>
+              <div class="telemetry-note">{{ observability.routing.fallback }} fallback routes</div>
+            </div>
+            <div class="telemetry-card" :class="{ warn: observability.routing.routeErrors > 0 }">
+              <div class="telemetry-label">Route errors</div>
+              <div class="telemetry-value">{{ observability.routing.routeErrors }}</div>
+              <div class="telemetry-note">{{ providerStore.unhealthyCount }} unhealthy now</div>
+            </div>
+            <div class="telemetry-card">
+              <div class="telemetry-label">Recent calls</div>
+              <div class="telemetry-value">{{ observability.recentCalls.length }}</div>
+              <div class="telemetry-note">last {{ formatTime(lastCall?.timestamp) }}</div>
+            </div>
+          </div>
+
+          <div class="telemetry-layout">
+            <div class="telemetry-panel">
+              <div class="telemetry-panel-title">Provider latency</div>
+              <div class="provider-metrics">
+                <div class="provider-metric-row provider-metric-row--head">
+                  <span>Provider</span>
+                  <span>Avg</span>
+                  <span>Error rate</span>
+                  <span>Fallback wins</span>
+                </div>
+                <div
+                  v-for="row in telemetryRows"
+                  :key="row.name"
+                  class="provider-metric-row"
+                >
+                  <span class="metric-provider">
+                    <strong>{{ row.name }}</strong>
+                    <small>{{ row.type }}</small>
+                  </span>
+                  <span>{{ formatLatency(row.avgLatencyMs) }}</span>
+                  <span :class="{ danger: row.errorRate > 0 }">{{ formatRate(row.errorRate) }}</span>
+                  <span>{{ row.fallbackSuccesses }}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="telemetry-panel">
+              <div class="telemetry-panel-title">Recent routing paths</div>
+              <div v-if="recentRoutes.length === 0" class="empty-telemetry">
+                No routes recorded yet.
+              </div>
+              <div v-else class="route-list">
+                <div
+                  v-for="route in recentRoutes"
+                  :key="`${route.timestamp}-${route.strategy}-${route.providers.join('-')}`"
+                  class="route-row"
+                  :class="{ warn: route.errors.length > 0, fallback: route.fallbackUsed }"
+                >
+                  <div class="route-main">
+                    <span class="route-strategy">{{ route.strategy }}</span>
+                    <strong>{{ routePath(route) }}</strong>
+                  </div>
+                  <div class="route-meta">
+                    <span>{{ routeOutcome(route) }}</span>
+                    <span>{{ formatLatency(route.latencyMs) }}</span>
+                    <span>{{ formatTime(route.timestamp) }}</span>
+                  </div>
+                  <div v-if="route.errors.length" class="route-error">
+                    {{ errorText(route.errors[0]) }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </template>
+
+        <div v-else class="empty-telemetry">
+          No provider telemetry yet.
+        </div>
+      </section>
+
       <form class="strategy-form" @submit.prevent="saveStrategy">
         <div class="form-grid">
           <div class="form-field">
@@ -198,7 +310,7 @@
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref, watch } from 'vue'
 import { useProviderStore } from '@/stores/providers'
-import type { ProviderInfo } from '@/api/providers'
+import type { ProviderInfo, ProviderRouteEvent } from '@/api/providers'
 
 const providerStore = useProviderStore()
 const saveOk = ref(false)
@@ -217,6 +329,31 @@ const fallbackOptions = computed(() => (
   providerStore.providers.filter(provider => provider.name !== draft.activeProvider)
 ))
 const fallbackCount = computed(() => draft.fallbackProviders.length)
+const observability = computed(() => providerStore.observability)
+const activeStats = computed(() => {
+  const active = providerStore.activeProvider
+  if (!active) return null
+  return observability.value?.providers[active] || null
+})
+const lastCall = computed(() => {
+  const calls = observability.value?.recentCalls || []
+  return calls.length ? calls[calls.length - 1] : null
+})
+const telemetryRows = computed(() => (
+  providerStore.providers.map(provider => {
+    const stats = observability.value?.providers[provider.name]
+    return {
+      name: provider.name,
+      type: stats?.type || provider.type,
+      avgLatencyMs: stats?.avgLatencyMs || 0,
+      errorRate: stats?.errorRate || 0,
+      fallbackSuccesses: stats?.fallbackSuccesses || 0,
+    }
+  })
+))
+const recentRoutes = computed(() => (
+  [...(observability.value?.routing.recentRoutes || [])].reverse().slice(0, 6)
+))
 
 function syncDraft() {
   const strategy = providerStore.strategy
@@ -260,15 +397,26 @@ function normalizedStrategy() {
 async function loadProviders() {
   await providerStore.load()
   syncDraft()
+  await refreshObservability()
 }
 
 async function refreshHealth() {
   await providerStore.refreshHealth()
+  await refreshObservability()
+}
+
+async function refreshObservability() {
+  try {
+    await providerStore.loadObservability(25)
+  } catch {
+    // The store keeps the user-facing telemetry error.
+  }
 }
 
 async function saveStrategy() {
   await providerStore.saveStrategy(normalizedStrategy())
   syncDraft()
+  await refreshObservability()
   saveOk.value = true
   setTimeout(() => { saveOk.value = false }, 2000)
 }
@@ -278,6 +426,7 @@ async function makeActive(name: string) {
   dropActiveFromFallback()
   await providerStore.switchActiveProvider(name)
   syncDraft()
+  await refreshObservability()
 }
 
 function providerError(name: string) {
@@ -304,6 +453,43 @@ function healthLabel(name: string) {
 
 function capabilityLabel(provider: ProviderInfo) {
   return provider.capabilities.length ? provider.capabilities.join(', ') : 'basic'
+}
+
+function formatLatency(value?: number) {
+  const latency = Number(value) || 0
+  if (latency >= 1000) return `${(latency / 1000).toFixed(2)} s`
+  return `${Math.round(latency)} ms`
+}
+
+function formatRate(value?: number) {
+  return `${Math.round((Number(value) || 0) * 100)}%`
+}
+
+function formatTime(timestamp?: number | null) {
+  if (!timestamp) return 'none'
+  return new Date(timestamp).toLocaleTimeString([], {
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+  })
+}
+
+function routePath(route: ProviderRouteEvent) {
+  return route.providers.length ? route.providers.join(' -> ') : 'no provider'
+}
+
+function routeOutcome(route: ProviderRouteEvent) {
+  if (route.successfulProviders.length > 1) return route.successfulProviders.join(', ')
+  if (route.successfulProvider) return route.successfulProvider
+  if (route.errors.length) return 'failed'
+  return 'no result'
+}
+
+function errorText(error: Record<string, unknown>) {
+  const provider = typeof error.provider === 'string' ? error.provider : ''
+  const code = typeof error.code === 'string' ? error.code : ''
+  const message = typeof error.message === 'string' ? error.message : ''
+  return [provider, code || message].filter(Boolean).join(': ') || 'Provider error'
 }
 
 watch(() => providerStore.strategy, syncDraft, { immediate: true })
@@ -409,6 +595,207 @@ h2.section-title::before {
   margin-top: 4px;
   color: var(--text-secondary);
   font-size: 0.8rem;
+}
+
+.observability-section {
+  margin-bottom: 24px;
+  padding-top: 2px;
+}
+
+.subsection-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.subsection-header h3 {
+  color: var(--primary);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.loading--compact,
+.error-state--compact {
+  padding: 20px;
+}
+
+.telemetry-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.telemetry-card {
+  min-height: 112px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card);
+}
+
+.telemetry-card.warn {
+  border-color: color-mix(in srgb, var(--warn-text) 28%, var(--border));
+}
+
+.telemetry-label,
+.telemetry-note {
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+}
+
+.telemetry-value {
+  margin-top: 10px;
+  color: var(--primary);
+  font-size: 1.45rem;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.telemetry-note {
+  margin-top: 8px;
+}
+
+.telemetry-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 12px;
+}
+
+.telemetry-panel {
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card);
+}
+
+.telemetry-panel-title {
+  margin-bottom: 12px;
+  color: var(--primary);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.provider-metrics,
+.route-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.provider-metric-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) repeat(3, minmax(70px, 0.75fr));
+  gap: 10px;
+  align-items: center;
+  min-height: 40px;
+  padding: 8px 0;
+  border-top: 1px solid var(--border);
+  color: var(--primary);
+  font-size: 0.82rem;
+}
+
+.provider-metric-row--head {
+  min-height: 28px;
+  padding-top: 0;
+  border-top: none;
+  color: var(--text-secondary);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.metric-provider {
+  min-width: 0;
+}
+
+.metric-provider strong,
+.metric-provider small {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.metric-provider small {
+  margin-top: 2px;
+  color: var(--text-secondary);
+  font-size: 0.72rem;
+}
+
+.danger,
+.route-error {
+  color: var(--error-text);
+}
+
+.route-row {
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+}
+
+.route-row.fallback {
+  border-color: color-mix(in srgb, var(--info-text) 25%, var(--border));
+}
+
+.route-row.warn {
+  background: var(--warn-bg);
+  border-color: color-mix(in srgb, var(--warn-text) 30%, var(--border));
+}
+
+.route-main,
+.route-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-width: 0;
+}
+
+.route-main strong {
+  min-width: 0;
+  color: var(--primary);
+  font-size: 0.84rem;
+  overflow-wrap: anywhere;
+}
+
+.route-strategy {
+  display: inline-flex;
+  align-items: center;
+  min-height: 22px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: var(--accent-subtle);
+  color: var(--accent);
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.route-meta {
+  margin-top: 6px;
+  color: var(--text-secondary);
+  font-size: 0.76rem;
+}
+
+.route-error {
+  margin-top: 6px;
+  font-size: 0.76rem;
+  overflow-wrap: anywhere;
+}
+
+.empty-telemetry {
+  padding: 18px;
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  color: var(--text-secondary);
+  font-size: 0.84rem;
+  text-align: center;
 }
 
 .strategy-form {
@@ -657,8 +1044,19 @@ h2.section-title::before {
   }
 
   .numeric-grid,
-  .toggle-grid {
+  .toggle-grid,
+  .telemetry-layout {
     grid-template-columns: 1fr;
+  }
+
+  .provider-metric-row {
+    grid-template-columns: minmax(0, 1fr) repeat(3, minmax(58px, 0.55fr));
+    gap: 8px;
+    font-size: 0.76rem;
+  }
+
+  .provider-metric-row--head {
+    font-size: 0.66rem;
   }
 
   .provider-card {
