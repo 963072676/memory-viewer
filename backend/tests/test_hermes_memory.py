@@ -1,6 +1,21 @@
 """Tests for hermes memory API endpoints."""
 
 
+def test_read_file_safe_falls_back_to_legacy_windows_encoding(tmp_path):
+    """Hermes files written with a Windows locale should not break parsing."""
+    from app.services.hermes_memory import _parse_section_entries, _read_file_safe
+
+    memory_file = tmp_path / "MEMORY.md"
+    memory_file.write_bytes(b"Global memory entry one\n\xa1\xec\nGlobal memory entry two")
+
+    content = _read_file_safe(str(memory_file))
+
+    assert _parse_section_entries(content) == [
+        "Global memory entry one",
+        "Global memory entry two",
+    ]
+
+
 def test_get_hermes_memory(client):
     """Test GET /api/hermes-memory returns global + profile data."""
     resp = client.get("/api/hermes-memory")

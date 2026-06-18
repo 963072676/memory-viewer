@@ -2,23 +2,18 @@
 
 import os
 from app.config import settings
+from app.utils.markdown import parse_section_entries
+from app.utils.text import read_text_file_safe
 
 
 def _read_file_safe(path: str) -> str:
-    """Read file content, return empty string if missing."""
-    try:
-        with open(path, "r", encoding="utf-8") as f:
-            return f.read()
-    except (FileNotFoundError, PermissionError, OSError):
-        return ""
+    """Read file content with UTF-8 first and legacy encoding fallback."""
+    return read_text_file_safe(path)
 
 
 def _parse_section_entries(content: str) -> list[str]:
     """Split content by § delimiter, strip whitespace, filter empty."""
-    if not content:
-        return []
-    entries = content.split("§")
-    return [e.strip() for e in entries if e.strip()]
+    return parse_section_entries(content)
 
 
 def _discover_profiles() -> list[str]:

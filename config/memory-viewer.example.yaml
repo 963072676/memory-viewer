@@ -63,3 +63,40 @@ sources:
     config:
       api_key: ${MEM0_API_KEY:}
       base_url: https://api.mem0.ai/v1
+
+  # Remote provider adapters are optional and enabled when their API key exists.
+  # Paths are configurable so provider API version changes stay isolated here.
+  - name: zep
+    type: zep
+    enabled: auto
+    config:
+      api_key: ${ZEP_API_KEY:}
+      base_url: https://api.getzep.com
+      user_id: ${ZEP_USER_ID:}
+      paths:
+        search: /api/v2/graph/search
+        store: /api/v2/graph
+
+  - name: letta
+    type: letta
+    enabled: auto
+    config:
+      api_key: ${LETTA_API_KEY:}
+      base_url: https://api.letta.com
+      paths:
+        list: /v1/blocks/
+        get: /v1/blocks/{id}
+        store: /v1/blocks/
+        update: /v1/blocks/{id}
+        delete: /v1/blocks/{id}
+
+  - name: supermemory
+    type: supermemory
+    enabled: auto
+    config:
+      api_key: ${SUPERMEMORY_API_KEY:}
+      base_url: https://api.supermemory.ai
+      container_tag: ${SUPERMEMORY_CONTAINER_TAG:}
+      paths:
+        search: /v4/search
+        store: /v3/documents
