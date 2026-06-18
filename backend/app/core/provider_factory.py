@@ -11,6 +11,7 @@ from typing import Any, Callable
 from app.core.errors import MemoryProviderError, ProviderConfigError, normalize_provider_error
 from app.core.memory_provider import MemoryProvider
 from app.core.memory_schema import MemoryInput, MemoryItem, MemoryQuery, MemoryQueryResult
+from app.core.observability import ProviderObservability
 
 logger = logging.getLogger(__name__)
 
@@ -41,6 +42,7 @@ class ProviderFactory:
         self._providers: dict[str, MemoryProvider] = {}
         self._provider_types: dict[str, str] = {}
         self.strategy = ProviderStrategy()
+        self.observability = ProviderObservability()
 
     def register_provider_type(self, provider_type: str, builder: ProviderBuilder) -> None:
         self._builders[provider_type] = builder
@@ -76,6 +78,13 @@ class ProviderFactory:
 
     def list_providers(self) -> list[str]:
         return list(self._providers.keys())
+
+    def get_observability_snapshot(self, limit: int = 50) -> dict[str, Any]:
+        return self.observability.snapshot(
+            provider_types=self._provider_types,
+            strategy=self.get_strategy_config(),
+            limit=limit,
+        )
 
     def get_strategy_config(self) -> dict[str, Any]:
         return {
@@ -218,15 +227,39 @@ class ProviderFactory:
         names.extend(self.strategy.fallback_providers)
         return [name for idx, name in enumerate(names) if name and name not in names[:idx]]
 
+    def _provider_type(self, provider: MemoryProvider) -> str:
+        return self._provider_types.get(provider.name, "") or getattr(provider, "provider_type", "")
+
     async def _run_with_policy(self, provider: MemoryProvider, operation: str, call):
         attempts = max(1, self.strategy.retry.attempts)
         last_error: MemoryProviderError | None = None
 
         for attempt in range(attempts):
+            started = time.perf_counter()
             try:
-                return await asyncio.wait_for(call(), timeout=self.strategy.timeout_seconds)
+                result = await asyncio.wait_for(call(), timeout=self.strategy.timeout_seconds)
+                latency_ms = int((time.perf_counter() - started) * 1000)
+                self.observability.record_call(
+                    provider=provider.name,
+                    provider_type=self._provider_type(provider),
+                    operation=operation,
+                    success=True,
+                    latency_ms=latency_ms,
+                    attempt=attempt + 1,
+                )
+                return result
             except Exception as exc:
+                latency_ms = int((time.perf_counter() - started) * 1000)
                 last_error = normalize_provider_error(exc, provider=provider.name, operation=operation)
+                self.observability.record_call(
+                    provider=provider.name,
+                    provider_type=self._provider_type(provider),
+                    operation=operation,
+                    success=False,
+                    latency_ms=latency_ms,
+                    attempt=attempt + 1,
+                    error=last_error.to_dict(),
+                )
                 if not last_error.retryable or attempt == attempts - 1:
                     break
                 await asyncio.sleep(self.strategy.retry.backoff_seconds * (attempt + 1))
@@ -247,19 +280,62 @@ class ProviderFactory:
 
     async def query_memory_from_provider(self, provider_name: str, query: MemoryQuery) -> MemoryQueryResult:
         provider = self.get_provider(provider_name)
-        return await self._run_with_policy(provider, "query_memory", lambda: provider.query_memory(query))
+        started = time.perf_counter()
+        try:
+            result = await self._run_with_policy(provider, "query_memory", lambda: provider.query_memory(query))
+        except Exception as exc:
+            normalized = normalize_provider_error(exc, provider=provider.name, operation="query_memory")
+            self.observability.record_route(
+                operation="query_memory",
+                strategy="direct",
+                providers=[provider.name],
+                latency_ms=int((time.perf_counter() - started) * 1000),
+                errors=[normalized.to_dict()],
+            )
+            raise
+
+        self.observability.record_route(
+            operation="query_memory",
+            strategy="direct",
+            providers=[provider.name],
+            successful_provider=result.provider or provider.name,
+            latency_ms=int((time.perf_counter() - started) * 1000),
+        )
+        return result
 
     async def query_memory_with_fallback(self, query: MemoryQuery) -> MemoryQueryResult:
         last_error: MemoryProviderError | None = None
+        started = time.perf_counter()
+        providers_tried: list[str] = []
+        route_errors: list[dict[str, Any]] = []
         for provider_name in self._provider_order():
             provider = self.get_provider(provider_name)
+            providers_tried.append(provider.name)
             try:
-                return await self._run_with_policy(provider, "query_memory", lambda: provider.query_memory(query))
+                result = await self._run_with_policy(provider, "query_memory", lambda: provider.query_memory(query))
+                self.observability.record_route(
+                    operation="query_memory",
+                    strategy="fallback",
+                    providers=providers_tried,
+                    successful_provider=result.provider or provider.name,
+                    fallback_used=len(providers_tried) > 1,
+                    latency_ms=int((time.perf_counter() - started) * 1000),
+                    errors=route_errors,
+                )
+                return result
             except Exception as exc:
                 last_error = normalize_provider_error(exc, provider=provider.name, operation="query_memory")
+                route_errors.append(last_error.to_dict())
                 logger.warning("Provider query failed: %s", last_error.to_dict())
 
         if last_error is not None:
+            self.observability.record_route(
+                operation="query_memory",
+                strategy="fallback",
+                providers=providers_tried,
+                latency_ms=int((time.perf_counter() - started) * 1000),
+                errors=route_errors,
+            )
             raise last_error
 
         return MemoryQueryResult(items=[], latency=0, provider="")
@@ -280,6 +356,7 @@ class ProviderFactory:
         merged: list[MemoryItem] = []
         seen: set[tuple[str, str]] = set()
         successful: list[str] = []
+        errors: list[dict[str, Any]] = []
 
         for result in results:
             if isinstance(result, MemoryQueryResult):
@@ -291,9 +368,19 @@ class ProviderFactory:
                         merged.append(item)
             elif isinstance(result, Exception):
                 normalized = normalize_provider_error(result, operation="query_memory")
+                errors.append(normalized.to_dict())
                 logger.warning("Provider fan-out query failed: %s", normalized.to_dict())
 
         latency_ms = int((time.perf_counter() - started) * 1000)
+        self.observability.record_route(
+            operation="query_memory",
+            strategy="parallel",
+            providers=selected_provider_names,
+            successful_provider=successful[0] if successful else "",
+            successful_providers=successful,
+            latency_ms=latency_ms,
+            errors=errors,
+        )
         return MemoryQueryResult(items=merged[: query.limit], latency=latency_ms, provider=",".join(successful))
 
     async def update_memory(self, id: str, patch: dict[str, Any], provider_name: str | None = None) -> None:

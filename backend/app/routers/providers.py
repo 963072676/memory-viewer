@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Optional
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel, Field
 
 from app.adapters.registry import get_registry
@@ -105,3 +105,11 @@ def switch_provider(req: ProviderSwitchRequest):
 async def get_provider_health():
     """Return normalized provider health state."""
     return {"health": await _factory().health_check()}
+
+
+@router.get("/observability")
+def get_provider_observability(
+    limit: int = Query(default=50, ge=1, le=200),
+):
+    """Return provider latency, routing, fallback, and error telemetry."""
+    return {"observability": _factory().get_observability_snapshot(limit=limit)}

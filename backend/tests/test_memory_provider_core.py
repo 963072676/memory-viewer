@@ -106,6 +106,36 @@ async def test_provider_factory_falls_back_when_primary_query_fails():
 
 
 @pytest.mark.asyncio
+async def test_provider_factory_observability_tracks_fallback_route_and_errors():
+    factory = ProviderFactory()
+    factory.register_instance(FakeProvider("primary", fail_query=True))
+    factory.register_instance(FakeProvider("fallback", ids=["fb-1"]))
+    factory.configure_strategy(
+        active_provider="primary",
+        fallback_providers=["fallback"],
+        retry_attempts=1,
+        timeout_seconds=1,
+    )
+
+    result = await factory.query_memory(MemoryQuery(query="hello"))
+    snapshot = factory.get_observability_snapshot()
+
+    assert result.provider == "fallback"
+    assert snapshot["providers"]["primary"]["errors"] == 1
+    assert snapshot["providers"]["primary"]["operations"]["query_memory"]["errors"] == 1
+    assert snapshot["providers"]["fallback"]["successes"] == 1
+    assert snapshot["providers"]["fallback"]["fallbackSuccesses"] == 1
+
+    route = snapshot["routing"]["recentRoutes"][-1]
+    assert route["strategy"] == "fallback"
+    assert route["providers"] == ["primary", "fallback"]
+    assert route["successfulProvider"] == "fallback"
+    assert route["fallbackUsed"] is True
+    assert route["errors"][0]["code"] == "provider_unavailable"
+    assert route["errors"][0]["provider"] == "primary"
+
+
+@pytest.mark.asyncio
 async def test_provider_factory_parallel_query_merges_provider_results():
     factory = ProviderFactory()
     factory.register_instance(FakeProvider("primary", ids=["p-1", "p-2"]))

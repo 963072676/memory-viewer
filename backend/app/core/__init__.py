@@ -9,6 +9,7 @@ from app.core.memory_schema import (
     MemoryQueryResult,
     Session,
 )
+from app.core.observability import ProviderObservability
 from app.core.provider_factory import ProviderFactory
 
 __all__ = [
@@ -19,5 +20,6 @@ __all__ = [
     "MemoryQuery",
     "MemoryQueryResult",
     "ProviderFactory",
+    "ProviderObservability",
     "Session",
 ]

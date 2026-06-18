@@ -92,3 +92,22 @@ def test_provider_health_endpoint(client):
     health = response.json()["health"]
     assert health["hermes"]["healthy"] is True
     assert health["agentmemory"]["healthy"] is True
+
+
+def test_provider_observability_endpoint_exposes_latency_routing_and_errors(client):
+    health_response = client.get("/api/providers/health")
+    assert health_response.status_code == 200
+
+    response = client.get("/api/providers/observability?limit=10")
+
+    assert response.status_code == 200
+    observability = response.json()["observability"]
+    assert "strategy" in observability
+    assert "providers" in observability
+    assert "routing" in observability
+    assert "recentCalls" in observability
+    assert {"hermes", "agentmemory"}.issubset(observability["providers"].keys())
+    assert observability["providers"]["hermes"]["operations"]["health_check"]["calls"] >= 1
+    assert observability["providers"]["agentmemory"]["operations"]["health_check"]["calls"] >= 1
+    assert observability["recentCalls"][-1]["operation"] == "health_check"
+    assert "fallbackUsed" in observability["routing"]
