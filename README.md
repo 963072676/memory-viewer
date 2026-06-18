@@ -62,6 +62,21 @@ npm install
 npm run dev
 ```
 
+```powershell
+# Backend (Python 3.11+)
+cd backend
+python -m venv .venv
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process -Force
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+uvicorn app.main:app --reload --port 8501
+
+# Frontend (Node 20+)
+cd frontend
+npm install
+npm run dev
+```
+
 Open <http://localhost:5173> (Vite dev server proxies API to `:8501`).
 
 ## 🛠️ Configuration
