@@ -1,6 +1,23 @@
 """Tests for search API endpoint."""
 
 
+def test_search_uses_provider_registry(client, monkeypatch):
+    """Search should no longer call provider-specific service readers directly."""
+    import app.services.agentmemory as agentmemory_service
+    import app.services.hermes_memory as hermes_service
+
+    def fail_direct_read(*args, **kwargs):
+        raise AssertionError("search should use provider adapters")
+
+    monkeypatch.setattr(agentmemory_service, "get_all_memories", fail_direct_read)
+    monkeypatch.setattr(hermes_service, "get_hermes_memory", fail_direct_read)
+
+    resp = client.get("/api/search?q=hermes&source=agentmemory")
+
+    assert resp.status_code == 200
+    assert resp.json()["total"] > 0
+
+
 def test_search_basic(client):
     """Test basic search across all sources."""
     resp = client.get("/api/search?q=hermes")
@@ -25,6 +42,16 @@ def test_search_hermes_source(client):
     assert resp.status_code == 200
     data = resp.json()
     assert all(r["source"] == "hermes" for r in data["results"])
+
+
+def test_search_hermes_profile_filter(client):
+    """Hermes provider search preserves profile-level filtering."""
+    resp = client.get("/api/search?q=entry&source=hermes&profile=chief-agent")
+    assert resp.status_code == 200
+    data = resp.json()
+    assert data["total"] == 2
+    assert all(r["source"] == "hermes" for r in data["results"])
+    assert all(r["profile"] == "chief-agent" for r in data["results"])
 
 
 def test_search_with_type_filter(client):

@@ -25,9 +25,9 @@ def search_quick(
 
 
 @router.get("")
-def search(
+async def search(
     q: str = Query(default="", description="Search query (empty for pure filter mode)"),
-    source: Optional[str] = Query(default=None, pattern="^(agentmemory|hermes|all)$"),
+    source: Optional[str] = Query(default=None),
     type: Optional[str] = Query(default=None),
     types: Optional[str] = Query(default=None, description="Comma-separated type filters"),
     profile: Optional[str] = Query(default=None),
@@ -46,7 +46,7 @@ def search(
     elif type:
         type_list = [type]
 
-    return service.search_memories(
+    return await service.search_memories_async(
         query=q,
         source=source,
         type_filter=type_list,

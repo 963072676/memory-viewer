@@ -9,8 +9,8 @@ router = APIRouter()
 
 
 def _get_registry():
-    from app.adapters.registry import registry
-    return registry
+    from app.adapters.registry import get_registry
+    return get_registry()
 
 
 @router.get("/sources")

@@ -18,6 +18,8 @@ from fastapi.responses import FileResponse, JSONResponse
 from app.config import settings
 from app.routers import agentmemory, hermes_memory, profiles, search, health, changelog
 from app.routers import sources as sources_router
+from app.routers import providers as providers_router
+from app.routers import memories as memories_router
 from app.routers import favorites, collections, dashboard, compare
 from app.routers import metrics, webhook as webhook_router
 # P39: Restore per-memory P3 endpoints (decay / health / recommendations / suggest-tags / summarize)
@@ -30,8 +32,11 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(name)s] %(levelna
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """FastAPI lifespan: start/stop scheduler."""
+    """FastAPI lifespan: initialize providers and start/stop scheduler."""
+    from app.adapters.registry import initialize_registry
     from app import scheduler as sched
+
+    initialize_registry()
     await sched.on_startup(interval_minutes=settings.CACHE_REFRESH_INTERVAL)
     yield
     await sched.on_shutdown()
@@ -66,6 +71,8 @@ app.include_router(search.router, prefix="/api/search", tags=["search"])
 app.include_router(health.router, prefix="/api", tags=["health"])
 app.include_router(changelog.router, prefix="/api/changelog", tags=["changelog"])
 app.include_router(sources_router.router, prefix="/api", tags=["sources"])
+app.include_router(providers_router.router, prefix="/api/providers", tags=["providers"])
+app.include_router(memories_router.router, prefix="/api/memories", tags=["memories"])
 app.include_router(favorites.router, prefix="/api", tags=["favorites"])
 app.include_router(collections.router, prefix="/api/collections", tags=["collections"])
 app.include_router(dashboard.router, prefix="/api", tags=["dashboard"])
