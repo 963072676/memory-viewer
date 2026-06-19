@@ -86,6 +86,7 @@ const allNavItems = [
   { path: '/hermes', icon: '🧠', labelKey: 'en_nav_hermes' },
   { path: '/profiles', icon: '👤', labelKey: 'en_nav_profiles' },
   { path: '/dashboard', icon: '📊', labelKey: 'en_nav_dashboard' },
+  { path: '/graph', icon: 'G', labelKey: 'i18n.memory_graph' },
   { path: '/collections', icon: '📚', labelKey: 'en_nav_collections' },
   { path: '/compare', icon: '🔍', labelKey: 'en_nav_compare' },
   { path: '/sources', icon: '🔌', labelKey: 'en_nav_sources' },
@@ -100,7 +101,7 @@ const navSections = [
   },
   {
     titleKey: 'en_nav_section_features',
-    items: allNavItems.filter(i => ['/dashboard', '/collections', '/compare', '/sources'].includes(i.path))
+    items: allNavItems.filter(i => ['/dashboard', '/graph', '/collections', '/compare', '/sources'].includes(i.path))
   },
   {
     titleKey: 'en_nav_section_system',

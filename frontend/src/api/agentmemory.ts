@@ -236,7 +236,7 @@ export function mergeMemories(keepId: string, mergeId: string): Promise<MergeRes
 
 // F-18: Graph
 export function getGraph(): Promise<GraphResponse> {
-  return request<GraphResponse>('/agentmemory/graph')
+  return request<GraphResponse>('/graph')
 }
 
 // F46: Set memory tags

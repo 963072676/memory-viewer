@@ -41,6 +41,11 @@ const router = createRouter({
       component: () => import('@/views/CompareView.vue'),
     },
     {
+      path: '/graph',
+      name: 'graph',
+      component: () => import('@/views/GraphView.vue'),
+    },
+    {
       path: '/sources',
       name: 'sources',
       component: () => import('@/views/SourcesView.vue'),

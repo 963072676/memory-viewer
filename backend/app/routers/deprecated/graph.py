@@ -8,6 +8,6 @@ router = APIRouter()
 
 
 @router.get("/graph")
-def get_graph():
+async def get_graph():
     """Get memory relationship graph based on concept co-occurrence."""
-    return build_graph()
+    return await build_graph(provider="agentmemory")
