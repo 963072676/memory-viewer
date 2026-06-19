@@ -45,13 +45,21 @@ class PluginInfo:
     """Represents a loaded plugin."""
 
     def __init__(self, name: str, version: str, description: str,
-                 hooks: list[str], module: Any, path: str):
+                 hooks: list[str], module: Any, path: str,
+                 capabilities: list[dict] | None = None,
+                 permissions: list[str] | None = None,
+                 entry_points: dict | None = None,
+                 author: str = ""):
         self.name = name
         self.version = version
         self.description = description
         self.hooks = hooks
         self.module = module
         self.path = path
+        self.capabilities = capabilities or []
+        self.permissions = permissions or []
+        self.entry_points = entry_points or {}
+        self.author = author
         self.enabled = True
         self.loaded_at = datetime.now(timezone.utc).isoformat()
 
@@ -61,6 +69,10 @@ class PluginInfo:
             "version": self.version,
             "description": self.description,
             "hooks": self.hooks,
+            "capabilities": self.capabilities,
+            "permissions": self.permissions,
+            "entryPoints": self.entry_points,
+            "author": self.author,
             "enabled": self.enabled,
             "loaded_at": self.loaded_at,
             "path": self.path,
@@ -70,6 +82,60 @@ class PluginInfo:
 # Loaded plugins registry
 _plugins: dict[str, PluginInfo] = {}
 _initialized = False
+
+
+def _normalize_capabilities(manifest: dict, hooks: list[str]) -> list[dict]:
+    """Return stable plugin capability records for API and UI surfaces."""
+    raw_capabilities = manifest.get("capabilities", [])
+    capabilities: list[dict] = []
+
+    if isinstance(raw_capabilities, list):
+        for raw in raw_capabilities:
+            if isinstance(raw, str):
+                name = raw.strip()
+                if name:
+                    capabilities.append(
+                        {
+                            "name": name,
+                            "category": "extension",
+                            "description": "",
+                            "hooks": [],
+                        }
+                    )
+            elif isinstance(raw, dict):
+                name = str(raw.get("name", "")).strip()
+                if not name:
+                    continue
+                capability_hooks = raw.get("hooks", [])
+                if not isinstance(capability_hooks, list):
+                    capability_hooks = []
+                capabilities.append(
+                    {
+                        "name": name,
+                        "category": str(raw.get("category", "extension")),
+                        "description": str(raw.get("description", "")),
+                        "hooks": [h for h in capability_hooks if h in SUPPORTED_HOOKS],
+                    }
+                )
+
+    if capabilities:
+        return capabilities
+
+    return [
+        {
+            "name": hook,
+            "category": "hook",
+            "description": f"Runs on {hook}",
+            "hooks": [hook],
+        }
+        for hook in hooks
+    ]
+
+
+def _normalize_string_list(value: Any) -> list[str]:
+    if not isinstance(value, list):
+        return []
+    return [str(item).strip() for item in value if str(item).strip()]
 
 
 def _log_execution(plugin_name: str, hook: str, success: bool,
@@ -119,6 +185,12 @@ def discover_plugins() -> None:
         version = manifest.get("version", "0.0.1")
         description = manifest.get("description", "")
         hooks = [h for h in manifest.get("hooks", []) if h in SUPPORTED_HOOKS]
+        capabilities = _normalize_capabilities(manifest, hooks)
+        permissions = _normalize_string_list(manifest.get("permissions", []))
+        entry_points = manifest.get("entryPoints", {})
+        if not isinstance(entry_points, dict):
+            entry_points = {}
+        author = str(manifest.get("author", ""))
 
         if not hooks:
             logger.info(f"Plugin {name} has no valid hooks, skipping")
@@ -144,6 +216,10 @@ def discover_plugins() -> None:
             hooks=hooks,
             module=module,
             path=plugin_dir,
+            capabilities=capabilities,
+            permissions=permissions,
+            entry_points=entry_points,
+            author=author,
         )
         _plugins[name] = plugin
         logger.info(f"Loaded plugin: {name} v{version} (hooks: {hooks})")
@@ -156,6 +232,45 @@ def get_all_plugins() -> list[dict]:
     if not _initialized:
         discover_plugins()
     return [p.to_dict() for p in _plugins.values()]
+
+
+def get_capability_manifest() -> dict:
+    """Return aggregate plugin capability inventory."""
+    if not _initialized:
+        discover_plugins()
+
+    capability_index: dict[str, dict] = {}
+    for plugin in _plugins.values():
+        for capability in plugin.capabilities:
+            name = capability["name"]
+            record = capability_index.setdefault(
+                name,
+                {
+                    "name": name,
+                    "category": capability.get("category", "extension"),
+                    "description": capability.get("description", ""),
+                    "hooks": set(),
+                    "plugins": [],
+                },
+            )
+            record["hooks"].update(capability.get("hooks", []))
+            record["plugins"].append(plugin.name)
+
+    capabilities = [
+        {
+            **record,
+            "hooks": sorted(record["hooks"]),
+            "plugins": sorted(record["plugins"]),
+        }
+        for record in capability_index.values()
+    ]
+
+    return {
+        "plugins": [p.to_dict() for p in _plugins.values()],
+        "total": len(_plugins),
+        "capabilities": sorted(capabilities, key=lambda item: item["name"]),
+        "supportedHooks": sorted(SUPPORTED_HOOKS),
+    }
 
 
 def get_plugin(name: str) -> Optional[PluginInfo]:

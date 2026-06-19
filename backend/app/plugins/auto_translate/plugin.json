@@ -3,5 +3,17 @@
   "version": "1.0.0",
   "description": "Auto-detect and flag non-English memory content for translation awareness",
   "hooks": ["on_memory_create", "on_memory_update"],
+  "capabilities": [
+    {
+      "name": "translation-awareness",
+      "category": "memory_enrichment",
+      "description": "Detects non-English memory content and suggests a translation-awareness tag",
+      "hooks": ["on_memory_create", "on_memory_update"]
+    }
+  ],
+  "permissions": ["memory:read", "memory:tag:suggest"],
+  "entryPoints": {
+    "backend": "main.py"
+  },
   "author": "memory-viewer"
 }
