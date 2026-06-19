@@ -90,6 +90,7 @@ const allNavItems = [
   { path: '/collections', icon: '📚', labelKey: 'en_nav_collections' },
   { path: '/compare', icon: '🔍', labelKey: 'en_nav_compare' },
   { path: '/sources', icon: '🔌', labelKey: 'en_nav_sources' },
+  { path: '/plugins', icon: 'P', labelKey: 'en_nav_plugins' },
   { path: '/settings', icon: '⚙️', labelKey: 'en_nav_settings' },
 ]
 
@@ -105,7 +106,7 @@ const navSections = [
   },
   {
     titleKey: 'en_nav_section_system',
-    items: allNavItems.filter(i => ['/settings'].includes(i.path))
+    items: allNavItems.filter(i => ['/plugins', '/settings'].includes(i.path))
   },
 ]
 
