@@ -105,6 +105,7 @@
 import { ref, computed } from 'vue'
 import { useAgentMemoryStore } from '@/stores/agentmemory'
 import { useUIStore } from '@/stores/ui'
+import { useSessionStore } from '@/stores/sessions'
 import MemoryCard from '@/components/Layout/MemoryCard.vue'
 import ExportButton from '@/components/Layout/ExportButton.vue'
 import CreateMemoryModal from '@/components/Layout/CreateMemoryModal.vue'
@@ -125,6 +126,7 @@ import DedupModal from '@/components/Layout/DedupModal.vue'
 
 const store = useAgentMemoryStore()
 const uiStore = useUIStore()
+const sessionStore = useSessionStore()
 const toast = useToast()
 const router = useRouter()
 const route = useRoute()
@@ -248,7 +250,10 @@ function clearCollection() {
 }
 
 const sortedMemories = computed(() => {
-  const memories = [...store.memories]
+  let memories = [...store.memories]
+  if (sessionStore.activeSessionId) {
+    memories = memories.filter(m => (m.sessionIds || []).includes(sessionStore.activeSessionId))
+  }
   const field = uiStore.sortBy
   const order = uiStore.sortOrder === 'desc' ? -1 : 1
   memories.sort((a, b) => {

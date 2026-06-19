@@ -6,6 +6,7 @@
         <div class="panel-meta">
           <span>{{ summary?.memoryCount ?? 0 }} memories</span>
           <span>{{ providerLabel }}</span>
+          <span>{{ sessionStore.activeSessionId || 'all sessions' }}</span>
         </div>
       </div>
       <div class="panel-actions">
@@ -92,7 +93,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import {
   compressIntelligenceMemories,
   fetchIntelligenceClusters,
@@ -103,7 +104,9 @@ import {
   type IntelligenceContradictions,
   type IntelligenceSummary,
 } from '@/api/intelligence'
+import { useSessionStore } from '@/stores/sessions'
 
+const sessionStore = useSessionStore()
 const summary = ref<IntelligenceSummary | null>(null)
 const compression = ref<IntelligenceCompression | null>(null)
 const clusters = ref<IntelligenceClusters | null>(null)
@@ -115,6 +118,7 @@ const error = ref<string | null>(null)
 const providerLabel = computed(() => (
   summary.value?.providers.length ? summary.value.providers.join(', ') : 'all providers'
 ))
+const sessionParam = computed(() => sessionStore.activeSessionId || undefined)
 const keywords = computed(() => summary.value?.keywords.slice(0, 8) || [])
 
 async function loadAll() {
@@ -122,9 +126,9 @@ async function loadAll() {
   error.value = null
   try {
     const [nextSummary, nextClusters, nextContradictions] = await Promise.all([
-      fetchIntelligenceSummary({ limit: 200 }),
-      fetchIntelligenceClusters({ limit: 200 }),
-      fetchIntelligenceContradictions({ limit: 200 }),
+      fetchIntelligenceSummary({ sessionId: sessionParam.value, limit: 200 }),
+      fetchIntelligenceClusters({ sessionId: sessionParam.value, limit: 200 }),
+      fetchIntelligenceContradictions({ sessionId: sessionParam.value, limit: 200 }),
     ])
     summary.value = nextSummary
     clusters.value = nextClusters
@@ -140,7 +144,11 @@ async function compress() {
   compressing.value = true
   error.value = null
   try {
-    compression.value = await compressIntelligenceMemories({ limit: 200, maxChars: 700 })
+    compression.value = await compressIntelligenceMemories({
+      sessionId: sessionParam.value,
+      limit: 200,
+      maxChars: 700,
+    })
   } catch (e: any) {
     error.value = e?.message || 'Failed to compress memories'
   } finally {
@@ -149,6 +157,11 @@ async function compress() {
 }
 
 onMounted(() => {
+  loadAll()
+})
+
+watch(() => sessionStore.activeSessionId, () => {
+  compression.value = null
   loadAll()
 })
 </script>

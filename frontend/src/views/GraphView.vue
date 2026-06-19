@@ -4,7 +4,7 @@
       <div>
         <h2 class="section-title">Memory Graph</h2>
         <p class="panel-caption">
-          {{ providerCaption }}
+          {{ providerCaption }} / {{ sessionCaption }}
         </p>
       </div>
       <form class="graph-controls" @submit.prevent="loadGraph">
@@ -14,13 +14,6 @@
           type="text"
           placeholder="Provider"
           aria-label="Provider"
-        />
-        <input
-          v-model.trim="filters.sessionId"
-          class="control-input"
-          type="text"
-          placeholder="Session"
-          aria-label="Session"
         />
         <input
           v-model.number="filters.limit"
@@ -107,21 +100,22 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref } from 'vue'
+import { computed, onMounted, reactive, ref, watch } from 'vue'
 import RelationGraph from '@/components/Layout/RelationGraph.vue'
 import {
   fetchMemoryGraph,
   type MemoryGraphNode,
   type MemoryGraphResponse,
 } from '@/api/graph'
+import { useSessionStore } from '@/stores/sessions'
 
+const sessionStore = useSessionStore()
 const graph = ref<MemoryGraphResponse | null>(null)
 const selectedNode = ref<MemoryGraphNode | null>(null)
 const loading = ref(false)
 const error = ref<string | null>(null)
 const filters = reactive({
   provider: '',
-  sessionId: '',
   limit: 200,
 })
 
@@ -129,6 +123,7 @@ const providerCaption = computed(() => {
   const providers = graph.value?.meta.providers || []
   return providers.length ? providers.join(', ') : 'All providers'
 })
+const sessionCaption = computed(() => sessionStore.activeSessionId || 'All sessions')
 
 const relationEdges = computed(() => (
   graph.value?.edges.map(edge => ({
@@ -151,7 +146,7 @@ async function loadGraph() {
   try {
     graph.value = await fetchMemoryGraph({
       provider: filters.provider || undefined,
-      sessionId: filters.sessionId || undefined,
+      sessionId: sessionStore.activeSessionId || undefined,
       limit: Number(filters.limit) || 200,
     })
     if (selectedNode.value && !graph.value.nodes.some(node => node.id === selectedNode.value?.id)) {
@@ -169,6 +164,7 @@ function onNodeClick(node: { id: string }) {
 }
 
 onMounted(loadGraph)
+watch(() => sessionStore.activeSessionId, () => loadGraph())
 </script>
 
 <style scoped>

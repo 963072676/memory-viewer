@@ -212,6 +212,7 @@ import { useAgentMemoryStore } from '@/stores/agentmemory'
 import { useHermesMemoryStore } from '@/stores/hermes-memory'
 import { useUIStore } from '@/stores/ui'
 import { useSearchStore } from '@/stores/search'
+import { useSessionStore } from '@/stores/sessions'
 import { fetchUnifiedMemories, type UnifiedMemory } from '@/api/sources'
 import MemoryCard from '@/components/Layout/MemoryCard.vue'
 import VirtualCardGrid from '@/components/Layout/VirtualCardGrid.vue'
@@ -227,6 +228,7 @@ const agentMemoryStore = useAgentMemoryStore()
 const hermesMemoryStore = useHermesMemoryStore()
 const uiStore = useUIStore()
 const searchStore = useSearchStore()
+const sessionStore = useSessionStore()
 
 const showCreateModal = ref(false)
 const showImportModal = ref(false)
@@ -270,6 +272,10 @@ watch(() => route.query.source, (val) => {
 
 const filteredMemories = computed(() => {
   let memories = [...agentMemoryStore.memories]
+
+  if (sessionStore.activeSessionId) {
+    memories = memories.filter(m => (m.sessionIds || []).includes(sessionStore.activeSessionId))
+  }
 
   // Filter archived (F-15)
   if (!uiStore.showArchived) {

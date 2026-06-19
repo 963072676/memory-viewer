@@ -11,6 +11,7 @@
       <div class="container">
         <SearchBar />
         <QuickAccessBar />
+        <SessionSwitcher />
         <StatsBar />
         <TabBar />
         <ErrorBanner v-if="agentMemoryStore.error || hermesMemoryStore.error" />
@@ -38,6 +39,7 @@ import AppHeader from '@/components/Layout/AppHeader.vue'
 import AppSidebar from '@/components/Layout/AppSidebar.vue'
 import SearchBar from '@/components/Layout/SearchBar.vue'
 import QuickAccessBar from '@/components/QuickAccessBar.vue'
+import SessionSwitcher from '@/components/Layout/SessionSwitcher.vue'
 import StatsBar from '@/components/Layout/StatsBar.vue'
 import TabBar from '@/components/Layout/TabBar.vue'
 import ErrorBanner from '@/components/Layout/ErrorBanner.vue'
@@ -50,6 +52,7 @@ import SetupWizard from '@/components/SetupWizard.vue'
 import { useAgentMemoryStore } from '@/stores/agentmemory'
 import { useHermesMemoryStore } from '@/stores/hermes-memory'
 import { useUIStore } from '@/stores/ui'
+import { useSessionStore } from '@/stores/sessions'
 import { useKeyboard } from '@/composables/useKeyboard'
 import { useChangelog } from '@/composables/useChangelog'
 import { useToast } from '@/composables/useToast'
@@ -60,6 +63,7 @@ import { useRoute, useRouter } from 'vue-router'
 const agentMemoryStore = useAgentMemoryStore()
 const hermesMemoryStore = useHermesMemoryStore()
 const uiStore = useUIStore()
+const sessionStore = useSessionStore()
 const route = useRoute()
 const router = useRouter()
 const { loadChangelog } = useChangelog()
@@ -93,6 +97,9 @@ function scheduleRealtimeRefresh() {
   realtimeRefreshTimer = setTimeout(() => {
     agentMemoryStore.refresh()
     agentMemoryStore.loadAllTags()
+    sessionStore.load().catch(() => {
+      sessionStore.mergeDerivedSessions(agentMemoryStore.memories)
+    })
   }, 150)
 }
 

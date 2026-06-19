@@ -10,7 +10,7 @@ from typing import Any, Callable
 
 from app.core.errors import MemoryProviderError, ProviderConfigError, normalize_provider_error
 from app.core.memory_provider import MemoryProvider
-from app.core.memory_schema import MemoryInput, MemoryItem, MemoryQuery, MemoryQueryResult
+from app.core.memory_schema import MemoryInput, MemoryItem, MemoryQuery, MemoryQueryResult, Session
 from app.core.observability import ProviderObservability
 from app.core.query_normalization import normalize_query_for_provider
 
@@ -410,6 +410,47 @@ class ProviderFactory:
     async def get_memory_by_id(self, id: str, provider_name: str | None = None) -> MemoryItem:
         provider = self.get_provider(provider_name)
         return await self._run_with_policy(provider, "get_memory_by_id", lambda: provider.get_memory_by_id(id))
+
+    def _session_with_source(self, session: Session, provider: MemoryProvider) -> Session:
+        metadata = dict(session.metadata or {})
+        metadata.setdefault("source", provider.name)
+        metadata.setdefault("providerType", self._provider_type(provider))
+        return Session(id=session.id, agent_id=session.agent_id, metadata=metadata)
+
+    async def list_sessions(self, provider_name: str | None = None) -> list[Session]:
+        """List sessions for one provider or all registered providers."""
+        if provider_name:
+            provider = self.get_provider(provider_name)
+            sessions = await self._run_with_policy(
+                provider,
+                "list_sessions",
+                provider.list_sessions,
+            )
+            return [self._session_with_source(session, provider) for session in sessions]
+
+        sessions: list[Session] = []
+        seen: set[tuple[str, str]] = set()
+        for name in self.list_providers():
+            provider = self.get_provider(name)
+            try:
+                provider_sessions = await self._run_with_policy(
+                    provider,
+                    "list_sessions",
+                    provider.list_sessions,
+                )
+            except Exception as exc:
+                logger.warning(
+                    "Provider session listing failed: %s",
+                    normalize_provider_error(exc, provider=name, operation="list_sessions").to_dict(),
+                )
+                continue
+            for session in provider_sessions:
+                key = (provider.name, session.id)
+                if key in seen:
+                    continue
+                seen.add(key)
+                sessions.append(self._session_with_source(session, provider))
+        return sessions
 
     async def health_check(self) -> dict[str, dict[str, Any]]:
         results: dict[str, dict[str, Any]] = {}

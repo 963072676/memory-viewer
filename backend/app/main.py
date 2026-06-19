@@ -26,6 +26,7 @@ from app.routers import graph as graph_router
 from app.routers import copilot as copilot_router
 from app.routers import plugins as plugins_router
 from app.routers import realtime as realtime_router
+from app.routers import sessions as sessions_router
 from app.routers import favorites, collections, dashboard, compare
 from app.routers import metrics, webhook as webhook_router
 # P39: Restore per-memory P3 endpoints (decay / health / recommendations / suggest-tags / summarize)
@@ -91,6 +92,7 @@ app.include_router(graph_router.router, prefix="/api/graph", tags=["graph"])
 app.include_router(copilot_router.router, prefix="/api/copilot", tags=["copilot"])
 app.include_router(plugins_router.router, prefix="/api/plugins", tags=["plugins"])
 app.include_router(realtime_router.router, prefix="/api", tags=["realtime"])
+app.include_router(sessions_router.router, prefix="/api/sessions", tags=["sessions"])
 app.include_router(favorites.router, prefix="/api", tags=["favorites"])
 app.include_router(collections.router, prefix="/api/collections", tags=["collections"])
 app.include_router(dashboard.router, prefix="/api", tags=["dashboard"])
@@ -164,6 +166,7 @@ def get_config():
             "dashboard": True,
             "plugins": True,
             "realtime": True,
+            "sessions": True,
         },
     }
 

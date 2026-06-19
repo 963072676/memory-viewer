@@ -6,6 +6,7 @@
         <div class="panel-meta">
           <span>{{ result?.memoryCount ?? 0 }} memories</span>
           <span>{{ providerLabel }}</span>
+          <span>{{ sessionStore.activeSessionId || 'all sessions' }}</span>
         </div>
       </div>
       <div class="filter-row">
@@ -15,13 +16,6 @@
           type="text"
           placeholder="Provider"
           aria-label="Provider"
-        />
-        <input
-          v-model.trim="filters.sessionId"
-          class="filter-input"
-          type="text"
-          placeholder="Session"
-          aria-label="Session"
         />
         <input
           v-model.number="filters.limit"
@@ -105,13 +99,15 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref } from 'vue'
+import { computed, onMounted, reactive, ref, watch } from 'vue'
 import {
   runCopilotAction,
   type CopilotAction,
   type CopilotRunResponse,
 } from '@/api/copilot'
+import { useSessionStore } from '@/stores/sessions'
 
+const sessionStore = useSessionStore()
 const actions: Array<{ action: CopilotAction; label: string; shortLabel: string }> = [
   { action: 'summarize_session', label: 'Summarize session', shortLabel: 'Summary' },
   { action: 'compress_memory', label: 'Compress memory', shortLabel: 'Compress' },
@@ -121,7 +117,6 @@ const actions: Array<{ action: CopilotAction; label: string; shortLabel: string 
 
 const filters = reactive({
   provider: '',
-  sessionId: '',
   limit: 200,
 })
 const activeAction = ref<CopilotAction>('summarize_session')
@@ -133,6 +128,7 @@ const currentAction = computed(() => actions.find(item => item.action === active
 const providerLabel = computed(() => (
   result.value?.providers.length ? result.value.providers.join(', ') : 'all providers'
 ))
+const sessionParam = computed(() => sessionStore.activeSessionId || undefined)
 
 const detailRows = computed(() => {
   if (!result.value) return []
@@ -170,7 +166,7 @@ async function run(action: CopilotAction) {
     result.value = await runCopilotAction({
       action,
       provider: filters.provider || undefined,
-      sessionId: filters.sessionId || undefined,
+      sessionId: sessionParam.value,
       limit: Number(filters.limit) || 200,
       maxChars: 800,
     })
@@ -182,6 +178,10 @@ async function run(action: CopilotAction) {
 }
 
 onMounted(() => {
+  run(activeAction.value)
+})
+
+watch(() => sessionStore.activeSessionId, () => {
   run(activeAction.value)
 })
 </script>
