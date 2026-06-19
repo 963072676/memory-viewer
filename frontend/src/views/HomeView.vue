@@ -109,9 +109,9 @@
                 :key="mode.value"
                 type="button"
                 class="view-mode-btn"
-                :class="{ active: uiStore.viewMode === mode.value }"
-                :aria-pressed="uiStore.viewMode === mode.value"
-                @click="uiStore.setViewMode(mode.value)"
+                :class="{ active: explorerViewMode === mode.value }"
+                :aria-pressed="explorerViewMode === mode.value"
+                @click="setExplorerViewMode(mode.value)"
               >
                 {{ mode.label }}
               </button>
@@ -137,7 +137,7 @@
           />
         </div>
         <MemoryTimeline
-          v-else-if="uiStore.viewMode === 'timeline'"
+          v-else-if="explorerViewMode === 'timeline'"
           :memories="filteredMemories"
         />
         <VirtualCardGrid
@@ -224,7 +224,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useAgentMemoryStore } from '@/stores/agentmemory'
 import { useHermesMemoryStore } from '@/stores/hermes-memory'
 import { useUIStore } from '@/stores/ui'
@@ -252,6 +252,7 @@ const showCreateModal = ref(false)
 const showImportModal = ref(false)
 const showDedupPanel = ref(false)
 const route = useRoute()
+const router = useRouter()
 
 // Listen for command palette create-memory shortcut
 function onCreateFromPalette() {
@@ -267,6 +268,42 @@ const viewModes = [
   { value: 'list' as const, label: 'List' },
   { value: 'timeline' as const, label: 'Timeline' },
 ]
+
+type ExplorerViewMode = typeof viewModes[number]['value']
+const explorerViewMode = computed<ExplorerViewMode>(() => (
+  uiStore.viewMode === 'timeline' ? 'timeline' : 'list'
+))
+
+function firstQueryValue(value: unknown) {
+  return Array.isArray(value) ? value[0] : value
+}
+
+function normalizeExplorerViewMode(value: unknown): ExplorerViewMode | '' {
+  const raw = firstQueryValue(value)
+  return raw === 'list' || raw === 'timeline' ? raw : ''
+}
+
+function applyRouteViewMode(value: unknown) {
+  const mode = normalizeExplorerViewMode(value)
+  if (mode && uiStore.viewMode !== mode) {
+    uiStore.setViewMode(mode)
+  }
+}
+
+function setExplorerViewMode(mode: ExplorerViewMode) {
+  uiStore.setViewMode(mode)
+  const query = { ...route.query }
+  const nextView = mode === 'list' ? undefined : mode
+  const currentView = firstQueryValue(route.query.view) || undefined
+
+  if (currentView === nextView) return
+  if (nextView) {
+    query.view = nextView
+  } else {
+    delete query.view
+  }
+  router.replace({ query })
+}
 
 async function loadUnifiedMemories() {
   unifiedLoading.value = true
@@ -284,7 +321,11 @@ function onSourceChange() {
   loadUnifiedMemories()
 }
 
-onMounted(() => loadUnifiedMemories())
+onMounted(() => {
+  applyRouteViewMode(route.query.view)
+  loadUnifiedMemories()
+})
+watch(() => route.query.view, applyRouteViewMode)
 watch(() => route.query.source, (val) => {
   if (val && typeof val === 'string') {
     selectedSource.value = val

@@ -156,7 +156,7 @@ const commands: CommandItem[] = [
     titleKey: 'en_cmd_timeline',
     icon: '📅',
     keywords: ['timeline', '时间线', '历史', 'history'],
-    action: () => router.push('/timeline'),
+    action: () => router.push({ path: '/', query: { view: 'timeline' } }),
   },
   {
     id: 'cmd-create',
