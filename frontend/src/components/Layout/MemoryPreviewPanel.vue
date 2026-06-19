@@ -1,60 +1,50 @@
 <template>
-  <aside class="memory-preview" aria-label="Memory detail preview">
+  <aside v-if="detail" class="memory-preview" aria-label="Memory detail preview">
     <div class="preview-header">
       <div class="preview-heading">
-        <span class="preview-kicker">Detail panel</span>
-        <h3>{{ memory.title }}</h3>
+        <span class="preview-kicker">{{ detail.kicker }}</span>
+        <h3>{{ detail.title }}</h3>
       </div>
       <button class="icon-btn" type="button" aria-label="Close preview" title="Close preview" @click="$emit('close')">
         X
       </button>
     </div>
 
-    <div class="preview-meta">
-      <span class="preview-type" :class="`preview-type--${memory.type}`">{{ memory.type }}</span>
-      <span>Strength {{ strengthPercent }}%</span>
-      <span v-if="memory.sessionIds?.length">{{ memory.sessionIds.slice(0, 2).join(', ') }}</span>
-      <span v-if="memory.archived">Archived</span>
+    <div class="preview-meta" v-if="detail.meta.length">
+      <span class="preview-type" :class="detail.typeClass">{{ detail.type }}</span>
+      <span v-for="item in detail.meta" :key="item">{{ item }}</span>
     </div>
 
     <div class="preview-content">
-      {{ memory.content }}
+      {{ detail.content }}
     </div>
 
-    <div class="preview-section" v-if="memory.concepts.length">
+    <div class="preview-section" v-if="detail.concepts.length">
       <span class="preview-label">Concepts</span>
       <div class="preview-chips">
-        <span v-for="concept in memory.concepts.slice(0, 8)" :key="concept" class="preview-chip">
+        <span v-for="concept in detail.concepts.slice(0, 8)" :key="concept" class="preview-chip">
           {{ concept }}
         </span>
       </div>
     </div>
 
-    <div class="preview-section" v-if="memory.tags?.length">
+    <div class="preview-section" v-if="detail.tags.length">
       <span class="preview-label">Tags</span>
       <div class="preview-chips">
-        <span v-for="tag in memory.tags.slice(0, 8)" :key="tag" class="preview-chip">
+        <span v-for="tag in detail.tags.slice(0, 8)" :key="tag" class="preview-chip">
           {{ tag }}
         </span>
       </div>
     </div>
 
-    <dl class="preview-facts">
-      <div>
-        <dt>Created</dt>
-        <dd>{{ formatDate(memory.createdAt) }}</dd>
-      </div>
-      <div>
-        <dt>Updated</dt>
-        <dd>{{ formatDate(memory.updatedAt) }}</dd>
-      </div>
-      <div>
-        <dt>Version</dt>
-        <dd>{{ memory.version || 1 }}</dd>
+    <dl class="preview-facts" v-if="detail.facts.length">
+      <div v-for="fact in detail.facts" :key="fact.label">
+        <dt>{{ fact.label }}</dt>
+        <dd>{{ fact.value }}</dd>
       </div>
     </dl>
 
-    <router-link class="action-btn action-btn--primary preview-link" :to="`/memory/${memory.id}`">
+    <router-link v-if="fullDetailPath" class="action-btn action-btn--primary preview-link" :to="fullDetailPath">
       Open full detail
     </router-link>
   </aside>
@@ -63,20 +53,79 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { AgentMemory } from '@/types'
+import type { MemoryGraphNode } from '@/api/graph'
 
-const props = defineProps<{
-  memory: AgentMemory
-}>()
+const props = withDefaults(defineProps<{
+  memory?: AgentMemory | null
+  graphNode?: MemoryGraphNode | null
+  graphConnectionCount?: number
+}>(), {
+  memory: null,
+  graphNode: null,
+  graphConnectionCount: 0,
+})
 
 defineEmits<{
   (e: 'close'): void
 }>()
 
-const strengthPercent = computed(() => {
-  const raw = props.memory.strength * 10
+const detail = computed(() => {
+  if (props.memory) {
+    return {
+      kicker: 'Detail panel',
+      title: props.memory.title,
+      type: props.memory.type,
+      typeClass: `preview-type--${props.memory.type}`,
+      content: props.memory.content,
+      concepts: props.memory.concepts,
+      tags: props.memory.tags || [],
+      meta: [
+        `Strength ${strengthPercent(props.memory.strength)}%`,
+        ...(props.memory.sessionIds?.length ? [props.memory.sessionIds.slice(0, 2).join(', ')] : []),
+        ...(props.memory.archived ? ['Archived'] : []),
+      ],
+      facts: [
+        { label: 'Created', value: formatDate(props.memory.createdAt) },
+        { label: 'Updated', value: formatDate(props.memory.updatedAt) },
+        { label: 'Version', value: String(props.memory.version || 1) },
+      ],
+    }
+  }
+
+  if (props.graphNode) {
+    return {
+      kicker: 'Graph node',
+      title: props.graphNode.label,
+      type: props.graphNode.type,
+      typeClass: `preview-type--${props.graphNode.type}`,
+      content: props.graphNode.contentSnippet || 'No content preview.',
+      concepts: [],
+      tags: props.graphNode.tags || [],
+      meta: [
+        props.graphNode.provider || 'Unknown provider',
+        `Strength ${strengthPercent(props.graphNode.strength)}%`,
+        ...(props.graphNode.sessionId ? [props.graphNode.sessionId] : []),
+      ],
+      facts: [
+        { label: 'Provider', value: props.graphNode.provider || 'Unknown' },
+        { label: 'Connections', value: String(props.graphConnectionCount || 0) },
+        { label: 'Node ID', value: props.graphNode.id },
+      ],
+    }
+  }
+
+  return null
+})
+
+const fullDetailPath = computed(() => (
+  props.memory ? `/memory/${props.memory.id}` : ''
+))
+
+function strengthPercent(strength: number) {
+  const raw = strength * 10
   if (Number.isNaN(raw)) return 0
   return Math.max(0, Math.min(100, Math.round(raw)))
-})
+}
 
 function formatDate(value: string) {
   const date = new Date(value)

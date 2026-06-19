@@ -120,6 +120,7 @@ const props = withDefaults(defineProps<{
 
 const emit = defineEmits<{
   (e: 'select-memory', id: string): void
+  (e: 'select-node', selection: { node: MemoryGraphNode; connectionCount: number }): void
   (e: 'clear-selection'): void
 }>()
 
@@ -178,6 +179,7 @@ async function loadGraph() {
 function onNodeClick(node: { id: string }) {
   selectedNode.value = graph.value?.nodes.find(item => item.id === node.id) || null
   if (selectedNode.value) {
+    emitSelectedNode()
     emit('select-memory', selectedNode.value.id)
   }
 }
@@ -191,6 +193,17 @@ function syncSelectedNode(nodeId: string) {
   selectedNode.value = nodeId
     ? graph.value?.nodes.find(item => item.id === nodeId) || null
     : null
+  if (selectedNode.value) {
+    emitSelectedNode()
+  }
+}
+
+function emitSelectedNode() {
+  if (!selectedNode.value) return
+  emit('select-node', {
+    node: selectedNode.value,
+    connectionCount: connectedEdges.value.length,
+  })
 }
 
 onMounted(loadGraph)

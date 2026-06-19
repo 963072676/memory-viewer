@@ -139,15 +139,15 @@
         <div
           v-else
           class="explorer-shell"
-          :class="{ 'explorer-shell--with-preview': selectedMemory }"
+          :class="{ 'explorer-shell--with-preview': selectedPreviewNode }"
         >
           <div class="explorer-main">
             <MemoryGraphPanel
               v-if="explorerViewMode === 'graph'"
               embedded
               :selected-node-id="selectedGraphNodeId"
-              :show-node-detail="!selectedMemory"
-              @select-memory="selectMemory"
+              :show-node-detail="false"
+              @select-node="selectGraphNode"
               @clear-selection="closeMemoryPreview"
             />
             <MemoryTimeline
@@ -191,8 +191,10 @@
             </div>
           </div>
           <MemoryPreviewPanel
-            v-if="selectedMemory"
+            v-if="selectedPreviewNode"
             :memory="selectedMemory"
+            :graph-node="selectedGraphPreviewNode"
+            :graph-connection-count="selectedGraphConnectionCount"
             @close="closeMemoryPreview"
           />
         </div>
@@ -266,6 +268,7 @@ import { useUIStore } from '@/stores/ui'
 import { useSearchStore } from '@/stores/search'
 import { useSessionStore } from '@/stores/sessions'
 import { fetchUnifiedMemories, type UnifiedMemory } from '@/api/sources'
+import type { MemoryGraphNode } from '@/api/graph'
 import MemoryCard from '@/components/Layout/MemoryCard.vue'
 import MemoryGraphPanel from '@/components/Layout/MemoryGraphPanel.vue'
 import MemoryPreviewPanel from '@/components/Layout/MemoryPreviewPanel.vue'
@@ -290,6 +293,8 @@ const showImportModal = ref(false)
 const showDedupPanel = ref(false)
 const selectedMemoryId = ref('')
 const selectedGraphNodeId = ref('')
+const selectedGraphNode = ref<MemoryGraphNode | null>(null)
+const selectedGraphConnectionCount = ref(0)
 const route = useRoute()
 const router = useRouter()
 
@@ -350,6 +355,10 @@ function applyRouteMemoryId(value: unknown) {
   const id = typeof raw === 'string' ? raw : ''
   selectedMemoryId.value = id
   selectedGraphNodeId.value = id
+  if (!id || selectedGraphNode.value?.id !== id) {
+    selectedGraphNode.value = null
+    selectedGraphConnectionCount.value = 0
+  }
 }
 
 function selectMemory(id: string) {
@@ -359,9 +368,17 @@ function selectMemory(id: string) {
   router.replace({ query: { ...route.query, memory: id } })
 }
 
+function selectGraphNode(selection: { node: MemoryGraphNode; connectionCount: number }) {
+  selectedGraphNode.value = selection.node
+  selectedGraphConnectionCount.value = selection.connectionCount
+  selectMemory(selection.node.id)
+}
+
 function closeMemoryPreview() {
   selectedMemoryId.value = ''
   selectedGraphNodeId.value = ''
+  selectedGraphNode.value = null
+  selectedGraphConnectionCount.value = 0
   const query = { ...route.query }
   delete query.memory
   router.replace({ query })
@@ -435,6 +452,14 @@ const filteredMemories = computed(() => {
 
 const selectedMemory = computed(() => (
   filteredMemories.value.find(memory => memory.id === selectedMemoryId.value) || null
+))
+
+const selectedGraphPreviewNode = computed(() => (
+  explorerViewMode.value === 'graph' ? selectedGraphNode.value : null
+))
+
+const selectedPreviewNode = computed(() => (
+  selectedMemory.value || selectedGraphPreviewNode.value
 ))
 
 function onCreated() {
