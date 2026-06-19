@@ -39,6 +39,8 @@
         </div>
       </div>
 
+      <MemoryIntelligencePanel />
+
       <!-- Type Distribution Bar Chart -->
       <div class="chart-card">
         <h3>📋 {{ $t('i18n.distribution_type') }}</h3>
@@ -110,6 +112,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { request } from '@/api/index'
 import ActivityHeatmap from '@/components/Layout/ActivityHeatmap.vue'
+import MemoryIntelligencePanel from '@/components/Layout/MemoryIntelligencePanel.vue'
 import { useCountUp } from '@/composables/useCountUp'
 
 interface Stats {
