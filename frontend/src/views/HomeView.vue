@@ -139,11 +139,16 @@
         <div
           v-else
           class="explorer-shell"
-          :class="{ 'explorer-shell--with-preview': selectedMemory }"
+          :class="{ 'explorer-shell--with-preview': selectedMemory && explorerViewMode !== 'graph' }"
         >
           <div class="explorer-main">
+            <MemoryGraphPanel
+              v-if="explorerViewMode === 'graph'"
+              embedded
+              @select-memory="selectMemory"
+            />
             <MemoryTimeline
-              v-if="explorerViewMode === 'timeline'"
+              v-else-if="explorerViewMode === 'timeline'"
               :memories="filteredMemories"
               :selected-id="selectedMemoryId"
               @select="selectMemory"
@@ -183,7 +188,7 @@
             </div>
           </div>
           <MemoryPreviewPanel
-            v-if="selectedMemory"
+            v-if="selectedMemory && explorerViewMode !== 'graph'"
             :memory="selectedMemory"
             @close="closeMemoryPreview"
           />
@@ -259,6 +264,7 @@ import { useSearchStore } from '@/stores/search'
 import { useSessionStore } from '@/stores/sessions'
 import { fetchUnifiedMemories, type UnifiedMemory } from '@/api/sources'
 import MemoryCard from '@/components/Layout/MemoryCard.vue'
+import MemoryGraphPanel from '@/components/Layout/MemoryGraphPanel.vue'
 import MemoryPreviewPanel from '@/components/Layout/MemoryPreviewPanel.vue'
 import MemoryTimeline from '@/components/Layout/MemoryTimeline.vue'
 import VirtualCardGrid from '@/components/Layout/VirtualCardGrid.vue'
@@ -295,12 +301,13 @@ const unifiedMemories = ref<UnifiedMemory[]>([])
 const unifiedLoading = ref(false)
 const viewModes = [
   { value: 'list' as const, label: 'List' },
+  { value: 'graph' as const, label: 'Graph' },
   { value: 'timeline' as const, label: 'Timeline' },
 ]
 
 type ExplorerViewMode = typeof viewModes[number]['value']
 const explorerViewMode = computed<ExplorerViewMode>(() => (
-  uiStore.viewMode === 'timeline' ? 'timeline' : 'list'
+  uiStore.viewMode === 'graph' || uiStore.viewMode === 'timeline' ? uiStore.viewMode : 'list'
 ))
 
 function firstQueryValue(value: unknown) {
@@ -309,7 +316,7 @@ function firstQueryValue(value: unknown) {
 
 function normalizeExplorerViewMode(value: unknown): ExplorerViewMode | '' {
   const raw = firstQueryValue(value)
-  return raw === 'list' || raw === 'timeline' ? raw : ''
+  return raw === 'list' || raw === 'graph' || raw === 'timeline' ? raw : ''
 }
 
 function applyRouteViewMode(value: unknown) {

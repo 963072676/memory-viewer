@@ -149,7 +149,7 @@ const commands: CommandItem[] = [
     titleKey: 'en_cmd_graph',
     icon: '🕸️',
     keywords: ['graph', '关系图', '图谱', '网络', 'network'],
-    action: () => router.push('/graph'),
+    action: () => router.push({ path: '/', query: { view: 'graph' } }),
   },
   {
     id: 'cmd-timeline',
