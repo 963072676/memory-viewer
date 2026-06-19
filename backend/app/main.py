@@ -5,9 +5,10 @@ Simplified for open source release v1.0
 保留了核心功能，移除了高级/AI/运维功能
 """
 
+import asyncio
 import logging
 import time
-from contextlib import asynccontextmanager
+from contextlib import asynccontextmanager, suppress
 from pathlib import Path
 
 from fastapi import FastAPI, Request
@@ -24,6 +25,7 @@ from app.routers import intelligence as intelligence_router
 from app.routers import graph as graph_router
 from app.routers import copilot as copilot_router
 from app.routers import plugins as plugins_router
+from app.routers import realtime as realtime_router
 from app.routers import favorites, collections, dashboard, compare
 from app.routers import metrics, webhook as webhook_router
 # P39: Restore per-memory P3 endpoints (decay / health / recommendations / suggest-tags / summarize)
@@ -39,11 +41,18 @@ async def lifespan(app: FastAPI):
     """FastAPI lifespan: initialize providers and start/stop scheduler."""
     from app.adapters.registry import initialize_registry
     from app import scheduler as sched
+    from app.services.realtime_service import heartbeat_loop
 
     initialize_registry()
     await sched.on_startup(interval_minutes=settings.CACHE_REFRESH_INTERVAL)
-    yield
-    await sched.on_shutdown()
+    heartbeat_task = asyncio.create_task(heartbeat_loop())
+    try:
+        yield
+    finally:
+        heartbeat_task.cancel()
+        with suppress(asyncio.CancelledError):
+            await heartbeat_task
+        await sched.on_shutdown()
 
 
 app = FastAPI(
@@ -81,6 +90,7 @@ app.include_router(intelligence_router.router, prefix="/api/intelligence", tags=
 app.include_router(graph_router.router, prefix="/api/graph", tags=["graph"])
 app.include_router(copilot_router.router, prefix="/api/copilot", tags=["copilot"])
 app.include_router(plugins_router.router, prefix="/api/plugins", tags=["plugins"])
+app.include_router(realtime_router.router, prefix="/api", tags=["realtime"])
 app.include_router(favorites.router, prefix="/api", tags=["favorites"])
 app.include_router(collections.router, prefix="/api/collections", tags=["collections"])
 app.include_router(dashboard.router, prefix="/api", tags=["dashboard"])
@@ -153,6 +163,7 @@ def get_config():
             "sources": True,
             "dashboard": True,
             "plugins": True,
+            "realtime": True,
         },
     }
 

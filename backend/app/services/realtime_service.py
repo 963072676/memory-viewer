@@ -7,7 +7,6 @@ Fallback SSE endpoint.
 """
 
 import asyncio
-import json
 import logging
 import time
 from datetime import datetime, timezone
@@ -23,7 +22,7 @@ class ConnectionManager:
 
     def __init__(self):
         self._connections: dict[str, list[WebSocket]] = {}  # workspace_id -> [ws]
-        self._user_ws: dict[str, str] = {}  # ws_id -> user_id
+        self._ws_meta: dict[int, dict] = {}  # id(ws) -> connection metadata
         self._presence: dict[str, dict] = {}  # user_id -> {status, last_seen, workspace}
         self._heartbeat_interval = 30  # seconds
         self._ws_counter = 0
@@ -37,7 +36,11 @@ class ConnectionManager:
         if workspace_id not in self._connections:
             self._connections[workspace_id] = []
         self._connections[workspace_id].append(websocket)
-        self._user_ws[ws_id] = user_id
+        self._ws_meta[id(websocket)] = {
+            "ws_id": ws_id,
+            "user_id": user_id,
+            "workspace": workspace_id,
+        }
 
         # Update presence
         self._presence[user_id] = {
@@ -61,11 +64,16 @@ class ConnectionManager:
             if websocket in self._connections[workspace_id]:
                 self._connections[workspace_id].remove(websocket)
 
-        # Find and update user presence
-        user_to_remove = None
-        for ws_id, uid in self._user_ws.items():
-            # We track via presence
-            pass
+        meta = self._ws_meta.pop(id(websocket), None)
+        if meta:
+            user_id = meta.get("user_id")
+            if user_id:
+                self._presence[user_id] = {
+                    "status": "offline",
+                    "last_seen": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+                    "workspace": workspace_id,
+                    "ws_id": meta.get("ws_id", ""),
+                }
 
         # Clean up empty workspaces
         if workspace_id in self._connections and not self._connections[workspace_id]:
@@ -73,7 +81,7 @@ class ConnectionManager:
 
     async def broadcast(self, workspace_id: str, message: dict, exclude: Optional[WebSocket] = None):
         """Broadcast a message to all connections in a workspace."""
-        connections = self._connections.get(workspace_id, [])
+        connections = list(self._connections.get(workspace_id, []))
         dead = []
         for ws in connections:
             if ws == exclude:
@@ -113,6 +121,7 @@ class ConnectionManager:
             "total_connections": self.get_connection_count(),
             "workspaces_active": len(self._connections),
             "online_users": len([u for u in self._presence.values() if u.get("status") == "online"]),
+            "online_users_detail": self.get_online_users(),
             "heartbeat_interval": self._heartbeat_interval,
         }
 
@@ -155,9 +164,17 @@ def build_event(event_type: str, data: dict, workspace_id: str = "default") -> d
 
 async def emit_memory_event(event_type: str, memory: dict, workspace_id: str = "default"):
     """Emit a memory-related event to workspace subscribers."""
+    metadata = memory.get("metadata", {}) if isinstance(memory.get("metadata"), dict) else {}
+    raw = metadata.get("raw", {}) if isinstance(metadata.get("raw"), dict) else {}
+    content = str(memory.get("content", ""))
+    title = str(memory.get("title") or raw.get("title") or content[:80] or memory.get("id", ""))
+    provider = str(memory.get("provider") or metadata.get("source") or raw.get("source") or "")
     event = build_event(event_type, {
         "memory_id": memory.get("id"),
-        "title": memory.get("title", ""),
-        "type": memory.get("type", ""),
+        "provider": provider,
+        "title": title,
+        "type": memory.get("type") or raw.get("type", ""),
+        "sessionId": metadata.get("sessionId") or raw.get("sessionId") or raw.get("sessionIds", []),
+        "memory": memory,
     }, workspace_id)
     await manager.broadcast(workspace_id, event)

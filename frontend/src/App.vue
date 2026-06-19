@@ -53,6 +53,7 @@ import { useUIStore } from '@/stores/ui'
 import { useKeyboard } from '@/composables/useKeyboard'
 import { useChangelog } from '@/composables/useChangelog'
 import { useToast } from '@/composables/useToast'
+import { useWebSocket } from '@/composables/useWebSocket'
 import { bulkAutoTag } from '@/api/p8'
 import { useRoute, useRouter } from 'vue-router'
 
@@ -63,6 +64,8 @@ const route = useRoute()
 const router = useRouter()
 const { loadChangelog } = useChangelog()
 const toast = useToast()
+const realtime = useWebSocket({ userId: 'memory-viewer-ui' })
+let realtimeRefreshTimer: ReturnType<typeof setTimeout> | null = null
 
 // F47: Command Palette state
 const showCommandPalette = ref(false)
@@ -82,6 +85,20 @@ function onOpenMore() {
 }
 
 useKeyboard()
+
+function scheduleRealtimeRefresh() {
+  if (realtimeRefreshTimer) {
+    clearTimeout(realtimeRefreshTimer)
+  }
+  realtimeRefreshTimer = setTimeout(() => {
+    agentMemoryStore.refresh()
+    agentMemoryStore.loadAllTags()
+  }, 150)
+}
+
+realtime.on('memory.created', scheduleRealtimeRefresh)
+realtime.on('memory.updated', scheduleRealtimeRefresh)
+realtime.on('memory.deleted', scheduleRealtimeRefresh)
 
 // Close mobile sidebar on navigation
 watch(() => route.path, () => {
@@ -112,6 +129,7 @@ const onTogglePalette = () => {
 window.addEventListener('toggle-command-palette', onTogglePalette)
 
 onUnmounted(() => {
+  if (realtimeRefreshTimer) clearTimeout(realtimeRefreshTimer)
   window.removeEventListener('app-refresh', onRefresh)
   window.removeEventListener('toggle-command-palette', onTogglePalette)
   window.removeEventListener('scroll', onScrollProgress, { capture: true } as any)

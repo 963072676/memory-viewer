@@ -23,6 +23,7 @@
       </div>
 
       <div class="header-right">
+        <ConnectionStatus />
         <ProviderStatusBadge />
         <LanguageSwitcher />
         <button class="theme-toggle" @click="toggleTheme" :title="modeLabel()" :aria-label="modeLabel()">
@@ -39,6 +40,7 @@ import { useRoute } from 'vue-router'
 import { useTheme } from '@/composables/useTheme'
 import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
 import ProviderStatusBadge from '@/components/Layout/ProviderStatusBadge.vue'
+import ConnectionStatus from '@/components/Layout/ConnectionStatus.vue'
 
 const { toggleTheme, modeLabel, modeIcon } = useTheme()
 const route = useRoute()
@@ -72,6 +74,7 @@ const mobilePageTitle = computed(() => {
     '/collections': '分类',
     '/compare': '对比',
     '/sources': '数据源',
+    '/plugins': 'Plugins',
     '/settings': '设置',
   }
   if (map[p]) return map[p]

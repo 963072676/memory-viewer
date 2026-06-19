@@ -10,6 +10,7 @@ from pydantic import BaseModel, Field
 from app.adapters.registry import get_registry
 from app.core.errors import MemoryNotFoundError, MemoryProviderError, UnsupportedCapabilityError
 from app.core.memory_schema import MemoryInput, MemoryQuery
+from app.services.realtime_service import emit_memory_event
 
 router = APIRouter()
 
@@ -74,6 +75,11 @@ def _merged_metadata(req: UnifiedMemoryCreateRequest | UnifiedMemoryUpdateReques
     return metadata
 
 
+def _workspace_id(metadata: dict[str, Any]) -> str:
+    workspace = metadata.get("workspaceId") or metadata.get("workspace_id")
+    return str(workspace or "default")
+
+
 @router.get("")
 async def list_memories(
     limit: int = Query(default=50, ge=1, le=500),
@@ -114,7 +120,9 @@ async def create_memory(req: UnifiedMemoryCreateRequest):
         item = await _factory().store_memory(memory_input, provider_name=req.provider)
     except MemoryProviderError as exc:
         raise _provider_error(exc) from exc
-    return {"memory": item.to_dict()}
+    memory = item.to_dict()
+    await emit_memory_event("memory.created", memory, workspace_id=_workspace_id(memory_input.metadata))
+    return {"memory": memory}
 
 
 @router.get("/{memory_id}")
@@ -147,7 +155,9 @@ async def update_memory(memory_id: str, req: UnifiedMemoryUpdateRequest):
         item = await _factory().get_memory_by_id(memory_id, provider_name=req.provider)
     except MemoryProviderError as exc:
         raise _provider_error(exc) from exc
-    return {"success": True, "memory": item.to_dict()}
+    memory = item.to_dict()
+    await emit_memory_event("memory.updated", memory, workspace_id=_workspace_id(patch["metadata"]))
+    return {"success": True, "memory": memory}
 
 
 @router.delete("/{memory_id}")
@@ -157,4 +167,12 @@ async def delete_memory(memory_id: str, provider: str = Query(default="")):
         await _factory().delete_memory(memory_id, provider_name=provider or None)
     except MemoryProviderError as exc:
         raise _provider_error(exc) from exc
+    await emit_memory_event(
+        "memory.deleted",
+        {
+            "id": memory_id,
+            "provider": provider or "",
+            "metadata": {"source": provider or ""},
+        },
+    )
     return {"success": True, "deleted_id": memory_id}

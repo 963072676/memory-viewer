@@ -10,9 +10,14 @@ export interface WebSocketOptions {
   maxReconnects?: number
 }
 
+function defaultWebSocketUrl() {
+  const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
+  return `${protocol}//${window.location.host}/api/ws/memories`
+}
+
 export function useWebSocket(options: WebSocketOptions = {}) {
   const {
-    url = `ws://${window.location.host}/api/ws/memories`,
+    url = defaultWebSocketUrl(),
     workspaceId = 'default',
     userId = 'anonymous',
     reconnectInterval = 3000,
@@ -33,7 +38,11 @@ export function useWebSocket(options: WebSocketOptions = {}) {
     if (ws?.readyState === WebSocket.OPEN) return
 
     state.value = 'connecting'
-    const wsUrl = `${url}?workspace_id=${workspaceId}&user_id=${userId}`
+    const params = new URLSearchParams({
+      workspace_id: workspaceId,
+      user_id: userId,
+    })
+    const wsUrl = `${url}?${params.toString()}`
 
     try {
       ws = new WebSocket(wsUrl)
