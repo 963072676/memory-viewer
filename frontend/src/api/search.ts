@@ -19,6 +19,7 @@ export interface SearchResult {
 
 export interface SearchResponse {
   query: string
+  mode: 'keyword' | 'semantic' | 'hybrid'
   total: number
   limit: number
   offset: number
@@ -27,6 +28,7 @@ export interface SearchResponse {
 
 export function searchMemories(params: {
   q: string
+  mode?: 'keyword' | 'semantic' | 'hybrid'
   source?: string
   type?: string
   profile?: string
@@ -40,6 +42,7 @@ export function searchMemories(params: {
 }): Promise<SearchResponse> {
   const searchParams = new URLSearchParams()
   searchParams.set('q', params.q)
+  if (params.mode) searchParams.set('mode', params.mode)
   if (params.source) searchParams.set('source', params.source)
   if (params.type) searchParams.set('type', params.type)
   if (params.profile) searchParams.set('profile', params.profile)

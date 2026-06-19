@@ -4,11 +4,12 @@ from __future__ import annotations
 
 import json
 import os
+import time
 from typing import Any, Optional
 
 from app.adapters.base import MemoryItem, MemorySource
 from app.core.errors import MemoryNotFoundError, ProviderUnavailableError, UnsupportedCapabilityError
-from app.core.memory_schema import MemoryInput, MemoryItem as CoreMemoryItem, Session
+from app.core.memory_schema import MemoryInput, MemoryItem as CoreMemoryItem, MemoryQuery, MemoryQueryResult, Session
 
 
 class HTTPMemoryAdapter(MemorySource):
@@ -123,7 +124,7 @@ class HTTPMemoryAdapter(MemorySource):
             metadata=metadata,
         )
 
-    def _search_payload(self, query: str, limit: int) -> dict:
+    def _search_payload(self, query: str, limit: int, mode: str | None = None) -> dict:
         return {"query": query, "limit": limit}
 
     def _store_payload(self, input: MemoryInput) -> dict:
@@ -134,6 +135,12 @@ class HTTPMemoryAdapter(MemorySource):
 
     def _update_payload(self, patch: dict[str, Any]) -> dict:
         return patch
+
+    async def _search_items(self, query: str, limit: int, mode: str | None = None) -> list[MemoryItem]:
+        path = self._path("search")
+        payload = self._search_payload(query, limit, mode=mode)
+        data = await self._request("POST", path, content=json.dumps(payload))
+        return [self._to_item(raw) for raw in self._extract_items(data)[:limit]]
 
     async def list(self, limit: int = 50, offset: int = 0) -> list[MemoryItem]:
         path = self._path("list")
@@ -147,10 +154,20 @@ class HTTPMemoryAdapter(MemorySource):
         return self._to_item(items[0]) if items else None
 
     async def search(self, query: str, limit: int = 20) -> list[MemoryItem]:
-        path = self._path("search")
-        payload = self._search_payload(query, limit)
-        data = await self._request("POST", path, content=json.dumps(payload))
-        return [self._to_item(raw) for raw in self._extract_items(data)[:limit]]
+        return await self._search_items(query, limit)
+
+    async def query_memory(self, query: MemoryQuery) -> MemoryQueryResult:
+        if not query.query or not self._path("search"):
+            return await super().query_memory(query)
+
+        started = time.perf_counter()
+        items = await self._search_items(query.query, query.limit, mode=query.mode)
+        latency_ms = int((time.perf_counter() - started) * 1000)
+        return MemoryQueryResult(
+            items=[item.to_core(include_raw=query.include_raw) for item in items],
+            latency=latency_ms,
+            provider=self.name,
+        )
 
     async def health(self) -> bool:
         if not self._available():

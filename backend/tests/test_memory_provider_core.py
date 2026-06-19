@@ -17,10 +17,19 @@ from app.core.provider_factory import ProviderFactory
 class FakeProvider(MemoryProvider):
     provider_type = "fake"
 
-    def __init__(self, name: str, *, fail_query: bool = False, ids: list[str] | None = None):
+    def __init__(
+        self,
+        name: str,
+        *,
+        fail_query: bool = False,
+        ids: list[str] | None = None,
+        capabilities: set[str] | None = None,
+    ):
         self.name = name
         self.fail_query = fail_query
         self.ids = ids or [name]
+        self.capabilities = capabilities or {"query", "keyword_search"}
+        self.seen_query_modes: list[str] = []
 
     async def store_memory(self, input: MemoryInput) -> MemoryItem:
         return MemoryItem(
@@ -31,6 +40,7 @@ class FakeProvider(MemoryProvider):
         )
 
     async def query_memory(self, query: MemoryQuery) -> MemoryQueryResult:
+        self.seen_query_modes.append(query.mode)
         if self.fail_query:
             raise ProviderUnavailableError("boom", provider=self.name, operation="query_memory")
         items = [
@@ -106,6 +116,26 @@ async def test_provider_factory_falls_back_when_primary_query_fails():
 
 
 @pytest.mark.asyncio
+async def test_provider_factory_normalizes_query_mode_for_provider_capabilities():
+    factory = ProviderFactory()
+    keyword = FakeProvider("keyword", capabilities={"query", "keyword_search"})
+    semantic = FakeProvider("semantic", capabilities={"semantic_search"})
+    hybrid = FakeProvider("hybrid", capabilities={"semantic_search", "hybrid_search"})
+    factory.register_instance(keyword)
+    factory.register_instance(semantic)
+    factory.register_instance(hybrid)
+    factory.configure_strategy(active_provider="keyword", timeout_seconds=1)
+
+    await factory.query_memory_from_provider("keyword", MemoryQuery(query="hello", mode="hybrid"))
+    await factory.query_memory_from_provider("semantic", MemoryQuery(query="hello", mode="keyword"))
+    await factory.query_memory_from_provider("hybrid", MemoryQuery(query="hello", mode="semantic"))
+
+    assert keyword.seen_query_modes == ["keyword"]
+    assert semantic.seen_query_modes == ["semantic"]
+    assert hybrid.seen_query_modes == ["semantic"]
+
+
+@pytest.mark.asyncio
 async def test_provider_factory_observability_tracks_fallback_route_and_errors():
     factory = ProviderFactory()
     factory.register_instance(FakeProvider("primary", fail_query=True))
@@ -151,6 +181,27 @@ async def test_provider_factory_parallel_query_merges_provider_results():
 
     assert result.provider == "primary,fallback"
     assert [item.id for item in result.items] == ["p-1", "p-2", "f-1"]
+
+
+@pytest.mark.asyncio
+async def test_provider_factory_parallel_query_normalizes_each_provider_mode():
+    factory = ProviderFactory()
+    keyword = FakeProvider("keyword", ids=["k-1"], capabilities={"query", "keyword_search"})
+    semantic = FakeProvider("semantic", ids=["s-1"], capabilities={"semantic_search"})
+    factory.register_instance(keyword)
+    factory.register_instance(semantic)
+    factory.configure_strategy(
+        active_provider="keyword",
+        fallback_providers=["semantic"],
+        parallel_query=True,
+        timeout_seconds=1,
+    )
+
+    result = await factory.query_memory(MemoryQuery(query="hello", mode="hybrid", limit=10))
+
+    assert result.provider == "keyword,semantic"
+    assert keyword.seen_query_modes == ["keyword"]
+    assert semantic.seen_query_modes == ["semantic"]
 
 
 @pytest.mark.asyncio

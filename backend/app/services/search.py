@@ -8,7 +8,7 @@ from concurrent.futures import ThreadPoolExecutor
 from typing import Optional
 
 from app.adapters.registry import get_registry
-from app.core.memory_schema import MemoryItem, MemoryQuery
+from app.core.memory_schema import MemoryItem, MemoryQuery, QueryMode
 
 
 def _highlight_text(text: str, query: str, context_len: int = 100) -> str:
@@ -166,6 +166,7 @@ def _to_legacy_search_result(item: MemoryItem, query: str, pure_filter_mode: boo
 
 async def search_memories_async(
     query: str = "",
+    mode: QueryMode = "keyword",
     source: Optional[str] = None,
     type_filter: Optional[list[str]] = None,
     profile_filter: Optional[str] = None,
@@ -179,7 +180,7 @@ async def search_memories_async(
     """Search memories through the unified provider query layer."""
     reg = get_registry()
     query_limit = max(limit + offset, 1000)
-    memory_query = MemoryQuery(query=query, mode="keyword", limit=query_limit, include_raw=True)
+    memory_query = MemoryQuery(query=query, mode=mode, limit=query_limit, include_raw=True)
 
     if source and source != "all":
         if reg.get(source) is None:
@@ -210,11 +211,19 @@ async def search_memories_async(
 
     total = len(legacy_results)
     paginated = legacy_results[offset : offset + limit]
-    return {"query": query, "total": total, "limit": limit, "offset": offset, "results": paginated}
+    return {
+        "query": query,
+        "mode": mode,
+        "total": total,
+        "limit": limit,
+        "offset": offset,
+        "results": paginated,
+    }
 
 
 def search_memories(
     query: str = "",
+    mode: QueryMode = "keyword",
     source: Optional[str] = None,
     type_filter: Optional[list[str]] = None,
     profile_filter: Optional[str] = None,
@@ -228,6 +237,7 @@ def search_memories(
     """Synchronous compatibility wrapper for MCP and legacy routers."""
     coroutine_kwargs = {
         "query": query,
+        "mode": mode,
         "source": source,
         "type_filter": type_filter,
         "profile_filter": profile_filter,

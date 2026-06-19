@@ -11,6 +11,12 @@ from app.core.memory_schema import (
 )
 from app.core.observability import ProviderObservability
 from app.core.provider_factory import ProviderFactory
+from app.core.query_normalization import (
+    normalize_query_for_provider,
+    provider_query_modes,
+    query_capability_summary,
+    resolve_query_mode,
+)
 
 __all__ = [
     "MemoryInput",
@@ -22,4 +28,8 @@ __all__ = [
     "ProviderFactory",
     "ProviderObservability",
     "Session",
+    "normalize_query_for_provider",
+    "provider_query_modes",
+    "query_capability_summary",
+    "resolve_query_mode",
 ]

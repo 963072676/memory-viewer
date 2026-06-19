@@ -5,6 +5,7 @@ from typing import Optional
 from fastapi import APIRouter, Query
 
 from app.models.agentmemory import QuickSearchResponse
+from app.core.memory_schema import QueryMode
 from app.services import search as service
 from app.services.agentmemory import quick_search
 
@@ -27,6 +28,7 @@ def search_quick(
 @router.get("")
 async def search(
     q: str = Query(default="", description="Search query (empty for pure filter mode)"),
+    mode: QueryMode = Query(default="keyword", description="keyword, semantic, or hybrid"),
     source: Optional[str] = Query(default=None),
     type: Optional[str] = Query(default=None),
     types: Optional[str] = Query(default=None, description="Comma-separated type filters"),
@@ -48,6 +50,7 @@ async def search(
 
     return await service.search_memories_async(
         query=q,
+        mode=mode,
         source=source,
         type_filter=type_list,
         profile_filter=profile,

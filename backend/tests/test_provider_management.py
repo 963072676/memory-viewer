@@ -13,6 +13,9 @@ def test_get_providers_returns_strategy_inventory_and_health(client):
     assert "fallbackProviders" in data["strategy"]
     assert "hermes" in data["health"]
     assert "agentmemory" in data["health"]
+    for provider in data["providers"]:
+        assert "queryModes" in provider
+        assert "keyword" in provider["queryModes"]
 
 
 def test_switch_provider_updates_runtime_active_provider(client):

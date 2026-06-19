@@ -9,6 +9,7 @@ class ZepAdapter(HTTPMemoryAdapter):
     """Adapter for Zep Cloud or compatible Zep servers."""
 
     source_type = "zep"
+    capabilities = {"query", "semantic_search", "hybrid_search", "store", "sessions", "health"}
     default_base_url = "https://api.getzep.com"
     default_auth_env = "ZEP_API_KEY"
     default_paths = {
@@ -18,7 +19,7 @@ class ZepAdapter(HTTPMemoryAdapter):
         "health": "/health",
     }
 
-    def _search_payload(self, query: str, limit: int) -> dict:
+    def _search_payload(self, query: str, limit: int, mode: str | None = None) -> dict:
         payload = {
             "query": query,
             "limit": limit,

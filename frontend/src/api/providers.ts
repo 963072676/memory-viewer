@@ -7,6 +7,7 @@ export interface ProviderInfo {
   active: boolean
   fallback: boolean
   capabilities: string[]
+  queryModes: Array<'keyword' | 'semantic' | 'hybrid'>
 }
 
 export interface ProviderStrategy {

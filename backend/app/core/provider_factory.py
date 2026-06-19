@@ -12,6 +12,7 @@ from app.core.errors import MemoryProviderError, ProviderConfigError, normalize_
 from app.core.memory_provider import MemoryProvider
 from app.core.memory_schema import MemoryInput, MemoryItem, MemoryQuery, MemoryQueryResult
 from app.core.observability import ProviderObservability
+from app.core.query_normalization import normalize_query_for_provider
 
 logger = logging.getLogger(__name__)
 
@@ -280,9 +281,14 @@ class ProviderFactory:
 
     async def query_memory_from_provider(self, provider_name: str, query: MemoryQuery) -> MemoryQueryResult:
         provider = self.get_provider(provider_name)
+        provider_query = normalize_query_for_provider(query, provider)
         started = time.perf_counter()
         try:
-            result = await self._run_with_policy(provider, "query_memory", lambda: provider.query_memory(query))
+            result = await self._run_with_policy(
+                provider,
+                "query_memory",
+                lambda: provider.query_memory(provider_query),
+            )
         except Exception as exc:
             normalized = normalize_provider_error(exc, provider=provider.name, operation="query_memory")
             self.observability.record_route(
@@ -310,9 +316,14 @@ class ProviderFactory:
         route_errors: list[dict[str, Any]] = []
         for provider_name in self._provider_order():
             provider = self.get_provider(provider_name)
+            provider_query = normalize_query_for_provider(query, provider)
             providers_tried.append(provider.name)
             try:
-                result = await self._run_with_policy(provider, "query_memory", lambda: provider.query_memory(query))
+                result = await self._run_with_policy(
+                    provider,
+                    "query_memory",
+                    lambda: provider.query_memory(provider_query),
+                )
                 self.observability.record_route(
                     operation="query_memory",
                     strategy="fallback",
@@ -350,7 +361,12 @@ class ProviderFactory:
         providers = [self.get_provider(name) for name in selected_provider_names]
 
         async def run(provider: MemoryProvider):
-            return await self._run_with_policy(provider, "query_memory", lambda: provider.query_memory(query))
+            provider_query = normalize_query_for_provider(query, provider)
+            return await self._run_with_policy(
+                provider,
+                "query_memory",
+                lambda: provider.query_memory(provider_query),
+            )
 
         results = await asyncio.gather(*(run(provider) for provider in providers), return_exceptions=True)
         merged: list[MemoryItem] = []

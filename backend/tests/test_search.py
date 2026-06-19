@@ -24,8 +24,19 @@ def test_search_basic(client):
     assert resp.status_code == 200
     data = resp.json()
     assert data["query"] == "hermes"
+    assert data["mode"] == "keyword"
     assert data["total"] > 0
     assert "results" in data
+
+
+def test_search_accepts_query_mode(client):
+    """Search mode should feed the unified MemoryQuery entrypoint."""
+    resp = client.get("/api/search?q=hermes&source=agentmemory&mode=hybrid")
+    assert resp.status_code == 200
+    data = resp.json()
+    assert data["query"] == "hermes"
+    assert data["mode"] == "hybrid"
+    assert data["total"] > 0
 
 
 def test_search_agentmemory_source(client):

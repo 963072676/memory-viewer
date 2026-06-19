@@ -108,7 +108,7 @@ class MemorySource(MemoryProvider, ABC):
     source_type: str = ""
     provider_type: str = ""
     enabled: bool = True
-    capabilities: set[str] = {"query", "get", "list", "health"}
+    capabilities: set[str] = {"query", "keyword_search", "get", "list", "health"}
 
     def __init__(self, name: str = "", config: dict | None = None):
         if name:

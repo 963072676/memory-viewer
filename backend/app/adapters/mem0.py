@@ -12,6 +12,7 @@ class Mem0Adapter(MemorySource):
     """Adapter for mem0 cloud API."""
 
     source_type = "mem0"
+    capabilities = {"query", "semantic_search", "hybrid_search", "get", "list", "health"}
 
     def __init__(self, name: str = "mem0", config: dict | None = None):
         super().__init__(name=name, config=config)

@@ -9,6 +9,7 @@ class SupermemoryAdapter(HTTPMemoryAdapter):
     """Adapter for Supermemory's Memory API."""
 
     source_type = "supermemory"
+    capabilities = {"query", "keyword_search", "semantic_search", "hybrid_search", "store", "health"}
     default_base_url = "https://api.supermemory.ai"
     default_auth_env = "SUPERMEMORY_API_KEY"
     default_paths = {
@@ -17,10 +18,10 @@ class SupermemoryAdapter(HTTPMemoryAdapter):
         "health": "/health",
     }
 
-    def _search_payload(self, query: str, limit: int) -> dict:
+    def _search_payload(self, query: str, limit: int, mode: str | None = None) -> dict:
         payload = {
             "q": query,
-            "searchMode": self.config.get("search_mode", "hybrid"),
+            "searchMode": mode or self.config.get("search_mode", "hybrid"),
             "limit": limit,
         }
         container_tag = self.config.get("container_tag") or self.config.get("containerTag")

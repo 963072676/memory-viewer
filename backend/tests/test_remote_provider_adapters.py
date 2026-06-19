@@ -8,7 +8,7 @@ from app.adapters.letta import LettaAdapter
 from app.adapters.registry import init_registry_from_config
 from app.adapters.supermemory import SupermemoryAdapter
 from app.adapters.zep import ZepAdapter
-from app.core.memory_schema import MemoryInput
+from app.core.memory_schema import MemoryInput, MemoryQuery
 
 
 def test_registry_loads_remote_provider_adapters_when_enabled():
@@ -154,3 +154,42 @@ async def test_supermemory_adapter_uses_v4_search_and_normalizes_results(monkeyp
     assert items[0].id == "doc-1"
     assert items[0].title == "Result"
     assert items[0].metadata["tags"] == ["agent-a"]
+
+
+@pytest.mark.asyncio
+async def test_supermemory_query_memory_uses_normalized_search_mode(monkeypatch):
+    adapter = SupermemoryAdapter(
+        name="supermemory",
+        config={"api_key": "test", "base_url": "https://supermemory.test"},
+    )
+    captured = {}
+
+    async def fake_request(method, path, **kwargs):
+        captured["method"] = method
+        captured["path"] = path
+        captured["payload"] = json.loads(kwargs["content"])
+        return {
+            "results": [
+                {
+                    "id": "doc-2",
+                    "content": "Semantic Supermemory result",
+                    "metadata": {"title": "Semantic"},
+                }
+            ]
+        }
+
+    monkeypatch.setattr(adapter, "_request", fake_request)
+
+    result = await adapter.query_memory(MemoryQuery(query="semantic result", mode="semantic", limit=4))
+
+    assert captured == {
+        "method": "POST",
+        "path": "/v4/search",
+        "payload": {
+            "q": "semantic result",
+            "searchMode": "semantic",
+            "limit": 4,
+        },
+    }
+    assert result.provider == "supermemory"
+    assert result.items[0].content == "Semantic Supermemory result"

@@ -9,6 +9,7 @@ from pydantic import BaseModel, Field
 
 from app.adapters.registry import get_registry
 from app.core.errors import MemoryProviderError
+from app.core.query_normalization import query_capability_summary
 
 router = APIRouter()
 
@@ -34,17 +35,21 @@ def _factory():
 def _provider_summary() -> list[dict]:
     reg = get_registry()
     strategy = reg.provider_factory.strategy
-    return [
-        {
-            "name": source.name,
-            "type": source.source_type,
-            "enabled": source.enabled,
-            "active": source.name == strategy.active_provider,
-            "fallback": source.name in strategy.fallback_providers,
-            "capabilities": sorted(getattr(source, "capabilities", set())),
-        }
-        for source in reg._sources.values()
-    ]
+    providers = []
+    for source in reg._sources.values():
+        query_summary = query_capability_summary(source)
+        providers.append(
+            {
+                "name": source.name,
+                "type": source.source_type,
+                "enabled": source.enabled,
+                "active": source.name == strategy.active_provider,
+                "fallback": source.name in strategy.fallback_providers,
+                "capabilities": query_summary["capabilities"],
+                "queryModes": query_summary["modes"],
+            }
+        )
+    return providers
 
 
 def _strategy_response() -> dict:
