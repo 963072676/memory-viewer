@@ -20,6 +20,7 @@ from app.routers import agentmemory, hermes_memory, profiles, search, health, ch
 from app.routers import sources as sources_router
 from app.routers import providers as providers_router
 from app.routers import memories as memories_router
+from app.routers import intelligence as intelligence_router
 from app.routers import favorites, collections, dashboard, compare
 from app.routers import metrics, webhook as webhook_router
 # P39: Restore per-memory P3 endpoints (decay / health / recommendations / suggest-tags / summarize)
@@ -73,6 +74,7 @@ app.include_router(changelog.router, prefix="/api/changelog", tags=["changelog"]
 app.include_router(sources_router.router, prefix="/api", tags=["sources"])
 app.include_router(providers_router.router, prefix="/api/providers", tags=["providers"])
 app.include_router(memories_router.router, prefix="/api/memories", tags=["memories"])
+app.include_router(intelligence_router.router, prefix="/api/intelligence", tags=["intelligence"])
 app.include_router(favorites.router, prefix="/api", tags=["favorites"])
 app.include_router(collections.router, prefix="/api/collections", tags=["collections"])
 app.include_router(dashboard.router, prefix="/api", tags=["dashboard"])
