@@ -2,6 +2,8 @@ import { defineStore } from 'pinia'
 import { ref, watch } from 'vue'
 
 type Theme = 'light' | 'dark' | 'system'
+type ViewMode = 'list' | 'graph' | 'timeline'
+const VIEW_MODES: ViewMode[] = ['list', 'graph', 'timeline']
 
 export const useUIStore = defineStore('ui', () => {
   const currentTab = ref<'all' | 'agentmemory' | 'hermes'>('all')
@@ -16,6 +18,8 @@ export const useUIStore = defineStore('ui', () => {
   const theme = ref<Theme>((localStorage.getItem('theme') as Theme) || 'system')
   const sortBy = ref<'updatedAt' | 'createdAt' | 'strength' | 'type'>('updatedAt')
   const sortOrder = ref<'asc' | 'desc'>('desc')
+  const savedViewMode = localStorage.getItem('memoryViewMode') as ViewMode | null
+  const viewMode = ref<ViewMode>(savedViewMode && VIEW_MODES.includes(savedViewMode) ? savedViewMode : 'list')
   const allExpanded = ref<boolean | null>(null)
   const showKeyboardHelp = ref(false)
   const showArchived = ref(false)
@@ -57,6 +61,11 @@ export const useUIStore = defineStore('ui', () => {
     if (order) sortOrder.value = order
   }
 
+  function setViewMode(mode: ViewMode) {
+    viewMode.value = mode
+    localStorage.setItem('memoryViewMode', mode)
+  }
+
   function toggleSortOrder() {
     sortOrder.value = sortOrder.value === 'desc' ? 'asc' : 'desc'
   }
@@ -92,6 +101,7 @@ export const useUIStore = defineStore('ui', () => {
     theme,
     sortBy,
     sortOrder,
+    viewMode,
     allExpanded,
     showKeyboardHelp,
     showArchived,
@@ -102,6 +112,7 @@ export const useUIStore = defineStore('ui', () => {
     toggleSidebar,
     setTheme,
     setSort,
+    setViewMode,
     toggleSortOrder,
     toggleAllExpanded,
     toggleKeyboardHelp,

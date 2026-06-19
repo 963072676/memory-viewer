@@ -103,6 +103,19 @@
         <div class="section-header">
           <h2>AgentMemory</h2>
           <div class="section-actions">
+            <div class="view-mode-switch" aria-label="Memory view mode">
+              <button
+                v-for="mode in viewModes"
+                :key="mode.value"
+                type="button"
+                class="view-mode-btn"
+                :class="{ active: uiStore.viewMode === mode.value }"
+                :aria-pressed="uiStore.viewMode === mode.value"
+                @click="uiStore.setViewMode(mode.value)"
+              >
+                {{ mode.label }}
+              </button>
+            </div>
             <!-- P39: button hierarchy — 创建 is the most common action → primary, others secondary -->
             <button class="action-btn action-btn--primary" @click="showCreateModal = true">+ {{ $t('i18n.create.action') }}</button>
             <button class="action-btn" @click="showImportModal = true">📥 {{ $t('i18n.import') }}</button>
@@ -123,6 +136,10 @@
             @action="showCreateModal = true"
           />
         </div>
+        <MemoryTimeline
+          v-else-if="uiStore.viewMode === 'timeline'"
+          :memories="filteredMemories"
+        />
         <VirtualCardGrid
           v-else-if="filteredMemories.length > 200"
           :items="filteredMemories"
@@ -215,6 +232,7 @@ import { useSearchStore } from '@/stores/search'
 import { useSessionStore } from '@/stores/sessions'
 import { fetchUnifiedMemories, type UnifiedMemory } from '@/api/sources'
 import MemoryCard from '@/components/Layout/MemoryCard.vue'
+import MemoryTimeline from '@/components/Layout/MemoryTimeline.vue'
 import VirtualCardGrid from '@/components/Layout/VirtualCardGrid.vue'
 import ExportButton from '@/components/Layout/ExportButton.vue'
 import CreateMemoryModal from '@/components/Layout/CreateMemoryModal.vue'
@@ -245,6 +263,10 @@ window.addEventListener('app-create-memory', onCreateFromPalette)
 const selectedSource = ref((route.query.source as string) || '')
 const unifiedMemories = ref<UnifiedMemory[]>([])
 const unifiedLoading = ref(false)
+const viewModes = [
+  { value: 'list' as const, label: 'List' },
+  { value: 'timeline' as const, label: 'Timeline' },
+]
 
 async function loadUnifiedMemories() {
   unifiedLoading.value = true
@@ -336,7 +358,43 @@ function onImported() {
 
 .section-actions {
   display: flex;
+  align-items: center;
   gap: var(--space-2);
+}
+
+.view-mode-switch {
+  display: inline-flex;
+  flex: 0 0 auto;
+  overflow: hidden;
+  min-height: 34px;
+  padding: 2px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--tag-bg);
+}
+
+.view-mode-btn {
+  min-width: 74px;
+  padding: 5px 10px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-family: var(--font);
+  font-size: 0.78rem;
+  font-weight: 600;
+  transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.view-mode-btn:hover {
+  color: var(--primary);
+}
+
+.view-mode-btn.active {
+  background: var(--card);
+  color: var(--primary);
+  box-shadow: var(--shadow-press);
 }
 
 .action-btn {
@@ -865,6 +923,14 @@ h2 {
 
   .section-actions {
     flex-wrap: wrap;
+  }
+
+  .view-mode-switch {
+    width: 100%;
+  }
+
+  .view-mode-btn {
+    flex: 1;
   }
 
   .card-grid {
