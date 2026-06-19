@@ -139,13 +139,16 @@
         <div
           v-else
           class="explorer-shell"
-          :class="{ 'explorer-shell--with-preview': selectedMemory && explorerViewMode !== 'graph' }"
+          :class="{ 'explorer-shell--with-preview': selectedMemory }"
         >
           <div class="explorer-main">
             <MemoryGraphPanel
               v-if="explorerViewMode === 'graph'"
               embedded
+              :selected-node-id="selectedGraphNodeId"
+              :show-node-detail="!selectedMemory"
               @select-memory="selectMemory"
+              @clear-selection="closeMemoryPreview"
             />
             <MemoryTimeline
               v-else-if="explorerViewMode === 'timeline'"
@@ -188,7 +191,7 @@
             </div>
           </div>
           <MemoryPreviewPanel
-            v-if="selectedMemory && explorerViewMode !== 'graph'"
+            v-if="selectedMemory"
             :memory="selectedMemory"
             @close="closeMemoryPreview"
           />
@@ -286,6 +289,7 @@ const showCreateModal = ref(false)
 const showImportModal = ref(false)
 const showDedupPanel = ref(false)
 const selectedMemoryId = ref('')
+const selectedGraphNodeId = ref('')
 const route = useRoute()
 const router = useRouter()
 
@@ -343,17 +347,21 @@ function setExplorerViewMode(mode: ExplorerViewMode) {
 
 function applyRouteMemoryId(value: unknown) {
   const raw = firstQueryValue(value)
-  selectedMemoryId.value = typeof raw === 'string' ? raw : ''
+  const id = typeof raw === 'string' ? raw : ''
+  selectedMemoryId.value = id
+  selectedGraphNodeId.value = id
 }
 
 function selectMemory(id: string) {
   selectedMemoryId.value = id
+  selectedGraphNodeId.value = id
   if (firstQueryValue(route.query.memory) === id) return
   router.replace({ query: { ...route.query, memory: id } })
 }
 
 function closeMemoryPreview() {
   selectedMemoryId.value = ''
+  selectedGraphNodeId.value = ''
   const query = { ...route.query }
   delete query.memory
   router.replace({ query })

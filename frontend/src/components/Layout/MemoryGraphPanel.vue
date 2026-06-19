@@ -1,5 +1,5 @@
 <template>
-  <div class="memory-graph-panel" :class="{ 'memory-graph-panel--embedded': embedded }">
+  <div class="memory-graph-panel" :class="{ 'memory-graph-panel--embedded': props.embedded }">
     <div class="view-header">
       <div>
         <h2 class="section-title">Memory Graph</h2>
@@ -74,10 +74,10 @@
         />
 
         <transition name="slide">
-          <aside v-if="selectedNode" class="node-detail">
+          <aside v-if="selectedNode && props.showNodeDetail" class="node-detail">
             <div class="detail-header">
               <span class="provider-chip">{{ selectedNode.provider }}</span>
-              <button class="close-btn" type="button" aria-label="Close" @click="selectedNode = null">X</button>
+              <button class="close-btn" type="button" aria-label="Close" @click="clearSelectedNode">X</button>
             </div>
             <h3>{{ selectedNode.label }}</h3>
             <p>{{ selectedNode.contentSnippet || 'No content preview.' }}</p>
@@ -109,12 +109,18 @@ import {
 } from '@/api/graph'
 import { useSessionStore } from '@/stores/sessions'
 
-defineProps<{
+const props = withDefaults(defineProps<{
   embedded?: boolean
-}>()
+  selectedNodeId?: string
+  showNodeDetail?: boolean
+}>(), {
+  selectedNodeId: '',
+  showNodeDetail: true,
+})
 
 const emit = defineEmits<{
   (e: 'select-memory', id: string): void
+  (e: 'clear-selection'): void
 }>()
 
 const sessionStore = useSessionStore()
@@ -157,7 +163,9 @@ async function loadGraph() {
       sessionId: sessionStore.activeSessionId || undefined,
       limit: Number(filters.limit) || 200,
     })
-    if (selectedNode.value && !graph.value.nodes.some(node => node.id === selectedNode.value?.id)) {
+    if (props.selectedNodeId) {
+      syncSelectedNode(props.selectedNodeId)
+    } else if (selectedNode.value && !graph.value.nodes.some(node => node.id === selectedNode.value?.id)) {
       selectedNode.value = null
     }
   } catch (e: any) {
@@ -174,8 +182,20 @@ function onNodeClick(node: { id: string }) {
   }
 }
 
+function clearSelectedNode() {
+  selectedNode.value = null
+  emit('clear-selection')
+}
+
+function syncSelectedNode(nodeId: string) {
+  selectedNode.value = nodeId
+    ? graph.value?.nodes.find(item => item.id === nodeId) || null
+    : null
+}
+
 onMounted(loadGraph)
 watch(() => sessionStore.activeSessionId, () => loadGraph())
+watch(() => props.selectedNodeId, syncSelectedNode)
 </script>
 
 <style scoped>
