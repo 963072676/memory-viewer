@@ -39,6 +39,8 @@
         </div>
       </div>
 
+      <MemoryCopilotPanel />
+
       <MemoryIntelligencePanel />
 
       <!-- Type Distribution Bar Chart -->
@@ -112,6 +114,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { request } from '@/api/index'
 import ActivityHeatmap from '@/components/Layout/ActivityHeatmap.vue'
+import MemoryCopilotPanel from '@/components/Layout/MemoryCopilotPanel.vue'
 import MemoryIntelligencePanel from '@/components/Layout/MemoryIntelligencePanel.vue'
 import { useCountUp } from '@/composables/useCountUp'
 
