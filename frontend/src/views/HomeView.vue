@@ -136,29 +136,56 @@
             @action="showCreateModal = true"
           />
         </div>
-        <MemoryTimeline
-          v-else-if="explorerViewMode === 'timeline'"
-          :memories="filteredMemories"
-        />
-        <VirtualCardGrid
-          v-else-if="filteredMemories.length > 200"
-          :items="filteredMemories"
-          :item-size="200"
-          :key-field="'id'"
+        <div
+          v-else
+          class="explorer-shell"
+          :class="{ 'explorer-shell--with-preview': selectedMemory }"
         >
-          <template #default="{ item }">
-            <MemoryCard
-              :memory="item"
-              :force-expanded="uiStore.allExpanded"
+          <div class="explorer-main">
+            <MemoryTimeline
+              v-if="explorerViewMode === 'timeline'"
+              :memories="filteredMemories"
+              :selected-id="selectedMemoryId"
+              @select="selectMemory"
             />
-          </template>
-        </VirtualCardGrid>
-        <div v-else class="card-grid">
-          <MemoryCard
-            v-for="m in filteredMemories"
-            :key="m.id"
-            :memory="m"
-            :force-expanded="uiStore.allExpanded"
+            <VirtualCardGrid
+              v-else-if="filteredMemories.length > 200"
+              :items="filteredMemories"
+              :item-size="200"
+              :key-field="'id'"
+            >
+              <template #default="{ item }">
+                <div
+                  class="memory-card-shell"
+                  :class="{ 'memory-card-shell--selected': selectedMemoryId === item.id }"
+                  @click="selectMemory(item.id)"
+                >
+                  <MemoryCard
+                    :memory="item"
+                    :force-expanded="uiStore.allExpanded"
+                  />
+                </div>
+              </template>
+            </VirtualCardGrid>
+            <div v-else class="card-grid">
+              <div
+                v-for="m in filteredMemories"
+                :key="m.id"
+                class="memory-card-shell"
+                :class="{ 'memory-card-shell--selected': selectedMemoryId === m.id }"
+                @click="selectMemory(m.id)"
+              >
+                <MemoryCard
+                  :memory="m"
+                  :force-expanded="uiStore.allExpanded"
+                />
+              </div>
+            </div>
+          </div>
+          <MemoryPreviewPanel
+            v-if="selectedMemory"
+            :memory="selectedMemory"
+            @close="closeMemoryPreview"
           />
         </div>
       </section>
@@ -232,6 +259,7 @@ import { useSearchStore } from '@/stores/search'
 import { useSessionStore } from '@/stores/sessions'
 import { fetchUnifiedMemories, type UnifiedMemory } from '@/api/sources'
 import MemoryCard from '@/components/Layout/MemoryCard.vue'
+import MemoryPreviewPanel from '@/components/Layout/MemoryPreviewPanel.vue'
 import MemoryTimeline from '@/components/Layout/MemoryTimeline.vue'
 import VirtualCardGrid from '@/components/Layout/VirtualCardGrid.vue'
 import ExportButton from '@/components/Layout/ExportButton.vue'
@@ -251,6 +279,7 @@ const sessionStore = useSessionStore()
 const showCreateModal = ref(false)
 const showImportModal = ref(false)
 const showDedupPanel = ref(false)
+const selectedMemoryId = ref('')
 const route = useRoute()
 const router = useRouter()
 
@@ -305,6 +334,24 @@ function setExplorerViewMode(mode: ExplorerViewMode) {
   router.replace({ query })
 }
 
+function applyRouteMemoryId(value: unknown) {
+  const raw = firstQueryValue(value)
+  selectedMemoryId.value = typeof raw === 'string' ? raw : ''
+}
+
+function selectMemory(id: string) {
+  selectedMemoryId.value = id
+  if (firstQueryValue(route.query.memory) === id) return
+  router.replace({ query: { ...route.query, memory: id } })
+}
+
+function closeMemoryPreview() {
+  selectedMemoryId.value = ''
+  const query = { ...route.query }
+  delete query.memory
+  router.replace({ query })
+}
+
 async function loadUnifiedMemories() {
   unifiedLoading.value = true
   try {
@@ -323,9 +370,11 @@ function onSourceChange() {
 
 onMounted(() => {
   applyRouteViewMode(route.query.view)
+  applyRouteMemoryId(route.query.memory)
   loadUnifiedMemories()
 })
 watch(() => route.query.view, applyRouteViewMode)
+watch(() => route.query.memory, applyRouteMemoryId)
 watch(() => route.query.source, (val) => {
   if (val && typeof val === 'string') {
     selectedSource.value = val
@@ -368,6 +417,10 @@ const filteredMemories = computed(() => {
 
   return memories
 })
+
+const selectedMemory = computed(() => (
+  filteredMemories.value.find(memory => memory.id === selectedMemoryId.value) || null
+))
 
 function onCreated() {
   agentMemoryStore.refresh()
@@ -509,6 +562,31 @@ h2 {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: var(--space-card-gap);
+}
+
+.explorer-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-5);
+  align-items: start;
+}
+
+.explorer-shell--with-preview {
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 360px);
+}
+
+.explorer-main {
+  min-width: 0;
+}
+
+.memory-card-shell {
+  min-width: 0;
+  border-radius: var(--radius-md);
+}
+
+.memory-card-shell--selected {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 
 /* P37: 重复 unified-card 块已合并到下方 "Card layout" 段（更具体位置），这里不再重复 */
@@ -977,6 +1055,11 @@ h2 {
   .card-grid {
     grid-template-columns: 1fr;
   }
+
+  .explorer-shell,
+  .explorer-shell--with-preview {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (min-width: 768px) and (max-width: 1024px) {
@@ -987,6 +1070,11 @@ h2 {
   .unified-controls {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .explorer-shell,
+  .explorer-shell--with-preview {
+    grid-template-columns: 1fr;
   }
 }
 </style>

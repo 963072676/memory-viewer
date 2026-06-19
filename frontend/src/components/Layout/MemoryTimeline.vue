@@ -15,6 +15,8 @@
           v-for="memory in group.items"
           :key="memory.id"
           class="timeline-item"
+          :class="{ 'timeline-item--selected': selectedId === memory.id }"
+          @click="$emit('select', memory.id)"
         >
           <div class="timeline-rail" aria-hidden="true">
             <span class="timeline-dot" :class="`timeline-dot--${memory.type}`"></span>
@@ -24,9 +26,9 @@
             <div class="timeline-card__header">
               <div class="timeline-title-wrap">
                 <span class="timeline-type" :class="`timeline-type--${memory.type}`">{{ memory.type }}</span>
-                <router-link :to="`/memory/${memory.id}`" class="timeline-title">
+                <button type="button" class="timeline-title" @click.stop="$emit('select', memory.id)">
                   {{ memory.title }}
-                </router-link>
+                </button>
               </div>
               <span class="timeline-time">{{ formatTime(memory.updatedAt || memory.createdAt) }}</span>
             </div>
@@ -55,6 +57,11 @@ import type { AgentMemory } from '@/types'
 
 const props = defineProps<{
   memories: AgentMemory[]
+  selectedId?: string
+}>()
+
+defineEmits<{
+  (e: 'select', id: string): void
 }>()
 
 interface TimelineGroup {
@@ -224,6 +231,11 @@ function truncate(value: string, max: number) {
   transform: translateY(-2px);
 }
 
+.timeline-item--selected .timeline-card {
+  border-color: var(--accent);
+  box-shadow: var(--shadow-hover);
+}
+
 .timeline-card__header,
 .timeline-title-wrap,
 .timeline-meta {
@@ -242,8 +254,14 @@ function truncate(value: string, max: number) {
 }
 
 .timeline-title {
+  max-width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
   overflow: hidden;
   color: var(--primary);
+  cursor: pointer;
+  font-family: var(--font);
   font-size: 0.95rem;
   font-weight: 650;
   text-decoration: none;
