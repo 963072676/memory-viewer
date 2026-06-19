@@ -99,7 +99,7 @@
       <DuplicatePanel :show="showDedupPanel" @close="showDedupPanel = false" />
 
       <!-- AgentMemory Section -->
-      <section v-if="uiStore.currentTab !== 'hermes'" class="section">
+      <section class="section">
         <div class="section-header">
           <h2>AgentMemory</h2>
           <div class="section-actions">
@@ -123,10 +123,10 @@
             <button class="action-btn" @click="showDedupPanel = !showDedupPanel">🔍 {{ $t('i18n.deduplicate') }}</button>
           </div>
         </div>
-        <div v-if="agentMemoryStore.loading" class="card-grid">
+        <div v-if="uiStore.currentTab !== 'hermes' && agentMemoryStore.loading" class="card-grid">
           <div v-for="i in 6" :key="i" class="skeleton-card"></div>
         </div>
-        <div v-else-if="filteredMemories.length === 0" class="empty-state">
+        <div v-else-if="uiStore.currentTab !== 'hermes' && filteredMemories.length === 0" class="empty-state">
           <!-- P38 r30: EmptyState prop 改 v-bind (同 r30 上一组) -->
           <EmptyState
             icon="🤖"
@@ -137,7 +137,6 @@
           />
         </div>
         <div
-          v-else
           class="explorer-shell"
           :class="{ 'explorer-shell--with-preview': selectedPreviewNode }"
         >
@@ -157,7 +156,7 @@
               @select="selectMemory"
             />
             <VirtualCardGrid
-              v-else-if="filteredMemories.length > 200"
+              v-if="uiStore.currentTab !== 'hermes' && explorerViewMode === 'list' && filteredMemories.length > 200"
               :items="filteredMemories"
               :item-size="200"
               :key-field="'id'"
@@ -175,7 +174,10 @@
                 </div>
               </template>
             </VirtualCardGrid>
-            <div v-else class="card-grid">
+            <div
+              v-else-if="uiStore.currentTab !== 'hermes' && explorerViewMode === 'list' && filteredMemories.length > 0"
+              class="card-grid"
+            >
               <div
                 v-for="m in filteredMemories"
                 :key="m.id"
