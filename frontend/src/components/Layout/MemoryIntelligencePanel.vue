@@ -32,6 +32,10 @@
           <strong>{{ summary?.keywords.length ?? 0 }}</strong>
         </div>
         <div class="stat-tile">
+          <span class="stat-label">Tags</span>
+          <strong>{{ summary?.topTags.length ?? 0 }}</strong>
+        </div>
+        <div class="stat-tile">
           <span class="stat-label">Clusters</span>
           <strong>{{ clusters?.total ?? 0 }}</strong>
         </div>
@@ -51,6 +55,17 @@
           <p class="summary-text">{{ summary?.summary || 'No memories available.' }}</p>
           <div class="keyword-row">
             <span v-for="keyword in keywords" :key="keyword" class="keyword-chip">{{ keyword }}</span>
+          </div>
+        </div>
+
+        <div class="intelligence-block">
+          <div class="block-title">Top Tags</div>
+          <div v-if="!topTags.length" class="empty-line">No tags detected yet.</div>
+          <div v-else class="tag-cloud" aria-label="Top memory tags">
+            <span v-for="(tag, index) in topTags" :key="tag" class="tag-chip">
+              <span class="tag-rank">{{ index + 1 }}</span>
+              <span class="tag-label">{{ tag }}</span>
+            </span>
           </div>
         </div>
 
@@ -120,6 +135,7 @@ const providerLabel = computed(() => (
 ))
 const sessionParam = computed(() => sessionStore.activeSessionId || undefined)
 const keywords = computed(() => summary.value?.keywords.slice(0, 8) || [])
+const topTags = computed(() => summary.value?.topTags.slice(0, 10) || [])
 
 async function loadAll() {
   loading.value = true
@@ -287,6 +303,7 @@ watch(() => sessionStore.activeSessionId, () => {
 }
 
 .keyword-chip,
+.tag-chip,
 .count-badge,
 .severity-pill {
   display: inline-flex;
@@ -301,6 +318,40 @@ watch(() => sessionStore.activeSessionId, () => {
 .keyword-chip {
   background: var(--accent-subtle);
   color: var(--accent);
+}
+
+.tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.tag-chip {
+  max-width: 100%;
+  gap: var(--space-2);
+  background: var(--tag-bg);
+  color: var(--primary);
+}
+
+.tag-rank {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: var(--radius-sm);
+  background: var(--card);
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  line-height: 1;
+}
+
+.tag-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .cluster-list,
