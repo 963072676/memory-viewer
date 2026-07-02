@@ -55,7 +55,7 @@
                 <span
                   class="enabled-badge"
                   :class="source.enabled ? 'enabled' : 'disabled'"
-                >{{ source.enabled ? $t('i18n.source_enabled') : $t('i18n.source_disabled') }}</span>
+                >{{ source.enabled ? $t('i18n.enabled') : $t('i18n.disabled') }}</span>
               </div>
             </div>
             <span class="expand-icon">{{ expandedSources.has(source.name) ? '▲' : '▼' }}</span>
@@ -75,7 +75,7 @@
                 <div class="detail-item">
                   <span class="detail-label">{{ $t('i18n.source.health') }}</span>
                   <span class="detail-value" :class="source.healthy ? 'text-success' : 'text-error'">
-                    {{ source.healthy ? $t('i18n.source_healthy') : $t('i18n.source_unhealthy') }}
+                    {{ source.healthy ? $t('i18n.healthy') : $t('i18n.unhealthy') }}
                   </span>
                 </div>
                 <div class="detail-item">
@@ -85,7 +85,7 @@
                 <div class="detail-item">
                   <span class="detail-label">{{ $t('i18n.source.enabled') }}</span>
                   <span class="detail-value" :class="source.enabled ? 'text-success' : 'text-muted'">
-                    {{ source.enabled ? $t('i18n.source_enabled') : $t('i18n.source_disabled') }}
+                    {{ source.enabled ? $t('i18n.enabled') : $t('i18n.disabled') }}
                   </span>
                 </div>
               </div>

@@ -32,10 +32,13 @@ DEFAULT_COST_PER_1K_TOKENS = {
 class UsageTracker:
     """Tracks API usage with in-memory buffer and periodic persistence."""
 
+    FLUSH_INTERVAL = 100  # flush every N records
+
     def __init__(self, max_buffer: int = 500):
         self._buffer: deque[dict] = deque(maxlen=max_buffer)
         self._llm_usage: dict[str, dict] = {}  # feature -> {tokens_in, tokens_out, cost}
         self._cost_config = dict(DEFAULT_COST_PER_1K_TOKENS)
+        self._unflushed_count: int = 0  # tracks records since last flush
 
     def record(self, path: str, method: str, status: int, duration_ms: float,
                request_size: int = 0, response_size: int = 0):
@@ -49,9 +52,11 @@ class UsageTracker:
             "response_size": response_size,
             "timestamp": time.time(),
         })
-        # Periodic flush
-        if len(self._buffer) % 100 == 0:
+        self._unflushed_count += 1
+        # Periodic flush based on record count since last flush
+        if self._unflushed_count >= self.FLUSH_INTERVAL:
             self._flush()
+            self._unflushed_count = 0
 
     def record_llm_usage(self, feature: str, tokens_in: int, tokens_out: int):
         """Record LLM token usage for a feature."""

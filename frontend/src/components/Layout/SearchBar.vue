@@ -114,7 +114,7 @@ function clear() {
 
 .search-input {
   width: 100%;
-  padding: 11px 130px 11px 42px;
+  padding: 11px 168px 11px 42px;
   font-size: 0.95rem;
   font-family: var(--font);
   border: 1px solid transparent;
@@ -158,7 +158,7 @@ function clear() {
 /* Mode toggle button — Geist pill */
 .mode-toggle {
   position: absolute;
-  right: 44px;
+  right: 56px;
   top: 50%;
   transform: translateY(-50%);
   background: var(--card);
@@ -203,7 +203,7 @@ function clear() {
 
 .clear-btn {
   position: absolute;
-  right: 118px;
+  right: 148px;
   top: 50%;
   transform: translateY(-50%);
   background: none;
@@ -235,7 +235,7 @@ function clear() {
   }
 
   .clear-btn {
-    right: 86px;
+    right: 96px;
     font-size: 0.75rem;
   }
 
@@ -244,7 +244,7 @@ function clear() {
   }
 
   .search-input {
-    padding: 10px 96px 10px 38px;
+    padding: 10px 106px 10px 38px;
     font-size: 0.9rem;
   }
 

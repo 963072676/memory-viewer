@@ -54,6 +54,9 @@ async def lifespan(app: FastAPI):
         with suppress(asyncio.CancelledError):
             await heartbeat_task
         await sched.on_shutdown()
+        # Close shared HTTP client connection pool
+        from app.adapters.http_provider import close_shared_client
+        await close_shared_client()
 
 
 app = FastAPI(

@@ -392,7 +392,9 @@ store.loadAllTags()
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
   flex-wrap: wrap;
   gap: 12px;
 }
@@ -400,10 +402,11 @@ store.loadAllTags()
 .view-actions {
   display: flex;
   gap: 8px;
+  flex-wrap: wrap;
 }
 
 h2 {
-  font-size: 1.5rem;
+  font-size: 1.35rem;
   font-weight: 600;
   letter-spacing: -0.02em;
 }
@@ -428,17 +431,18 @@ h2 {
 }
 
 .action-btn {
-  padding: 8px 16px;
+  padding: 7px 14px;
   border: 1px solid var(--border);
   border-radius: 8px;
   background: var(--card);
   color: var(--primary);
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-family: var(--font);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
   font-weight: 500;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  white-space: nowrap;
 }
 
 .action-btn:hover {
@@ -447,10 +451,7 @@ h2 {
   transform: translateY(-1px);
 }
 
-/* P38 (round 3): primary 药丸 — 与 HomeView .action-btn--primary (P39) / CollectionsView (P41) 对齐
-   几何上：实色填充（黑底白字，dark mode 下自动反转）+ 与 secondary 同 8px 圆角（保持一致性，不引入 pill）。
-   视觉权重：比 secondary 高一档（实色 vs 描边），确保「+ 创建」是页面最强的视觉锚点。
-   用 var(--primary-muted) 作为 hover 而非 color-mix — 与 HomeView 保持完全同款 hover 行为。 */
+/* P38 (round 3): primary 药丸 */
 .action-btn--primary {
   background: var(--primary);
   color: var(--card);
@@ -469,14 +470,52 @@ h2 {
   transform: translateY(0) scale(0.98);
 }
 
+/* Quick filter controls — styled pill selects */
+.quick-controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+  align-items: center;
+}
+
+.control-select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding: 6px 32px 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--card);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5' stroke='%238f8f8f' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 12px;
+  color: var(--primary);
+  font-size: 0.78rem;
+  font-family: var(--font);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  min-width: 120px;
+}
+
+.control-select:hover {
+  border-color: var(--border-strong);
+  background-color: var(--card-hover);
+}
+
+.control-select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-subtle);
+}
+
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
 }
 
 .skeleton-card {
-  height: 140px;
+  height: 120px;
   background: linear-gradient(90deg, var(--tag-bg) 25%, var(--border) 50%, var(--tag-bg) 75%);
   background-size: 200% 100%;
   border-radius: var(--radius);
@@ -495,11 +534,11 @@ h2 {
   align-items: center;
   gap: 8px;
   padding: 8px 14px;
-  margin-bottom: 16px;
-  background: var(--tag-bg);
-  border: 1px solid var(--border);
+  margin-bottom: 12px;
+  background: var(--accent-subtle);
+  border: 1px solid color-mix(in srgb, var(--accent) 20%, var(--border));
   border-radius: var(--radius);
-  font-size: 0.85rem;
+  font-size: 0.82rem;
 }
 
 .filter-icon {
@@ -546,6 +585,10 @@ h2 {
 
   .card-grid {
     grid-template-columns: 1fr;
+  }
+
+  .quick-controls {
+    flex-wrap: wrap;
   }
 }
 </style>

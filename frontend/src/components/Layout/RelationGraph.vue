@@ -1,64 +1,73 @@
 <template>
   <div class="relation-graph" ref="containerRef">
+    <div class="zoom-controls">
+      <button class="zoom-btn" @click="zoomIn" title="放大">+</button>
+      <button class="zoom-btn" @click="zoomOut" title="缩小">−</button>
+      <button class="zoom-btn" @click="resetView" title="重置">⟲</button>
+    </div>
     <svg
       :width="width"
       :height="height"
       class="graph-svg"
-      @mousedown="onMouseDown"
+      @wheel.prevent="onWheel"
+      @mousedown="onSvgMouseDown"
       @mousemove="onMouseMove"
       @mouseup="onMouseUp"
+      @mouseleave="onMouseUp"
     >
-      <!-- Edges -->
-      <g class="edges">
-        <g v-for="edge in layoutEdges" :key="edge.id">
-          <line
-            :x1="edge.sx"
-            :y1="edge.sy"
-            :x2="edge.tx"
-            :y2="edge.ty"
-            :stroke="edge.highlighted ? 'var(--accent)' : 'var(--border)'"
-            :stroke-width="edge.highlighted ? 2 : 1"
-            stroke-opacity="0.6"
-          />
-          <text
-            v-if="edge.label"
-            :x="(edge.sx + edge.tx) / 2"
-            :y="(edge.sy + edge.ty) / 2 - 6"
-            text-anchor="middle"
-            class="edge-label"
-            :fill="edge.highlighted ? 'var(--accent)' : 'var(--text-secondary)'"
-          >
-            {{ edge.label }}
-          </text>
+      <g :transform="`translate(${pan.x},${pan.y}) scale(${zoom})`">
+        <!-- Edges -->
+        <g class="edges">
+          <g v-for="edge in layoutEdges" :key="edge.id">
+            <line
+              :x1="edge.sx"
+              :y1="edge.sy"
+              :x2="edge.tx"
+              :y2="edge.ty"
+              :stroke="edge.highlighted ? 'var(--accent)' : 'var(--border)'"
+              :stroke-width="edge.highlighted ? 2 : 1"
+              stroke-opacity="0.6"
+            />
+            <text
+              v-if="edge.label"
+              :x="(edge.sx + edge.tx) / 2"
+              :y="(edge.sy + edge.ty) / 2 - 6"
+              text-anchor="middle"
+              class="edge-label"
+              :fill="edge.highlighted ? 'var(--accent)' : 'var(--text-secondary)'"
+            >
+              {{ edge.label }}
+            </text>
+          </g>
         </g>
-      </g>
-      <!-- Nodes -->
-      <g class="nodes">
-        <g
-          v-for="node in layoutNodes"
-          :key="node.id"
-          class="node-group"
-          :class="{ selected: node.id === selectedNodeId, dimmed: selectedNodeId && !node.connected }"
-          @mousedown.stop="startDrag(node, $event)"
-          @click.stop="$emit('node-click', node)"
-        >
-          <circle
-            :cx="node.x"
-            :cy="node.y"
-            :r="node.radius"
-            :fill="node.color"
-            stroke="var(--card)"
-            stroke-width="2"
-          />
-          <text
-            :x="node.x"
-            :y="node.y + node.radius + 14"
-            text-anchor="middle"
-            class="node-label"
-            fill="var(--primary)"
+        <!-- Nodes -->
+        <g class="nodes">
+          <g
+            v-for="node in layoutNodes"
+            :key="node.id"
+            class="node-group"
+            :class="{ selected: node.id === selectedNodeId, dimmed: selectedNodeId && !node.connected }"
+            @mousedown.stop="startDrag(node, $event)"
+            @click.stop="$emit('node-click', node)"
           >
-            {{ truncatedLabel(node.label) }}
-          </text>
+            <circle
+              :cx="node.x"
+              :cy="node.y"
+              :r="node.radius"
+              :fill="node.color"
+              stroke="var(--card)"
+              stroke-width="2"
+            />
+            <text
+              :x="node.x"
+              :y="node.y + node.radius + 14"
+              text-anchor="middle"
+              class="node-label"
+              fill="var(--primary)"
+            >
+              {{ truncatedLabel(node.label) }}
+            </text>
+          </g>
         </g>
       </g>
     </svg>
@@ -129,6 +138,15 @@ const layoutNodes = ref<LayoutNode[]>([])
 const layoutEdges = ref<LayoutEdge[]>([])
 let animFrame = 0
 const dragNode = ref<LayoutNode | null>(null)
+
+// Zoom & Pan state
+const zoom = ref(1)
+const pan = ref({ x: 0, y: 0 })
+const isPanning = ref(false)
+const panStart = ref({ x: 0, y: 0 })
+const ZOOM_MIN = 0.2
+const ZOOM_MAX = 5
+const ZOOM_STEP = 0.15
 
 function truncatedLabel(label: string): string {
   return label.length > 16 ? label.slice(0, 14) + '…' : label
@@ -260,27 +278,80 @@ function tick() {
   animFrame = requestAnimationFrame(tick)
 }
 
-// Drag support
+// Drag support (zoom-aware)
 function startDrag(node: LayoutNode, e: MouseEvent) {
   dragNode.value = node
 }
 
-function onMouseMove(e: MouseEvent) {
-  if (!dragNode.value || !containerRef.value) return
+function toGraphCoords(clientX: number, clientY: number): { x: number; y: number } {
+  if (!containerRef.value) return { x: clientX, y: clientY }
   const rect = containerRef.value.getBoundingClientRect()
-  dragNode.value.x = e.clientX - rect.left
-  dragNode.value.y = e.clientY - rect.top
-  dragNode.value.vx = 0
-  dragNode.value.vy = 0
-  updateEdges()
+  return {
+    x: (clientX - rect.left - pan.value.x) / zoom.value,
+    y: (clientY - rect.top - pan.value.y) / zoom.value,
+  }
+}
+
+function onMouseMove(e: MouseEvent) {
+  if (dragNode.value && containerRef.value) {
+    const coords = toGraphCoords(e.clientX, e.clientY)
+    dragNode.value.x = coords.x
+    dragNode.value.y = coords.y
+    dragNode.value.vx = 0
+    dragNode.value.vy = 0
+    updateEdges()
+  } else if (isPanning.value) {
+    pan.value = {
+      x: pan.value.x + (e.clientX - panStart.value.x),
+      y: pan.value.y + (e.clientY - panStart.value.y),
+    }
+    panStart.value = { x: e.clientX, y: e.clientY }
+  }
 }
 
 function onMouseUp() {
   dragNode.value = null
+  isPanning.value = false
 }
 
-function onMouseDown() {
-  // noop, handled by node
+function onSvgMouseDown(e: MouseEvent) {
+  // Only start panning if clicking on empty space (not a node)
+  if ((e.target as Element).tagName === 'svg' || (e.target as Element).tagName === 'line') {
+    isPanning.value = true
+    panStart.value = { x: e.clientX, y: e.clientY }
+  }
+}
+
+// Zoom handlers
+function onWheel(e: WheelEvent) {
+  const delta = e.deltaY > 0 ? -ZOOM_STEP : ZOOM_STEP
+  const newZoom = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, zoom.value + delta))
+
+  // Zoom towards cursor position
+  if (containerRef.value) {
+    const rect = containerRef.value.getBoundingClientRect()
+    const mx = e.clientX - rect.left
+    const my = e.clientY - rect.top
+    const scale = newZoom / zoom.value
+    pan.value = {
+      x: mx - (mx - pan.value.x) * scale,
+      y: my - (my - pan.value.y) * scale,
+    }
+  }
+  zoom.value = newZoom
+}
+
+function zoomIn() {
+  zoom.value = Math.min(ZOOM_MAX, zoom.value + ZOOM_STEP)
+}
+
+function zoomOut() {
+  zoom.value = Math.max(ZOOM_MIN, zoom.value - ZOOM_STEP)
+}
+
+function resetView() {
+  zoom.value = 1
+  pan.value = { x: 0, y: 0 }
 }
 
 function resize() {
@@ -319,10 +390,51 @@ onUnmounted(() => {
   width: 100%;
   height: 100%;
   display: block;
+  cursor: grab;
+}
+
+.graph-svg:active {
+  cursor: grabbing;
+}
+
+.zoom-controls {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.zoom-btn {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--card);
+  color: var(--primary);
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease, border-color 0.15s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.zoom-btn:hover {
+  background: var(--tag-bg);
+  border-color: var(--border-strong);
+}
+
+.zoom-btn:active {
+  transform: scale(0.95);
 }
 
 .node-group {
-  cursor: grab;
+  cursor: pointer;
   transition: opacity 0.2s;
 }
 

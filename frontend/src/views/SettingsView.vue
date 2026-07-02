@@ -176,7 +176,7 @@ const tabs = [
 const route = useRoute()
 const tabParam = typeof route.query.tab === 'string' ? route.query.tab : ''
 const activeTab = ref<SettingsTab>(
-  tabs.some(tab => tab.id === tabParam) ? tabParam as SettingsTab : 'sources',
+  tabs.some(tab => tab.id === tabParam) ? tabParam as SettingsTab : 'providers',
 )
 
 // Webhook config

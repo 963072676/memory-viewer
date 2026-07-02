@@ -8,19 +8,19 @@ host: "0.0.0.0"
 # 记忆数据源
 sources:
   # ── Hermes 内置 Memory（MEMORY.md / USER.md）──
-  # 容器化部署：host 路径 /home/.hermes/memories 映射到容器内 /workspace/hermes-memories
+  # 容器化部署：通过环境变量 MV_HERMES_MEMORIES_DIR 覆盖为 /workspace/hermes-memories
   - name: hermes
     type: hermes
     enabled: true
     config:
-      memories_dir: /workspace/hermes-memories
+      memories_dir: data/memories
 
   # ── AgentMemory（MCP 记忆）──
   - name: agentmemory
     type: agentmemory
     enabled: true
     config:
-      cache_path: /workspace/agentmemory/standalone.json
+      cache_path: data/cache/agentmemory.json
 
   # ── mem0 云端记忆（取消注释启用）──
   # 需要设置环境变量: export MEM0_API_KEY=your_key
@@ -31,19 +31,48 @@ sources:
   #     api_key: ${MEM0_API_KEY}
   #     base_url: https://api.mem0.ai/v1
 
+  # ── Qdrant 向量数据库（取消注释启用）──
+  # 本地部署无需 API Key；云端实例需要设置 QDRANT_API_KEY
+  # - name: qdrant
+  #   type: qdrant
+  #   enabled: true
+  #   config:
+  #     base_url: http://localhost:6333
+  #     collection: memories
+  #     # api_key: ${QDRANT_API_KEY}  # 云端实例取消注释
+
+  # ── Chroma 向量数据库（取消注释启用）──
+  # 本地部署无需认证；云端需要 CHROMA_API_KEY
+  # - name: chroma
+  #   type: chroma
+  #   enabled: true
+  #   config:
+  #     base_url: http://localhost:8000
+  #     collection: memories
+  #     # api_key: ${CHROMA_API_KEY}  # 云端实例取消注释
+
+  # ── Cognee 知识图谱记忆引擎（取消注释启用）──
+  # 本地部署: base_url=http://localhost:8000
+  # 云端: 需要设置 COGNEE_API_KEY
+  # - name: cognee
+  #   type: cognee
+  #   enabled: true
+  #   config:
+  #     base_url: http://localhost:8000
+  #     dataset: default
+  #     # api_key: ${COGNEE_API_KEY}  # 云端实例取消注释
+
 # Hermes profiles 目录
-# 容器化部署：host 路径 /home/.hermes/profiles 映射到容器内 /workspace/hermes-profiles
-hermes_profiles_dir: /workspace/hermes-profiles
+# 容器化部署：通过环境变量 MV_HERMES_PROFILES_DIR 覆盖
+hermes_profiles_dir: data/profiles
 
 # Hermes 全局 memory (MEMORY.md/USER.md)
-# 容器化部署：host 路径 /home/.hermes/memories 映射到容器内 /workspace/hermes-memories
-hermes_memories_dir: /workspace/hermes-memories
+# 容器化部署：通过环境变量 MV_HERMES_MEMORIES_DIR 覆盖
+hermes_memories_dir: data/memories
 
 # AgentMemory cache
-# 后端通过 fetch_agentmemory.py 周期从 /workspace/agentmemory/standalone.json (源数据)
-# + agentmemory MCP 重建到 /workspace/data/cache/agentmemory.json
-# 容器化部署：host 端 /opt/data/memory-viewer/v2/data -> /workspace/data (rw)
-agentmemory_cache: /workspace/data/cache/agentmemory.json
+# 容器化部署：通过环境变量 MV_AGENTMEMORY_CACHE 覆盖
+agentmemory_cache: data/cache/agentmemory.json
 
 # 缓存自动刷新间隔（分钟）
 cache_refresh_interval: 30

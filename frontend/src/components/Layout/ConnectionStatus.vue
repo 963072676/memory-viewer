@@ -24,9 +24,11 @@ const statusText = computed(() => {
 })
 
 async function checkStatus() {
+  status.value = 'connecting'
   try {
-    const res = await request<any>('/realtime/status')
-    status.value = res.total_connections > 0 ? 'connected' : 'disconnected'
+    await request<any>('/realtime/status')
+    // API responded = backend is alive, regardless of WS client count
+    status.value = 'connected'
   } catch {
     status.value = 'disconnected'
   }

@@ -11,14 +11,51 @@ from app.adapters.base import MemoryItem, MemorySource
 from app.core.errors import MemoryNotFoundError, ProviderUnavailableError, UnsupportedCapabilityError
 from app.core.memory_schema import MemoryInput, MemoryItem as CoreMemoryItem, MemoryQuery, MemoryQueryResult, Session
 
+# Module-level shared httpx client for connection pooling across all adapter instances.
+# Lazily initialized on first use; call close_shared_client() on app shutdown.
+_shared_client = None
+
+
+def _get_shared_client():
+    """Get or create the shared httpx.AsyncClient with connection pooling."""
+    global _shared_client
+    if _shared_client is None:
+        import httpx
+        _shared_client = httpx.AsyncClient(
+            timeout=30,
+            limits=httpx.Limits(max_connections=50, max_keepalive_connections=10),
+        )
+    return _shared_client
+
+
+async def close_shared_client():
+    """Close the shared HTTP client. Call during app shutdown."""
+    global _shared_client
+    if _shared_client is not None:
+        await _shared_client.aclose()
+        _shared_client = None
+
 
 class HTTPMemoryAdapter(MemorySource):
-    """Base class for provider adapters that speak JSON over HTTP."""
+    """Base class for provider adapters that speak JSON over HTTP.
+
+    Subclasses configure behavior via class-level attributes:
+      - default_auth_scheme: "Bearer" | "Token" | "api-key" | "none"
+      - default_auth_header: header name for api-key scheme (default "x-api-key")
+      - default_response_key: specific key to extract items list (skips heuristic)
+      - default_content_key: specific key for content field (skips heuristic)
+      - default_requires_auth: whether API key is required (default True)
+    """
 
     source_type = "http"
     default_base_url = ""
     default_auth_env = ""
     default_paths: dict[str, str] = {}
+    default_auth_scheme: str = "Bearer"
+    default_auth_header: str = "x-api-key"
+    default_response_key: str | None = None
+    default_content_key: str | None = None
+    default_requires_auth: bool = True
 
     def __init__(self, name: str = "", config: dict | None = None):
         super().__init__(name=name, config=config)
@@ -28,15 +65,33 @@ class HTTPMemoryAdapter(MemorySource):
         self.timeout: float = float(cfg.get("timeout", 10))
         self.paths: dict[str, str] = {**self.default_paths, **(cfg.get("paths") or {})}
         self.headers_config: dict = cfg.get("headers") or {}
+        self.auth_scheme: str = cfg.get("auth_scheme") or self.default_auth_scheme
+        self.auth_header: str = cfg.get("auth_header") or self.default_auth_header
+        self.response_key: str | None = cfg.get("response_key") or self.default_response_key
+        self.content_key: str | None = cfg.get("content_key") or self.default_content_key
+        self.requires_auth: bool = cfg.get("requires_auth", self.default_requires_auth)
 
     def _available(self) -> bool:
-        return bool(self.base_url and self.api_key)
+        if not self.base_url:
+            return False
+        if self.requires_auth and not self.api_key:
+            return False
+        return True
 
     def _auth_headers(self) -> dict[str, str]:
-        headers = {
-            "Authorization": f"Bearer {self.api_key}",
-            "Content-Type": "application/json",
-        }
+        headers: dict[str, str] = {"Content-Type": "application/json"}
+        if self.api_key:
+            scheme = self.auth_scheme.lower()
+            if scheme == "bearer":
+                headers["Authorization"] = f"Bearer {self.api_key}"
+            elif scheme == "token":
+                headers["Authorization"] = f"Token {self.api_key}"
+            elif scheme == "api-key":
+                headers[self.auth_header] = self.api_key
+            elif scheme == "none":
+                pass  # no auth header
+            else:
+                headers["Authorization"] = f"{self.auth_scheme} {self.api_key}"
         headers.update({str(k): str(v) for k, v in self.headers_config.items()})
         return headers
 
@@ -48,23 +103,21 @@ class HTTPMemoryAdapter(MemorySource):
         if not self._available() or not path:
             return None
         try:
-            import httpx
-
             url = f"{self.base_url}{path}"
-            async with httpx.AsyncClient(timeout=self.timeout) as client:
-                response = await client.request(method, url, headers=self._auth_headers(), **kwargs)
-                if response.status_code == 404:
-                    return None
-                if response.status_code >= 400:
-                    raise ProviderUnavailableError(
-                        f"{self.name} request failed with status {response.status_code}",
-                        provider=self.name,
-                        operation=f"{method} {path}",
-                        details={"status_code": response.status_code, "body": response.text[:500]},
-                    )
-                if not response.content:
-                    return {}
-                return response.json()
+            client = _get_shared_client()
+            response = await client.request(method, url, headers=self._auth_headers(), **kwargs)
+            if response.status_code == 404:
+                return None
+            if response.status_code >= 400:
+                raise ProviderUnavailableError(
+                    f"{self.name} request failed with status {response.status_code}",
+                    provider=self.name,
+                    operation=f"{method} {path}",
+                    details={"status_code": response.status_code, "body": response.text[:500]},
+                )
+            if not response.content:
+                return {}
+            return response.json()
         except ProviderUnavailableError:
             raise
         except Exception as exc:
@@ -81,6 +134,13 @@ class HTTPMemoryAdapter(MemorySource):
         if isinstance(data, list):
             return [item for item in data if isinstance(item, dict)]
         if isinstance(data, dict):
+            # Use configured response_key if set
+            if self.response_key:
+                value = data.get(self.response_key)
+                if isinstance(value, list):
+                    return [item for item in value if isinstance(item, dict)]
+                return []
+            # Heuristic: try common response keys
             for key in ("results", "memories", "items", "data", "facts", "blocks"):
                 value = data.get(key)
                 if isinstance(value, list):
@@ -89,6 +149,13 @@ class HTTPMemoryAdapter(MemorySource):
         return []
 
     def _content_from_raw(self, raw: dict) -> str:
+        # Use configured content_key if set
+        if self.content_key:
+            value = raw.get(self.content_key)
+            if isinstance(value, str):
+                return value
+            return ""
+        # Heuristic: try common content keys
         for key in ("content", "memory", "text", "chunk", "fact", "value", "context"):
             value = raw.get(key)
             if isinstance(value, str):
@@ -119,7 +186,7 @@ class HTTPMemoryAdapter(MemorySource):
             concepts=raw.get("concepts") or metadata.get("concepts") or [],
             strength=float(raw.get("strength") or metadata.get("strength") or 5.0),
             created_at=str(raw.get("createdAt") or raw.get("created_at") or ""),
-            updated_at=str(raw.get("updatedAt") or raw.get("updated_at") or raw.get("updatedAt") or ""),
+            updated_at=str(raw.get("updatedAt") or raw.get("updated_at") or ""),
             source=self.name,
             metadata=metadata,
         )

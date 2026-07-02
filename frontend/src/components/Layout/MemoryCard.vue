@@ -390,33 +390,33 @@ watch(() => props.forceExpanded, (newVal) => {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   overflow: hidden;
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
   cursor: pointer;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
 }
 
 .memory-card:hover {
   box-shadow: var(--shadow-hover);
-  transform: translateY(-3px);
+  transform: translateY(-2px);
 }
 
 .card-header {
-  padding: 20px 20px 16px;
+  padding: 16px 16px 12px;
 }
 
 .card-title-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 10px;
+  gap: 8px;
+  margin-bottom: 8px;
   /* 给左侧 .select-checkbox (18px + 12px left offset) 让出空间,
      否则 checkbox 浮在标题文字之上,造成"遮挡"视觉 */
-  padding-left: 30px;
+  padding-left: 28px;
 }
 
 .card-title {
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 600;
   color: var(--primary);
   line-height: 1.4;
@@ -476,10 +476,10 @@ watch(() => props.forceExpanded, (newVal) => {
 .type-architecture{ background: var(--type-architecture-bg);color: var(--type-architecture-text);border-color: color-mix(in srgb, var(--type-architecture-text) 18%, transparent); }
 
 .card-summary {
-  font-size: 0.875rem;
+  font-size: 0.85rem;
   color: var(--text-secondary);
-  line-height: 1.6;
-  margin-bottom: 8px;
+  line-height: 1.55;
+  margin-bottom: 6px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -561,7 +561,7 @@ watch(() => props.forceExpanded, (newVal) => {
 .strength-ring--low  .strength-ring__num { color: var(--strength-low-ink); }
 
 .card-body {
-  padding: 0 20px 20px;
+  padding: 0 16px 16px;
   border-top: 1px solid var(--border);
 }
 
@@ -617,7 +617,7 @@ watch(() => props.forceExpanded, (newVal) => {
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
-  margin-bottom: 8px;
+  margin-bottom: 5px;
 }
 
 .tag-capsule {

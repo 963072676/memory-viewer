@@ -23,6 +23,10 @@ class AgentMemoryAdapter(MemorySource):
     def __init__(self, name: str = "agentmemory", config: dict | None = None):
         super().__init__(name=name, config=config)
         self.cache_path: str = config.get("cache_path", "") if config else ""
+        # In-memory cache: avoids re-reading/parsing JSON on every call
+        self._cache_data: dict | None = None
+        self._cache_mtime: float = 0
+        self._id_index: dict[str, int] = {}  # id -> list index for O(1) lookup
 
     def _cache_file(self) -> str:
         path = self._resolve_path(self.cache_path)
@@ -38,45 +42,72 @@ class AgentMemoryAdapter(MemorySource):
             p = str(_PROJECT_ROOT / p)
         return p
 
-    def _raw_memories(self) -> list[dict]:
-        """Read raw memory dicts from JSON cache."""
+    def _load_cached(self) -> dict:
+        """Read JSON cache with mtime-based in-memory caching.
+
+        Returns the normalized cache dict. Re-reads from disk only if
+        the file's mtime has changed since last read.
+        """
         path = self._cache_file()
+        try:
+            mtime = os.path.getmtime(path)
+        except OSError:
+            self._cache_data = None
+            self._cache_mtime = 0
+            self._id_index = {}
+            return {"memories": []}
+
+        if self._cache_data is not None and mtime == self._cache_mtime:
+            return self._cache_data
+
         try:
             with open(path, "r", encoding="utf-8") as f:
                 data = json.load(f)
-            if isinstance(data, dict) and "memories" in data:
-                return data["memories"]
-            # agentmemory MCP uses "mem:memories" key (dict of id→memory)
-            if isinstance(data, dict) and "mem:memories" in data:
-                val = data["mem:memories"]
-                return list(val.values()) if isinstance(val, dict) else val
-            if isinstance(data, list):
-                return data
         except (FileNotFoundError, json.JSONDecodeError, OSError):
-            pass
-        return []
+            self._cache_data = {"memories": []}
+            self._cache_mtime = mtime
+            self._id_index = {}
+            return self._cache_data
+
+        if isinstance(data, dict) and "memories" in data:
+            normalized = data
+        elif isinstance(data, dict) and "mem:memories" in data:
+            value = data["mem:memories"]
+            memories = list(value.values()) if isinstance(value, dict) else value
+            normalized = {"memories": memories if isinstance(memories, list) else []}
+        elif isinstance(data, list):
+            normalized = {"memories": data}
+        else:
+            normalized = {"memories": []}
+
+        # Build ID index for O(1) get-by-id
+        id_index: dict[str, int] = {}
+        for idx, mem in enumerate(normalized.get("memories", [])):
+            mem_id = mem.get("id")
+            if mem_id:
+                id_index[mem_id] = idx
+
+        self._cache_data = normalized
+        self._cache_mtime = mtime
+        self._id_index = id_index
+        return normalized
+
+    def _invalidate_cache(self) -> None:
+        """Clear in-memory cache so next read goes to disk."""
+        self._cache_data = None
+        self._cache_mtime = 0
+        self._id_index = {}
+
+    def _raw_memories(self) -> list[dict]:
+        """Read raw memory dicts from JSON cache."""
+        return self._load_cached().get("memories", [])
 
     def _read_cache(self) -> dict:
         """Read cache in a write-friendly normalized format."""
-        path = self._cache_file()
-        try:
-            with open(path, "r", encoding="utf-8") as f:
-                data = json.load(f)
-        except (FileNotFoundError, json.JSONDecodeError, OSError):
-            return {"memories": []}
-
-        if isinstance(data, dict) and "memories" in data:
-            return data
-        if isinstance(data, dict) and "mem:memories" in data:
-            value = data["mem:memories"]
-            memories = list(value.values()) if isinstance(value, dict) else value
-            return {"memories": memories if isinstance(memories, list) else []}
-        if isinstance(data, list):
-            return {"memories": data}
-        return {"memories": []}
+        return self._load_cached()
 
     def _write_cache(self, data: dict) -> None:
-        """Write cache atomically."""
+        """Write cache atomically and invalidate in-memory cache."""
         path = self._cache_file()
         dir_name = os.path.dirname(path)
         os.makedirs(dir_name, exist_ok=True)
@@ -89,6 +120,7 @@ class AgentMemoryAdapter(MemorySource):
             if os.path.exists(tmp_path):
                 os.unlink(tmp_path)
             raise
+        self._invalidate_cache()
 
     def _normalize_tags(self, tags: Any) -> list[str]:
         if not isinstance(tags, list):
@@ -135,10 +167,22 @@ class AgentMemoryAdapter(MemorySource):
         return [self._to_item(m) for m in sliced]
 
     async def get(self, id: str) -> Optional[MemoryItem]:
-        for raw in self._raw_memories():
+        memories = self._raw_memories()
+        idx = self._id_index.get(id)
+        if idx is not None and idx < len(memories):
+            raw = memories[idx]
+            if raw.get("id") == id:
+                return self._to_item(raw)
+        # Fallback: linear scan (handles stale index edge cases)
+        for raw in memories:
             if raw.get("id") == id:
                 return self._to_item(raw)
         return None
+
+    async def count(self) -> int:
+        """O(1) count from cached data instead of loading all items."""
+        memories = self._raw_memories()
+        return sum(1 for m in memories if not m.get("archived", False))
 
     async def search(self, query: str, limit: int = 20) -> list[MemoryItem]:
         q = query.lower()

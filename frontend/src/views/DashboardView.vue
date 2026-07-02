@@ -180,7 +180,16 @@ async function loadStats() {
   loading.value = true
   error.value = null
   try {
-    stats.value = await request<Stats>('/agentmemory/stats')
+    const unified = await request<any>('/stats')
+    const am = unified.agentmemory || {}
+    const hm = unified.hermes || {}
+    stats.value = {
+      total: (am.total || 0) + (hm.total || 0),
+      avg_strength: am.avg_strength || 0,
+      by_type: am.by_type || {},
+      strength_distribution: am.strength_distribution || {},
+      by_month: am.by_month || {},
+    }
   } catch (e: any) {
     error.value = e.message || '加载统计数据失败'
   } finally {

@@ -42,9 +42,11 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted } from 'vue'
 import { useHermesMemoryStore } from '@/stores/hermes-memory'
 import EmptyState from '@/components/Layout/EmptyState.vue'
 const store = useHermesMemoryStore()
+onMounted(() => store.fetchMemory())
 </script>
 
 <style scoped>

@@ -238,17 +238,7 @@ def get_all_tags():
     return {"tags": tags}
 
 
-# P21-T1: Memory Detail endpoint (MUST be last to avoid route conflict with /collections, /tags)
-@router.get("/{memory_id}", response_model=AgentMemoryResponse)
-def get_agentmemory_by_id(memory_id: str):
-    """Get a single agentmemory entry by ID (P21-T1)."""
-    memory = service.get_memory_by_id(memory_id)
-    if not memory:
-        raise HTTPException(status_code=404, detail=f"Memory not found: {memory_id}")
-    return {"memories": [memory]}
-
-
-# F49: Memory Templates
+# F49: Memory Templates (MUST be before /{memory_id} to avoid route collision)
 MEMORY_TEMPLATES = [
     {
         "id": "bug-report",
@@ -346,3 +336,13 @@ MEMORY_TEMPLATES = [
 def get_templates():
     """Get predefined memory creation templates (F49)."""
     return {"templates": MEMORY_TEMPLATES}
+
+
+# P21-T1: Memory Detail endpoint (MUST be last to avoid route conflict with /collections, /tags, /templates)
+@router.get("/{memory_id}", response_model=AgentMemoryResponse)
+def get_agentmemory_by_id(memory_id: str):
+    """Get a single agentmemory entry by ID (P21-T1)."""
+    memory = service.get_memory_by_id(memory_id)
+    if not memory:
+        raise HTTPException(status_code=404, detail=f"Memory not found: {memory_id}")
+    return {"memories": [memory]}

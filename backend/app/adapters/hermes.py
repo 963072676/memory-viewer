@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import os
 import re
+import time
 from pathlib import Path
 from typing import Optional
 
@@ -87,6 +88,11 @@ class HermesAdapter(MemorySource):
         super().__init__(name=name, config=config)
         self.memories_dir: str = config.get("memories_dir", "") if config else ""
         self.profiles_dir: str = config.get("profiles_dir", "") if config else ""
+        # In-memory TTL cache: avoids re-scanning directories and re-parsing files
+        self._cache_items: list[MemoryItem] | None = None
+        self._cache_time: float = 0
+        self._file_mtimes: dict[str, float] = {}
+        self._cache_ttl: float = float(config.get("cache_ttl", 30)) if config else 30.0
 
     def _resolve_path(self, p: str) -> str:
         """Expand env vars and make relative paths absolute to project root."""
@@ -123,6 +129,34 @@ class HermesAdapter(MemorySource):
                 if os.path.isfile(path):
                     files.append((path, profile, file_name))
         return files
+
+    def _is_cache_valid(self) -> bool:
+        """Check if TTL has not expired and no tracked files have changed."""
+        if self._cache_items is None:
+            return False
+        if time.monotonic() - self._cache_time > self._cache_ttl:
+            return False
+        # Verify no tracked file has a newer mtime
+        for path, cached_mtime in self._file_mtimes.items():
+            try:
+                if os.path.getmtime(path) != cached_mtime:
+                    return False
+            except OSError:
+                return False  # file disappeared
+        return True
+
+    def _invalidate_cache(self) -> None:
+        """Clear cached items so next list() re-reads from disk."""
+        self._cache_items = None
+        self._cache_time = 0
+        self._file_mtimes = {}
+
+    def _record_file_mtime(self, path: str) -> None:
+        """Track a file's mtime for cache invalidation."""
+        try:
+            self._file_mtimes[path] = os.path.getmtime(path)
+        except OSError:
+            pass
 
     def _read_entries_file(self, path: str, *, profile: str, file_name: str) -> list[MemoryItem]:
         """Read Hermes section-delimited files as individual memory items."""
@@ -184,8 +218,14 @@ class HermesAdapter(MemorySource):
         )
 
     async def list(self, limit: int = 50, offset: int = 0) -> list[MemoryItem]:
+        if self._is_cache_valid():
+            return self._cache_items[offset : offset + limit]
+
         results: list[MemoryItem] = []
+        self._file_mtimes = {}  # reset tracked files
+
         for fp in self._scan_files():
+            self._record_file_mtime(fp)
             file_name = os.path.basename(fp)
             if file_name in ("MEMORY.md", "USER.md"):
                 results.extend(self._read_entries_file(fp, profile="global", file_name=file_name))
@@ -195,12 +235,16 @@ class HermesAdapter(MemorySource):
                 results.append(item)
 
         for fp, profile, file_name in self._scan_profile_files():
+            self._record_file_mtime(fp)
             results.extend(self._read_entries_file(fp, profile=profile, file_name=file_name))
 
+        self._cache_items = results
+        self._cache_time = time.monotonic()
         return results[offset : offset + limit]
 
     async def get(self, id: str) -> Optional[MemoryItem]:
-        for item in await self.list(limit=999999):
+        all_items = await self.list(limit=999999)
+        for item in all_items:
             if item.id == id:
                 return item
         return None
@@ -208,7 +252,8 @@ class HermesAdapter(MemorySource):
     async def search(self, query: str, limit: int = 20) -> list[MemoryItem]:
         query_lower = query.lower()
         results: list[MemoryItem] = []
-        for item in await self.list(limit=999999):
+        all_items = await self.list(limit=999999)
+        for item in all_items:
             if (
                 query_lower in item.title.lower()
                 or query_lower in item.content.lower()
@@ -218,6 +263,11 @@ class HermesAdapter(MemorySource):
                 if len(results) >= limit:
                     break
         return results
+
+    async def count(self) -> int:
+        """Use cached list length instead of re-reading all files."""
+        all_items = await self.list(limit=999999)
+        return len(all_items)
 
     async def health(self) -> bool:
         md = self._resolve_path(self.memories_dir)

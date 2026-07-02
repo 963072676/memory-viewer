@@ -240,8 +240,8 @@ restoreFromUrl()
 
 <style scoped>
 .filter-panel {
-  max-width: 560px;
-  margin: -24px auto 24px;
+  max-width: 720px;
+  margin: -12px auto 20px;
 }
 
 .filter-toggle {

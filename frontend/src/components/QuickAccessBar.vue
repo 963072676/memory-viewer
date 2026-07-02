@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 
 const STORAGE_KEY = 'quick-access-active'
@@ -67,6 +67,8 @@ function syncActiveFromRoute() {
   }
 }
 
+watch(() => route.fullPath, syncActiveFromRoute)
+
 onMounted(() => {
   const saved = localStorage.getItem(STORAGE_KEY)
   if (saved && buttons.some(b => b.id === saved)) {
@@ -82,27 +84,6 @@ onMounted(() => {
   }
   syncActiveFromRoute()
 })
-</script>
-
-<script lang="ts">
-import { watch } from 'vue'
-export default {
-  mounted() {
-    watch(() => this.$route, () => {
-      const path = this.$route.path
-      const filter = this.$route.query.filter as string
-      if (path === '/graph') {
-        ;(this as any).activeButton = 'graph'
-      } else if (path === '/' && filter === 'favorite') {
-        ;(this as any).activeButton = 'favorites'
-      } else if (path === '/' && filter === 'recent7') {
-        ;(this as any).activeButton = 'recent7'
-      } else if (path === '/') {
-        ;(this as any).activeButton = 'all'
-      }
-    })
-  }
-}
 </script>
 
 <style scoped>

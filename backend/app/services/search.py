@@ -179,7 +179,7 @@ async def search_memories_async(
 ) -> dict:
     """Search memories through the unified provider query layer."""
     reg = get_registry()
-    query_limit = max(limit + offset, 1000)
+    query_limit = limit + offset + 50  # margin for post-hoc filtering
     memory_query = MemoryQuery(query=query, mode=mode, limit=query_limit, include_raw=True)
 
     if source and source != "all":

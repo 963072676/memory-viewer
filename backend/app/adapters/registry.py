@@ -29,6 +29,9 @@ def _load_adapter_classes():
     from app.adapters.zep import ZepAdapter
     from app.adapters.letta import LettaAdapter
     from app.adapters.supermemory import SupermemoryAdapter
+    from app.adapters.qdrant import QdrantAdapter
+    from app.adapters.chroma import ChromaAdapter
+    from app.adapters.cognee import CogneeAdapter
 
     _ADAPTER_CLASSES = {
         "hermes": HermesAdapter,
@@ -37,6 +40,9 @@ def _load_adapter_classes():
         "zep": ZepAdapter,
         "letta": LettaAdapter,
         "supermemory": SupermemoryAdapter,
+        "qdrant": QdrantAdapter,
+        "chroma": ChromaAdapter,
+        "cognee": CogneeAdapter,
     }
 
 
@@ -194,6 +200,27 @@ def init_registry_from_config(config: dict) -> AdapterRegistry:
             registry.register(
                 _ADAPTER_CLASSES["supermemory"](name="supermemory", config={})
             )
+        # Qdrant auto — enable if base_url or API key is set
+        if os.environ.get("QDRANT_BASE_URL") or os.environ.get("QDRANT_API_KEY"):
+            registry.register(
+                _ADAPTER_CLASSES["qdrant"](name="qdrant", config={
+                    "base_url": os.environ.get("QDRANT_BASE_URL", "http://localhost:6333"),
+                    "collection": os.environ.get("QDRANT_COLLECTION", "memories"),
+                })
+            )
+        # Chroma auto — enable if base_url or API key is set
+        if os.environ.get("CHROMA_BASE_URL") or os.environ.get("CHROMA_API_KEY"):
+            registry.register(
+                _ADAPTER_CLASSES["chroma"](name="chroma", config={
+                    "base_url": os.environ.get("CHROMA_BASE_URL", "http://localhost:8000"),
+                    "collection": os.environ.get("CHROMA_COLLECTION", "memories"),
+                })
+            )
+        # Cognee auto — enable if API key or base_url is set
+        if os.environ.get("COGNEE_API_KEY") or os.environ.get("COGNEE_BASE_URL"):
+            registry.register(
+                _ADAPTER_CLASSES["cognee"](name="cognee", config={})
+            )
         _finalize_provider_strategy(registry, config)
         return registry
 
@@ -273,8 +300,14 @@ def _auto_enabled(source_type: str) -> bool:
         "zep": "ZEP_API_KEY",
         "letta": "LETTA_API_KEY",
         "supermemory": "SUPERMEMORY_API_KEY",
+        "qdrant": "QDRANT_API_KEY",
+        "chroma": "CHROMA_API_KEY",
+        "cognee": "COGNEE_API_KEY",
     }
     env_name = env_by_type.get(source_type)
+    # Qdrant and Chroma work without auth (local), auto-enable if base_url is set
+    if source_type in ("qdrant", "chroma"):
+        return True  # enabled by default when explicitly configured
     return bool(os.environ.get(env_name)) if env_name else True
 
 

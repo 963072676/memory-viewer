@@ -3,10 +3,11 @@ Metrics / heatmap summary endpoint.
 
 P38: 之前在 deprecated/metrics.py,被 main.py 的 deprecated 列表排除,
 前端 dashboard ActivityHeatmap 拉不到数据 → 404。
-现在注册为活动 router,返回空数据 + 0 计数,前端可以正常渲染空热图。
+现在注册为活动 router,调用真实 heatmap 服务聚合实际数据。
 """
-from datetime import datetime, timedelta
 from fastapi import APIRouter, Query
+
+from app.services.heatmap import get_heatmap_summary
 
 router = APIRouter()
 
@@ -16,24 +17,5 @@ def heatmap_summary(
     metric: str = Query("created", description="created | updated | accessed"),
     days: int = Query(365, ge=1, le=730, description="time window in days"),
 ):
-    """
-    Return daily activity counts for the heatmap.
-
-    当下没有真实事件源 → 返回全 0 列表,前端 ActivityHeatmap 会显示空白网格(无报错)。
-    后续接入事件总线后,这里替换成真实聚合即可。
-    """
-    today = datetime.now().date()
-    data = []
-    for i in range(days):
-        d = today - timedelta(days=days - 1 - i)
-        data.append({"date": d.isoformat(), "count": 0})
-
-    return {
-        "metric": metric,
-        "days": days,
-        "total_events": 0,
-        "max_day_count": 0,
-        "active_days": 0,
-        "total_days": days,
-        "data": data,
-    }
+    """Return daily activity counts for the heatmap from real memory data."""
+    return get_heatmap_summary(metric, days)

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import asyncio
+import functools
 import logging
 import time
 from dataclasses import dataclass, field
@@ -270,7 +271,7 @@ class ProviderFactory:
 
     async def store_memory(self, input: MemoryInput, provider_name: str | None = None) -> MemoryItem:
         provider = self.get_provider(provider_name)
-        return await self._run_with_policy(provider, "store_memory", lambda: provider.store_memory(input))
+        return await self._run_with_policy(provider, "store_memory", functools.partial(provider.store_memory, input))
 
     async def query_memory(self, query: MemoryQuery) -> MemoryQueryResult:
         if self.strategy.debug_raw_response:
@@ -287,7 +288,7 @@ class ProviderFactory:
             result = await self._run_with_policy(
                 provider,
                 "query_memory",
-                lambda: provider.query_memory(provider_query),
+                functools.partial(provider.query_memory, provider_query),
             )
         except Exception as exc:
             normalized = normalize_provider_error(exc, provider=provider.name, operation="query_memory")
@@ -322,7 +323,7 @@ class ProviderFactory:
                 result = await self._run_with_policy(
                     provider,
                     "query_memory",
-                    lambda: provider.query_memory(provider_query),
+                    functools.partial(provider.query_memory, provider_query),
                 )
                 self.observability.record_route(
                     operation="query_memory",
@@ -365,7 +366,7 @@ class ProviderFactory:
             return await self._run_with_policy(
                 provider,
                 "query_memory",
-                lambda: provider.query_memory(provider_query),
+                functools.partial(provider.query_memory, provider_query),
             )
 
         results = await asyncio.gather(*(run(provider) for provider in providers), return_exceptions=True)
@@ -401,15 +402,15 @@ class ProviderFactory:
 
     async def update_memory(self, id: str, patch: dict[str, Any], provider_name: str | None = None) -> None:
         provider = self.get_provider(provider_name)
-        await self._run_with_policy(provider, "update_memory", lambda: provider.update_memory(id, patch))
+        await self._run_with_policy(provider, "update_memory", functools.partial(provider.update_memory, id, patch))
 
     async def delete_memory(self, id: str, provider_name: str | None = None) -> None:
         provider = self.get_provider(provider_name)
-        await self._run_with_policy(provider, "delete_memory", lambda: provider.delete_memory(id))
+        await self._run_with_policy(provider, "delete_memory", functools.partial(provider.delete_memory, id))
 
     async def get_memory_by_id(self, id: str, provider_name: str | None = None) -> MemoryItem:
         provider = self.get_provider(provider_name)
-        return await self._run_with_policy(provider, "get_memory_by_id", lambda: provider.get_memory_by_id(id))
+        return await self._run_with_policy(provider, "get_memory_by_id", functools.partial(provider.get_memory_by_id, id))
 
     def _session_with_source(self, session: Session, provider: MemoryProvider) -> Session:
         metadata = dict(session.metadata or {})
