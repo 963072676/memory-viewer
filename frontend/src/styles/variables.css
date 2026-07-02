@@ -82,7 +82,7 @@
      - 1280px 上限：超过 1390px 锁死宽度避免超宽屏行过长
      在 App.vue 和 AppHeader.vue 的 max-width 上作为单一来源使用，
      保证 header 居中轴线与下方内容居中轴线在所有屏幕下完全对齐，无视觉漂移。 */
-  --content-max: clamp(800px, 92%, 1280px);
+  --content-max: clamp(800px, 96%, 1440px);
 
   /* Type badge colors */
   --type-pattern-bg: #e3f8e8;

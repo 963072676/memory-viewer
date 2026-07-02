@@ -108,9 +108,10 @@ const mobilePageTitle = computed(() => {
   gap: 16px;
   padding: 12px 24px;
   /* P38 r24: 与 App.vue .main-wrapper .container 共用 --content-max token —
-     保证 header 居中轴线与下方内容居中轴线在 800-1280px 区间内完全对齐，无视觉漂移。 */
+     保证 header 轴线与下方内容轴线在视觉上完全对齐，无视觉漂移。 */
   max-width: var(--content-max);
-  margin: 0 auto;
+  margin-left: 32px;
+  margin-right: auto;
 }
 
 .header-title {

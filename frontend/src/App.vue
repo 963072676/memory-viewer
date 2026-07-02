@@ -249,7 +249,8 @@ async function handleBulkAutoTagFromPalette() {
    与 AppHeader .header-content 共用同一 token，保证 header 居中轴线与内容轴线对齐。 */
 .main-wrapper .container {
   max-width: var(--content-max);
-  margin: 0 auto;
+  margin-left: 32px;
+  margin-right: auto;
   padding: 16px 24px;
   padding-bottom: 40px;
 }
