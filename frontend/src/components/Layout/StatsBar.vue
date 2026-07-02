@@ -60,7 +60,7 @@ const { value: profilesCountDisplay } = useCountUp(computed(() => profileNames.v
   margin-bottom: var(--space-3);
   flex-wrap: wrap;
   gap: var(--space-4);
-  padding: var(--space-3) 0;
+  padding: var(--space-2) 0;
   border-bottom: 1px solid var(--border);
 }
 

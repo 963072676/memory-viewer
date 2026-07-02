@@ -250,8 +250,8 @@ async function handleBulkAutoTagFromPalette() {
 .main-wrapper .container {
   max-width: var(--content-max);
   margin: 0 auto;
-  padding: 20px 24px;
-  padding-bottom: 60px;
+  padding: 16px 24px;
+  padding-bottom: 40px;
 }
 
 /* 平板/中等屏幕优化 */

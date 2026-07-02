@@ -176,7 +176,7 @@
   --space-8: 48px;
   --space-9: 64px;
   /* 语义化别名 */
-  --space-section-gap: var(--space-8);   /* section 之间间距 */
+  --space-section-gap: var(--space-7);   /* section 之间间距 */
   --space-header-gap: var(--space-5);    /* section-header 内部 */
   --space-card-gap: var(--space-5);      /* card-grid 间距 */
 

@@ -43,8 +43,8 @@ const tabs = [
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: var(--space-5);
-  margin-bottom: var(--space-5);
+  margin-top: 0;
+  margin-bottom: var(--space-3);
   flex-wrap: wrap;
   gap: var(--space-3);
 }

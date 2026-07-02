@@ -94,7 +94,7 @@ function clear() {
 <style scoped>
 .search-bar {
   max-width: 560px;
-  margin: 0 auto 40px;
+  margin: 0 auto 16px;
   position: relative;
 }
 
@@ -225,7 +225,7 @@ function clear() {
 /* Responsive */
 @media (max-width: 767px) {
   .search-bar {
-    margin: 0 auto 24px;
+    margin: 0 auto 12px;
   }
 
   .mode-toggle {

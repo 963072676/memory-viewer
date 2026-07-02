@@ -34,7 +34,7 @@ defineEmits<{
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 64px 24px;
+  padding: 40px 24px;
   color: var(--text-secondary);
   gap: 8px;
 }
