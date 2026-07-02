@@ -13,7 +13,7 @@
     <nav>
       <div v-for="section in navSections" :key="section.titleKey" class="nav-section">
         <div v-show="!uiStore.sidebarCollapsed" class="nav-section-title">{{ $t(section.titleKey) }}</div>
-        <router-link v-for="item in section.items" :key="item.path" :to="item.path" class="nav-item" :class="{ active: $route.path === item.path }">
+        <router-link v-for="item in section.items" :key="item.path" :to="item.path" class="nav-item" :class="{ active: $route.path === item.path }" :data-tour="item.path">
           <span class="nav-icon">{{ item.icon }}</span>
           <span class="nav-label">{{ $t(item.labelKey) }}</span>
         </router-link>

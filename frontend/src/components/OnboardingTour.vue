@@ -54,7 +54,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, nextTick } from 'vue'
+import { ref, computed, watch, nextTick, onMounted } from 'vue'
 import { useOnboarding } from '@/composables/useOnboarding'
 
 const {
@@ -65,6 +65,7 @@ const {
   isLastStep,
   isFirstStep,
   checkFirstVisit,
+  startTour,
   nextStep,
   prevStep,
   skipTour,
@@ -82,7 +83,12 @@ function positionElements() {
   nextTick(() => {
     const targetEl = document.querySelector(currentStep.value.target)
     if (!targetEl) {
-      spotlightTarget.value = null
+      // Target not found — auto-skip to next step or finish
+      if (!isLastStep.value) {
+        nextStep()
+      } else {
+        finishTour()
+      }
       return
     }
     spotlightTarget.value = targetEl as HTMLElement
@@ -138,10 +144,13 @@ watch([isActive, currentStepIndex], () => {
   positionElements()
 })
 
-// Click on highlighted element to advance
-watch(spotlightTarget, (el) => {
-  if (el) {
-    el.addEventListener('click', handleSpotlightClick)
+// Click on highlighted element to advance — single watcher with proper cleanup
+watch(spotlightTarget, (newEl, oldEl) => {
+  if (oldEl) {
+    oldEl.removeEventListener('click', handleSpotlightClick)
+  }
+  if (newEl) {
+    newEl.addEventListener('click', handleSpotlightClick)
   }
 })
 
@@ -149,20 +158,12 @@ function handleSpotlightClick() {
   nextStep()
 }
 
-watch(() => spotlightTarget.value, (el) => {
-  if (el) {
-    el.removeEventListener('click', handleSpotlightClick)
-  }
-})
-
 // Auto-start on mount if first visit
-import { onMounted } from 'vue'
 onMounted(() => {
   if (checkFirstVisit()) {
-    // Delay slightly to let app render
     setTimeout(() => {
-      isActive.value = true
-      positionElements()
+      startTour()
+      nextTick(() => positionElements())
     }, 500)
   }
 })

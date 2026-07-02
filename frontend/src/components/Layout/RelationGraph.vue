@@ -214,15 +214,15 @@ function updateEdges() {
 // Force simulation
 function simulate() {
   const alpha = 0.1
-  const repulsion = 800
-  const attraction = 0.005
+  const repulsion = 2500
+  const attraction = 0.002
   const damping = 0.85
-  const centerForce = 0.01
+  const centerForce = 0.005
   const cx = width.value / 2
   const cy = height.value / 2
 
   const nodes = layoutNodes.value
-  const edgeSet = new Set(props.edges.map(e => `${e.source}:${e.target}`))
+  const nodeMap = new Map(nodes.map(n => [n.id, n]))
 
   // Repulsion between all node pairs
   for (let i = 0; i < nodes.length; i++) {
@@ -242,15 +242,15 @@ function simulate() {
     }
   }
 
-  // Attraction along edges
+  // Attraction along edges (alpha applied to match repulsion scale)
   props.edges.forEach(e => {
-    const a = nodes.find(n => n.id === e.source)
-    const b = nodes.find(n => n.id === e.target)
+    const a = nodeMap.get(e.source)
+    const b = nodeMap.get(e.target)
     if (!a || !b) return
     const dx = b.x - a.x
     const dy = b.y - a.y
     const dist = Math.sqrt(dx * dx + dy * dy) || 1
-    const force = dist * attraction
+    const force = dist * attraction * alpha
     a.vx += (dx / dist) * force
     a.vy += (dy / dist) * force
     b.vx -= (dx / dist) * force
