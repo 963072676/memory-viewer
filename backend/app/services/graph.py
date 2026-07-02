@@ -88,10 +88,25 @@ def build_graph_from_items(items: list[MemoryItem]) -> dict[str, Any]:
     """Build a graph response from unified memory items."""
     active_items = [item for item in items if not bool(_raw(item).get("archived", False))]
 
+    # Detect duplicate titles and disambiguate with content prefix
+    title_counts: dict[str, int] = {}
+    for item in active_items:
+        t = _title(item)
+        title_counts[t] = title_counts.get(t, 0) + 1
+
+    def _unique_label(item: MemoryItem) -> str:
+        t = _title(item)
+        if title_counts.get(t, 0) <= 1:
+            return t
+        # Disambiguate: use first meaningful line of content
+        lines = [l.strip() for l in item.content.split('\n') if l.strip() and not l.strip().startswith('§')]
+        snippet = lines[0][:40] if lines else item.id
+        return f"{t[:20]}… {snippet}" if len(t) > 20 else f"{t} · {snippet}"
+
     nodes = [
         {
             "id": item.id,
-            "label": _title(item),
+            "label": _unique_label(item),
             "type": _memory_type(item),
             "strength": _strength(item),
             "size": max(8, _strength(item) * 3),

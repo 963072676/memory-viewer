@@ -149,7 +149,7 @@ const ZOOM_MAX = 5
 const ZOOM_STEP = 0.15
 
 function truncatedLabel(label: string): string {
-  return label.length > 16 ? label.slice(0, 14) + '…' : label
+  return label.length > 24 ? label.slice(0, 22) + '…' : label
 }
 
 function initLayout() {
