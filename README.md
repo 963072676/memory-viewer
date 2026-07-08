@@ -28,7 +28,7 @@ A single-page dashboard for everything your agent remembers: **agentmemory** (vi
 docker run -d \
   --name memory-viewer \
   --restart unless-stopped \
-  -p 8501:8501 \
+  -p 8801:8801 \
   -v /opt/data/memory-viewer/v2/backend:/workspace/backend:ro \
   -v /opt/data/memory-viewer/v2/frontend/dist:/workspace/frontend/dist:ro \
   -v /opt/data/memory-viewer/v2/memory-viewer.yaml:/workspace/memory-viewer.yaml:ro \
@@ -39,10 +39,10 @@ docker run -d \
   --user 10000:10000 \
   --entrypoint /bin/bash \
   nousresearch/hermes-agent:latest \
-  -c "cd /workspace/backend && exec /opt/hermes/.venv/bin/python -m uvicorn --app-dir /workspace backend.app.main:app --host 0.0.0.0 --port 8501"
+  -c "cd /workspace/backend && exec /opt/hermes/.venv/bin/python -m uvicorn --app-dir /workspace backend.app.main:app --host 0.0.0.0 --port 8801"
 ```
 
-Then open <http://localhost:8501>.
+Then open <http://localhost:8801>.
 
 > A drop-in `memory-viewer-up.sh` wrapper that handles stale-dist rebuild + chmod gotchas
 > lives in [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md).
@@ -54,7 +54,7 @@ Then open <http://localhost:8501>.
 cd backend
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-uvicorn app.main:app --reload --port 8501
+uvicorn app.main:app --reload --port 8801
 
 # Frontend (Node 20+)
 cd frontend
@@ -69,7 +69,7 @@ python -m venv .venv
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process -Force
 .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
-uvicorn app.main:app --reload --port 8501
+uvicorn app.main:app --reload --port 8801
 
 # Frontend (Node 20+)
 cd frontend
@@ -77,14 +77,14 @@ npm install
 npm run dev
 ```
 
-Open <http://localhost:5173> (Vite dev server proxies API to `:8501`).
+Open <http://localhost:5173> (Vite dev server proxies API to `:8801`).
 
 ## 🛠️ Configuration
 
 All paths are configurable via `memory-viewer.yaml` (env vars override):
 
 ```yaml
-port: 8501
+port: 8801
 hermes_memories_dir: ~/.hermes/memories    # global MEMORY.md / USER.md
 hermes_profiles_dir: ~/.hermes/profiles    # per-profile memory dirs
 agentmemory_cache: ~/.agentmemory/standalone.json
@@ -95,7 +95,7 @@ Or via env vars (prefix `MV_`):
 
 | Env var | YAML key | Default |
 |---|---|---|
-| `MV_PORT` | `port` | `8501` |
+| `MV_PORT` | `port` | `8801` |
 | `MV_HERMES_MEMORIES_DIR` | `hermes_memories_dir` | `<repo>/data/memories` |
 | `MV_HERMES_PROFILES_DIR` | `hermes_profiles_dir` | `<repo>/data/profiles` |
 | `MV_AGENTMEMORY_CACHE` | `agentmemory_cache` | `<repo>/data/cache/agentmemory.json` |

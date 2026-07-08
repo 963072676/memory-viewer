@@ -2,7 +2,7 @@
 # 路径: /opt/data/memory-viewer/v2/memory-viewer.yaml
 
 # 服务端口
-port: 8501
+port: 8801
 host: "0.0.0.0"
 
 # 记忆数据源

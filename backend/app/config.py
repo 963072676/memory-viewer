@@ -39,7 +39,7 @@ class Settings:
         # --- Port & Host ---
         self.MEMORY_VIEWER_PORT: int = int(
             _get_env("MV_PORT", "MEMORY_VIEWER_PORT",
-                      str(yaml_cfg.get("port", 8501)))
+                      str(yaml_cfg.get("port", 8801)))
         )
         self.MEMORY_VIEWER_HOST: str = _get_env(
             "MV_HOST", "MEMORY_VIEWER_HOST",
@@ -77,7 +77,7 @@ class Settings:
         self.CORS_ORIGINS: list[str] = _get_env(
             "MV_CORS_ORIGINS", "CORS_ORIGINS",
             yaml_cfg.get("cors_origins",
-                         "http://localhost:8501,http://localhost:5173"),
+                         "http://localhost:8801,http://localhost:5173"),
         ).split(",")
 
         # --- Cache ---
