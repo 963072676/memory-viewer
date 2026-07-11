@@ -273,6 +273,8 @@ async function handleBulkAutoTagFromPalette() {
     padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
   }
   .main-wrapper .container {
+    max-width: none;
+    margin: 0;
     padding: 12px 16px;
   }
 }

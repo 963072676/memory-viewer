@@ -140,6 +140,9 @@ const tabs = [
   }
 
   .tabs {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     white-space: nowrap;
@@ -152,6 +155,8 @@ const tabs = [
   }
 
   .expand-controls {
+    min-width: 0;
+    max-width: 100%;
     justify-content: flex-end;
   }
 
