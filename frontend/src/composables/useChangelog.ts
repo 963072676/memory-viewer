@@ -2,6 +2,7 @@ import { ref, computed } from 'vue'
 import { fetchChangelog, type ChangelogEntry } from '@/api/changelog'
 
 const STORAGE_KEY = 'memory-viewer-last-read-version'
+const ONBOARDING_STORAGE_KEY = 'memory-viewer-onboarding-done'
 const changelog = ref<ChangelogEntry[]>([])
 const loaded = ref(false)
 const showModal = ref(false)
@@ -23,6 +24,15 @@ export function useChangelog() {
     if (changelog.value.length === 0) return
     const latestVersion = changelog.value[0].version
     const lastRead = localStorage.getItem(STORAGE_KEY)
+
+    // First-time users should complete one guided flow instead of dismissing
+    // release notes immediately before the onboarding tour starts.
+    if (!localStorage.getItem(ONBOARDING_STORAGE_KEY)) {
+      localStorage.setItem(STORAGE_KEY, latestVersion)
+      showModal.value = false
+      return
+    }
+
     if (!lastRead || lastRead !== latestVersion) {
       showModal.value = true
     }
