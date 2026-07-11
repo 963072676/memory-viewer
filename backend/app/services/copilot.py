@@ -49,6 +49,7 @@ def _recommendations(items: list[MemoryItem]) -> list[dict[str, Any]]:
                 "kind": "contradiction",
                 "title": "Review contradiction candidates",
                 "detail": f"{contradictions['total']} candidate pairs may need user or agent confirmation.",
+                "params": {"total": contradictions["total"]},
             }
         )
     if tagless_count:
@@ -58,6 +59,7 @@ def _recommendations(items: list[MemoryItem]) -> list[dict[str, Any]]:
                 "kind": "tagging",
                 "title": "Add missing topic tags",
                 "detail": f"{tagless_count} memories have no normalized tags, which weakens filtering and clustering.",
+                "params": {"total": tagless_count},
             }
         )
     if clusters["total"] > max(3, len(items) // 3):
@@ -67,6 +69,7 @@ def _recommendations(items: list[MemoryItem]) -> list[dict[str, Any]]:
                 "kind": "clustering",
                 "title": "Merge tiny topic clusters",
                 "detail": f"{clusters['total']} clusters for {len(items)} memories suggests fragmented structure.",
+                "params": {"clusters": clusters["total"], "memories": len(items)},
             }
         )
     if len(providers) > 1 and not sessions:
@@ -76,6 +79,7 @@ def _recommendations(items: list[MemoryItem]) -> list[dict[str, Any]]:
                 "kind": "session",
                 "title": "Introduce session anchors",
                 "detail": "Cross-provider memories are present but no session ids were found in this slice.",
+                "params": {},
             }
         )
     if archived_count:
@@ -85,6 +89,7 @@ def _recommendations(items: list[MemoryItem]) -> list[dict[str, Any]]:
                 "kind": "archive",
                 "title": "Keep archived memories out of active workflows",
                 "detail": f"{archived_count} archived memories appeared in the current slice.",
+                "params": {"total": archived_count},
             }
         )
 
@@ -95,6 +100,7 @@ def _recommendations(items: list[MemoryItem]) -> list[dict[str, Any]]:
                 "kind": "structure",
                 "title": "Structure looks stable",
                 "detail": "No immediate tagging, clustering, or contradiction cleanup was detected.",
+                "params": {},
             }
         )
     return recommendations

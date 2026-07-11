@@ -2,11 +2,11 @@
   <section class="copilot-panel">
     <div class="panel-header">
       <div>
-        <h3>AI Copilot</h3>
+        <h3>{{ $t('i18n.copilot_title') }}</h3>
         <div class="panel-meta">
-          <span>{{ result?.memoryCount ?? 0 }} memories</span>
+          <span>{{ $t('i18n.copilot_memory_count', { count: result?.memoryCount ?? 0 }) }}</span>
           <span>{{ providerLabel }}</span>
-          <span>{{ sessionStore.activeSessionId || 'all sessions' }}</span>
+          <span>{{ sessionStore.activeSessionId || $t('i18n.copilot_all_sessions') }}</span>
         </div>
       </div>
       <div class="filter-row">
@@ -14,8 +14,8 @@
           v-model.trim="filters.provider"
           class="filter-input"
           type="text"
-          placeholder="Provider"
-          aria-label="Provider"
+          :placeholder="$t('i18n.copilot_provider_filter')"
+          :aria-label="$t('i18n.copilot_provider_filter')"
         />
         <input
           v-model.number="filters.limit"
@@ -23,7 +23,7 @@
           type="number"
           min="1"
           max="500"
-          aria-label="Limit"
+          :aria-label="$t('i18n.copilot_limit')"
         />
       </div>
     </div>
@@ -45,47 +45,47 @@
 
     <div v-if="error" class="result-state result-state--error">
       <p>{{ error }}</p>
-      <button class="action-btn" type="button" @click="run(activeAction)">Retry</button>
+      <button class="action-btn" type="button" @click="run(activeAction)">{{ $t('i18n.retry') }}</button>
     </div>
 
     <div v-else class="result-panel" :class="{ loading }">
       <div class="result-header">
         <div>
-          <div class="result-title">{{ result?.title || currentAction.label }}</div>
+          <div class="result-title">{{ resultTitle }}</div>
           <div class="result-meta">
-            <span>{{ result?.status || 'ready' }}</span>
-            <span>{{ result?.providers.join(', ') || 'all providers' }}</span>
+            <span>{{ statusLabel(result?.status) }}</span>
+            <span>{{ providerLabel }}</span>
           </div>
         </div>
         <button class="action-btn action-btn--accent" type="button" :disabled="loading" @click="run(activeAction)">
-          {{ loading ? 'Running...' : 'Run' }}
+          {{ loading ? $t('i18n.copilot_running') : $t('i18n.copilot_run') }}
         </button>
       </div>
 
-      <p class="result-message">{{ result?.message || 'No copilot result yet.' }}</p>
+      <p class="result-message">{{ resultMessage }}</p>
 
       <div class="result-layout">
         <div class="result-block">
-          <div class="block-title">Recommendations</div>
-          <div v-if="!result?.recommendations.length" class="empty-line">No recommendations yet.</div>
+          <div class="block-title">{{ $t('i18n.copilot_recommendations') }}</div>
+          <div v-if="!result?.recommendations.length" class="empty-line">{{ $t('i18n.copilot_no_recommendations') }}</div>
           <div v-else class="recommendation-list">
             <div
               v-for="item in result.recommendations.slice(0, 4)"
               :key="`${item.kind}-${item.title}`"
               class="recommendation-row"
             >
-              <span class="priority-pill" :class="`priority-${item.priority}`">{{ item.priority }}</span>
+              <span class="priority-pill" :class="`priority-${item.priority}`">{{ priorityLabel(item.priority) }}</span>
               <div>
-                <strong>{{ item.title }}</strong>
-                <span>{{ item.detail }}</span>
+                <strong>{{ recommendationTitle(item) }}</strong>
+                <span>{{ recommendationDetail(item) }}</span>
               </div>
             </div>
           </div>
         </div>
 
         <div class="result-block">
-          <div class="block-title">Result</div>
-          <div v-if="detailRows.length === 0" class="empty-line">Run an action to populate this panel.</div>
+          <div class="block-title">{{ $t('i18n.copilot_result') }}</div>
+          <div v-if="detailRows.length === 0" class="empty-line">{{ $t('i18n.copilot_run_to_populate') }}</div>
           <div v-else class="detail-list">
             <div v-for="row in detailRows" :key="row.label" class="detail-row">
               <span>{{ row.label }}</span>
@@ -100,6 +100,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import {
   runCopilotAction,
   type CopilotAction,
@@ -108,12 +109,13 @@ import {
 import { useSessionStore } from '@/stores/sessions'
 
 const sessionStore = useSessionStore()
-const actions: Array<{ action: CopilotAction; label: string; shortLabel: string }> = [
-  { action: 'summarize_session', label: 'Summarize session', shortLabel: 'Summary' },
-  { action: 'compress_memory', label: 'Compress memory', shortLabel: 'Compress' },
-  { action: 'detect_contradictions', label: 'Detect contradictions', shortLabel: 'Scan' },
-  { action: 'optimize_memory_structure', label: 'Optimize structure', shortLabel: 'Optimize' },
-]
+const { t } = useI18n()
+const actions = computed<Array<{ action: CopilotAction; label: string; shortLabel: string }>>(() => [
+  { action: 'summarize_session', label: t('i18n.copilot_summarize_session'), shortLabel: t('i18n.copilot_summary') },
+  { action: 'compress_memory', label: t('i18n.copilot_compress_memory'), shortLabel: t('i18n.copilot_compress') },
+  { action: 'detect_contradictions', label: t('i18n.copilot_detect_contradictions'), shortLabel: t('i18n.copilot_scan') },
+  { action: 'optimize_memory_structure', label: t('i18n.copilot_optimize_structure'), shortLabel: t('i18n.copilot_optimize') },
+])
 
 const filters = reactive({
   provider: '',
@@ -124,39 +126,111 @@ const result = ref<CopilotRunResponse | null>(null)
 const loading = ref(false)
 const error = ref<string | null>(null)
 
-const currentAction = computed(() => actions.find(item => item.action === activeAction.value) || actions[0])
+const currentAction = computed(() => actions.value.find(item => item.action === activeAction.value) || actions.value[0])
 const providerLabel = computed(() => (
-  result.value?.providers.length ? result.value.providers.join(', ') : 'all providers'
+  result.value?.providers.length ? result.value.providers.join(', ') : t('i18n.copilot_all_providers')
 ))
 const sessionParam = computed(() => sessionStore.activeSessionId || undefined)
+const resultTitle = computed(() => currentAction.value.label)
+const resultMessage = computed(() => {
+  if (!result.value) return t('i18n.copilot_no_result')
+  if (result.value.status === 'empty') return t('i18n.copilot_no_matching_memories')
+
+  const data = result.value.result || {}
+  if (result.value.action === 'detect_contradictions') {
+    const total = Number(data.total ?? 0)
+    return total
+      ? t('i18n.copilot_contradictions_detected', { count: total })
+      : t('i18n.copilot_no_contradictions')
+  }
+  if (result.value.action === 'optimize_memory_structure') return t('i18n.copilot_structure_ready')
+  if (result.value.action === 'compress_memory' && !data.compressed) return t('i18n.copilot_nothing_to_compress')
+  return result.value.message
+})
 
 const detailRows = computed(() => {
   if (!result.value) return []
   const data = result.value.result || {}
   if (result.value.action === 'compress_memory') {
     return [
-      { label: 'Original', value: String(data.originalCount ?? 0) },
-      { label: 'Compressed', value: String(data.compressedCount ?? 0) },
-      { label: 'Max chars', value: String(data.maxChars ?? 0) },
+      { label: t('i18n.copilot_original'), value: String(data.originalCount ?? 0) },
+      { label: t('i18n.copilot_compressed'), value: String(data.compressedCount ?? 0) },
+      { label: t('i18n.copilot_max_chars'), value: String(data.maxChars ?? 0) },
     ]
   }
   if (result.value.action === 'detect_contradictions') {
     return [
-      { label: 'Candidates', value: String(data.total ?? 0) },
-      { label: 'Status', value: result.value.status },
+      { label: t('i18n.copilot_candidates'), value: String(data.total ?? 0) },
+      { label: t('i18n.copilot_status'), value: statusLabel(result.value.status) },
     ]
   }
   if (result.value.action === 'optimize_memory_structure') {
     return [
-      { label: 'Clusters', value: String(data.clusters?.total ?? 0) },
-      { label: 'Recommendations', value: String(result.value.recommendations.length) },
+      { label: t('i18n.copilot_clusters'), value: String(data.clusters?.total ?? 0) },
+      { label: t('i18n.copilot_recommendations'), value: String(result.value.recommendations.length) },
     ]
   }
   return [
-    { label: 'Keywords', value: String(data.keywords?.length ?? 0) },
-    { label: 'Sessions', value: String(data.sessionIds?.length ?? 0) },
+    { label: t('i18n.copilot_keywords'), value: String(data.keywords?.length ?? 0) },
+    { label: t('i18n.copilot_sessions'), value: String(data.sessionIds?.length ?? 0) },
   ]
 })
+
+function statusLabel(status?: string) {
+  if (status === 'attention') return t('i18n.copilot_attention')
+  if (status === 'empty') return t('i18n.copilot_empty')
+  if (status === 'ready' || !status) return t('i18n.copilot_ready')
+  return status
+}
+
+function priorityLabel(priority: string) {
+  if (priority === 'high') return t('i18n.copilot_priority_high')
+  if (priority === 'medium') return t('i18n.copilot_priority_medium')
+  if (priority === 'low') return t('i18n.copilot_priority_low')
+  return priority
+}
+
+function numberParam(item: CopilotRunResponse['recommendations'][number], key: string) {
+  const value = item.params?.[key]
+  return typeof value === 'number' ? value : undefined
+}
+
+function recommendationTitle(item: CopilotRunResponse['recommendations'][number]) {
+  const titles: Record<string, string> = {
+    contradiction: 'i18n.copilot_recommendation_contradiction_title',
+    tagging: 'i18n.copilot_recommendation_tagging_title',
+    clustering: 'i18n.copilot_recommendation_clustering_title',
+    session: 'i18n.copilot_recommendation_session_title',
+    archive: 'i18n.copilot_recommendation_archive_title',
+    structure: 'i18n.copilot_recommendation_structure_title',
+  }
+  return titles[item.kind] ? t(titles[item.kind]) : item.title
+}
+
+function recommendationDetail(item: CopilotRunResponse['recommendations'][number]) {
+  if (item.kind === 'contradiction') {
+    const total = numberParam(item, 'total')
+    return total === undefined ? item.detail : t('i18n.copilot_recommendation_contradiction_detail', { count: total })
+  }
+  if (item.kind === 'tagging') {
+    const total = numberParam(item, 'total')
+    return total === undefined ? item.detail : t('i18n.copilot_recommendation_tagging_detail', { count: total })
+  }
+  if (item.kind === 'clustering') {
+    const clusters = numberParam(item, 'clusters')
+    const memories = numberParam(item, 'memories')
+    return clusters === undefined || memories === undefined
+      ? item.detail
+      : t('i18n.copilot_recommendation_clustering_detail', { clusters, memories })
+  }
+  if (item.kind === 'session') return t('i18n.copilot_recommendation_session_detail')
+  if (item.kind === 'archive') {
+    const total = numberParam(item, 'total')
+    return total === undefined ? item.detail : t('i18n.copilot_recommendation_archive_detail', { count: total })
+  }
+  if (item.kind === 'structure') return t('i18n.copilot_recommendation_structure_detail')
+  return item.detail
+}
 
 async function run(action: CopilotAction) {
   activeAction.value = action
@@ -171,7 +245,7 @@ async function run(action: CopilotAction) {
       maxChars: 800,
     })
   } catch (e: any) {
-    error.value = e?.message || 'Failed to run copilot action'
+    error.value = e?.message || t('i18n.copilot_run_failed')
   } finally {
     loading.value = false
   }

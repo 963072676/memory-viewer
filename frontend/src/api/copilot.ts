@@ -11,6 +11,7 @@ export interface CopilotRecommendation {
   kind: string
   title: string
   detail: string
+  params?: Record<string, number | string>
 }
 
 export interface CopilotRunRequest {

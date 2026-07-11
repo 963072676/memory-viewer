@@ -2,66 +2,66 @@
   <section class="intelligence-panel">
     <div class="panel-header">
       <div>
-        <h3>Memory Intelligence</h3>
+        <h3>{{ $t('i18n.intelligence_title') }}</h3>
         <div class="panel-meta">
-          <span>{{ summary?.memoryCount ?? 0 }} memories</span>
+          <span>{{ $t('i18n.intelligence_memory_count', { count: summary?.memoryCount ?? 0 }) }}</span>
           <span>{{ providerLabel }}</span>
-          <span>{{ sessionStore.activeSessionId || 'all sessions' }}</span>
+          <span>{{ sessionStore.activeSessionId || $t('i18n.intelligence_all_sessions') }}</span>
         </div>
       </div>
       <div class="panel-actions">
         <button class="action-btn" type="button" :disabled="loading" @click="loadAll">
-          {{ loading ? 'Refreshing...' : 'Refresh' }}
+          {{ loading ? $t('i18n.intelligence_refreshing') : $t('i18n.intelligence_refresh') }}
         </button>
         <button class="action-btn action-btn--accent" type="button" :disabled="compressing" @click="compress">
-          {{ compressing ? 'Compressing...' : 'Compress' }}
+          {{ compressing ? $t('i18n.intelligence_compressing') : $t('i18n.intelligence_compress') }}
         </button>
       </div>
     </div>
 
-    <div v-if="loading && !summary" class="panel-state">Loading intelligence...</div>
+    <div v-if="loading && !summary" class="panel-state">{{ $t('i18n.intelligence_loading') }}</div>
     <div v-else-if="error" class="panel-state panel-state--error">
       <p>{{ error }}</p>
-      <button class="action-btn" type="button" @click="loadAll">Retry</button>
+      <button class="action-btn" type="button" @click="loadAll">{{ $t('i18n.retry') }}</button>
     </div>
 
     <template v-else>
       <div class="intelligence-stats">
         <div class="stat-tile">
-          <span class="stat-label">Keywords</span>
+          <span class="stat-label">{{ $t('i18n.intelligence_keywords') }}</span>
           <strong>{{ summary?.keywords.length ?? 0 }}</strong>
         </div>
         <div class="stat-tile">
-          <span class="stat-label">Tags</span>
+          <span class="stat-label">{{ $t('i18n.intelligence_tags') }}</span>
           <strong>{{ summary?.topTags.length ?? 0 }}</strong>
         </div>
         <div class="stat-tile">
-          <span class="stat-label">Clusters</span>
+          <span class="stat-label">{{ $t('i18n.intelligence_clusters') }}</span>
           <strong>{{ clusters?.total ?? 0 }}</strong>
         </div>
         <div class="stat-tile">
-          <span class="stat-label">Contradictions</span>
+          <span class="stat-label">{{ $t('i18n.intelligence_contradictions') }}</span>
           <strong>{{ contradictions?.total ?? 0 }}</strong>
         </div>
         <div class="stat-tile">
-          <span class="stat-label">Compressed</span>
+          <span class="stat-label">{{ $t('i18n.intelligence_compressed') }}</span>
           <strong>{{ compression?.compressedCount ?? 0 }}</strong>
         </div>
       </div>
 
       <div class="intelligence-layout">
         <div class="intelligence-block">
-          <div class="block-title">Summary</div>
-          <p class="summary-text">{{ summary?.summary || 'No memories available.' }}</p>
+          <div class="block-title">{{ $t('i18n.intelligence_summary') }}</div>
+          <p class="summary-text">{{ summary?.summary || $t('i18n.intelligence_no_memories') }}</p>
           <div class="keyword-row">
             <span v-for="keyword in keywords" :key="keyword" class="keyword-chip">{{ keyword }}</span>
           </div>
         </div>
 
         <div class="intelligence-block">
-          <div class="block-title">Top Tags</div>
-          <div v-if="!topTags.length" class="empty-line">No tags detected yet.</div>
-          <div v-else class="tag-cloud" aria-label="Top memory tags">
+          <div class="block-title">{{ $t('i18n.intelligence_top_tags') }}</div>
+          <div v-if="!topTags.length" class="empty-line">{{ $t('i18n.intelligence_no_tags') }}</div>
+          <div v-else class="tag-cloud" :aria-label="$t('i18n.intelligence_top_tags')">
             <span v-for="(tag, index) in topTags" :key="tag" class="tag-chip">
               <span class="tag-rank">{{ index + 1 }}</span>
               <span class="tag-label">{{ tag }}</span>
@@ -70,13 +70,13 @@
         </div>
 
         <div class="intelligence-block">
-          <div class="block-title">Compression</div>
-          <p class="compressed-text">{{ compression?.compressed || summary?.summary || 'No compressed memory yet.' }}</p>
+          <div class="block-title">{{ $t('i18n.intelligence_compression') }}</div>
+          <p class="compressed-text">{{ compression?.compressed || summary?.summary || $t('i18n.intelligence_no_compression') }}</p>
         </div>
 
         <div class="intelligence-block">
-          <div class="block-title">Clusters</div>
-          <div v-if="!clusters?.clusters.length" class="empty-line">No clusters yet.</div>
+          <div class="block-title">{{ $t('i18n.intelligence_clusters') }}</div>
+          <div v-if="!clusters?.clusters.length" class="empty-line">{{ $t('i18n.intelligence_no_clusters') }}</div>
           <div v-else class="cluster-list">
             <div v-for="cluster in clusters.clusters.slice(0, 5)" :key="cluster.id" class="cluster-row">
               <div>
@@ -89,8 +89,8 @@
         </div>
 
         <div class="intelligence-block">
-          <div class="block-title">Contradictions</div>
-          <div v-if="!contradictions?.contradictions.length" class="empty-line">None detected.</div>
+          <div class="block-title">{{ $t('i18n.intelligence_contradictions') }}</div>
+          <div v-if="!contradictions?.contradictions.length" class="empty-line">{{ $t('i18n.intelligence_no_contradictions') }}</div>
           <div v-else class="contradiction-list">
             <div
               v-for="item in contradictions.contradictions.slice(0, 3)"
@@ -109,6 +109,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import {
   compressIntelligenceMemories,
   fetchIntelligenceClusters,
@@ -122,6 +123,7 @@ import {
 import { useSessionStore } from '@/stores/sessions'
 
 const sessionStore = useSessionStore()
+const { t } = useI18n()
 const summary = ref<IntelligenceSummary | null>(null)
 const compression = ref<IntelligenceCompression | null>(null)
 const clusters = ref<IntelligenceClusters | null>(null)
@@ -131,7 +133,7 @@ const compressing = ref(false)
 const error = ref<string | null>(null)
 
 const providerLabel = computed(() => (
-  summary.value?.providers.length ? summary.value.providers.join(', ') : 'all providers'
+  summary.value?.providers.length ? summary.value.providers.join(', ') : t('i18n.intelligence_all_providers')
 ))
 const sessionParam = computed(() => sessionStore.activeSessionId || undefined)
 const keywords = computed(() => summary.value?.keywords.slice(0, 8) || [])
@@ -150,7 +152,7 @@ async function loadAll() {
     clusters.value = nextClusters
     contradictions.value = nextContradictions
   } catch (e: any) {
-    error.value = e?.message || 'Failed to load memory intelligence'
+    error.value = e?.message || t('i18n.intelligence_load_failed')
   } finally {
     loading.value = false
   }
@@ -166,7 +168,7 @@ async function compress() {
       maxChars: 700,
     })
   } catch (e: any) {
-    error.value = e?.message || 'Failed to compress memories'
+    error.value = e?.message || t('i18n.intelligence_compress_failed')
   } finally {
     compressing.value = false
   }

@@ -39,7 +39,8 @@ def test_copilot_runs_provider_neutral_actions():
     assert contradictions["status"] == "attention"
     assert contradictions["result"]["total"] == 1
     assert optimization["recommendations"]
-    assert any(item["kind"] == "tagging" for item in optimization["recommendations"])
+    tagging = next(item for item in optimization["recommendations"] if item["kind"] == "tagging")
+    assert tagging["params"] == {"total": 1}
 
 
 def test_copilot_api_passes_filters_to_unified_loader(monkeypatch):
