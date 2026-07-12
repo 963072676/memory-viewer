@@ -799,5 +799,10 @@
   "i18n.memory_view_mode": "记忆视图模式",
   "i18n.explorer_list": "列表",
   "i18n.explorer_graph": "图谱",
-  "i18n.explorer_timeline": "时间线"
+  "i18n.explorer_timeline": "时间线",
+  "i18n.source_filter_loading": "正在读取数据源",
+  "i18n.source_filter_retry": "重新读取数据源",
+  "i18n.source_filter_load_failed": "无法加载“{source}”中的记忆，请检查连接后重试。",
+  "i18n.source_filter_empty_title": "“{source}”中暂无记忆",
+  "i18n.source_filter_empty_message": "该数据源尚未返回记忆。请检查连接状态或选择其他数据源。"
 }

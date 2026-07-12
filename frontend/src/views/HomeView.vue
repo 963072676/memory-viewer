@@ -50,13 +50,36 @@
         <div class="section-header">
           <h2>🗂️ {{ $t('i18n.unified_memory') }}</h2>
           <div class="unified-controls">
-            <label class="source-filter-label">{{ $t('i18n.data_source') }}</label>
-            <select v-model="selectedSource" class="source-filter-select" @change="onSourceChange">
-              <option value="">{{ $t('en_all') }}</option>
-              <option value="hermes">hermes</option>
-              <option value="agentmemory">agentmemory</option>
-              <option value="mem0">mem0</option>
-            </select>
+            <div class="source-filter-control">
+              <label for="unified-source-filter" class="source-filter-label">{{ $t('i18n.data_source') }}</label>
+              <div class="source-filter-input">
+                <select
+                  id="unified-source-filter"
+                  v-model="selectedSource"
+                  class="source-filter-select"
+                  :aria-busy="sourceOptionsLoading"
+                  @change="onSourceChange"
+                >
+                  <option value="">{{ $t('en_all') }}</option>
+                  <option v-for="source in sourceOptions" :key="source" :value="source">
+                    {{ source }}
+                  </option>
+                </select>
+                <span v-if="sourceOptionsLoading" class="source-filter-state" role="status">
+                  {{ $t('i18n.source_filter_loading') }}
+                </span>
+                <button
+                  v-else-if="sourceOptionsError"
+                  type="button"
+                  class="source-filter-refresh"
+                  :aria-label="$t('i18n.source_filter_retry')"
+                  :title="$t('i18n.source_filter_retry')"
+                  @click="loadSourceOptions"
+                >
+                  ↻
+                </button>
+              </div>
+            </div>
             <div class="view-mode-switch" :aria-label="$t('i18n.memory_view_mode')">
               <button
                 v-for="mode in viewModes"
@@ -78,13 +101,22 @@
         </div>
         <!-- P38 r30: EmptyState prop 改 v-bind — 原 $t() 字符串在 prop 里是死的，
              渲染时直接显示 "$t('i18n.unified_memories')" 原文。现在用 :title="..." 触发 i18n 计算。 -->
+        <div v-else-if="unifiedError" class="unified-error-state" role="alert">
+          <div class="unified-error-copy">
+            <strong>{{ $t('i18n.load_failed') }}</strong>
+            <span>{{ $t('i18n.source_filter_load_failed', { source: selectedSource || $t('en_all') }) }}</span>
+          </div>
+          <button type="button" class="action-btn" @click="retryUnifiedView">
+            {{ $t('i18n.retry') }}
+          </button>
+        </div>
         <div v-else-if="unifiedMemories.length === 0" class="empty-state">
           <EmptyState
             icon="🗂️"
-            :title="$t('i18n.unified_memories')"
-            :message="`${$t('i18n.import_create')}，${$t('i18n.start_building')}。${$t('i18n.memories_all')}。`"
-            :action-text="$t('i18n.import_memory')"
-            @action="showImportModal = true"
+            :title="selectedSource ? $t('i18n.source_filter_empty_title', { source: selectedSource }) : $t('i18n.unified_memories')"
+            :message="selectedSource ? $t('i18n.source_filter_empty_message') : `${$t('i18n.import_create')}，${$t('i18n.start_building')}。${$t('i18n.memories_all')}。`"
+            :action-text="selectedSource ? $t('i18n.source_management') : $t('i18n.import_memory')"
+            @action="handleUnifiedEmptyAction"
           />
         </div>
         <div
@@ -309,7 +341,7 @@ import { useHermesMemoryStore } from '@/stores/hermes-memory'
 import { useUIStore } from '@/stores/ui'
 import { useSearchStore } from '@/stores/search'
 import { useSessionStore } from '@/stores/sessions'
-import { fetchUnifiedMemories, type UnifiedMemory } from '@/api/sources'
+import { fetchSources, fetchUnifiedMemories, type UnifiedMemory } from '@/api/sources'
 import type { MemoryGraphNode } from '@/api/graph'
 import MemoryCard from '@/components/Layout/MemoryCard.vue'
 import MemoryGraphPanel from '@/components/Layout/MemoryGraphPanel.vue'
@@ -348,12 +380,29 @@ function onCreateFromPalette() {
 window.addEventListener('app-create-memory', onCreateFromPalette)
 
 // P16: Unified memories state
-const selectedSource = ref((route.query.source as string) || '')
+const initialSource = firstQueryValue(route.query.source)
+const selectedSource = ref(typeof initialSource === 'string' ? initialSource : '')
+const registeredSourceNames = ref<string[]>([])
+const discoveredSourceNames = ref<string[]>([])
+const sourceOptionsLoading = ref(false)
+const sourceOptionsError = ref(false)
 const unifiedMemories = ref<UnifiedMemory[]>([])
 const unifiedLoading = ref(false)
+const unifiedError = ref(false)
+let unifiedRequestId = 0
 const selectedUnifiedMemory = computed(() => (
   unifiedMemories.value.find(memory => memory.id === selectedUnifiedMemoryId.value) || null
 ))
+const sourceOptions = computed(() => {
+  const names = Array.from(new Set(registeredSourceNames.value))
+  for (const name of discoveredSourceNames.value) {
+    if (!names.includes(name)) names.push(name)
+  }
+  if (selectedSource.value && !names.includes(selectedSource.value)) {
+    names.push(selectedSource.value)
+  }
+  return names
+})
 const viewModes = [
   { value: 'list' as const, labelKey: 'i18n.explorer_list' },
   { value: 'graph' as const, labelKey: 'i18n.explorer_graph' },
@@ -435,23 +484,70 @@ function closeMemoryPreview() {
 }
 
 async function loadUnifiedMemories() {
+  const requestId = ++unifiedRequestId
+  const source = selectedSource.value
   unifiedLoading.value = true
+  unifiedError.value = false
   try {
-    const res = await fetchUnifiedMemories({ limit: 50, source: selectedSource.value })
+    const res = await fetchUnifiedMemories({ limit: 50, source })
+    if (requestId !== unifiedRequestId) return
     unifiedMemories.value = res.memories
+    const discovered = new Set(discoveredSourceNames.value)
+    for (const memory of res.memories) {
+      if (memory.source) discovered.add(memory.source)
+    }
+    discoveredSourceNames.value = Array.from(discovered)
     if (!res.memories.some(memory => memory.id === selectedUnifiedMemoryId.value)) {
       selectedUnifiedMemoryId.value = ''
     }
   } catch (e) {
+    if (requestId !== unifiedRequestId) return
     console.error('Failed to load unified memories:', e)
+    unifiedMemories.value = []
+    selectedUnifiedMemoryId.value = ''
+    unifiedError.value = true
   } finally {
-    unifiedLoading.value = false
+    if (requestId === unifiedRequestId) unifiedLoading.value = false
   }
+}
+
+async function loadSourceOptions() {
+  sourceOptionsLoading.value = true
+  sourceOptionsError.value = false
+  try {
+    const res = await fetchSources()
+    registeredSourceNames.value = res.sources.map(source => source.name)
+  } catch (e) {
+    console.error('Failed to load source options:', e)
+    sourceOptionsError.value = true
+  } finally {
+    sourceOptionsLoading.value = false
+  }
+}
+
+function retryUnifiedView() {
+  loadSourceOptions()
+  loadUnifiedMemories()
 }
 
 function onSourceChange() {
   selectedUnifiedMemoryId.value = ''
+  const query = { ...route.query }
+  if (selectedSource.value) {
+    query.source = selectedSource.value
+  } else {
+    delete query.source
+  }
+  router.push({ query })
   loadUnifiedMemories()
+}
+
+function handleUnifiedEmptyAction() {
+  if (selectedSource.value) {
+    router.push('/sources')
+    return
+  }
+  showImportModal.value = true
 }
 
 function selectUnifiedMemory(id: string) {
@@ -475,15 +571,18 @@ function closeUnifiedMemoryPreview() {
 onMounted(() => {
   applyRouteViewMode(route.query.view)
   applyRouteMemoryId(route.query.memory)
+  loadSourceOptions()
   loadUnifiedMemories()
 })
 watch(() => route.query.view, applyRouteViewMode)
 watch(() => route.query.memory, applyRouteMemoryId)
 watch(() => route.query.source, (val) => {
-  if (val && typeof val === 'string') {
-    selectedSource.value = val
-    loadUnifiedMemories()
-  }
+  const raw = firstQueryValue(val)
+  const source = typeof raw === 'string' ? raw : ''
+  if (selectedSource.value === source) return
+  selectedSource.value = source
+  selectedUnifiedMemoryId.value = ''
+  loadUnifiedMemories()
 })
 
 const filteredMemories = computed(() => {
@@ -943,13 +1042,22 @@ h2 {
   gap: 10px;
 }
 
+.source-filter-control,
+.source-filter-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .source-filter-label {
   font-size: 0.8rem;
   color: var(--text-secondary);
   font-weight: 500;
+  white-space: nowrap;
 }
 
 .source-filter-select {
+  min-width: 140px;
   padding: 6px 12px;
   border: 1px solid var(--border);
   border-radius: 8px;
@@ -963,6 +1071,58 @@ h2 {
 
 .source-filter-select:focus {
   border-color: var(--accent);
+}
+
+.source-filter-state {
+  color: var(--text-tertiary);
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+.source-filter-refresh {
+  width: 30px;
+  height: 30px;
+  flex: 0 0 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--card);
+  color: var(--text-secondary);
+  font: inherit;
+  cursor: pointer;
+}
+
+.source-filter-refresh:hover,
+.source-filter-refresh:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent);
+  outline: none;
+}
+
+.unified-error-state {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid var(--error-border);
+  border-radius: var(--radius);
+  background: var(--error-bg);
+}
+
+.unified-error-copy {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: var(--error);
+}
+
+.unified-error-copy span {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
 }
 
 /* P37: Card layout (desktop) - shadow-as-border */
@@ -1176,6 +1336,26 @@ h2 {
 
   .source-filter-select {
     width: 100%;
+  }
+
+  .source-filter-control {
+    width: 100%;
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .source-filter-input {
+    width: 100%;
+  }
+
+  .source-filter-select {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .unified-error-state {
+    align-items: stretch;
+    flex-direction: column;
   }
 
   .view-mode-switch {

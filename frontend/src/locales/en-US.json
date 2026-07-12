@@ -798,5 +798,10 @@
   "i18n.memory_view_mode": "Memory view mode",
   "i18n.explorer_list": "List",
   "i18n.explorer_graph": "Graph",
-  "i18n.explorer_timeline": "Timeline"
+  "i18n.explorer_timeline": "Timeline",
+  "i18n.source_filter_loading": "Loading sources",
+  "i18n.source_filter_retry": "Reload sources",
+  "i18n.source_filter_load_failed": "Unable to load memories from “{source}”. Check the connection and try again.",
+  "i18n.source_filter_empty_title": "No memories in “{source}”",
+  "i18n.source_filter_empty_message": "This source has not returned any memories. Check its connection or choose another source."
 }
