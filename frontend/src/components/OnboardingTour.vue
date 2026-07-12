@@ -54,7 +54,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, nextTick, onMounted } from 'vue'
+import { ref, computed, watch, nextTick, onMounted, onUnmounted } from 'vue'
 import { useOnboarding } from '@/composables/useOnboarding'
 
 const {
@@ -77,6 +77,10 @@ const spotlightStyle = ref<Record<string, string>>({})
 const tooltipStyle = ref<Record<string, string>>({})
 
 const TOOLTIP_MARGIN = 16
+const LAYOUT_SETTLE_DELAY = 260
+let positionFrame = 0
+let positionSettleTimer: ReturnType<typeof setTimeout> | null = null
+let startTimer: ReturnType<typeof setTimeout> | null = null
 
 function positionElements() {
   if (!isActive.value) return
@@ -140,8 +144,26 @@ function positionElements() {
   })
 }
 
+function schedulePositionElements() {
+  if (!isActive.value) return
+  if (positionFrame) cancelAnimationFrame(positionFrame)
+  positionFrame = requestAnimationFrame(() => {
+    positionFrame = 0
+    positionElements()
+  })
+}
+
+function handleViewportResize() {
+  schedulePositionElements()
+  if (positionSettleTimer) clearTimeout(positionSettleTimer)
+  positionSettleTimer = setTimeout(() => {
+    positionSettleTimer = null
+    schedulePositionElements()
+  }, LAYOUT_SETTLE_DELAY)
+}
+
 watch([isActive, currentStepIndex], () => {
-  positionElements()
+  schedulePositionElements()
 })
 
 // Click on highlighted element to advance — single watcher with proper cleanup
@@ -160,12 +182,30 @@ function handleSpotlightClick() {
 
 // Auto-start on mount if first visit
 onMounted(() => {
+  window.addEventListener('resize', handleViewportResize, { passive: true })
+  window.addEventListener('orientationchange', handleViewportResize, { passive: true })
+  window.addEventListener('scroll', schedulePositionElements, { passive: true, capture: true })
+  window.visualViewport?.addEventListener('resize', handleViewportResize, { passive: true })
+  window.visualViewport?.addEventListener('scroll', schedulePositionElements, { passive: true })
+
   if (checkFirstVisit()) {
-    setTimeout(() => {
+    startTimer = setTimeout(() => {
       startTour()
-      nextTick(() => positionElements())
+      schedulePositionElements()
     }, 500)
   }
+})
+
+onUnmounted(() => {
+  if (positionFrame) cancelAnimationFrame(positionFrame)
+  if (positionSettleTimer) clearTimeout(positionSettleTimer)
+  if (startTimer) clearTimeout(startTimer)
+  spotlightTarget.value?.removeEventListener('click', handleSpotlightClick)
+  window.removeEventListener('resize', handleViewportResize)
+  window.removeEventListener('orientationchange', handleViewportResize)
+  window.removeEventListener('scroll', schedulePositionElements, true)
+  window.visualViewport?.removeEventListener('resize', handleViewportResize)
+  window.visualViewport?.removeEventListener('scroll', schedulePositionElements)
 })
 </script>
 
