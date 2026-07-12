@@ -804,5 +804,10 @@
   "i18n.source_filter_retry": "重新读取数据源",
   "i18n.source_filter_load_failed": "无法加载“{source}”中的记忆，请检查连接后重试。",
   "i18n.source_filter_empty_title": "“{source}”中暂无记忆",
-  "i18n.source_filter_empty_message": "该数据源尚未返回记忆。请检查连接状态或选择其他数据源。"
+  "i18n.source_filter_empty_message": "该数据源尚未返回记忆。请检查连接状态或选择其他数据源。",
+  "i18n.semantic_search_results": "语义搜索结果",
+  "i18n.search_load_failed": "搜索暂时不可用，请稍后重试。",
+  "i18n.search_no_results_title": "没有找到匹配的记忆",
+  "i18n.search_no_results_message": "尝试更换关键词、切换搜索模式或放宽筛选条件。",
+  "i18n.search_unknown_title": "未命名记忆"
 }

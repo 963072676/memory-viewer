@@ -116,11 +116,13 @@ const detail = computed(() => {
       tags: stringList(memory.metadata?.tags),
       meta: [
         memory.source || t('i18n.preview_unknown_provider'),
-        `${t('i18n.preview_strength')} ${strengthPercent(memory.strength)}%`,
+        ...(hasStrength(memory.strength)
+          ? [`${t('i18n.preview_strength')} ${strengthPercent(memory.strength)}%`]
+          : []),
       ],
       facts: [
-        { label: t('en_created'), value: formatDate(memory.createdAt) },
-        { label: t('en_updated'), value: formatDate(memory.updatedAt) },
+        ...(memory.createdAt ? [{ label: t('en_created'), value: formatDate(memory.createdAt) }] : []),
+        ...(memory.updatedAt ? [{ label: t('en_updated'), value: formatDate(memory.updatedAt) }] : []),
         { label: t('i18n.preview_provider'), value: memory.source || t('i18n.preview_unknown') },
         { label: t('i18n.preview_memory_id'), value: memory.id },
       ],
@@ -152,13 +154,20 @@ const detail = computed(() => {
   return null
 })
 
-const fullDetailMemory = computed(() => props.memory || props.unifiedMemory)
-const fullDetailPath = computed(() => (
-  fullDetailMemory.value ? `/memory/${fullDetailMemory.value.id}` : ''
-))
+const fullDetailPath = computed(() => {
+  if (props.memory) return `/memory/${props.memory.id}`
+  if (props.unifiedMemory?.source === 'agentmemory') {
+    return `/memory/${props.unifiedMemory.id}`
+  }
+  return ''
+})
 
 function stringList(value: unknown) {
   return Array.isArray(value) ? value.filter((item): item is string => typeof item === 'string') : []
+}
+
+function hasStrength(value: unknown): value is number {
+  return typeof value === 'number' && Number.isFinite(value)
 }
 
 function strengthPercent(strength: number) {
@@ -167,7 +176,8 @@ function strengthPercent(strength: number) {
   return Math.max(0, Math.min(100, Math.round(raw)))
 }
 
-function formatDate(value: string) {
+function formatDate(value: string | undefined) {
+  if (!value) return t('i18n.preview_unknown')
   const date = new Date(value)
   if (Number.isNaN(date.getTime())) return t('i18n.preview_unknown')
   return date.toLocaleString(locale.value)

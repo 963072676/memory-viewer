@@ -2,8 +2,8 @@ import { request } from './index'
 import type { QuickSearchResponse } from '@/types'
 
 export interface SearchResult {
-  source: 'agentmemory' | 'hermes'
-  id?: string
+  source: string
+  id: string
   type?: string
   title?: string
   content: string

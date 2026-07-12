@@ -18,9 +18,9 @@ export interface UnifiedMemory {
   content: string
   type: string
   concepts: string[]
-  strength: number
-  createdAt: string
-  updatedAt: string
+  strength?: number
+  createdAt?: string
+  updatedAt?: string
   source: string
   metadata: Record<string, unknown>
 }

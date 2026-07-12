@@ -1,45 +1,89 @@
 <template>
   <div class="home-view">
     <!-- Search Results -->
-    <div v-if="uiStore.searchQuery && (searchStore.results || searchStore.semanticResults)" class="search-results">
+    <div v-if="uiStore.searchQuery && (searchStore.loading || searchStore.error || searchStore.results)" class="search-results">
       <!-- P38 r27: search-header h2 → section-title 视觉锚点统一.
            之前 <h2> 直接在 .search-header (flex container) 里, 无 3px accent bar.
            与全站 7 个 view section-title 系统不一致 (AgentMemory/HermesMemory/Profiles/Sources/Dashboard/Compare/Collections 都有).
            加 class="section-title" + flex 安全 padding 复用 r20 模式. -->
       <div class="search-header">
-        <h2 class="section-title">{{ searchStore.searchMode === 'semantic' ? '🧠 ' + $t('i18n.truly_become') : $t('i18n.search_memories') }}</h2>
-        <span v-if="searchStore.results" class="result-count">{{ $t('i18n.found') }} {{ searchStore.results.total }} {{ $t('i18n.results') }}</span>
-        <span v-else-if="searchStore.semanticResults" class="result-count">{{ $t('i18n.found') }} {{ searchStore.semanticResults.results.length }} {{ $t('i18n.results') }}</span>
+        <h2 class="section-title">
+          {{ searchStore.searchMode === 'semantic' ? '🧠 ' + $t('i18n.semantic_search_results') : $t('i18n.search_memories') }}
+        </h2>
+        <span v-if="searchStore.results && !searchStore.loading" class="result-count">
+          {{ $t('i18n.found') }} {{ searchStore.results.total }} {{ $t('i18n.results') }}
+        </span>
       </div>
-      <!-- Keyword results -->
-      <div v-if="searchStore.results" class="card-grid">
-        <div v-for="result in searchStore.results.results" :key="result.id || result.index" class="search-result-card">
-          <div class="result-source">{{ result.source === 'agentmemory' ? '🤖 AgentMemory' : '🧠 Hermes' }}</div>
-          <h3 v-if="result.title">{{ result.title }}</h3>
-          <p class="match-snippet" v-html="sanitizeHighlight(result.matchSnippet)"></p>
-          <div class="result-meta">
-            <span v-if="result.type" class="unified-type chip" :class="'chip--' + result.type">{{ result.type }}</span>
-            <span v-if="result.profile" class="profile-badge">{{ result.profile }}</span>
+
+      <div v-if="searchStore.loading" class="card-grid" aria-live="polite">
+        <div v-for="i in 4" :key="`search-skeleton-${i}`" class="skeleton-card"></div>
+      </div>
+
+      <div v-else-if="searchStore.error" class="unified-error-state" role="alert">
+        <div class="unified-error-copy">
+          <strong>{{ $t('i18n.load_failed') }}</strong>
+          <span>{{ $t('i18n.search_load_failed') }}</span>
+        </div>
+        <button type="button" class="action-btn" @click="retrySearch">
+          {{ $t('i18n.retry') }}
+        </button>
+      </div>
+
+      <div v-else-if="searchStore.results && searchStore.results.total === 0" class="empty-state">
+        <EmptyState
+          icon="🔎"
+          :title="$t('i18n.search_no_results_title')"
+          :message="$t('i18n.search_no_results_message')"
+        />
+      </div>
+
+      <div
+        v-else-if="searchStore.results"
+        class="explorer-shell search-results-shell"
+        :class="{ 'explorer-shell--with-preview': selectedSearchMemory }"
+      >
+        <div class="explorer-main">
+          <div class="card-grid">
+            <button
+              v-for="result in searchStore.results.results"
+              :key="result.id"
+              type="button"
+              class="search-result-card"
+              :class="{
+                'search-result-card--semantic': searchStore.results.mode !== 'keyword',
+                'search-result-card--selected': selectedSearchResultId === result.id,
+              }"
+              :aria-pressed="selectedSearchResultId === result.id"
+              @click="selectSearchResult(result)"
+            >
+              <div class="result-source">
+                <span class="source-badge" :class="'source-' + (result.source || 'unknown')">
+                  {{ result.source || $t('i18n.preview_unknown_provider') }}
+                </span>
+              </div>
+              <h3>{{ result.title || $t('i18n.search_unknown_title') }}</h3>
+              <p class="match-snippet" v-html="sanitizeHighlight(result.matchSnippet)"></p>
+              <div class="result-meta">
+                <span v-if="result.type" class="unified-type chip" :class="'chip--' + result.type">{{ result.type }}</span>
+                <span v-if="result.profile" class="profile-badge">{{ result.profile }}</span>
+                <span v-for="concept in (result.concepts || []).slice(0, 2)" :key="concept" class="type-badge">
+                  {{ concept }}
+                </span>
+                <span
+                  class="match-type-badge"
+                  :class="searchStore.results.mode === 'keyword' ? 'match-type--keyword' : 'match-type--semantic'"
+                >
+                  {{ searchStore.results.mode === 'keyword' ? $t('i18n.keyword_match') : $t('i18n.semantic_match') }}
+                </span>
+              </div>
+            </button>
           </div>
         </div>
-      </div>
-      <!-- Semantic results -->
-      <div v-if="searchStore.semanticResults" class="card-grid">
-        <div v-for="result in searchStore.semanticResults.results" :key="result.id" class="search-result-card search-result-card--semantic">
-          <div class="result-source">
-            <span class="semantic-badge">🧠</span>
-            <span class="similarity-score">{{ $t('i18n.similarity') }}: {{ (result.similarity * 100).toFixed(1) }}%</span>
-          </div>
-          <h3 v-if="result.title">{{ result.title }}</h3>
-          <p class="match-snippet">{{ result.snippet }}</p>
-          <div class="result-meta">
-            <span v-if="result.type" class="unified-type chip" :class="'chip--' + result.type">{{ result.type }}</span>
-            <span v-for="tag in result.tags" :key="tag" class="type-badge">{{ tag }}</span>
-            <span class="match-type-badge" :class="'match-type--' + result.match_type">
-              {{ result.match_type === 'semantic' ? $t('tour.feature_intro') : $t('i18n.show_archived') }}
-            </span>
-          </div>
-        </div>
+        <MemoryPreviewPanel
+          v-if="selectedSearchMemory"
+          :unified-memory="selectedSearchMemory"
+          @close="closeSearchPreview"
+        />
       </div>
     </div>
 
@@ -342,6 +386,7 @@ import { useUIStore } from '@/stores/ui'
 import { useSearchStore } from '@/stores/search'
 import { useSessionStore } from '@/stores/sessions'
 import { fetchSources, fetchUnifiedMemories, type UnifiedMemory } from '@/api/sources'
+import type { SearchResult } from '@/api/search'
 import type { MemoryGraphNode } from '@/api/graph'
 import MemoryCard from '@/components/Layout/MemoryCard.vue'
 import MemoryGraphPanel from '@/components/Layout/MemoryGraphPanel.vue'
@@ -365,6 +410,8 @@ const sessionStore = useSessionStore()
 const showCreateModal = ref(false)
 const showImportModal = ref(false)
 const showDedupPanel = ref(false)
+const selectedSearchResultId = ref('')
+const selectedSearchMemory = ref<UnifiedMemory | null>(null)
 const selectedUnifiedMemoryId = ref('')
 const selectedMemoryId = ref('')
 const selectedGraphNodeId = ref('')
@@ -456,6 +503,47 @@ function applyRouteMemoryId(value: unknown) {
   if (!id || selectedGraphNode.value?.id !== id) {
     selectedGraphNode.value = null
     selectedGraphConnectionCount.value = 0
+  }
+}
+
+function searchResultTitle(result: SearchResult) {
+  const contentTitle = result.content.trim().split(/\r?\n/, 1)[0]?.slice(0, 80)
+  return result.title || contentTitle || result.id
+}
+
+function selectSearchResult(result: SearchResult) {
+  const updatedAt = result.updatedAt || ''
+  selectedSearchResultId.value = result.id
+  selectedSearchMemory.value = {
+    id: result.id,
+    title: searchResultTitle(result),
+    content: result.content,
+    type: result.type || 'memory',
+    concepts: result.concepts || [],
+    strength: result.strength,
+    createdAt: updatedAt,
+    updatedAt,
+    source: result.source,
+    metadata: {
+      profile: result.profile,
+      file: result.file,
+      index: result.index,
+    },
+  }
+}
+
+function closeSearchPreview() {
+  selectedSearchResultId.value = ''
+  selectedSearchMemory.value = null
+}
+
+function retrySearch() {
+  const query = uiStore.searchQuery.trim()
+  if (!query) return
+  if (searchStore.searchMode === 'semantic') {
+    searchStore.doSemanticSearch(query)
+  } else {
+    searchStore.search(query)
   }
 }
 
@@ -576,6 +664,8 @@ onMounted(() => {
 })
 watch(() => route.query.view, applyRouteViewMode)
 watch(() => route.query.memory, applyRouteMemoryId)
+watch(() => searchStore.results, closeSearchPreview)
+watch(() => searchStore.searchMode, closeSearchPreview)
 watch(() => route.query.source, (val) => {
   const raw = firstQueryValue(val)
   const source = typeof raw === 'string' ? raw : ''
@@ -935,10 +1025,15 @@ h2 {
    MemoryCard / unified-card / hermes-card / collection-card 形成 "粗糙" 对比.
    加上 hover 后跨 view 切换无视觉跳变. */
 .search-result-card {
+  width: 100%;
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 16px;
+  color: var(--primary);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
   transition: box-shadow 0.25s cubic-bezier(0.25, 0.1, 0.25, 1),
               transform 0.25s cubic-bezier(0.25, 0.1, 0.25, 1),
               border-color 0.2s ease;
@@ -950,7 +1045,18 @@ h2 {
   border-color: var(--border-strong);
 }
 
+.search-result-card--selected,
+.search-result-card:focus-visible {
+  border-color: var(--accent);
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
 .result-source {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
   font-size: 0.75rem;
   color: var(--text-secondary);
   margin-bottom: 8px;
@@ -998,16 +1104,10 @@ h2 {
   border-left: 3px solid var(--semantic-accent);
 }
 
-.semantic-badge {
-  font-size: 0.85rem;
-  margin-right: 4px;
-}
-
-.similarity-score {
-  font-size: 0.75rem;
-  /* P38 r13: 同上 */
-  color: var(--semantic-accent);
-  font-weight: 500;
+.search-result-card--semantic.search-result-card--selected,
+.search-result-card--semantic:focus-visible {
+  border-color: var(--semantic-accent);
+  outline-color: var(--semantic-accent);
 }
 
 .match-type-badge {
@@ -1204,7 +1304,9 @@ h2 {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  border: 1px solid transparent;
+  border: 1px solid var(--border);
+  background: var(--tag-bg);
+  color: var(--text-secondary);
   display: inline-flex;
   align-items: center;
 }
