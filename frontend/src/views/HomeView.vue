@@ -74,21 +74,42 @@
             @action="showImportModal = true"
           />
         </div>
-        <div v-else class="card-grid">
-          <div v-for="m in unifiedMemories" :key="m.id" class="unified-card">
-            <div class="unified-card-header">
-              <span class="source-badge" :class="'source-' + (m.source || 'unknown')">{{ m.source || 'unknown' }}</span>
-              <span class="unified-type chip" :class="'chip--' + m.type" v-if="m.type">{{ m.type }}</span>
-            </div>
-            <div class="unified-card-body">
-              <h3 class="unified-title">{{ m.title }}</h3>
-              <p class="unified-content">{{ m.content }}</p>
-            </div>
-            <div class="unified-card-footer">
-              <span v-if="m.strength" class="unified-strength">强度: {{ m.strength }}</span>
-              <span v-for="c in (m.concepts || []).slice(0, 3)" :key="c" class="unified-concept">{{ c }}</span>
+        <div
+          v-else
+          class="explorer-shell"
+          :class="{ 'explorer-shell--with-preview': selectedUnifiedMemory }"
+        >
+          <div class="explorer-main">
+            <div class="card-grid">
+              <button
+                v-for="m in unifiedMemories"
+                :key="m.id"
+                type="button"
+                class="unified-card"
+                :class="{ 'unified-card--selected': selectedUnifiedMemoryId === m.id }"
+                :aria-pressed="selectedUnifiedMemoryId === m.id"
+                @click="selectUnifiedMemory(m.id)"
+              >
+                <div class="unified-card-header">
+                  <span class="source-badge" :class="'source-' + (m.source || 'unknown')">{{ m.source || 'unknown' }}</span>
+                  <span v-if="m.type" class="unified-type chip" :class="'chip--' + m.type">{{ m.type }}</span>
+                </div>
+                <div class="unified-card-body">
+                  <h3 class="unified-title">{{ m.title }}</h3>
+                  <p class="unified-content">{{ m.content }}</p>
+                </div>
+                <div class="unified-card-footer">
+                  <span v-if="m.strength" class="unified-strength">{{ $t('i18n.preview_strength') }}: {{ m.strength }}</span>
+                  <span v-for="c in (m.concepts || []).slice(0, 3)" :key="c" class="unified-concept">{{ c }}</span>
+                </div>
+              </button>
             </div>
           </div>
+          <MemoryPreviewPanel
+            v-if="selectedUnifiedMemory"
+            :unified-memory="selectedUnifiedMemory"
+            @close="closeUnifiedMemoryPreview"
+          />
         </div>
       </section>
 
@@ -293,6 +314,7 @@ const sessionStore = useSessionStore()
 const showCreateModal = ref(false)
 const showImportModal = ref(false)
 const showDedupPanel = ref(false)
+const selectedUnifiedMemoryId = ref('')
 const selectedMemoryId = ref('')
 const selectedGraphNodeId = ref('')
 const selectedGraphNode = ref<MemoryGraphNode | null>(null)
@@ -310,6 +332,9 @@ window.addEventListener('app-create-memory', onCreateFromPalette)
 const selectedSource = ref((route.query.source as string) || '')
 const unifiedMemories = ref<UnifiedMemory[]>([])
 const unifiedLoading = ref(false)
+const selectedUnifiedMemory = computed(() => (
+  unifiedMemories.value.find(memory => memory.id === selectedUnifiedMemoryId.value) || null
+))
 const viewModes = [
   { value: 'list' as const, label: 'List' },
   { value: 'graph' as const, label: 'Graph' },
@@ -364,6 +389,7 @@ function applyRouteMemoryId(value: unknown) {
 }
 
 function selectMemory(id: string) {
+  selectedUnifiedMemoryId.value = ''
   selectedMemoryId.value = id
   selectedGraphNodeId.value = id
   if (firstQueryValue(route.query.memory) === id) return
@@ -391,6 +417,9 @@ async function loadUnifiedMemories() {
   try {
     const res = await fetchUnifiedMemories({ limit: 50, source: selectedSource.value })
     unifiedMemories.value = res.memories
+    if (!res.memories.some(memory => memory.id === selectedUnifiedMemoryId.value)) {
+      selectedUnifiedMemoryId.value = ''
+    }
   } catch (e) {
     console.error('Failed to load unified memories:', e)
   } finally {
@@ -399,7 +428,26 @@ async function loadUnifiedMemories() {
 }
 
 function onSourceChange() {
+  selectedUnifiedMemoryId.value = ''
   loadUnifiedMemories()
+}
+
+function selectUnifiedMemory(id: string) {
+  selectedUnifiedMemoryId.value = id
+  selectedMemoryId.value = ''
+  selectedGraphNodeId.value = ''
+  selectedGraphNode.value = null
+  selectedGraphConnectionCount.value = 0
+
+  if (route.query.memory) {
+    const query = { ...route.query }
+    delete query.memory
+    router.replace({ query })
+  }
+}
+
+function closeUnifiedMemoryPreview() {
+  selectedUnifiedMemoryId.value = ''
 }
 
 onMounted(() => {
@@ -897,7 +945,12 @@ h2 {
 
 /* P37: Card layout (desktop) - shadow-as-border */
 .unified-card {
+  width: 100%;
+  border: 1px solid var(--border);
   background: var(--card);
+  color: var(--primary);
+  font: inherit;
+  text-align: left;
   border-radius: var(--radius-md);
   overflow: hidden;
   /* P38 r13: 与 P38 r12 全站 4 套 Card (MemoryCard / CollectionCard / DashboardWidget / TemplateCard)
@@ -909,6 +962,12 @@ h2 {
   cursor: pointer;
   position: relative;
   box-shadow: var(--shadow);
+}
+
+.unified-card--selected,
+.unified-card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 
 .unified-card::before {

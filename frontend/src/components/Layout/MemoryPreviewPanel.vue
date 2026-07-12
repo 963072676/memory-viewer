@@ -1,12 +1,18 @@
 <template>
-  <aside v-if="detail" class="memory-preview" aria-label="Memory detail preview">
+  <aside v-if="detail" class="memory-preview" :aria-label="$t('i18n.preview_aria')">
     <div class="preview-header">
       <div class="preview-heading">
         <span class="preview-kicker">{{ detail.kicker }}</span>
         <h3>{{ detail.title }}</h3>
       </div>
-      <button class="icon-btn" type="button" aria-label="Close preview" title="Close preview" @click="$emit('close')">
-        X
+      <button
+        class="icon-btn"
+        type="button"
+        :aria-label="$t('i18n.close')"
+        :title="$t('i18n.close')"
+        @click="$emit('close')"
+      >
+        ×
       </button>
     </div>
 
@@ -20,7 +26,7 @@
     </div>
 
     <div class="preview-section" v-if="detail.concepts.length">
-      <span class="preview-label">Concepts</span>
+      <span class="preview-label">{{ $t('i18n.concepts') }}</span>
       <div class="preview-chips">
         <span v-for="concept in detail.concepts.slice(0, 8)" :key="concept" class="preview-chip">
           {{ concept }}
@@ -29,7 +35,7 @@
     </div>
 
     <div class="preview-section" v-if="detail.tags.length">
-      <span class="preview-label">Tags</span>
+      <span class="preview-label">{{ $t('i18n.intelligence_tags') }}</span>
       <div class="preview-chips">
         <span v-for="tag in detail.tags.slice(0, 8)" :key="tag" class="preview-chip">
           {{ tag }}
@@ -40,28 +46,32 @@
     <dl class="preview-facts" v-if="detail.facts.length">
       <div v-for="fact in detail.facts" :key="fact.label">
         <dt>{{ fact.label }}</dt>
-        <dd>{{ fact.value }}</dd>
+        <dd :title="fact.value">{{ fact.value }}</dd>
       </div>
     </dl>
 
     <router-link v-if="fullDetailPath" class="action-btn action-btn--primary preview-link" :to="fullDetailPath">
-      Open full detail
+      {{ $t('i18n.preview_open_full_detail') }}
     </router-link>
   </aside>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import type { AgentMemory } from '@/types'
 import type { MemoryGraphNode } from '@/api/graph'
+import type { UnifiedMemory } from '@/api/sources'
 
 const props = withDefaults(defineProps<{
   memory?: AgentMemory | null
   graphNode?: MemoryGraphNode | null
+  unifiedMemory?: UnifiedMemory | null
   graphConnectionCount?: number
 }>(), {
   memory: null,
   graphNode: null,
+  unifiedMemory: null,
   graphConnectionCount: 0,
 })
 
@@ -69,10 +79,12 @@ defineEmits<{
   (e: 'close'): void
 }>()
 
+const { locale, t } = useI18n()
+
 const detail = computed(() => {
   if (props.memory) {
     return {
-      kicker: 'Detail panel',
+      kicker: t('i18n.preview_detail_panel'),
       title: props.memory.title,
       type: props.memory.type,
       typeClass: `preview-type--${props.memory.type}`,
@@ -80,36 +92,59 @@ const detail = computed(() => {
       concepts: props.memory.concepts,
       tags: props.memory.tags || [],
       meta: [
-        `Strength ${strengthPercent(props.memory.strength)}%`,
+        `${t('i18n.preview_strength')} ${strengthPercent(props.memory.strength)}%`,
         ...(props.memory.sessionIds?.length ? [props.memory.sessionIds.slice(0, 2).join(', ')] : []),
-        ...(props.memory.archived ? ['Archived'] : []),
+        ...(props.memory.archived ? [t('i18n.archived')] : []),
       ],
       facts: [
-        { label: 'Created', value: formatDate(props.memory.createdAt) },
-        { label: 'Updated', value: formatDate(props.memory.updatedAt) },
-        { label: 'Version', value: String(props.memory.version || 1) },
+        { label: t('en_created'), value: formatDate(props.memory.createdAt) },
+        { label: t('en_updated'), value: formatDate(props.memory.updatedAt) },
+        { label: t('en_version'), value: String(props.memory.version || 1) },
+      ],
+    }
+  }
+
+  if (props.unifiedMemory) {
+    const memory = props.unifiedMemory
+    return {
+      kicker: t('i18n.preview_unified_memory'),
+      title: memory.title,
+      type: memory.type || t('i18n.preview_unknown'),
+      typeClass: `preview-type--${memory.type || 'unknown'}`,
+      content: memory.content || t('i18n.preview_no_content'),
+      concepts: memory.concepts || [],
+      tags: stringList(memory.metadata?.tags),
+      meta: [
+        memory.source || t('i18n.preview_unknown_provider'),
+        `${t('i18n.preview_strength')} ${strengthPercent(memory.strength)}%`,
+      ],
+      facts: [
+        { label: t('en_created'), value: formatDate(memory.createdAt) },
+        { label: t('en_updated'), value: formatDate(memory.updatedAt) },
+        { label: t('i18n.preview_provider'), value: memory.source || t('i18n.preview_unknown') },
+        { label: t('i18n.preview_memory_id'), value: memory.id },
       ],
     }
   }
 
   if (props.graphNode) {
     return {
-      kicker: 'Graph node',
+      kicker: t('i18n.preview_graph_node'),
       title: props.graphNode.label,
       type: props.graphNode.type,
       typeClass: `preview-type--${props.graphNode.type}`,
-      content: props.graphNode.contentSnippet || 'No content preview.',
+      content: props.graphNode.contentSnippet || t('i18n.preview_no_content'),
       concepts: [],
       tags: props.graphNode.tags || [],
       meta: [
-        props.graphNode.provider || 'Unknown provider',
-        `Strength ${strengthPercent(props.graphNode.strength)}%`,
+        props.graphNode.provider || t('i18n.preview_unknown_provider'),
+        `${t('i18n.preview_strength')} ${strengthPercent(props.graphNode.strength)}%`,
         ...(props.graphNode.sessionId ? [props.graphNode.sessionId] : []),
       ],
       facts: [
-        { label: 'Provider', value: props.graphNode.provider || 'Unknown' },
-        { label: 'Connections', value: String(props.graphConnectionCount || 0) },
-        { label: 'Node ID', value: props.graphNode.id },
+        { label: t('i18n.preview_provider'), value: props.graphNode.provider || t('i18n.preview_unknown') },
+        { label: t('i18n.preview_connections'), value: String(props.graphConnectionCount || 0) },
+        { label: t('i18n.preview_node_id'), value: props.graphNode.id },
       ],
     }
   }
@@ -117,9 +152,14 @@ const detail = computed(() => {
   return null
 })
 
+const fullDetailMemory = computed(() => props.memory || props.unifiedMemory)
 const fullDetailPath = computed(() => (
-  props.memory ? `/memory/${props.memory.id}` : ''
+  fullDetailMemory.value ? `/memory/${fullDetailMemory.value.id}` : ''
 ))
+
+function stringList(value: unknown) {
+  return Array.isArray(value) ? value.filter((item): item is string => typeof item === 'string') : []
+}
 
 function strengthPercent(strength: number) {
   const raw = strength * 10
@@ -129,8 +169,8 @@ function strengthPercent(strength: number) {
 
 function formatDate(value: string) {
   const date = new Date(value)
-  if (Number.isNaN(date.getTime())) return 'Unknown'
-  return date.toLocaleString()
+  if (Number.isNaN(date.getTime())) return t('i18n.preview_unknown')
+  return date.toLocaleString(locale.value)
 }
 </script>
 
@@ -227,7 +267,7 @@ function formatDate(value: string) {
 
 .preview-type {
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0;
 }
 
 .preview-type--pattern {
@@ -312,6 +352,16 @@ function formatDate(value: string) {
   .memory-preview {
     position: static;
     max-height: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .memory-preview {
+    position: fixed;
+    inset: 72px 12px calc(76px + env(safe-area-inset-bottom, 0px));
+    z-index: 90;
+    max-height: none;
+    box-shadow: var(--shadow-modal);
   }
 }
 </style>

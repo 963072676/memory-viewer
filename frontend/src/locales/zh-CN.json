@@ -781,5 +781,18 @@
   "i18n.provider_badge_none": "提供方",
   "i18n.switch_to_chinese": "切换到中文",
   "i18n.switch_to_english": "切换到英文",
-  "i18n.page_memory_detail": "记忆详情"
+  "i18n.page_memory_detail": "记忆详情",
+  "i18n.preview_aria": "记忆详情预览",
+  "i18n.preview_detail_panel": "详情",
+  "i18n.preview_unified_memory": "统一记忆",
+  "i18n.preview_graph_node": "图谱节点",
+  "i18n.preview_open_full_detail": "打开完整详情",
+  "i18n.preview_strength": "强度",
+  "i18n.preview_provider": "提供方",
+  "i18n.preview_connections": "连接数",
+  "i18n.preview_node_id": "节点 ID",
+  "i18n.preview_memory_id": "记忆 ID",
+  "i18n.preview_unknown_provider": "未知提供方",
+  "i18n.preview_unknown": "未知",
+  "i18n.preview_no_content": "暂无内容预览。"
 }

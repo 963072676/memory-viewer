@@ -780,5 +780,18 @@
   "i18n.provider_badge_none": "Providers",
   "i18n.switch_to_chinese": "Switch to Chinese",
   "i18n.switch_to_english": "Switch to English",
-  "i18n.page_memory_detail": "Memory details"
+  "i18n.page_memory_detail": "Memory details",
+  "i18n.preview_aria": "Memory detail preview",
+  "i18n.preview_detail_panel": "Details",
+  "i18n.preview_unified_memory": "Unified memory",
+  "i18n.preview_graph_node": "Graph node",
+  "i18n.preview_open_full_detail": "Open full details",
+  "i18n.preview_strength": "Strength",
+  "i18n.preview_provider": "Provider",
+  "i18n.preview_connections": "Connections",
+  "i18n.preview_node_id": "Node ID",
+  "i18n.preview_memory_id": "Memory ID",
+  "i18n.preview_unknown_provider": "Unknown provider",
+  "i18n.preview_unknown": "Unknown",
+  "i18n.preview_no_content": "No content preview."
 }
