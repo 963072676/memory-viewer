@@ -794,5 +794,10 @@
   "i18n.preview_memory_id": "记忆 ID",
   "i18n.preview_unknown_provider": "未知提供方",
   "i18n.preview_unknown": "未知",
-  "i18n.preview_no_content": "暂无内容预览。"
+  "i18n.preview_no_content": "暂无内容预览。",
+  "i18n.memory_explorer": "记忆浏览器",
+  "i18n.memory_view_mode": "记忆视图模式",
+  "i18n.explorer_list": "列表",
+  "i18n.explorer_graph": "图谱",
+  "i18n.explorer_timeline": "时间线"
 }

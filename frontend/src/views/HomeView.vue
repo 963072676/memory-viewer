@@ -46,7 +46,7 @@
     <!-- Normal View -->
     <template v-else>
       <!-- Unified Memories Section (P16) -->
-      <section class="section unified-section">
+      <section v-if="uiStore.currentTab === 'all' && explorerViewMode === 'list'" class="section unified-section">
         <div class="section-header">
           <h2>🗂️ {{ $t('i18n.unified_memory') }}</h2>
           <div class="unified-controls">
@@ -57,6 +57,19 @@
               <option value="agentmemory">agentmemory</option>
               <option value="mem0">mem0</option>
             </select>
+            <div class="view-mode-switch" :aria-label="$t('i18n.memory_view_mode')">
+              <button
+                v-for="mode in viewModes"
+                :key="mode.value"
+                type="button"
+                class="view-mode-btn"
+                :class="{ active: explorerViewMode === mode.value }"
+                :aria-pressed="explorerViewMode === mode.value"
+                @click="setExplorerViewMode(mode.value)"
+              >
+                {{ $t(mode.labelKey) }}
+              </button>
+            </div>
           </div>
         </div>
 
@@ -114,17 +127,21 @@
       </section>
 
       <!-- Filter Panel -->
-      <FilterPanel />
+      <FilterPanel v-if="uiStore.currentTab === 'agentmemory'" />
 
       <!-- Dedup Panel (F-21) -->
-      <DuplicatePanel :show="showDedupPanel" @close="showDedupPanel = false" />
+      <DuplicatePanel
+        v-if="uiStore.currentTab === 'agentmemory'"
+        :show="showDedupPanel"
+        @close="showDedupPanel = false"
+      />
 
       <!-- AgentMemory Section -->
-      <section class="section">
+      <section v-if="uiStore.currentTab !== 'all' || explorerViewMode !== 'list'" class="section">
         <div class="section-header">
-          <h2>AgentMemory</h2>
+          <h2>{{ uiStore.currentTab === 'agentmemory' ? 'AgentMemory' : $t('i18n.memory_explorer') }}</h2>
           <div class="section-actions">
-            <div class="view-mode-switch" aria-label="Memory view mode">
+            <div class="view-mode-switch" :aria-label="$t('i18n.memory_view_mode')">
               <button
                 v-for="mode in viewModes"
                 :key="mode.value"
@@ -134,20 +151,22 @@
                 :aria-pressed="explorerViewMode === mode.value"
                 @click="setExplorerViewMode(mode.value)"
               >
-                {{ mode.label }}
+                {{ $t(mode.labelKey) }}
               </button>
             </div>
-            <!-- P39: button hierarchy — 创建 is the most common action → primary, others secondary -->
-            <button class="action-btn action-btn--primary" @click="showCreateModal = true">+ {{ $t('i18n.create.action') }}</button>
-            <button class="action-btn" @click="showImportModal = true">📥 {{ $t('i18n.import') }}</button>
-            <ExportButton />
-            <button class="action-btn" @click="showDedupPanel = !showDedupPanel">🔍 {{ $t('i18n.deduplicate') }}</button>
+            <template v-if="uiStore.currentTab === 'agentmemory'">
+              <!-- P39: button hierarchy — 创建 is the most common action → primary, others secondary -->
+              <button class="action-btn action-btn--primary" @click="showCreateModal = true">+ {{ $t('i18n.create.action') }}</button>
+              <button class="action-btn" @click="showImportModal = true">📥 {{ $t('i18n.import') }}</button>
+              <ExportButton />
+              <button class="action-btn" @click="showDedupPanel = !showDedupPanel">🔍 {{ $t('i18n.deduplicate') }}</button>
+            </template>
           </div>
         </div>
-        <div v-if="uiStore.currentTab !== 'hermes' && agentMemoryStore.loading" class="card-grid">
+        <div v-if="uiStore.currentTab === 'agentmemory' && agentMemoryStore.loading" class="card-grid">
           <div v-for="i in 6" :key="i" class="skeleton-card"></div>
         </div>
-        <div v-else-if="uiStore.currentTab !== 'hermes' && filteredMemories.length === 0" class="empty-state">
+        <div v-else-if="uiStore.currentTab === 'agentmemory' && filteredMemories.length === 0" class="empty-state">
           <!-- P38 r30: EmptyState prop 改 v-bind (同 r30 上一组) -->
           <EmptyState
             icon="🤖"
@@ -177,7 +196,7 @@
               @select="selectMemory"
             />
             <VirtualCardGrid
-              v-if="uiStore.currentTab !== 'hermes' && explorerViewMode === 'list' && filteredMemories.length > 200"
+              v-if="uiStore.currentTab === 'agentmemory' && explorerViewMode === 'list' && filteredMemories.length > 200"
               :items="filteredMemories"
               :item-size="200"
               :key-field="'id'"
@@ -196,7 +215,7 @@
               </template>
             </VirtualCardGrid>
             <div
-              v-else-if="uiStore.currentTab !== 'hermes' && explorerViewMode === 'list' && filteredMemories.length > 0"
+              v-else-if="uiStore.currentTab === 'agentmemory' && explorerViewMode === 'list' && filteredMemories.length > 0"
               class="card-grid"
             >
               <div
@@ -224,7 +243,7 @@
       </section>
 
       <!-- Hermes Memory Section -->
-      <section v-if="uiStore.currentTab !== 'agentmemory'" class="section">
+      <section v-if="uiStore.currentTab === 'hermes'" class="section">
         <!-- P38 r27: section-header wrapper + section-title class — 3px accent bar.
              之前 <h2> 直接在 <section> 里, 无 section-header 父级, 无 3px accent bar.
              与上方 AgentMemory section (line 96-106) + 7 个 view 顶层 section-title 系统不一致.
@@ -336,9 +355,9 @@ const selectedUnifiedMemory = computed(() => (
   unifiedMemories.value.find(memory => memory.id === selectedUnifiedMemoryId.value) || null
 ))
 const viewModes = [
-  { value: 'list' as const, label: 'List' },
-  { value: 'graph' as const, label: 'Graph' },
-  { value: 'timeline' as const, label: 'Timeline' },
+  { value: 'list' as const, labelKey: 'i18n.explorer_list' },
+  { value: 'graph' as const, labelKey: 'i18n.explorer_graph' },
+  { value: 'timeline' as const, labelKey: 'i18n.explorer_timeline' },
 ]
 
 type ExplorerViewMode = typeof viewModes[number]['value']
@@ -380,6 +399,9 @@ function setExplorerViewMode(mode: ExplorerViewMode) {
 function applyRouteMemoryId(value: unknown) {
   const raw = firstQueryValue(value)
   const id = typeof raw === 'string' ? raw : ''
+  if (id && uiStore.currentTab === 'all') {
+    uiStore.setTab('agentmemory')
+  }
   selectedMemoryId.value = id
   selectedGraphNodeId.value = id
   if (!id || selectedGraphNode.value?.id !== id) {
@@ -1145,8 +1167,20 @@ h2 {
     flex-wrap: wrap;
   }
 
+  .unified-controls {
+    width: 100%;
+    min-width: 0;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .source-filter-select {
+    width: 100%;
+  }
+
   .view-mode-switch {
     width: 100%;
+    min-width: 0;
   }
 
   .view-mode-btn {

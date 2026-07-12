@@ -793,5 +793,10 @@
   "i18n.preview_memory_id": "Memory ID",
   "i18n.preview_unknown_provider": "Unknown provider",
   "i18n.preview_unknown": "Unknown",
-  "i18n.preview_no_content": "No content preview."
+  "i18n.preview_no_content": "No content preview.",
+  "i18n.memory_explorer": "Memory Explorer",
+  "i18n.memory_view_mode": "Memory view mode",
+  "i18n.explorer_list": "List",
+  "i18n.explorer_graph": "Graph",
+  "i18n.explorer_timeline": "Timeline"
 }
