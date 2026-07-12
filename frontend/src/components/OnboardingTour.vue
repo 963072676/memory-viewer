@@ -83,6 +83,7 @@ const tooltipStyle = ref<Record<string, string>>({ visibility: 'hidden' })
 const tooltipPlacement = ref<TooltipPlacement>('bottom')
 
 const LAYOUT_SETTLE_DELAY = 260
+const VIEWPORT_EDGE_MARGIN = 12
 let positionFrame = 0
 let positionSettleTimer: ReturnType<typeof setTimeout> | null = null
 let startTimer: ReturnType<typeof setTimeout> | null = null
@@ -115,6 +116,46 @@ function findVisibleStepIndex(startIndex: number, direction: 1 | -1) {
   })
 }
 
+function findVerticalScrollContainer(element: HTMLElement) {
+  let parent = element.parentElement
+  while (parent && parent !== document.body) {
+    const { overflowY } = window.getComputedStyle(parent)
+    if (/(auto|scroll|overlay)/.test(overflowY) && parent.scrollHeight > parent.clientHeight) {
+      return parent
+    }
+    parent = parent.parentElement
+  }
+  return null
+}
+
+function scrollTargetIntoViewport(element: HTMLElement, rect: DOMRect) {
+  const visualViewportTop = window.visualViewport?.offsetTop ?? 0
+  const visualViewportHeight = window.visualViewport?.height ?? window.innerHeight
+  const scrollContainer = findVerticalScrollContainer(element)
+  const containerRect = scrollContainer?.getBoundingClientRect()
+  const visibleTop = Math.max(
+    visualViewportTop + VIEWPORT_EDGE_MARGIN,
+    containerRect?.top ?? Number.NEGATIVE_INFINITY,
+  )
+  const visibleBottom = Math.min(
+    visualViewportTop + visualViewportHeight - VIEWPORT_EDGE_MARGIN,
+    containerRect?.bottom ?? Number.POSITIVE_INFINITY,
+  )
+  const scrollDelta = rect.top < visibleTop
+    ? rect.top - visibleTop
+    : rect.bottom > visibleBottom
+      ? rect.bottom - visibleBottom
+      : 0
+
+  if (!scrollDelta) return false
+  if (scrollContainer) {
+    scrollContainer.scrollTop += scrollDelta
+  } else {
+    window.scrollBy({ top: scrollDelta, behavior: 'auto' })
+  }
+  return true
+}
+
 function goToNextStep() {
   const nextIndex = findVisibleStepIndex(currentStepIndex.value + 1, 1)
   if (nextIndex >= 0) {
@@ -135,7 +176,7 @@ async function positionElements() {
   await nextTick()
   if (!isActive.value || requestId !== positionRequestId) return
 
-  const target = getVisibleTarget(currentStep.value)
+  let target = getVisibleTarget(currentStep.value)
   if (!target) {
     const nextIndex = findVisibleStepIndex(currentStepIndex.value + 1, 1)
     const fallbackIndex = nextIndex >= 0
@@ -148,6 +189,14 @@ async function positionElements() {
       finishTour()
     }
     return
+  }
+
+  if (scrollTargetIntoViewport(target.element, target.rect)) {
+    await nextTick()
+    if (!isActive.value || requestId !== positionRequestId) return
+
+    const scrolledTarget = getVisibleTarget(currentStep.value)
+    if (scrolledTarget) target = scrolledTarget
   }
 
   spotlightTarget.value = target.element
@@ -276,8 +325,8 @@ onUnmounted(() => {
   border-radius: 16px;
   padding: 16px 20px;
   box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
   width: min(320px, calc(100vw - 24px));
   max-height: calc(100vh - 24px);
   max-height: calc(100dvh - 24px);
@@ -293,6 +342,7 @@ onUnmounted(() => {
   align-items: center;
   gap: 12px;
   margin-bottom: 12px;
+  min-width: 0;
 }
 
 .tooltip-icon {
@@ -334,6 +384,7 @@ onUnmounted(() => {
 .tooltip-body {
   min-height: 0;
   overflow-y: auto;
+  overscroll-behavior: contain;
   font-size: 14px;
   color: #555;
   line-height: 1.5;
@@ -346,6 +397,7 @@ onUnmounted(() => {
   align-items: center;
   column-gap: 12px;
   row-gap: 10px;
+  min-width: 0;
 }
 
 .btn-skip {
@@ -420,6 +472,46 @@ onUnmounted(() => {
   /* P45 r2: #0066dd → color-mix(--accent 88%, --primary 12%). 与 P44 SettingsView
      决策同源 (SettingsView btn hover 也用 12% 黑色混合 → "深蓝" hover). */
   background: color-mix(in srgb, var(--accent) 88%, var(--primary) 12%);
+}
+
+@media (max-height: 360px) {
+  .tour-tooltip {
+    padding: 12px 16px;
+  }
+
+  .tooltip-header {
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .tooltip-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    font-size: 24px;
+  }
+
+  .tooltip-body {
+    margin-bottom: 8px;
+  }
+
+  .tooltip-footer {
+    display: flex;
+    gap: 8px;
+  }
+
+  .nav-dots {
+    display: none;
+  }
+
+  .nav-btns {
+    width: auto;
+    margin-left: auto;
+  }
+
+  .btn-nav {
+    padding-inline: 10px;
+  }
 }
 
 /* Transitions */
