@@ -50,7 +50,7 @@ const steps: TourStep[] = [
     title: '记忆源配置',
     description: '管理记忆数据源和连接设置',
     target: '[data-tour="/sources"]',
-    position: 'left',
+    position: 'right',
   },
   {
     id: 'shortcuts',

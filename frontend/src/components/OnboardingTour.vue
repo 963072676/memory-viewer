@@ -15,8 +15,9 @@
         <!-- Tour tooltip -->
         <div
           v-if="spotlightTarget"
+          ref="tooltipElement"
           class="tour-tooltip"
-          :class="'tooltip-' + currentStep.position"
+          :class="'tooltip-' + tooltipPlacement"
           :style="tooltipStyle"
         >
           <div class="tooltip-header">
@@ -41,8 +42,8 @@
               />
             </div>
             <div class="nav-btns">
-              <button v-if="!isFirstStep" class="btn-nav" @click="prevStep">← {{ $t('i18n.common.back') }}</button>
-              <button class="btn-nav btn-next" @click="nextStep">
+              <button v-if="!isFirstStep" class="btn-nav" @click="goToPreviousStep">← {{ $t('i18n.common.back') }}</button>
+              <button class="btn-nav btn-next" @click="goToNextStep">
                 {{ isLastStep ? '完成' : '下一步 →' }}
               </button>
             </div>
@@ -54,8 +55,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, nextTick, onMounted, onUnmounted } from 'vue'
-import { useOnboarding } from '@/composables/useOnboarding'
+import { ref, watch, nextTick, onMounted, onUnmounted } from 'vue'
+import { useOnboarding, type TourStep } from '@/composables/useOnboarding'
+import {
+  findAvailableStepIndex,
+  resolveTooltipPosition,
+  type TooltipPlacement,
+} from '@/utils/onboarding-position'
 
 const {
   steps,
@@ -66,82 +72,110 @@ const {
   isFirstStep,
   checkFirstVisit,
   startTour,
-  nextStep,
-  prevStep,
   skipTour,
   finishTour,
 } = useOnboarding()
 
 const spotlightTarget = ref<HTMLElement | null>(null)
+const tooltipElement = ref<HTMLElement | null>(null)
 const spotlightStyle = ref<Record<string, string>>({})
-const tooltipStyle = ref<Record<string, string>>({})
+const tooltipStyle = ref<Record<string, string>>({ visibility: 'hidden' })
+const tooltipPlacement = ref<TooltipPlacement>('bottom')
 
-const TOOLTIP_MARGIN = 16
 const LAYOUT_SETTLE_DELAY = 260
 let positionFrame = 0
 let positionSettleTimer: ReturnType<typeof setTimeout> | null = null
 let startTimer: ReturnType<typeof setTimeout> | null = null
+let positionRequestId = 0
 
-function positionElements() {
-  if (!isActive.value) return
-  nextTick(() => {
-    const targetEl = document.querySelector(currentStep.value.target)
-    if (!targetEl) {
-      // Target not found — auto-skip to next step or finish
-      if (!isLastStep.value) {
-        nextStep()
-      } else {
-        finishTour()
-      }
-      return
-    }
-    spotlightTarget.value = targetEl as HTMLElement
-    const rect = targetEl.getBoundingClientRect()
-    const vw = window.innerWidth
-    const vh = window.innerHeight
+function getVisibleTarget(step: TourStep) {
+  const element = document.querySelector<HTMLElement>(step.target)
+  if (!element) return null
 
-    // Spotlight: highlight box around target with dark overlay around it
-    spotlightStyle.value = {
-      width: `${rect.width}px`,
-      height: `${rect.height}px`,
-      top: `${rect.top}px`,
-      left: `${rect.left}px`,
-    }
+  const rect = element.getBoundingClientRect()
+  const style = window.getComputedStyle(element)
+  if (
+    rect.width <= 0 ||
+    rect.height <= 0 ||
+    style.display === 'none' ||
+    style.visibility === 'hidden'
+  ) {
+    return null
+  }
 
-    // Tooltip: position relative to target based on step position
-    let ts: Record<string, string> = {}
-    switch (currentStep.value.position) {
-      case 'bottom':
-        ts = {
-          top: `${rect.bottom + TOOLTIP_MARGIN}px`,
-          left: `${rect.left + rect.width / 2}px`,
-          transform: 'translateX(-50%)',
-        }
-        break
-      case 'top':
-        ts = {
-          bottom: `${vh - rect.top + TOOLTIP_MARGIN}px`,
-          left: `${rect.left + rect.width / 2}px`,
-          transform: 'translateX(-50%)',
-        }
-        break
-      case 'right':
-        ts = {
-          top: `${rect.top + rect.height / 2}px`,
-          left: `${rect.right + TOOLTIP_MARGIN}px`,
-          transform: 'translateY(-50%)',
-        }
-        break
-      case 'left':
-        ts = {
-          top: `${rect.top + rect.height / 2}px`,
-          right: `${vw - rect.left + TOOLTIP_MARGIN}px`,
-          transform: 'translateY(-50%)',
-        }
-        break
-    }
-    tooltipStyle.value = ts
+  return { element, rect }
+}
+
+function findVisibleStepIndex(startIndex: number, direction: 1 | -1) {
+  return findAvailableStepIndex({
+    startIndex,
+    direction,
+    totalSteps: steps.length,
+    isAvailable: (index) => Boolean(getVisibleTarget(steps[index])),
   })
+}
+
+function goToNextStep() {
+  const nextIndex = findVisibleStepIndex(currentStepIndex.value + 1, 1)
+  if (nextIndex >= 0) {
+    currentStepIndex.value = nextIndex
+  } else {
+    finishTour()
+  }
+}
+
+function goToPreviousStep() {
+  const previousIndex = findVisibleStepIndex(currentStepIndex.value - 1, -1)
+  if (previousIndex >= 0) currentStepIndex.value = previousIndex
+}
+
+async function positionElements() {
+  if (!isActive.value) return
+  const requestId = ++positionRequestId
+  await nextTick()
+  if (!isActive.value || requestId !== positionRequestId) return
+
+  const target = getVisibleTarget(currentStep.value)
+  if (!target) {
+    const nextIndex = findVisibleStepIndex(currentStepIndex.value + 1, 1)
+    const fallbackIndex = nextIndex >= 0
+      ? nextIndex
+      : findVisibleStepIndex(currentStepIndex.value - 1, -1)
+
+    if (fallbackIndex >= 0) {
+      currentStepIndex.value = fallbackIndex
+    } else {
+      finishTour()
+    }
+    return
+  }
+
+  spotlightTarget.value = target.element
+  spotlightStyle.value = {
+    width: `${target.rect.width}px`,
+    height: `${target.rect.height}px`,
+    top: `${target.rect.top}px`,
+    left: `${target.rect.left}px`,
+  }
+
+  await nextTick()
+  if (!isActive.value || requestId !== positionRequestId || !tooltipElement.value) return
+
+  const tooltipRect = tooltipElement.value.getBoundingClientRect()
+  const resolved = resolveTooltipPosition({
+    preferred: currentStep.value.position,
+    target: target.rect,
+    tooltip: tooltipRect,
+    viewportWidth: window.innerWidth,
+    viewportHeight: window.innerHeight,
+  })
+  tooltipPlacement.value = resolved.placement
+  tooltipStyle.value = {
+    top: `${resolved.top}px`,
+    left: `${resolved.left}px`,
+    transform: 'none',
+    visibility: 'visible',
+  }
 }
 
 function schedulePositionElements() {
@@ -162,7 +196,13 @@ function handleViewportResize() {
   }, LAYOUT_SETTLE_DELAY)
 }
 
-watch([isActive, currentStepIndex], () => {
+watch([isActive, currentStepIndex], ([active]) => {
+  tooltipStyle.value = { visibility: 'hidden' }
+  if (!active) {
+    positionRequestId++
+    spotlightTarget.value = null
+    return
+  }
   schedulePositionElements()
 })
 
@@ -177,7 +217,7 @@ watch(spotlightTarget, (newEl, oldEl) => {
 })
 
 function handleSpotlightClick() {
-  nextStep()
+  goToNextStep()
 }
 
 // Auto-start on mount if first visit
@@ -197,6 +237,7 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
+  positionRequestId++
   if (positionFrame) cancelAnimationFrame(positionFrame)
   if (positionSettleTimer) clearTimeout(positionSettleTimer)
   if (startTimer) clearTimeout(startTimer)
@@ -234,8 +275,9 @@ onUnmounted(() => {
   background: var(--card, #fff);
   border-radius: 16px;
   padding: 16px 20px;
-  min-width: 280px;
-  max-width: 320px;
+  box-sizing: border-box;
+  min-width: min(280px, calc(100vw - 24px));
+  max-width: min(320px, calc(100vw - 24px));
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
   pointer-events: auto;
   z-index: 9999;
