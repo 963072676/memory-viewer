@@ -2,8 +2,8 @@
   <button
     class="lang-switcher"
     :class="{ 'lang-switcher--en': isEnglish }"
-    :title="isEnglish ? 'Switch to 中文' : 'Switch to English'"
-    :aria-label="isEnglish ? '切换到中文' : '切换到英文'"
+    :title="isEnglish ? $t('i18n.switch_to_chinese') : $t('i18n.switch_to_english')"
+    :aria-label="isEnglish ? $t('i18n.switch_to_chinese') : $t('i18n.switch_to_english')"
     @click="toggle"
   >
     <span class="lang-switcher__label">{{ isEnglish ? 'EN' : 'CN' }}</span>
@@ -11,17 +11,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { loadMessages } from '@/main'
 
 const STORAGE_KEY = 'mv-locale'
-const { locale, messages, setLocaleMessage } = useI18n()
-const isEnglish = ref(locale.value === 'en-US')
-
-onMounted(() => {
-  isEnglish.value = locale.value === 'en-US'
-})
+const { locale, setLocaleMessage } = useI18n()
+const isEnglish = computed(() => locale.value === 'en-US')
 
 async function toggle() {
   const next = isEnglish.value ? 'zh-CN' : 'en-US'
@@ -29,7 +25,6 @@ async function toggle() {
   const msgs = await loadMessages(next)
   setLocaleMessage(next, msgs)
   locale.value = next
-  isEnglish.value = !isEnglish.value
   try { localStorage.setItem(STORAGE_KEY, next) } catch {}
 }
 </script>

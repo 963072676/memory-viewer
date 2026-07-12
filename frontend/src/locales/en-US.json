@@ -771,5 +771,14 @@
   "i18n.sort_ascending": "Sort ascending",
   "i18n.memory_source_tabs": "Memory sources",
   "i18n.tab_agentmemory": "AgentMemory",
-  "i18n.tab_hermes_memory": "Hermes Memory"
+  "i18n.tab_hermes_memory": "Hermes Memory",
+  "i18n.connection_live": "Live",
+  "i18n.connection_connecting": "Connecting...",
+  "i18n.connection_offline": "Offline",
+  "i18n.provider_badge_status": "Memory provider status",
+  "i18n.provider_badge_active": "Active memory provider: {provider} ({status})",
+  "i18n.provider_badge_none": "Providers",
+  "i18n.switch_to_chinese": "Switch to Chinese",
+  "i18n.switch_to_english": "Switch to English",
+  "i18n.page_memory_detail": "Memory details"
 }

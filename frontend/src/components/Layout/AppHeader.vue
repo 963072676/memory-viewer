@@ -1,7 +1,12 @@
 <template>
   <header class="app-header" :class="{ 'mobile-only-header': isMobile }">
     <div class="header-content">
-      <button class="sidebar-toggle" @click="$emit('toggle-sidebar')" :title="isMobile ? '打开导航' : '切换侧边栏'" :aria-label="isMobile ? '打开导航' : '切换侧边栏'">
+      <button
+        class="sidebar-toggle"
+        @click="$emit('toggle-sidebar')"
+        :title="isMobile ? $t('i18n.open_navigation') : $t('i18n.toggle_sidebar')"
+        :aria-label="isMobile ? $t('i18n.open_navigation') : $t('i18n.toggle_sidebar')"
+      >
         <span aria-hidden="true">☰</span>
       </button>
 
@@ -36,6 +41,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import { useTheme } from '@/composables/useTheme'
 import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
@@ -43,6 +49,7 @@ import ProviderStatusBadge from '@/components/Layout/ProviderStatusBadge.vue'
 import ConnectionStatus from '@/components/Layout/ConnectionStatus.vue'
 
 const { toggleTheme, modeLabel, modeIcon } = useTheme()
+const { t } = useI18n()
 const route = useRoute()
 
 defineEmits<{
@@ -66,21 +73,21 @@ onUnmounted(() => {
 const mobilePageTitle = computed(() => {
   const p = route.path
   const map: Record<string, string> = {
-    '/': '首页',
-    '/agentmemory': 'AgentMemory',
-    '/hermes': 'Hermes Memory',
-    '/profiles': 'Profiles',
-    '/dashboard': '仪表盘',
-    '/collections': '分类',
-    '/compare': '对比',
-    '/sources': '数据源',
-    '/plugins': 'Plugins',
-    '/settings': '设置',
+    '/': 'en_nav_home',
+    '/agentmemory': 'en_nav_agentmemory',
+    '/hermes': 'en_nav_hermes',
+    '/profiles': 'en_nav_profiles',
+    '/dashboard': 'en_nav_dashboard',
+    '/graph': 'i18n.memory_graph',
+    '/collections': 'en_nav_collections',
+    '/compare': 'en_nav_compare',
+    '/sources': 'en_nav_sources',
+    '/plugins': 'en_nav_plugins',
+    '/settings': 'en_nav_settings',
   }
-  if (map[p]) return map[p]
-  if (p.startsWith('/memory/')) return '记忆详情'
-  if (p.startsWith('/memory')) return '记忆'
-  return 'Memory Viewer'
+  if (map[p]) return t(map[p])
+  if (p.startsWith('/memory/')) return t('i18n.page_memory_detail')
+  return t('en_app_title')
 })
 </script>
 

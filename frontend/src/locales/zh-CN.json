@@ -772,5 +772,14 @@
   "i18n.sort_ascending": "升序排列",
   "i18n.memory_source_tabs": "记忆来源",
   "i18n.tab_agentmemory": "AgentMemory",
-  "i18n.tab_hermes_memory": "Hermes Memory"
+  "i18n.tab_hermes_memory": "Hermes Memory",
+  "i18n.connection_live": "实时",
+  "i18n.connection_connecting": "连接中...",
+  "i18n.connection_offline": "离线",
+  "i18n.provider_badge_status": "记忆提供方状态",
+  "i18n.provider_badge_active": "当前记忆提供方：{provider}（{status}）",
+  "i18n.provider_badge_none": "提供方",
+  "i18n.switch_to_chinese": "切换到中文",
+  "i18n.switch_to_english": "切换到英文",
+  "i18n.page_memory_detail": "记忆详情"
 }

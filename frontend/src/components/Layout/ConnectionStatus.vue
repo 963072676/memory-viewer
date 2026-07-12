@@ -1,5 +1,11 @@
 <template>
-  <div class="connection-status" :class="statusClass" :title="statusText">
+  <div
+    class="connection-status"
+    :class="statusClass"
+    :title="statusText"
+    role="status"
+    aria-live="polite"
+  >
     <span class="status-dot"></span>
     <span class="status-text">{{ statusText }}</span>
   </div>
@@ -7,19 +13,21 @@
 
 <script setup lang="ts">
 import { computed, ref, onMounted, onUnmounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { request } from '@/api/index'
 
 type Status = 'connected' | 'connecting' | 'disconnected'
 
 const status = ref<Status>('disconnected')
+const { t } = useI18n()
 let timer: ReturnType<typeof setInterval> | null = null
 
 const statusClass = computed(() => status.value)
 const statusText = computed(() => {
   switch (status.value) {
-    case 'connected': return 'Live'
-    case 'connecting': return 'Connecting...'
-    case 'disconnected': return 'Offline'
+    case 'connected': return t('i18n.connection_live')
+    case 'connecting': return t('i18n.connection_connecting')
+    case 'disconnected': return t('i18n.connection_offline')
   }
 })
 

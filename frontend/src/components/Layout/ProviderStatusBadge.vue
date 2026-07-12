@@ -14,13 +14,15 @@
 
 <script setup lang="ts">
 import { computed, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { useProviderStore } from '@/stores/providers'
 
 const router = useRouter()
 const providerStore = useProviderStore()
+const { t } = useI18n()
 
-const activeLabel = computed(() => providerStore.activeProvider || 'providers')
+const activeLabel = computed(() => providerStore.activeProvider || t('i18n.provider_badge_none'))
 const activeHealth = computed(() => (
   providerStore.activeProvider ? providerStore.health[providerStore.activeProvider] : null
 ))
@@ -31,9 +33,11 @@ const dotClass = computed(() => {
   return activeHealth.value.healthy ? 'healthy' : 'unhealthy'
 })
 const statusTitle = computed(() => {
-  if (!providerStore.loaded) return 'Memory provider status'
-  const health = activeHealth.value?.healthy === false ? 'unhealthy' : 'healthy'
-  return `Active memory provider: ${activeLabel.value} (${health})`
+  if (!providerStore.loaded) return t('i18n.provider_badge_status')
+  const health = activeHealth.value
+    ? t(activeHealth.value.healthy ? 'i18n.healthy' : 'i18n.unhealthy')
+    : t('i18n.provider_health_unknown')
+  return t('i18n.provider_badge_active', { provider: activeLabel.value, status: health })
 })
 
 function openProviderSettings() {

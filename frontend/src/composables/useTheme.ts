@@ -1,9 +1,11 @@
+import { useI18n } from 'vue-i18n'
 import { useUIStore } from '@/stores/ui'
 
 type ThemeMode = 'light' | 'dark' | 'system'
 
 export function useTheme() {
   const uiStore = useUIStore()
+  const { t } = useI18n()
 
   const modeOrder: ThemeMode[] = ['light', 'dark', 'system']
 
@@ -16,11 +18,12 @@ export function useTheme() {
   /** Human-readable label for the current mode */
   function modeLabel(): string {
     const map: Record<ThemeMode, string> = {
-      light: '浅色',
-      dark: '深色',
-      system: '跟随系统',
+      light: 'i18n.light',
+      dark: 'i18n.dark',
+      system: 'i18n.system',
     }
-    return map[uiStore.theme as ThemeMode] || uiStore.theme
+    const key = map[uiStore.theme as ThemeMode]
+    return key ? t(key) : uiStore.theme
   }
 
   /** Icon emoji for the current mode */
