@@ -9,11 +9,13 @@
     <div class="main-wrapper" :class="{ 'sidebar-collapsed': uiStore.sidebarCollapsed }">
       <AppHeader @toggle-sidebar="onToggleSidebar" @open-more="onOpenMore" />
       <div class="container">
-        <SearchBar />
-        <QuickAccessBar />
-        <SessionSwitcher />
-        <StatsBar />
-        <TabBar />
+        <div v-if="showMemoryWorkspaceToolbar" class="memory-workspace-toolbar">
+          <SearchBar />
+          <QuickAccessBar />
+          <SessionSwitcher />
+          <StatsBar />
+          <TabBar />
+        </div>
         <ErrorBanner v-if="agentMemoryStore.error || hermesMemoryStore.error" />
         <!-- P38 r9: 页面切换 transition fade — 路由变化时 150ms 淡入淡出，
              避免瞬切带来的"割裂感"。不重不浮，符合 Geist 克制风格。 -->
@@ -34,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, watch } from 'vue'
+import { computed, ref, onMounted, onUnmounted, watch } from 'vue'
 import AppHeader from '@/components/Layout/AppHeader.vue'
 import AppSidebar from '@/components/Layout/AppSidebar.vue'
 import SearchBar from '@/components/Layout/SearchBar.vue'
@@ -70,6 +72,9 @@ const { loadChangelog } = useChangelog()
 const toast = useToast()
 const realtime = useWebSocket({ userId: 'memory-viewer-ui' })
 let realtimeRefreshTimer: ReturnType<typeof setTimeout> | null = null
+
+const memoryWorkspacePaths = new Set(['/', '/agentmemory', '/hermes', '/graph'])
+const showMemoryWorkspaceToolbar = computed(() => memoryWorkspacePaths.has(route.path))
 
 // F47: Command Palette state
 const showCommandPalette = ref(false)
