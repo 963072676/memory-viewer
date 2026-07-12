@@ -10,7 +10,7 @@
         :class="{ active: activeTab === tab.id }"
         @click="activeTab = tab.id"
       >
-        {{ tab.icon }} {{ tab.label }}
+        {{ tab.icon }} {{ $t(tab.labelKey) }}
       </button>
     </div>
 
@@ -166,11 +166,11 @@ const ProviderPanel = defineAsyncComponent(() => import('@/components/Layout/Pro
 type SettingsTab = 'sources' | 'providers' | 'webhook' | 'notifications' | 'about'
 
 const tabs = [
-  { id: 'sources' as const, icon: '🔌', label: '记忆源' },
-  { id: 'providers' as const, icon: 'P', label: 'Providers' },
-  { id: 'webhook' as const, icon: '🔗', label: 'Webhook' },
-  { id: 'notifications' as const, icon: '🔔', label: '通知' },
-  { id: 'about' as const, icon: 'ℹ️', label: '关于' },
+  { id: 'sources' as const, icon: '🔌', labelKey: 'i18n.settings_tab_sources' },
+  { id: 'providers' as const, icon: 'P', labelKey: 'i18n.settings_tab_providers' },
+  { id: 'webhook' as const, icon: '🔗', labelKey: 'i18n.settings_tab_webhook' },
+  { id: 'notifications' as const, icon: '🔔', labelKey: 'i18n.settings_tab_notifications' },
+  { id: 'about' as const, icon: 'ℹ️', labelKey: 'i18n.settings_tab_about' },
 ]
 
 const route = useRoute()

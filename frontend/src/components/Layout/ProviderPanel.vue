@@ -2,51 +2,67 @@
   <div class="provider-panel">
     <div class="view-header">
       <div>
-        <h2 class="section-title">Memory Providers</h2>
+        <h2 class="section-title">{{ $t('i18n.provider_title') }}</h2>
         <p class="panel-caption">
-          Active: <strong>{{ providerStore.activeProvider || 'none' }}</strong>
+          {{ $t('i18n.provider_active_caption') }}
+          <strong>{{ providerStore.activeProvider || $t('i18n.provider_none') }}</strong>
         </p>
       </div>
       <div class="header-actions">
         <button class="action-btn" type="button" :disabled="providerStore.loading" @click="loadProviders">
-          {{ providerStore.loading ? 'Refreshing...' : 'Refresh' }}
+          {{ providerStore.loading ? $t('i18n.provider_refreshing') : $t('i18n.provider_refresh') }}
         </button>
       </div>
     </div>
 
-    <div v-if="providerStore.loading && providerStore.providers.length === 0" class="loading">
-      Loading providers...
+    <div
+      v-if="providerStore.loading && providerStore.providers.length === 0"
+      class="panel-state"
+      role="status"
+      aria-live="polite"
+    >
+      <span class="state-spinner" aria-hidden="true"></span>
+      <strong>{{ $t('i18n.provider_loading') }}</strong>
     </div>
 
-    <div v-else-if="providerStore.error" class="error-state">
+    <div v-else-if="providerStore.error" class="panel-state panel-state--error" role="alert">
+      <span class="state-indicator" aria-hidden="true">!</span>
+      <strong>{{ $t('i18n.provider_load_failed') }}</strong>
       <p>{{ providerStore.error }}</p>
-      <button class="action-btn" type="button" @click="loadProviders">Retry</button>
+      <button class="action-btn" type="button" @click="loadProviders">{{ $t('i18n.retry') }}</button>
+    </div>
+
+    <div v-else-if="providerStore.providers.length === 0" class="panel-state">
+      <span class="state-indicator state-indicator--empty" aria-hidden="true"></span>
+      <strong>{{ $t('i18n.provider_no_providers') }}</strong>
+      <p>{{ $t('i18n.provider_no_providers_hint') }}</p>
+      <button class="action-btn" type="button" @click="loadProviders">{{ $t('i18n.provider_refresh') }}</button>
     </div>
 
     <template v-else>
       <div class="summary-row">
         <div class="summary-card">
           <div class="summary-value">{{ providerStore.providers.length }}</div>
-          <div class="summary-label">Registered</div>
+          <div class="summary-label">{{ $t('i18n.provider_registered') }}</div>
         </div>
         <div class="summary-card" :class="{ success: providerStore.healthyCount > 0 }">
           <div class="summary-value">{{ providerStore.healthyCount }}</div>
-          <div class="summary-label">Healthy</div>
+          <div class="summary-label">{{ $t('i18n.provider_healthy') }}</div>
         </div>
         <div class="summary-card" :class="{ warn: providerStore.unhealthyCount > 0 }">
           <div class="summary-value">{{ providerStore.unhealthyCount }}</div>
-          <div class="summary-label">Attention</div>
+          <div class="summary-label">{{ $t('i18n.provider_attention') }}</div>
         </div>
         <div class="summary-card">
           <div class="summary-value">{{ fallbackCount }}</div>
-          <div class="summary-label">Fallback</div>
+          <div class="summary-label">{{ $t('i18n.provider_fallback') }}</div>
         </div>
       </div>
 
       <section class="observability-section">
         <div class="subsection-header">
           <div>
-            <h3>Provider Observability</h3>
+            <h3>{{ $t('i18n.provider_observability') }}</h3>
           </div>
           <button
             class="action-btn"
@@ -54,55 +70,74 @@
             :disabled="providerStore.observabilityLoading"
             @click="refreshObservability"
           >
-            {{ providerStore.observabilityLoading ? 'Refreshing...' : 'Refresh telemetry' }}
+            {{ providerStore.observabilityLoading
+              ? $t('i18n.provider_refreshing')
+              : $t('i18n.provider_refresh_telemetry') }}
           </button>
         </div>
 
         <div
           v-if="providerStore.observabilityLoading && !providerStore.observability"
-          class="loading loading--compact"
+          class="panel-state panel-state--compact"
+          role="status"
+          aria-live="polite"
         >
-          Loading telemetry...
+          <span class="state-spinner" aria-hidden="true"></span>
+          <strong>{{ $t('i18n.provider_loading_telemetry') }}</strong>
         </div>
 
-        <div v-else-if="providerStore.observabilityError" class="error-state error-state--compact">
+        <div
+          v-else-if="providerStore.observabilityError"
+          class="panel-state panel-state--compact panel-state--error"
+          role="alert"
+        >
+          <span class="state-indicator" aria-hidden="true">!</span>
+          <strong>{{ $t('i18n.provider_telemetry_failed') }}</strong>
           <p>{{ providerStore.observabilityError }}</p>
-          <button class="action-btn" type="button" @click="refreshObservability">Retry</button>
+          <button class="action-btn" type="button" @click="refreshObservability">{{ $t('i18n.retry') }}</button>
         </div>
 
         <template v-else-if="observability">
           <div class="telemetry-grid">
             <div class="telemetry-card">
-              <div class="telemetry-label">Active latency</div>
+              <div class="telemetry-label">{{ $t('i18n.provider_active_latency') }}</div>
               <div class="telemetry-value">{{ formatLatency(activeStats?.avgLatencyMs) }}</div>
-              <div class="telemetry-note">{{ providerStore.activeProvider || 'no active provider' }}</div>
+              <div class="telemetry-note">
+                {{ providerStore.activeProvider || $t('i18n.provider_no_active') }}
+              </div>
             </div>
             <div class="telemetry-card">
-              <div class="telemetry-label">Fallback used</div>
+              <div class="telemetry-label">{{ $t('i18n.provider_fallback_used') }}</div>
               <div class="telemetry-value">{{ observability.routing.fallbackUsed }}</div>
-              <div class="telemetry-note">{{ observability.routing.fallback }} fallback routes</div>
+              <div class="telemetry-note">
+                {{ $t('i18n.provider_fallback_routes', { count: observability.routing.fallback }) }}
+              </div>
             </div>
             <div class="telemetry-card" :class="{ warn: observability.routing.routeErrors > 0 }">
-              <div class="telemetry-label">Route errors</div>
+              <div class="telemetry-label">{{ $t('i18n.provider_route_errors') }}</div>
               <div class="telemetry-value">{{ observability.routing.routeErrors }}</div>
-              <div class="telemetry-note">{{ providerStore.unhealthyCount }} unhealthy now</div>
+              <div class="telemetry-note">
+                {{ $t('i18n.provider_unhealthy_now', { count: providerStore.unhealthyCount }) }}
+              </div>
             </div>
             <div class="telemetry-card">
-              <div class="telemetry-label">Recent calls</div>
+              <div class="telemetry-label">{{ $t('i18n.provider_recent_calls') }}</div>
               <div class="telemetry-value">{{ observability.recentCalls.length }}</div>
-              <div class="telemetry-note">last {{ formatTime(lastCall?.timestamp) }}</div>
+              <div class="telemetry-note">
+                {{ $t('i18n.provider_last_call', { time: formatTime(lastCall?.timestamp) }) }}
+              </div>
             </div>
           </div>
 
           <div class="telemetry-layout">
             <div class="telemetry-panel">
-              <div class="telemetry-panel-title">Provider latency</div>
+              <div class="telemetry-panel-title">{{ $t('i18n.provider_latency') }}</div>
               <div class="provider-metrics">
                 <div class="provider-metric-row provider-metric-row--head">
-                  <span>Provider</span>
-                  <span>Avg</span>
-                  <span>Error rate</span>
-                  <span>Fallback wins</span>
+                  <span>{{ $t('i18n.provider_column') }}</span>
+                  <span>{{ $t('i18n.provider_average') }}</span>
+                  <span>{{ $t('i18n.provider_error_rate') }}</span>
+                  <span>{{ $t('i18n.provider_fallback_wins') }}</span>
                 </div>
                 <div
                   v-for="row in telemetryRows"
@@ -121,9 +156,9 @@
             </div>
 
             <div class="telemetry-panel">
-              <div class="telemetry-panel-title">Recent routing paths</div>
+              <div class="telemetry-panel-title">{{ $t('i18n.provider_recent_routes') }}</div>
               <div v-if="recentRoutes.length === 0" class="empty-telemetry">
-                No routes recorded yet.
+                {{ $t('i18n.provider_no_routes') }}
               </div>
               <div v-else class="route-list">
                 <div
@@ -133,7 +168,7 @@
                   :class="{ warn: route.errors.length > 0, fallback: route.fallbackUsed }"
                 >
                   <div class="route-main">
-                    <span class="route-strategy">{{ route.strategy }}</span>
+                    <span class="route-strategy">{{ routeStrategyLabel(route.strategy) }}</span>
                     <strong>{{ routePath(route) }}</strong>
                   </div>
                   <div class="route-meta">
@@ -150,15 +185,20 @@
           </div>
         </template>
 
-        <div v-else class="empty-telemetry">
-          No provider telemetry yet.
+        <div v-else class="panel-state panel-state--compact">
+          <span class="state-indicator state-indicator--empty" aria-hidden="true"></span>
+          <strong>{{ $t('i18n.provider_no_telemetry') }}</strong>
+          <p>{{ $t('i18n.provider_no_telemetry_hint') }}</p>
+          <button class="action-btn" type="button" @click="refreshObservability">
+            {{ $t('i18n.provider_refresh_telemetry') }}
+          </button>
         </div>
       </section>
 
       <form class="strategy-form" @submit.prevent="saveStrategy">
         <div class="form-grid">
           <div class="form-field">
-            <label for="active-provider">Active provider</label>
+            <label for="active-provider">{{ $t('i18n.provider_active') }}</label>
             <select
               id="active-provider"
               v-model="draft.activeProvider"
@@ -176,7 +216,7 @@
           </div>
 
           <div class="form-field">
-            <label>Fallback providers</label>
+            <label>{{ $t('i18n.provider_fallback_providers') }}</label>
             <div class="fallback-list">
               <label
                 v-for="provider in fallbackOptions"
@@ -197,7 +237,7 @@
 
           <div class="numeric-grid">
             <div class="form-field">
-              <label for="timeout-seconds">Timeout seconds</label>
+              <label for="timeout-seconds">{{ $t('i18n.provider_timeout') }}</label>
               <input
                 id="timeout-seconds"
                 v-model.number="draft.timeoutSeconds"
@@ -208,7 +248,7 @@
               />
             </div>
             <div class="form-field">
-              <label for="retry-attempts">Retry attempts</label>
+              <label for="retry-attempts">{{ $t('i18n.provider_retry_attempts') }}</label>
               <input
                 id="retry-attempts"
                 v-model.number="draft.retryAttempts"
@@ -219,7 +259,7 @@
               />
             </div>
             <div class="form-field">
-              <label for="retry-backoff">Retry backoff</label>
+              <label for="retry-backoff">{{ $t('i18n.provider_retry_backoff') }}</label>
               <input
                 id="retry-backoff"
                 v-model.number="draft.retryBackoffSeconds"
@@ -233,25 +273,33 @@
 
           <div class="toggle-grid">
             <div class="toggle-row">
-              <span>Parallel query</span>
+              <span>{{ $t('i18n.provider_parallel_query') }}</span>
               <button
                 type="button"
                 class="toggle-btn"
                 :class="{ active: draft.parallelQuery }"
+                :aria-label="$t('i18n.provider_parallel_query')"
+                :aria-pressed="draft.parallelQuery"
                 @click="draft.parallelQuery = !draft.parallelQuery"
               >
-                {{ draft.parallelQuery ? 'ON' : 'OFF' }}
+                {{ draft.parallelQuery
+                  ? $t('i18n.provider_toggle_on')
+                  : $t('i18n.provider_toggle_off') }}
               </button>
             </div>
             <div class="toggle-row">
-              <span>Debug raw response</span>
+              <span>{{ $t('i18n.provider_debug_raw') }}</span>
               <button
                 type="button"
                 class="toggle-btn"
                 :class="{ active: draft.debugRawResponse }"
+                :aria-label="$t('i18n.provider_debug_raw')"
+                :aria-pressed="draft.debugRawResponse"
                 @click="draft.debugRawResponse = !draft.debugRawResponse"
               >
-                {{ draft.debugRawResponse ? 'ON' : 'OFF' }}
+                {{ draft.debugRawResponse
+                  ? $t('i18n.provider_toggle_on')
+                  : $t('i18n.provider_toggle_off') }}
               </button>
             </div>
           </div>
@@ -259,12 +307,12 @@
 
         <div class="form-actions">
           <button class="action-btn action-btn--accent" type="submit" :disabled="providerStore.saving">
-            {{ providerStore.saving ? 'Saving...' : 'Save strategy' }}
+            {{ providerStore.saving ? $t('i18n.provider_saving') : $t('i18n.provider_save_strategy') }}
           </button>
           <button class="action-btn" type="button" :disabled="providerStore.loading" @click="refreshHealth">
-            Check health
+            {{ $t('i18n.provider_check_health') }}
           </button>
-          <span v-if="saveOk" class="save-ok">Saved</span>
+          <span v-if="saveOk" class="save-ok" role="status">{{ $t('i18n.saved') }}</span>
         </div>
       </form>
 
@@ -280,12 +328,16 @@
               <span class="health-dot" :class="healthClass(provider.name)"></span>
               <span class="provider-name">{{ provider.name }}</span>
               <span class="provider-type-badge">{{ provider.type }}</span>
-              <span v-if="provider.active" class="state-badge active-badge">ACTIVE</span>
-              <span v-if="provider.fallback" class="state-badge fallback-badge">FALLBACK</span>
+              <span v-if="provider.active" class="state-badge active-badge">
+                {{ $t('i18n.provider_status_active') }}
+              </span>
+              <span v-if="provider.fallback" class="state-badge fallback-badge">
+                {{ $t('i18n.provider_status_fallback') }}
+              </span>
             </div>
             <div class="provider-meta">
               <span>{{ healthLabel(provider.name) }}</span>
-              <span>{{ provider.enabled ? 'enabled' : 'disabled' }}</span>
+              <span>{{ provider.enabled ? $t('i18n.enabled') : $t('i18n.disabled') }}</span>
               <span>{{ capabilityLabel(provider) }}</span>
             </div>
             <div v-if="providerError(provider.name)" class="provider-error">
@@ -299,7 +351,7 @@
             :disabled="providerStore.saving"
             @click="makeActive(provider.name)"
           >
-            Make active
+            {{ $t('i18n.provider_make_active') }}
           </button>
         </div>
       </div>
@@ -309,10 +361,12 @@
 
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useProviderStore } from '@/stores/providers'
 import type { ProviderInfo, ProviderRouteEvent } from '@/api/providers'
 
 const providerStore = useProviderStore()
+const { t } = useI18n()
 const saveOk = ref(false)
 
 const draft = reactive({
@@ -436,7 +490,7 @@ function providerError(name: string) {
   const code = error.code
   if (typeof message === 'string') return message
   if (typeof code === 'string') return code
-  return 'Health check failed'
+  return t('i18n.provider_health_check_failed')
 }
 
 function healthClass(name: string) {
@@ -447,12 +501,14 @@ function healthClass(name: string) {
 
 function healthLabel(name: string) {
   const item = providerStore.health[name]
-  if (!item) return 'unknown'
-  return item.healthy ? 'healthy' : 'unhealthy'
+  if (!item) return t('i18n.provider_health_unknown')
+  return item.healthy ? t('i18n.healthy') : t('i18n.unhealthy')
 }
 
 function capabilityLabel(provider: ProviderInfo) {
-  return provider.capabilities.length ? provider.capabilities.join(', ') : 'basic'
+  return provider.capabilities.length
+    ? provider.capabilities.join(', ')
+    : t('i18n.provider_basic_capability')
 }
 
 function formatLatency(value?: number) {
@@ -466,7 +522,7 @@ function formatRate(value?: number) {
 }
 
 function formatTime(timestamp?: number | null) {
-  if (!timestamp) return 'none'
+  if (!timestamp) return t('i18n.provider_time_none')
   return new Date(timestamp).toLocaleTimeString([], {
     hour: '2-digit',
     minute: '2-digit',
@@ -475,21 +531,30 @@ function formatTime(timestamp?: number | null) {
 }
 
 function routePath(route: ProviderRouteEvent) {
-  return route.providers.length ? route.providers.join(' -> ') : 'no provider'
+  return route.providers.length ? route.providers.join(' -> ') : t('i18n.provider_no_route')
+}
+
+function routeStrategyLabel(strategy: string) {
+  const labels: Record<string, string> = {
+    direct: t('i18n.provider_route_strategy_direct'),
+    fallback: t('i18n.provider_route_strategy_fallback'),
+    parallel: t('i18n.provider_route_strategy_parallel'),
+  }
+  return labels[strategy] || strategy
 }
 
 function routeOutcome(route: ProviderRouteEvent) {
   if (route.successfulProviders.length > 1) return route.successfulProviders.join(', ')
   if (route.successfulProvider) return route.successfulProvider
-  if (route.errors.length) return 'failed'
-  return 'no result'
+  if (route.errors.length) return t('i18n.provider_route_failed')
+  return t('i18n.provider_no_result')
 }
 
 function errorText(error: Record<string, unknown>) {
   const provider = typeof error.provider === 'string' ? error.provider : ''
   const code = typeof error.code === 'string' ? error.code : ''
   const message = typeof error.message === 'string' ? error.message : ''
-  return [provider, code || message].filter(Boolean).join(': ') || 'Provider error'
+  return [provider, code || message].filter(Boolean).join(': ') || t('i18n.provider_error_generic')
 }
 
 watch(() => providerStore.strategy, syncDraft, { immediate: true })
@@ -551,15 +616,93 @@ h2.section-title::before {
   flex-wrap: wrap;
 }
 
-.loading,
-.error-state {
+.panel-state {
+  display: flex;
+  min-height: 160px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
   text-align: center;
-  padding: 40px;
+  padding: 32px;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  background: var(--card);
   color: var(--text-secondary);
 }
 
-.error-state {
+.panel-state strong {
+  color: var(--primary);
+  font-size: 0.95rem;
+}
+
+.panel-state p {
+  max-width: 560px;
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.panel-state--compact {
+  min-height: 132px;
+  margin-bottom: 12px;
+  padding: 24px;
+}
+
+.panel-state--error {
+  border-style: solid;
+  border-color: color-mix(in srgb, var(--error-text) 28%, var(--border));
+  background: var(--error-bg);
   color: var(--error-text);
+}
+
+.panel-state--error strong {
+  color: var(--error-text);
+}
+
+.state-spinner,
+.state-indicator {
+  width: 28px;
+  height: 28px;
+  flex: 0 0 auto;
+}
+
+.state-spinner {
+  border: 2px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: provider-spin 0.75s linear infinite;
+}
+
+.state-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  font-weight: 800;
+}
+
+.state-indicator--empty {
+  border-color: var(--border-strong);
+  color: var(--text-secondary);
+}
+
+.state-indicator--empty::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+@keyframes provider-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .state-spinner { animation: none; }
 }
 
 .summary-row {
@@ -615,11 +758,6 @@ h2.section-title::before {
   color: var(--primary);
   font-size: 1rem;
   font-weight: 700;
-}
-
-.loading--compact,
-.error-state--compact {
-  padding: 20px;
 }
 
 .telemetry-grid {
