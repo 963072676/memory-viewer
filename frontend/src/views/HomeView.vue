@@ -320,55 +320,7 @@
 
       <!-- Hermes Memory Section -->
       <section v-if="uiStore.currentTab === 'hermes'" class="section">
-        <!-- P38 r27: section-header wrapper + section-title class — 3px accent bar.
-             之前 <h2> 直接在 <section> 里, 无 section-header 父级, 无 3px accent bar.
-             与上方 AgentMemory section (line 96-106) + 7 个 view 顶层 section-title 系统不一致.
-             复用 r15 + r20 模式 (3px rail + 12px padding-left). -->
-        <div class="section-header">
-          <h2 class="section-title">Hermes Memory</h2>
-        </div>
-        <div v-if="hermesMemoryStore.loading" class="card-grid">
-          <div v-for="i in 4" :key="i" class="skeleton-card"></div>
-        </div>
-        <div v-else-if="hermesMemoryStore.totalEntries === 0" class="empty-state">
-          <EmptyState
-            icon="🧠"
-            title="还没有 Hermes Memory"
-            message="从 Hermes Agent 同步记忆数据，或在「数据源」中配置连接。"
-            action-text="配置数据源"
-            @action="$router.push('/sources')"
-          />
-        </div>
-        <template v-else>
-          <!-- Global -->
-          <div class="profile-section">
-            <h3 class="profile-heading">🌐 Global</h3>
-            <div class="card-grid">
-              <div v-for="(entry, i) in hermesMemoryStore.globalData.memory" :key="'gm-' + i" class="hermes-card">
-                <div class="hermes-label">MEMORY.md</div>
-                <p>{{ entry }}</p>
-              </div>
-              <div v-for="(entry, i) in hermesMemoryStore.globalData.user" :key="'gu-' + i" class="hermes-card">
-                <div class="hermes-label">USER.md</div>
-                <p>{{ entry }}</p>
-              </div>
-            </div>
-          </div>
-          <!-- Profiles -->
-          <div v-for="(data, name) in hermesMemoryStore.profiles" :key="name" class="profile-section">
-            <h3 class="profile-heading">👤 {{ name }}</h3>
-            <div class="card-grid">
-              <div v-for="(entry, i) in data.memory" :key="'pm-' + i" class="hermes-card">
-                <div class="hermes-label">MEMORY.md</div>
-                <p>{{ entry }}</p>
-              </div>
-              <div v-for="(entry, i) in data.user" :key="'pu-' + i" class="hermes-card">
-                <div class="hermes-label">USER.md</div>
-                <p>{{ entry }}</p>
-              </div>
-            </div>
-          </div>
-        </template>
+        <HermesMemoryExplorer />
       </section>
     </template>
 
@@ -381,7 +333,6 @@
 import { ref, computed, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAgentMemoryStore } from '@/stores/agentmemory'
-import { useHermesMemoryStore } from '@/stores/hermes-memory'
 import { useUIStore } from '@/stores/ui'
 import { useSearchStore } from '@/stores/search'
 import { useSessionStore } from '@/stores/sessions'
@@ -391,6 +342,7 @@ import type { MemoryGraphNode } from '@/api/graph'
 import MemoryCard from '@/components/Layout/MemoryCard.vue'
 import MemoryGraphPanel from '@/components/Layout/MemoryGraphPanel.vue'
 import MemoryPreviewPanel from '@/components/Layout/MemoryPreviewPanel.vue'
+import HermesMemoryExplorer from '@/components/Layout/HermesMemoryExplorer.vue'
 import MemoryTimeline from '@/components/Layout/MemoryTimeline.vue'
 import VirtualCardGrid from '@/components/Layout/VirtualCardGrid.vue'
 import ExportButton from '@/components/Layout/ExportButton.vue'
@@ -402,7 +354,6 @@ import EmptyState from '@/components/Layout/EmptyState.vue'
 import { sanitizeHighlight } from '@/utils/highlight'
 
 const agentMemoryStore = useAgentMemoryStore()
-const hermesMemoryStore = useHermesMemoryStore()
 const uiStore = useUIStore()
 const searchStore = useSearchStore()
 const sessionStore = useSessionStore()
@@ -891,78 +842,6 @@ h2 {
 }
 
 /* P37: 重复 unified-card 块已合并到下方 "Card layout" 段（更具体位置），这里不再重复 */
-
-/* Profile section (memory viewer list) */
-.profile-section {
-  margin-bottom: 32px;
-}
-
-.profile-heading {
-  position: relative;
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin-bottom: 16px;
-  color: var(--primary);
-  letter-spacing: -0.01em;
-  /* P38 r28: h3 视觉锚点 — 2px accent bar 左侧 rail.
-     与 HermesMemoryView .profile-heading 同源 (r27 section-title 3px bar 的 h3 变体).
-     HermesMemoryView 在 P38 r20 升级时漏了这条, HomeView 跟着 HermesMemoryView 漏.
-     2px bar + 10px padding-left 让 h3 与下方 hermes-card 视觉断点更清晰. */
-  padding-left: 10px;
-}
-
-.profile-heading::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 2px;
-  height: 70%;
-  background: var(--accent);
-  border-radius: 0 2px 2px 0;
-}
-
-/* P38 r35: .hermes-card 视觉对齐统一卡片家族 (r13 全站 4 套 + 现在的 5 套).
-   之前 .hermes-card 是无 border / 无 hover / 无 transition 的"裸 box",
-   与同页面 .unified-card (带 box-shadow + border + hover lift + ::before 渐变 bar) 视觉差 2 个档次,
-   用户在 home 页上感觉"两块卡片来自两个项目".
-   现在补齐: 1px border (与 MemoryCard / CollectionCard / DashboardWidget / TemplateCard 同源),
-   box-shadow (var(--shadow) token), hover 上升 2px (比 unified-card 的 3px 轻一档,
-   因为 hermes-card 内部是文本块, 不需要太多 lift), transition 0.25s cubic-bezier 同手感. */
-.hermes-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 16px;
-  box-shadow: var(--shadow);
-  transition: box-shadow 0.25s cubic-bezier(0.25, 0.1, 0.25, 1),
-              transform 0.25s cubic-bezier(0.25, 0.1, 0.25, 1),
-              border-color 0.2s ease;
-}
-
-.hermes-card:hover {
-  border-color: var(--border-strong);
-  box-shadow: var(--shadow-hover);
-  transform: translateY(-2px);
-}
-
-.hermes-label {
-  font-size: 0.7rem;
-  font-weight: 500;
-  color: var(--text-secondary);
-  margin-bottom: 8px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.hermes-card p {
-  font-size: 0.875rem;
-  line-height: 1.6;
-  color: var(--primary);
-  white-space: pre-wrap;
-  word-break: break-word;
-}
 
 .skeleton-card {
   height: 120px;

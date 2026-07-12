@@ -288,8 +288,12 @@ def _runtime_config_from_settings(config: dict | None = None) -> dict:
         elif source_type == "hermes":
             if hermes_override:
                 source_config["memories_dir"] = settings.HERMES_MEMORIES_DIR
+            else:
+                source_config.setdefault("memories_dir", settings.HERMES_MEMORIES_DIR)
             if hermes_profiles_override:
                 source_config["profiles_dir"] = settings.HERMES_PROFILES_DIR
+            else:
+                source_config.setdefault("profiles_dir", settings.HERMES_PROFILES_DIR)
 
     return runtime_config
 

@@ -124,6 +124,12 @@ const detail = computed(() => {
         ...(memory.createdAt ? [{ label: t('en_created'), value: formatDate(memory.createdAt) }] : []),
         ...(memory.updatedAt ? [{ label: t('en_updated'), value: formatDate(memory.updatedAt) }] : []),
         { label: t('i18n.preview_provider'), value: memory.source || t('i18n.preview_unknown') },
+        ...(stringValue(memory.metadata?.profile)
+          ? [{ label: t('i18n.preview_profile'), value: stringValue(memory.metadata?.profile) }]
+          : []),
+        ...(stringValue(memory.metadata?.file)
+          ? [{ label: t('i18n.preview_file'), value: stringValue(memory.metadata?.file) }]
+          : []),
         { label: t('i18n.preview_memory_id'), value: memory.id },
       ],
     }
@@ -164,6 +170,10 @@ const fullDetailPath = computed(() => {
 
 function stringList(value: unknown) {
   return Array.isArray(value) ? value.filter((item): item is string => typeof item === 'string') : []
+}
+
+function stringValue(value: unknown) {
+  return typeof value === 'string' ? value : ''
 }
 
 function hasStrength(value: unknown): value is number {

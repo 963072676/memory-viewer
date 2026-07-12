@@ -1,6 +1,30 @@
 """Tests for initialized unified memory source endpoints."""
 
 
+def test_runtime_config_injects_hermes_profiles_path(monkeypatch, profiles_dir):
+    from app.adapters.registry import _runtime_config_from_settings
+    from app.config import settings
+
+    monkeypatch.delenv("MV_HERMES_PROFILES_DIR", raising=False)
+    monkeypatch.delenv("HERMES_PROFILES_DIR", raising=False)
+    monkeypatch.setattr(settings, "HERMES_PROFILES_DIR", profiles_dir)
+
+    config = {
+        "sources": [
+            {
+                "name": "hermes",
+                "type": "hermes",
+                "enabled": True,
+                "config": {"memories_dir": "data/memories"},
+            }
+        ]
+    }
+
+    runtime = _runtime_config_from_settings(config)
+
+    assert runtime["sources"][0]["config"]["profiles_dir"] == profiles_dir
+
+
 def test_sources_endpoint_initializes_runtime_registry(client):
     """GET /api/sources should expose configured providers after app import."""
     response = client.get("/api/sources")

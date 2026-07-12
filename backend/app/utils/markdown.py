@@ -1,10 +1,16 @@
 """Markdown and § delimiter parsing utilities."""
 
+import re
+
+
+_FRONTMATTER_RE = re.compile(r"^---\s*\r?\n.*?\r?\n---\s*(?:\r?\n|$)", re.DOTALL)
+
 
 def parse_section_entries(content: str) -> list[str]:
     """Split content by § delimiter, strip whitespace, filter empty."""
     if not content:
         return []
+    content = _FRONTMATTER_RE.sub("", content, count=1)
     entries = content.split("§")
     return [e.strip() for e in entries if e.strip()]
 

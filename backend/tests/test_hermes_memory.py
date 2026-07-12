@@ -16,6 +16,21 @@ def test_read_file_safe_falls_back_to_legacy_windows_encoding(tmp_path):
     ]
 
 
+def test_parse_section_entries_ignores_frontmatter():
+    from app.services.hermes_memory import _parse_section_entries
+
+    content = """---
+title: Project memory
+type: project
+---
+
+§ First memory
+§ Second memory
+"""
+
+    assert _parse_section_entries(content) == ["First memory", "Second memory"]
+
+
 def test_get_hermes_memory(client):
     """Test GET /api/hermes-memory returns global + profile data."""
     resp = client.get("/api/hermes-memory")

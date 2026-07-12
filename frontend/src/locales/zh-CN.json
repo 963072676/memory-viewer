@@ -809,5 +809,11 @@
   "i18n.search_load_failed": "搜索暂时不可用，请稍后重试。",
   "i18n.search_no_results_title": "没有找到匹配的记忆",
   "i18n.search_no_results_message": "尝试更换关键词、切换搜索模式或放宽筛选条件。",
-  "i18n.search_unknown_title": "未命名记忆"
+  "i18n.search_unknown_title": "未命名记忆",
+  "i18n.hermes_entry_count": "{count} 条记忆",
+  "i18n.hermes_load_failed": "无法读取 Hermes 记忆，请检查数据源连接后重试。",
+  "i18n.hermes_empty_title": "还没有 Hermes 记忆",
+  "i18n.hermes_empty_message": "从 Hermes Agent 同步记忆，或前往数据源管理检查连接。",
+  "i18n.preview_profile": "配置范围",
+  "i18n.preview_file": "来源文件"
 }

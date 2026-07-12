@@ -808,5 +808,11 @@
   "i18n.search_load_failed": "Search is temporarily unavailable. Try again shortly.",
   "i18n.search_no_results_title": "No matching memories",
   "i18n.search_no_results_message": "Try another query, switch search modes, or broaden the active filters.",
-  "i18n.search_unknown_title": "Untitled memory"
+  "i18n.search_unknown_title": "Untitled memory",
+  "i18n.hermes_entry_count": "{count} memories",
+  "i18n.hermes_load_failed": "Unable to load Hermes memories. Check the source connection and try again.",
+  "i18n.hermes_empty_title": "No Hermes memories yet",
+  "i18n.hermes_empty_message": "Sync memories from Hermes Agent or check the connection in source management.",
+  "i18n.preview_profile": "Profile scope",
+  "i18n.preview_file": "Source file"
 }
