@@ -276,8 +276,13 @@ onUnmounted(() => {
   border-radius: 16px;
   padding: 16px 20px;
   box-sizing: border-box;
-  min-width: min(280px, calc(100vw - 24px));
-  max-width: min(320px, calc(100vw - 24px));
+  display: flex;
+  flex-direction: column;
+  width: min(320px, calc(100vw - 24px));
+  max-height: calc(100vh - 24px);
+  max-height: calc(100dvh - 24px);
+  overflow: hidden;
+  overscroll-behavior: contain;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
   pointer-events: auto;
   z-index: 9999;
@@ -327,6 +332,8 @@ onUnmounted(() => {
 }
 
 .tooltip-body {
+  min-height: 0;
+  overflow-y: auto;
   font-size: 14px;
   color: #555;
   line-height: 1.5;
@@ -334,9 +341,11 @@ onUnmounted(() => {
 }
 
 .tooltip-footer {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr;
   align-items: center;
-  gap: 12px;
+  column-gap: 12px;
+  row-gap: 10px;
 }
 
 .btn-skip {
@@ -348,11 +357,14 @@ onUnmounted(() => {
   font-size: 13px;
   cursor: pointer;
   padding: 4px 8px;
+  white-space: nowrap;
 }
 
 .nav-dots {
   display: flex;
+  justify-content: flex-end;
   gap: 4px;
+  min-width: 0;
 }
 
 .dot {
@@ -372,16 +384,21 @@ onUnmounted(() => {
 
 .nav-btns {
   display: flex;
+  grid-column: 1 / -1;
+  justify-content: flex-end;
   gap: 8px;
-  margin-left: auto;
+  width: 100%;
 }
 
 .btn-nav {
+  flex: 0 0 auto;
   padding: 6px 16px;
   border-radius: 8px;
   border: 1px solid var(--border, #e0e0e0);
   background: var(--bg-recessed);
   font-size: 13px;
+  line-height: 1.4;
+  white-space: nowrap;
   cursor: pointer;
   transition: all 0.2s;
 }
