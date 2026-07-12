@@ -1,22 +1,30 @@
 <template>
   <div class="tab-bar">
-    <div class="tabs">
+    <div class="tabs" role="tablist" :aria-label="$t('i18n.memory_source_tabs')">
       <button
         v-for="tab in tabs"
         :key="tab.value"
         class="tab-btn"
         :class="{ active: uiStore.currentTab === tab.value }"
+        role="tab"
+        :aria-selected="uiStore.currentTab === tab.value"
         @click="uiStore.setTab(tab.value)"
       >
-        {{ tab.label }}
+        {{ $t(tab.labelKey) }}
         <kbd class="tab-key">{{ tab.key }}</kbd>
       </button>
     </div>
     <div class="expand-controls">
       <button class="expand-btn" @click="uiStore.toggleAllExpanded()">
-        {{ uiStore.allExpanded ? '全部折叠' : '全部展开' }}
+        {{ uiStore.allExpanded ? $t('i18n.collapse_all') : $t('i18n.expand_all') }}
       </button>
-      <button class="help-btn" @click="uiStore.toggleKeyboardHelp()" title="$t('i18n.keyboard_shortcuts') (?)">⌨️</button>
+      <button
+        class="help-btn"
+        type="button"
+        :title="$t('i18n.keyboard_shortcuts')"
+        :aria-label="$t('i18n.keyboard_shortcuts')"
+        @click="uiStore.toggleKeyboardHelp()"
+      >⌨️</button>
     </div>
   </div>
 </template>
@@ -27,9 +35,9 @@ import { useUIStore } from '@/stores/ui'
 const uiStore = useUIStore()
 
 const tabs = [
-  { label: '全部', value: 'all' as const, key: '1' },
-  { label: 'AgentMemory', value: 'agentmemory' as const, key: '2' },
-  { label: 'Hermes Memory', value: 'hermes' as const, key: '3' },
+  { labelKey: 'i18n.all', value: 'all' as const, key: '1' },
+  { labelKey: 'i18n.tab_agentmemory', value: 'agentmemory' as const, key: '2' },
+  { labelKey: 'i18n.tab_hermes_memory', value: 'hermes' as const, key: '3' },
 ]
 </script>
 

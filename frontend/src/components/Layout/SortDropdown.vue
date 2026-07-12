@@ -1,12 +1,18 @@
 <template>
   <div class="sort-dropdown">
-    <label for="sort-select" class="sr-only">排序方式</label>
+    <label for="sort-select" class="sr-only">{{ $t('i18n.sort_label') }}</label>
     <select id="sort-select" :value="uiStore.sortBy" @change="onSortChange" class="sort-select">
       <option value="updatedAt">{{ $t('i18n.time') }}</option>
       <option value="strength">{{ $t('i18n.strength') }}</option>
       <option value="type">{{ $t('i18n.search.by_type') }}</option>
     </select>
-    <button class="order-btn" @click="uiStore.toggleSortOrder()" :title="uiStore.sortOrder === 'desc' ? '降序' : '升序'">
+    <button
+      class="order-btn"
+      type="button"
+      @click="uiStore.toggleSortOrder()"
+      :title="uiStore.sortOrder === 'desc' ? $t('i18n.sort_descending') : $t('i18n.sort_ascending')"
+      :aria-label="uiStore.sortOrder === 'desc' ? $t('i18n.sort_descending') : $t('i18n.sort_ascending')"
+    >
       {{ uiStore.sortOrder === 'desc' ? '↓' : '↑' }}
     </button>
   </div>

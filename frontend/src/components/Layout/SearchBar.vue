@@ -7,10 +7,12 @@
     <input
       type="text"
       data-search-input
-      aria-label="搜索记忆"
+      :aria-label="$t('i18n.search.placeholder')"
       :value="uiStore.searchQuery"
       @input="onInput"
-      :placeholder="searchMode === 'semantic' ? '🧠 语义搜索记忆...' : '搜索记忆... (按 / 聚焦)'"
+      :placeholder="searchMode === 'semantic'
+        ? $t('i18n.search_semantic_placeholder')
+        : $t('i18n.search_keyword_placeholder')"
       class="search-input"
       :class="{ 'search-input--semantic': searchMode === 'semantic' }"
     />
@@ -18,11 +20,13 @@
       class="mode-toggle"
       :class="{ 'mode-toggle--semantic': searchMode === 'semantic' }"
       @click="toggleMode"
-      :aria-label="searchMode === 'semantic' ? '切换到关键词搜索' : '切换到语义搜索'"
-      :title="searchMode === 'semantic' ? '切换到关键词搜索' : '切换到语义搜索'"
+      :aria-label="searchMode === 'semantic' ? $t('i18n.switch_keyword') : $t('i18n.switch_semantic')"
+      :title="searchMode === 'semantic' ? $t('i18n.switch_keyword') : $t('i18n.switch_semantic')"
     >
       <span class="mode-toggle__label">
-        {{ searchMode === 'semantic' ? '🧠 Semantic' : '🔤 Keyword' }}
+        {{ searchMode === 'semantic'
+          ? `🧠 ${$t('i18n.search_mode_semantic')}`
+          : `🔤 ${$t('i18n.search_mode_keyword')}` }}
       </span>
     </button>
     <button v-if="uiStore.searchQuery" class="clear-btn" @click="clear" :aria-label="$t('i18n.clear_search')">✕</button>

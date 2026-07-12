@@ -6,10 +6,11 @@
         :key="btn.id"
         class="quick-btn"
         :class="{ active: activeButton === btn.id }"
+        :aria-pressed="activeButton === btn.id"
         @click="selectButton(btn)"
       >
         <span class="quick-btn__icon">{{ btn.icon }}</span>
-        <span class="quick-btn__label">{{ btn.label }}</span>
+        <span class="quick-btn__label">{{ $t(btn.labelKey) }}</span>
       </button>
     </div>
   </div>
@@ -23,7 +24,7 @@ const STORAGE_KEY = 'quick-access-active'
 
 interface QuickButton {
   id: string
-  label: string
+  labelKey: string
   icon: string
   route?: string
   query?: Record<string, string>
@@ -34,10 +35,10 @@ const route = useRoute()
 const activeButton = ref('all')
 
 const buttons: QuickButton[] = [
-  { id: 'all', label: '全部记忆', icon: '📋', route: '/' },
-  { id: 'favorites', label: '收藏', icon: '⭐', route: '/', query: { filter: 'favorite' } },
-  { id: 'recent7', label: '最近7天', icon: '📅', route: '/', query: { filter: 'recent7' } },
-  { id: 'graph', label: '图表', icon: '📊', route: '/graph' },
+  { id: 'all', labelKey: 'i18n.quick_all_memories', icon: '📋', route: '/' },
+  { id: 'favorites', labelKey: 'i18n.quick_favorites', icon: '⭐', route: '/', query: { filter: 'favorite' } },
+  { id: 'recent7', labelKey: 'i18n.quick_recent_7_days', icon: '📅', route: '/', query: { filter: 'recent7' } },
+  { id: 'graph', labelKey: 'i18n.quick_graph', icon: '📊', route: '/graph' },
 ]
 
 function selectButton(btn: QuickButton) {

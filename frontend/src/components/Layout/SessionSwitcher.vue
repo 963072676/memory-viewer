@@ -1,7 +1,7 @@
 <template>
   <div class="session-switcher">
     <div class="session-control">
-      <label for="active-session">Session</label>
+      <label for="active-session">{{ $t('i18n.session_label') }}</label>
       <select
         id="active-session"
         :value="sessionStore.activeSessionId"
@@ -9,7 +9,7 @@
         :disabled="sessionStore.loading"
         @change="onSessionChange"
       >
-        <option value="">All sessions</option>
+        <option value="">{{ $t('i18n.session_all') }}</option>
         <option
           v-for="session in sessionStore.sessionOptions"
           :key="`${session.provider}-${session.id}`"
@@ -20,8 +20,8 @@
       </select>
     </div>
 
-    <div class="session-meta">
-      <span>{{ sessionStore.sessionOptions.length }} sessions</span>
+    <div class="session-meta" aria-live="polite">
+      <span>{{ $t('i18n.session_count', sessionStore.sessionOptions.length) }}</span>
       <span>{{ activeLabel }}</span>
     </div>
 
@@ -29,25 +29,29 @@
       class="action-btn action-btn--sm"
       type="button"
       :disabled="sessionStore.loading"
-      aria-label="Refresh sessions"
-      title="Refresh sessions"
+      :aria-label="$t('i18n.session_refresh')"
+      :title="$t('i18n.session_refresh')"
       @click="refreshSessions"
     >
-      Refresh
+      {{ sessionStore.loading ? $t('i18n.session_refreshing') : $t('i18n.session_refresh') }}
     </button>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed, onMounted, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useSessionStore } from '@/stores/sessions'
 import { useAgentMemoryStore } from '@/stores/agentmemory'
 
 const sessionStore = useSessionStore()
 const agentMemoryStore = useAgentMemoryStore()
+const { t } = useI18n()
 
 const activeLabel = computed(() => (
-  sessionStore.activeSessionId ? `Active ${sessionStore.activeSessionId}` : 'All memory'
+  sessionStore.activeSessionId
+    ? t('i18n.session_active', { id: sessionStore.activeSessionId })
+    : t('i18n.session_all_memory')
 ))
 
 function onSessionChange(event: Event) {
