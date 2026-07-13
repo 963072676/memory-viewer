@@ -78,12 +78,55 @@
           <div class="block-title">{{ $t('i18n.intelligence_clusters') }}</div>
           <div v-if="!clusters?.clusters.length" class="empty-line">{{ $t('i18n.intelligence_no_clusters') }}</div>
           <div v-else class="cluster-list">
-            <div v-for="cluster in clusters.clusters.slice(0, 5)" :key="cluster.id" class="cluster-row">
-              <div>
-                <strong>{{ cluster.name }}</strong>
-                <span>{{ cluster.providers.join(', ') }}</span>
+            <div v-for="cluster in clusters.clusters" :key="cluster.id" class="cluster-item">
+              <button
+                class="cluster-row"
+                type="button"
+                :aria-expanded="expandedClusterId === cluster.id"
+                :aria-controls="`intelligence-${cluster.id}`"
+                @click="toggleCluster(cluster.id)"
+              >
+                <span class="cluster-heading">
+                  <strong>{{ cluster.name }}</strong>
+                  <span>{{ cluster.providers.join(', ') }}</span>
+                </span>
+                <span class="cluster-actions">
+                  <span class="count-badge">{{ cluster.count }}</span>
+                  <span
+                    class="cluster-chevron"
+                    :class="{ 'cluster-chevron--open': expandedClusterId === cluster.id }"
+                    aria-hidden="true"
+                  >›</span>
+                </span>
+              </button>
+
+              <div
+                v-if="expandedClusterId === cluster.id"
+                :id="`intelligence-${cluster.id}`"
+                class="cluster-members"
+              >
+                <div class="cluster-members__meta">
+                  {{ $t('i18n.intelligence_cluster_members', { count: cluster.members.length }) }}
+                </div>
+                <RouterLink
+                  v-for="member in cluster.members"
+                  :key="`${member.provider}-${member.id}`"
+                  class="cluster-member"
+                  :to="{
+                    name: 'memory-detail',
+                    params: { id: member.id },
+                    query: { source: member.provider },
+                  }"
+                  :aria-label="$t('i18n.intelligence_open_memory', { title: member.title })"
+                >
+                  <span class="cluster-member__body">
+                    <strong>{{ member.title }}</strong>
+                    <span>{{ member.content }}</span>
+                  </span>
+                  <span class="cluster-member__provider">{{ member.provider }}</span>
+                  <span class="cluster-member__arrow" aria-hidden="true">→</span>
+                </RouterLink>
               </div>
-              <span class="count-badge">{{ cluster.count }}</span>
             </div>
           </div>
         </div>
@@ -131,6 +174,7 @@ const contradictions = ref<IntelligenceContradictions | null>(null)
 const loading = ref(false)
 const compressing = ref(false)
 const error = ref<string | null>(null)
+const expandedClusterId = ref<string | null>(null)
 
 const providerLabel = computed(() => (
   summary.value?.providers.length ? summary.value.providers.join(', ') : t('i18n.intelligence_all_providers')
@@ -151,6 +195,9 @@ async function loadAll() {
     summary.value = nextSummary
     clusters.value = nextClusters
     contradictions.value = nextContradictions
+    if (expandedClusterId.value && !nextClusters.clusters.some(cluster => cluster.id === expandedClusterId.value)) {
+      expandedClusterId.value = null
+    }
   } catch (e: any) {
     error.value = e?.message || t('i18n.intelligence_load_failed')
   } finally {
@@ -174,12 +221,17 @@ async function compress() {
   }
 }
 
+function toggleCluster(clusterId: string) {
+  expandedClusterId.value = expandedClusterId.value === clusterId ? null : clusterId
+}
+
 onMounted(() => {
   loadAll()
 })
 
 watch(() => sessionStore.activeSessionId, () => {
   compression.value = null
+  expandedClusterId.value = null
   loadAll()
 })
 </script>
@@ -360,7 +412,22 @@ watch(() => sessionStore.activeSessionId, () => {
 .contradiction-list {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+}
+
+.cluster-list {
+  max-height: 520px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.cluster-item,
+.contradiction-row {
+  border-top: 1px solid var(--border);
+}
+
+.cluster-item:first-child,
+.contradiction-row:first-child {
+  border-top: none;
 }
 
 .cluster-row,
@@ -371,32 +438,147 @@ watch(() => sessionStore.activeSessionId, () => {
   gap: var(--space-3);
   min-height: 42px;
   padding: var(--space-2) 0;
-  border-top: 1px solid var(--border);
 }
 
-.cluster-row:first-child,
-.contradiction-row:first-child {
-  border-top: none;
+.cluster-row {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
 }
 
-.cluster-row strong,
-.cluster-row span {
+.cluster-row:hover .cluster-heading strong,
+.cluster-row:focus-visible .cluster-heading strong {
+  color: var(--accent);
+}
+
+.cluster-row:focus-visible {
+  border-radius: var(--radius-sm);
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.cluster-heading,
+.cluster-heading strong,
+.cluster-heading span {
   display: block;
 }
 
-.cluster-row strong {
-  color: var(--primary);
-  font-size: 0.84rem;
+.cluster-heading {
+  min-width: 0;
 }
 
-.cluster-row span {
+.cluster-heading strong {
+  color: var(--primary);
+  font-size: 0.84rem;
+  transition: color 0.15s ease;
+}
+
+.cluster-heading span {
   color: var(--text-secondary);
   font-size: 0.76rem;
+}
+
+.cluster-actions {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: var(--space-2);
 }
 
 .count-badge {
   background: var(--tag-bg);
   color: var(--primary);
+}
+
+.cluster-chevron {
+  color: var(--text-secondary);
+  font-size: 1.25rem;
+  line-height: 1;
+  transform: rotate(0deg);
+  transition: transform 0.15s ease;
+}
+
+.cluster-chevron--open {
+  transform: rotate(90deg);
+}
+
+.cluster-members {
+  margin: 0 0 var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-left: 2px solid var(--accent);
+  background: var(--bg);
+}
+
+.cluster-members__meta {
+  margin-bottom: var(--space-1);
+  color: var(--text-tertiary);
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.cluster-member {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto 16px;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) 0;
+  color: inherit;
+  text-decoration: none;
+}
+
+.cluster-member + .cluster-member {
+  border-top: 1px solid var(--border);
+}
+
+.cluster-member:hover .cluster-member__body strong,
+.cluster-member:focus-visible .cluster-member__body strong {
+  color: var(--accent);
+}
+
+.cluster-member:focus-visible {
+  border-radius: var(--radius-sm);
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.cluster-member__body {
+  min-width: 0;
+}
+
+.cluster-member__body strong,
+.cluster-member__body span {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cluster-member__body strong {
+  color: var(--primary);
+  font-size: 0.8rem;
+  transition: color 0.15s ease;
+}
+
+.cluster-member__body span,
+.cluster-member__provider {
+  color: var(--text-secondary);
+  font-size: 0.72rem;
+}
+
+.cluster-member__provider {
+  max-width: 110px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cluster-member__arrow {
+  color: var(--accent);
+  font-size: 0.85rem;
 }
 
 .severity-pill {
@@ -420,6 +602,14 @@ watch(() => sessionStore.activeSessionId, () => {
 
   .intelligence-layout {
     grid-template-columns: 1fr;
+  }
+
+  .cluster-member {
+    grid-template-columns: minmax(0, 1fr) 16px;
+  }
+
+  .cluster-member__provider {
+    display: none;
   }
 }
 </style>

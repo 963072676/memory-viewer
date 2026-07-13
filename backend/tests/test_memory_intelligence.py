@@ -19,7 +19,11 @@ def test_memory_intelligence_summary_clusters_and_compression(client):
     clusters = clusters_response.json()
     assert clusters["memoryCount"] == 3
     assert clusters["total"] >= 1
-    assert clusters["clusters"][0]["memoryIds"]
+    first_cluster = clusters["clusters"][0]
+    assert first_cluster["memoryIds"]
+    assert [member["id"] for member in first_cluster["members"]] == first_cluster["memoryIds"]
+    assert {member["provider"] for member in first_cluster["members"]} == {"agentmemory"}
+    assert all(member["title"] and member["content"] for member in first_cluster["members"])
 
     compression_response = client.post(
         "/api/intelligence/compress",

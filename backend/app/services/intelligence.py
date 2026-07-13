@@ -148,12 +148,22 @@ def cluster_memories(items: list[MemoryItem]) -> dict[str, Any]:
 
     clusters = []
     for index, (key, members) in enumerate(sorted(grouped.items(), key=lambda pair: (-len(pair[1]), pair[0]))):
+        cluster_members = [
+            {
+                "id": member.id,
+                "provider": member.metadata.source,
+                "title": _title(member),
+                "content": member.content[:220],
+            }
+            for member in members
+        ]
         clusters.append(
             {
                 "id": f"cluster-{index}",
                 "name": key.title(),
                 "count": len(members),
                 "memoryIds": [member.id for member in members],
+                "members": cluster_members,
                 "providers": sorted({member.metadata.source for member in members}),
                 "keywords": _top_terms(members, limit=5),
             }

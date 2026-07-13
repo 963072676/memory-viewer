@@ -22,8 +22,16 @@ export interface IntelligenceCluster {
   name: string
   count: number
   memoryIds: string[]
+  members: IntelligenceClusterMember[]
   providers: string[]
   keywords: string[]
+}
+
+export interface IntelligenceClusterMember {
+  id: string
+  provider: string
+  title: string
+  content: string
 }
 
 export interface IntelligenceClusters {

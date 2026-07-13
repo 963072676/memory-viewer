@@ -686,6 +686,8 @@
   "i18n.intelligence_no_contradictions": "None detected.",
   "i18n.intelligence_load_failed": "Failed to load memory intelligence",
   "i18n.intelligence_compress_failed": "Failed to compress memories",
+  "i18n.intelligence_cluster_members": "{count} member memories",
+  "i18n.intelligence_open_memory": "Open memory details: {title}",
   "i18n.settings_tab_sources": "Memory sources",
   "i18n.settings_tab_providers": "Providers",
   "i18n.settings_tab_webhook": "Webhook",

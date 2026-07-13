@@ -240,6 +240,7 @@ async function handleBulkAutoTagFromPalette() {
 
 .main-wrapper {
   flex: 1;
+  min-width: 0;
   margin-left: 220px;
   min-height: 100vh;
   max-width: calc(100vw - 220px);

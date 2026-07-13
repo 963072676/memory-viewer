@@ -687,6 +687,8 @@
   "i18n.intelligence_no_contradictions": "未检测到矛盾。",
   "i18n.intelligence_load_failed": "加载记忆智能分析失败",
   "i18n.intelligence_compress_failed": "压缩记忆失败",
+  "i18n.intelligence_cluster_members": "{count} 条成员记忆",
+  "i18n.intelligence_open_memory": "打开记忆详情：{title}",
   "i18n.settings_tab_sources": "记忆源",
   "i18n.settings_tab_providers": "提供方",
   "i18n.settings_tab_webhook": "Webhook",
