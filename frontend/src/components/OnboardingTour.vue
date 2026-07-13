@@ -128,17 +128,26 @@ function findVerticalScrollContainer(element: HTMLElement) {
   return null
 }
 
+function getViewportBounds() {
+  const viewport = window.visualViewport
+  return {
+    left: viewport?.offsetLeft ?? 0,
+    top: viewport?.offsetTop ?? 0,
+    width: viewport?.width ?? window.innerWidth,
+    height: viewport?.height ?? window.innerHeight,
+  }
+}
+
 function scrollTargetIntoViewport(element: HTMLElement, rect: DOMRect) {
-  const visualViewportTop = window.visualViewport?.offsetTop ?? 0
-  const visualViewportHeight = window.visualViewport?.height ?? window.innerHeight
+  const viewport = getViewportBounds()
   const scrollContainer = findVerticalScrollContainer(element)
   const containerRect = scrollContainer?.getBoundingClientRect()
   const visibleTop = Math.max(
-    visualViewportTop + VIEWPORT_EDGE_MARGIN,
+    viewport.top + VIEWPORT_EDGE_MARGIN,
     containerRect?.top ?? Number.NEGATIVE_INFINITY,
   )
   const visibleBottom = Math.min(
-    visualViewportTop + visualViewportHeight - VIEWPORT_EDGE_MARGIN,
+    viewport.top + viewport.height - VIEWPORT_EDGE_MARGIN,
     containerRect?.bottom ?? Number.POSITIVE_INFINITY,
   )
   const scrollDelta = rect.top < visibleTop
@@ -207,6 +216,13 @@ async function positionElements() {
     left: `${target.rect.left}px`,
   }
 
+  const viewport = getViewportBounds()
+  const tooltipMaxHeight = Math.max(1, viewport.height - VIEWPORT_EDGE_MARGIN * 2)
+  tooltipStyle.value = {
+    visibility: 'hidden',
+    maxHeight: `${tooltipMaxHeight}px`,
+  }
+
   await nextTick()
   if (!isActive.value || requestId !== positionRequestId || !tooltipElement.value) return
 
@@ -215,8 +231,10 @@ async function positionElements() {
     preferred: currentStep.value.position,
     target: target.rect,
     tooltip: tooltipRect,
-    viewportWidth: window.innerWidth,
-    viewportHeight: window.innerHeight,
+    viewportWidth: viewport.width,
+    viewportHeight: viewport.height,
+    viewportLeft: viewport.left,
+    viewportTop: viewport.top,
   })
   tooltipPlacement.value = resolved.placement
   tooltipStyle.value = {
@@ -224,6 +242,7 @@ async function positionElements() {
     left: `${resolved.left}px`,
     transform: 'none',
     visibility: 'visible',
+    maxHeight: `${tooltipMaxHeight}px`,
   }
 }
 
@@ -343,6 +362,7 @@ onUnmounted(() => {
   gap: 12px;
   margin-bottom: 12px;
   min-width: 0;
+  min-height: max-content;
 }
 
 .tooltip-icon {
@@ -398,6 +418,7 @@ onUnmounted(() => {
   column-gap: 12px;
   row-gap: 10px;
   min-width: 0;
+  min-height: max-content;
 }
 
 .btn-skip {

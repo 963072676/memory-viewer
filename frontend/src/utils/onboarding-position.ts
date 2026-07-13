@@ -15,6 +15,8 @@ export interface ResolveTooltipPositionOptions {
   tooltip: Pick<RectLike, 'width' | 'height'>
   viewportWidth: number
   viewportHeight: number
+  viewportLeft?: number
+  viewportTop?: number
   gap?: number
   edgeMargin?: number
 }
@@ -48,14 +50,18 @@ export function resolveTooltipPosition({
   tooltip,
   viewportWidth,
   viewportHeight,
+  viewportLeft = 0,
+  viewportTop = 0,
   gap = 16,
   edgeMargin = 12,
 }: ResolveTooltipPositionOptions) {
+  const viewportRight = viewportLeft + viewportWidth
+  const viewportBottom = viewportTop + viewportHeight
   const available = {
-    top: target.top - gap,
-    bottom: viewportHeight - target.bottom - gap,
-    left: target.left - gap,
-    right: viewportWidth - target.right - gap,
+    top: target.top - viewportTop - gap,
+    bottom: viewportBottom - target.bottom - gap,
+    left: target.left - viewportLeft - gap,
+    right: viewportRight - target.right - gap,
   }
   const required = {
     top: tooltip.height,
@@ -92,7 +98,15 @@ export function resolveTooltipPosition({
 
   return {
     placement,
-    left: clamp(left, edgeMargin, viewportWidth - tooltip.width - edgeMargin),
-    top: clamp(top, edgeMargin, viewportHeight - tooltip.height - edgeMargin),
+    left: clamp(
+      left,
+      viewportLeft + edgeMargin,
+      viewportRight - tooltip.width - edgeMargin,
+    ),
+    top: clamp(
+      top,
+      viewportTop + edgeMargin,
+      viewportBottom - tooltip.height - edgeMargin,
+    ),
   }
 }
