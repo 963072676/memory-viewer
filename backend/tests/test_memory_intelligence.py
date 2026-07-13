@@ -41,12 +41,20 @@ def test_memory_intelligence_detects_provider_neutral_contradictions():
         MemoryItem(
             id="a",
             content="User prefers dark mode for hermes interface",
-            metadata=MemoryMetadata(source="agentmemory", timestamp=1),
+            metadata=MemoryMetadata(
+                source="agentmemory",
+                timestamp=1,
+                raw={"title": "Existing interface preference"},
+            ),
         ),
         MemoryItem(
             id="b",
             content="User does not prefer dark mode for hermes interface",
-            metadata=MemoryMetadata(source="hermes", timestamp=2),
+            metadata=MemoryMetadata(
+                source="hermes",
+                timestamp=2,
+                raw={"title": "Updated interface preference"},
+            ),
         ),
     ]
 
@@ -54,6 +62,16 @@ def test_memory_intelligence_detects_provider_neutral_contradictions():
 
     assert result["total"] == 1
     contradiction = result["contradictions"][0]
-    assert contradiction["memoryA"]["provider"] == "agentmemory"
-    assert contradiction["memoryB"]["provider"] == "hermes"
+    assert contradiction["memoryA"] == {
+        "id": "a",
+        "title": "Existing interface preference",
+        "content": "User prefers dark mode for hermes interface",
+        "provider": "agentmemory",
+    }
+    assert contradiction["memoryB"] == {
+        "id": "b",
+        "title": "Updated interface preference",
+        "content": "User does not prefer dark mode for hermes interface",
+        "provider": "hermes",
+    }
     assert {"dark", "mode", "hermes", "interface"}.intersection(contradiction["sharedTerms"])

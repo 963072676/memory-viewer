@@ -42,10 +42,17 @@ export interface IntelligenceClusters {
 
 export interface IntelligenceContradiction {
   id: string
-  memoryA: { id: string; content: string; provider: string }
-  memoryB: { id: string; content: string; provider: string }
+  memoryA: IntelligenceContradictionMemory
+  memoryB: IntelligenceContradictionMemory
   sharedTerms: string[]
   severity: 'low' | 'medium' | 'high' | string
+}
+
+export interface IntelligenceContradictionMemory {
+  id: string
+  title: string
+  content: string
+  provider: string
 }
 
 export interface IntelligenceContradictions {

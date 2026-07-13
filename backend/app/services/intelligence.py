@@ -186,8 +186,18 @@ def detect_contradictions(items: list[MemoryItem], limit: int = 20) -> dict[str,
             candidates.append(
                 {
                     "id": f"contradiction-{left.id}-{right.id}",
-                    "memoryA": {"id": left.id, "content": left.content[:220], "provider": left.metadata.source},
-                    "memoryB": {"id": right.id, "content": right.content[:220], "provider": right.metadata.source},
+                    "memoryA": {
+                        "id": left.id,
+                        "title": _title(left),
+                        "content": left.content[:220],
+                        "provider": left.metadata.source,
+                    },
+                    "memoryB": {
+                        "id": right.id,
+                        "title": _title(right),
+                        "content": right.content[:220],
+                        "provider": right.metadata.source,
+                    },
                     "sharedTerms": sorted(shared)[:8],
                     "severity": "medium" if len(shared) >= 4 else "low",
                 }

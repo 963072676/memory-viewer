@@ -131,17 +131,92 @@
           </div>
         </div>
 
-        <div class="intelligence-block">
+        <div class="intelligence-block intelligence-block--wide">
           <div class="block-title">{{ $t('i18n.intelligence_contradictions') }}</div>
           <div v-if="!contradictions?.contradictions.length" class="empty-line">{{ $t('i18n.intelligence_no_contradictions') }}</div>
           <div v-else class="contradiction-list">
             <div
-              v-for="item in contradictions.contradictions.slice(0, 3)"
+              v-for="item in contradictions.contradictions"
               :key="item.id"
-              class="contradiction-row"
+              class="contradiction-item"
+              :class="`contradiction-item--${item.severity}`"
             >
-              <span class="severity-pill">{{ item.severity }}</span>
-              <span>{{ item.sharedTerms.slice(0, 4).join(', ') }}</span>
+              <button
+                class="contradiction-row"
+                type="button"
+                :aria-expanded="expandedContradictionId === item.id"
+                :aria-controls="`intelligence-${item.id}`"
+                :aria-label="$t('i18n.intelligence_review_pair', {
+                  first: item.memoryA.title,
+                  second: item.memoryB.title,
+                })"
+                @click="toggleContradiction(item.id)"
+              >
+                <span class="contradiction-heading">
+                  <span class="severity-pill" :class="`severity-pill--${item.severity}`">
+                    {{ severityLabel(item.severity) }}
+                  </span>
+                  <span class="contradiction-terms">{{ item.sharedTerms.slice(0, 4).join(', ') }}</span>
+                </span>
+                <span
+                  class="cluster-chevron"
+                  :class="{ 'cluster-chevron--open': expandedContradictionId === item.id }"
+                  aria-hidden="true"
+                >›</span>
+              </button>
+
+              <div
+                v-if="expandedContradictionId === item.id"
+                :id="`intelligence-${item.id}`"
+                class="contradiction-review"
+              >
+                <div class="shared-terms">
+                  <span class="shared-terms__label">{{ $t('i18n.intelligence_shared_terms') }}</span>
+                  <span class="shared-terms__chips">
+                    <span v-for="term in item.sharedTerms" :key="term" class="keyword-chip">{{ term }}</span>
+                  </span>
+                </div>
+
+                <div class="contradiction-pair">
+                  <RouterLink
+                    class="contradiction-memory"
+                    :to="{
+                      name: 'memory-detail',
+                      params: { id: item.memoryA.id },
+                      query: { source: item.memoryA.provider },
+                    }"
+                    :aria-label="$t('i18n.intelligence_open_memory', { title: item.memoryA.title })"
+                  >
+                    <span class="contradiction-memory__meta">
+                      <span>{{ $t('i18n.intelligence_memory_a') }}</span>
+                      <span class="provider-chip">{{ item.memoryA.provider }}</span>
+                    </span>
+                    <strong>{{ item.memoryA.title }}</strong>
+                    <span class="contradiction-memory__content">{{ item.memoryA.content }}</span>
+                    <span class="contradiction-memory__arrow" aria-hidden="true">→</span>
+                  </RouterLink>
+
+                  <RouterLink
+                    class="contradiction-memory"
+                    :to="{
+                      name: 'memory-detail',
+                      params: { id: item.memoryB.id },
+                      query: { source: item.memoryB.provider },
+                    }"
+                    :aria-label="$t('i18n.intelligence_open_memory', { title: item.memoryB.title })"
+                  >
+                    <span class="contradiction-memory__meta">
+                      <span>{{ $t('i18n.intelligence_memory_b') }}</span>
+                      <span class="provider-chip">{{ item.memoryB.provider }}</span>
+                    </span>
+                    <strong>{{ item.memoryB.title }}</strong>
+                    <span class="contradiction-memory__content">{{ item.memoryB.content }}</span>
+                    <span class="contradiction-memory__arrow" aria-hidden="true">→</span>
+                  </RouterLink>
+                </div>
+
+                <div class="review-caption">{{ $t('i18n.intelligence_candidate_review') }}</div>
+              </div>
             </div>
           </div>
         </div>
@@ -175,6 +250,7 @@ const loading = ref(false)
 const compressing = ref(false)
 const error = ref<string | null>(null)
 const expandedClusterId = ref<string | null>(null)
+const expandedContradictionId = ref<string | null>(null)
 
 const providerLabel = computed(() => (
   summary.value?.providers.length ? summary.value.providers.join(', ') : t('i18n.intelligence_all_providers')
@@ -197,6 +273,12 @@ async function loadAll() {
     contradictions.value = nextContradictions
     if (expandedClusterId.value && !nextClusters.clusters.some(cluster => cluster.id === expandedClusterId.value)) {
       expandedClusterId.value = null
+    }
+    if (
+      expandedContradictionId.value
+      && !nextContradictions.contradictions.some(item => item.id === expandedContradictionId.value)
+    ) {
+      expandedContradictionId.value = null
     }
   } catch (e: any) {
     error.value = e?.message || t('i18n.intelligence_load_failed')
@@ -225,6 +307,15 @@ function toggleCluster(clusterId: string) {
   expandedClusterId.value = expandedClusterId.value === clusterId ? null : clusterId
 }
 
+function toggleContradiction(contradictionId: string) {
+  expandedContradictionId.value = expandedContradictionId.value === contradictionId ? null : contradictionId
+}
+
+function severityLabel(severity: string) {
+  const key = ['low', 'medium', 'high'].includes(severity) ? severity : 'unknown'
+  return t(`i18n.intelligence_severity_${key}`)
+}
+
 onMounted(() => {
   loadAll()
 })
@@ -232,6 +323,7 @@ onMounted(() => {
 watch(() => sessionStore.activeSessionId, () => {
   compression.value = null
   expandedClusterId.value = null
+  expandedContradictionId.value = null
   loadAll()
 })
 </script>
@@ -329,6 +421,10 @@ watch(() => sessionStore.activeSessionId, () => {
   padding: var(--space-5);
 }
 
+.intelligence-block--wide {
+  grid-column: 1 / -1;
+}
+
 .block-title {
   margin-bottom: var(--space-3);
   color: var(--primary);
@@ -420,13 +516,19 @@ watch(() => sessionStore.activeSessionId, () => {
   overscroll-behavior: contain;
 }
 
+.contradiction-list {
+  max-height: 620px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
 .cluster-item,
-.contradiction-row {
+.contradiction-item {
   border-top: 1px solid var(--border);
 }
 
 .cluster-item:first-child,
-.contradiction-row:first-child {
+.contradiction-item:first-child {
   border-top: none;
 }
 
@@ -440,7 +542,8 @@ watch(() => sessionStore.activeSessionId, () => {
   padding: var(--space-2) 0;
 }
 
-.cluster-row {
+.cluster-row,
+.contradiction-row {
   width: 100%;
   border: 0;
   background: transparent;
@@ -451,11 +554,14 @@ watch(() => sessionStore.activeSessionId, () => {
 }
 
 .cluster-row:hover .cluster-heading strong,
-.cluster-row:focus-visible .cluster-heading strong {
+.cluster-row:focus-visible .cluster-heading strong,
+.contradiction-row:hover .contradiction-terms,
+.contradiction-row:focus-visible .contradiction-terms {
   color: var(--accent);
 }
 
-.cluster-row:focus-visible {
+.cluster-row:focus-visible,
+.contradiction-row:focus-visible {
   border-radius: var(--radius-sm);
   outline: 2px solid var(--accent);
   outline-offset: -2px;
@@ -495,6 +601,12 @@ watch(() => sessionStore.activeSessionId, () => {
 }
 
 .cluster-chevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  overflow: hidden;
   color: var(--text-secondary);
   font-size: 1.25rem;
   line-height: 1;
@@ -581,6 +693,170 @@ watch(() => sessionStore.activeSessionId, () => {
   font-size: 0.85rem;
 }
 
+.contradiction-heading {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: var(--space-2);
+}
+
+.contradiction-terms {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color 0.15s ease;
+}
+
+.severity-pill--low {
+  background: var(--tag-bg);
+  color: var(--text-secondary);
+}
+
+.severity-pill--medium {
+  background: var(--warn-bg);
+  color: var(--warn-text);
+}
+
+.severity-pill--high {
+  background: var(--error-bg);
+  color: var(--error-text);
+}
+
+.contradiction-review {
+  margin: 0 0 var(--space-3);
+  padding: var(--space-3);
+  border-left: 2px solid var(--warn-text);
+  background: var(--bg);
+}
+
+.contradiction-item--low .contradiction-review {
+  border-left-color: var(--text-tertiary);
+}
+
+.contradiction-item--high .contradiction-review {
+  border-left-color: var(--error-text);
+}
+
+.shared-terms {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.shared-terms__label {
+  flex-shrink: 0;
+  padding-top: 3px;
+  color: var(--text-tertiary);
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.shared-terms__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.shared-terms .keyword-chip {
+  min-height: 20px;
+  padding: 1px 6px;
+  font-size: 0.68rem;
+}
+
+.contradiction-pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.contradiction-memory {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  color: inherit;
+  text-decoration: none;
+}
+
+.contradiction-memory + .contradiction-memory {
+  border-left: 1px solid var(--border);
+}
+
+.contradiction-memory:hover strong,
+.contradiction-memory:focus-visible strong {
+  color: var(--accent);
+}
+
+.contradiction-memory:focus-visible {
+  border-radius: var(--radius-sm);
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.contradiction-memory__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  color: var(--text-tertiary);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.provider-chip {
+  max-width: 120px;
+  overflow: hidden;
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  background: var(--tag-bg);
+  color: var(--text-secondary);
+  font-size: 0.66rem;
+  text-overflow: ellipsis;
+  text-transform: none;
+  white-space: nowrap;
+}
+
+.contradiction-memory strong {
+  padding-right: var(--space-4);
+  overflow: hidden;
+  color: var(--primary);
+  font-size: 0.8rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color 0.15s ease;
+}
+
+.contradiction-memory__content {
+  display: -webkit-box;
+  overflow: hidden;
+  color: var(--text-secondary);
+  font-size: 0.74rem;
+  line-height: 1.5;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.contradiction-memory__arrow {
+  position: absolute;
+  top: 42px;
+  right: var(--space-3);
+  color: var(--accent);
+  font-size: 0.85rem;
+}
+
+.review-caption {
+  margin-top: var(--space-2);
+  color: var(--text-tertiary);
+  font-size: 0.68rem;
+  text-align: center;
+}
+
 .severity-pill {
   background: var(--warn-bg);
   color: var(--warn-text);
@@ -610,6 +886,19 @@ watch(() => sessionStore.activeSessionId, () => {
 
   .cluster-member__provider {
     display: none;
+  }
+
+  .shared-terms {
+    flex-direction: column;
+  }
+
+  .contradiction-pair {
+    grid-template-columns: 1fr;
+  }
+
+  .contradiction-memory + .contradiction-memory {
+    border-top: 1px solid var(--border);
+    border-left: 0;
   }
 }
 </style>
