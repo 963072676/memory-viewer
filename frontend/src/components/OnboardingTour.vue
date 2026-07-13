@@ -84,6 +84,7 @@ const tooltipPlacement = ref<TooltipPlacement>('bottom')
 
 const LAYOUT_SETTLE_DELAY = 260
 const VIEWPORT_EDGE_MARGIN = 12
+const TARGET_COMFORT_MARGIN = 88
 let positionFrame = 0
 let positionSettleTimer: ReturnType<typeof setTimeout> | null = null
 let startTimer: ReturnType<typeof setTimeout> | null = null
@@ -150,11 +151,20 @@ function scrollTargetIntoViewport(element: HTMLElement, rect: DOMRect) {
     viewport.top + viewport.height - VIEWPORT_EDGE_MARGIN,
     containerRect?.bottom ?? Number.POSITIVE_INFINITY,
   )
-  const scrollDelta = rect.top < visibleTop
-    ? rect.top - visibleTop
-    : rect.bottom > visibleBottom
-      ? rect.bottom - visibleBottom
-      : 0
+  const availableHeight = Math.max(0, visibleBottom - visibleTop)
+  const comfortMargin = Math.min(
+    TARGET_COMFORT_MARGIN,
+    Math.max(0, (availableHeight - rect.height) / 2),
+  )
+  const comfortableTop = visibleTop + comfortMargin
+  const comfortableBottom = visibleBottom - comfortMargin
+  const needsRepositioning = rect.top < comfortableTop || rect.bottom > comfortableBottom
+
+  // Edge targets such as the Sources item need breathing room for the tooltip.
+  // Centering only when necessary avoids leaving the action row against the viewport edge.
+  const scrollDelta = needsRepositioning
+    ? rect.top + rect.height / 2 - (visibleTop + visibleBottom) / 2
+    : 0
 
   if (!scrollDelta) return false
   if (scrollContainer) {
@@ -344,8 +354,8 @@ onUnmounted(() => {
   border-radius: 16px;
   padding: 16px 20px;
   box-sizing: border-box;
-  display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto;
+  display: flex;
+  flex-direction: column;
   width: min(320px, calc(100vw - 24px));
   max-height: calc(100vh - 24px);
   max-height: calc(100dvh - 24px);
@@ -363,6 +373,7 @@ onUnmounted(() => {
   margin-bottom: 12px;
   min-width: 0;
   min-height: max-content;
+  flex: 0 0 auto;
 }
 
 .tooltip-icon {
@@ -402,6 +413,7 @@ onUnmounted(() => {
 }
 
 .tooltip-body {
+  flex: 1 1 auto;
   min-height: 0;
   overflow-y: auto;
   overscroll-behavior: contain;
@@ -412,6 +424,7 @@ onUnmounted(() => {
 }
 
 .tooltip-footer {
+  flex: 0 0 auto;
   display: grid;
   grid-template-columns: auto 1fr;
   align-items: center;
