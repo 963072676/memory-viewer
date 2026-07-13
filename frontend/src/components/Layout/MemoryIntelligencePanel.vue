@@ -29,11 +29,11 @@
       <div class="intelligence-stats">
         <div class="stat-tile">
           <span class="stat-label">{{ $t('i18n.intelligence_keywords') }}</span>
-          <strong>{{ summary?.keywords.length ?? 0 }}</strong>
+          <strong>{{ summary?.keywords?.length ?? 0 }}</strong>
         </div>
         <div class="stat-tile">
           <span class="stat-label">{{ $t('i18n.intelligence_tags') }}</span>
-          <strong>{{ summary?.topTags.length ?? 0 }}</strong>
+          <strong>{{ summary?.tagInsights?.length ?? summary?.topTags?.length ?? 0 }}</strong>
         </div>
         <div class="stat-tile">
           <span class="stat-label">{{ $t('i18n.intelligence_clusters') }}</span>
@@ -61,11 +61,67 @@
         <div class="intelligence-block">
           <div class="block-title">{{ $t('i18n.intelligence_top_tags') }}</div>
           <div v-if="!topTags.length" class="empty-line">{{ $t('i18n.intelligence_no_tags') }}</div>
-          <div v-else class="tag-cloud" :aria-label="$t('i18n.intelligence_top_tags')">
-            <span v-for="(tag, index) in topTags" :key="tag" class="tag-chip">
-              <span class="tag-rank">{{ index + 1 }}</span>
-              <span class="tag-label">{{ tag }}</span>
-            </span>
+          <div v-else class="tag-insight-list" :aria-label="$t('i18n.intelligence_top_tags')">
+            <div v-for="(insight, index) in topTags" :key="insight.tag" class="tag-insight">
+              <button
+                class="tag-insight__toggle"
+                type="button"
+                :aria-expanded="expandedTag === insight.tag"
+                :aria-controls="`intelligence-tag-${index}`"
+                :aria-label="$t('i18n.intelligence_explore_tag', {
+                  tag: insight.tag,
+                  count: insight.count,
+                })"
+                @click="toggleTag(insight.tag)"
+              >
+                <span class="tag-insight__identity">
+                  <span class="tag-rank">{{ index + 1 }}</span>
+                  <span class="tag-insight__text">
+                    <strong>{{ insight.tag }}</strong>
+                    <span>{{ insight.providers.join(', ') }}</span>
+                  </span>
+                </span>
+                <span class="cluster-actions">
+                  <span class="count-badge">{{ insight.count }}</span>
+                  <span
+                    class="cluster-chevron"
+                    :class="{ 'cluster-chevron--open': expandedTag === insight.tag }"
+                    aria-hidden="true"
+                  >›</span>
+                </span>
+              </button>
+
+              <div
+                v-if="expandedTag === insight.tag"
+                :id="`intelligence-tag-${index}`"
+                class="cluster-members tag-members"
+              >
+                <div class="cluster-members__meta">
+                  {{ $t('i18n.intelligence_tag_members', {
+                    shown: insight.memories.length,
+                    count: insight.count,
+                  }) }}
+                </div>
+                <RouterLink
+                  v-for="memory in insight.memories"
+                  :key="`${memory.provider}-${memory.id}`"
+                  class="cluster-member"
+                  :to="{
+                    name: 'memory-detail',
+                    params: { id: memory.id },
+                    query: { source: memory.provider },
+                  }"
+                  :aria-label="$t('i18n.intelligence_open_memory', { title: memory.title })"
+                >
+                  <span class="cluster-member__body">
+                    <strong>{{ memory.title }}</strong>
+                    <span>{{ memory.content }}</span>
+                  </span>
+                  <span class="cluster-member__provider">{{ memory.provider }}</span>
+                  <span class="cluster-member__arrow" aria-hidden="true">→</span>
+                </RouterLink>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -249,15 +305,16 @@ const contradictions = ref<IntelligenceContradictions | null>(null)
 const loading = ref(false)
 const compressing = ref(false)
 const error = ref<string | null>(null)
+const expandedTag = ref<string | null>(null)
 const expandedClusterId = ref<string | null>(null)
 const expandedContradictionId = ref<string | null>(null)
 
 const providerLabel = computed(() => (
-  summary.value?.providers.length ? summary.value.providers.join(', ') : t('i18n.intelligence_all_providers')
+  summary.value?.providers?.length ? summary.value.providers.join(', ') : t('i18n.intelligence_all_providers')
 ))
 const sessionParam = computed(() => sessionStore.activeSessionId || undefined)
-const keywords = computed(() => summary.value?.keywords.slice(0, 8) || [])
-const topTags = computed(() => summary.value?.topTags.slice(0, 10) || [])
+const keywords = computed(() => summary.value?.keywords?.slice(0, 8) || [])
+const topTags = computed(() => summary.value?.tagInsights?.slice(0, 10) || [])
 
 async function loadAll() {
   loading.value = true
@@ -271,6 +328,9 @@ async function loadAll() {
     summary.value = nextSummary
     clusters.value = nextClusters
     contradictions.value = nextContradictions
+    if (expandedTag.value && !nextSummary.tagInsights?.some(insight => insight.tag === expandedTag.value)) {
+      expandedTag.value = null
+    }
     if (expandedClusterId.value && !nextClusters.clusters.some(cluster => cluster.id === expandedClusterId.value)) {
       expandedClusterId.value = null
     }
@@ -307,6 +367,10 @@ function toggleCluster(clusterId: string) {
   expandedClusterId.value = expandedClusterId.value === clusterId ? null : clusterId
 }
 
+function toggleTag(tag: string) {
+  expandedTag.value = expandedTag.value === tag ? null : tag
+}
+
 function toggleContradiction(contradictionId: string) {
   expandedContradictionId.value = expandedContradictionId.value === contradictionId ? null : contradictionId
 }
@@ -322,6 +386,7 @@ onMounted(() => {
 
 watch(() => sessionStore.activeSessionId, () => {
   compression.value = null
+  expandedTag.value = null
   expandedClusterId.value = null
   expandedContradictionId.value = null
   loadAll()
@@ -470,19 +535,6 @@ watch(() => sessionStore.activeSessionId, () => {
   color: var(--accent);
 }
 
-.tag-cloud {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-}
-
-.tag-chip {
-  max-width: 100%;
-  gap: var(--space-2);
-  background: var(--tag-bg);
-  color: var(--primary);
-}
-
 .tag-rank {
   display: inline-flex;
   align-items: center;
@@ -497,11 +549,86 @@ watch(() => sessionStore.activeSessionId, () => {
   line-height: 1;
 }
 
-.tag-label {
+.tag-insight-list {
+  display: flex;
+  max-height: 420px;
+  flex-direction: column;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.tag-insight {
+  border-top: 1px solid var(--border);
+}
+
+.tag-insight:first-child {
+  border-top: none;
+}
+
+.tag-insight__toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 42px;
+  gap: var(--space-3);
+  padding: var(--space-2) 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+}
+
+.tag-insight__toggle:hover .tag-insight__text strong,
+.tag-insight__toggle:focus-visible .tag-insight__text strong {
+  color: var(--accent);
+}
+
+.tag-insight__toggle:focus-visible {
+  border-radius: var(--radius-sm);
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.tag-insight__identity {
+  display: flex;
+  align-items: center;
   min-width: 0;
+  gap: var(--space-2);
+}
+
+.tag-insight__text,
+.tag-insight__text strong,
+.tag-insight__text span {
+  display: block;
+}
+
+.tag-insight__text {
+  min-width: 0;
+}
+
+.tag-insight__text strong,
+.tag-insight__text span {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.tag-insight__text strong {
+  color: var(--primary);
+  font-size: 0.8rem;
+  transition: color 0.15s ease;
+}
+
+.tag-insight__text span {
+  color: var(--text-secondary);
+  font-size: 0.7rem;
+}
+
+.tag-members {
+  border-left-color: var(--type-preference-text);
 }
 
 .cluster-list,

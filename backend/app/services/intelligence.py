@@ -91,11 +91,44 @@ def _top_terms(items: list[MemoryItem], limit: int = 8) -> list[str]:
     return [term for term, _ in counter.most_common(limit)]
 
 
+def _memory_reference(item: MemoryItem) -> dict[str, str]:
+    return {
+        "id": item.id,
+        "provider": item.metadata.source,
+        "title": _title(item),
+        "content": item.content[:220],
+    }
+
+
+def _tag_insights(items: list[MemoryItem], limit: int = 10, member_limit: int = 20) -> list[dict[str, Any]]:
+    tagged_items: dict[str, list[MemoryItem]] = defaultdict(list)
+    for item in items:
+        normalized_tags = {
+            str(tag).strip().lower()
+            for tag in item.metadata.tags
+            if str(tag).strip()
+        }
+        for tag in normalized_tags:
+            tagged_items[tag].append(item)
+
+    insights = []
+    for tag, members in sorted(tagged_items.items(), key=lambda pair: (-len(pair[1]), pair[0]))[:limit]:
+        insights.append(
+            {
+                "tag": tag,
+                "count": len(members),
+                "providers": sorted({member.metadata.source for member in members}),
+                "memories": [_memory_reference(member) for member in members[:member_limit]],
+            }
+        )
+    return insights
+
+
 def summarize_memories(items: list[MemoryItem]) -> dict[str, Any]:
     """Summarize a memory slice without provider-specific assumptions."""
     providers = sorted({item.metadata.source for item in items})
     sessions = sorted({item.metadata.session_id for item in items if item.metadata.session_id})
-    tags = sorted({tag for item in items for tag in item.metadata.tags})
+    tag_insights = _tag_insights(items)
     keywords = _top_terms(items)
     leading = [item.content.strip().replace("\n", " ") for item in items[:3] if item.content.strip()]
     summary = " ".join(text[:180] for text in leading)
@@ -107,7 +140,8 @@ def summarize_memories(items: list[MemoryItem]) -> dict[str, Any]:
         "memoryCount": len(items),
         "providers": providers,
         "sessionIds": sessions,
-        "topTags": tags[:10],
+        "topTags": [insight["tag"] for insight in tag_insights],
+        "tagInsights": tag_insights,
         "keywords": keywords,
     }
 
@@ -148,15 +182,7 @@ def cluster_memories(items: list[MemoryItem]) -> dict[str, Any]:
 
     clusters = []
     for index, (key, members) in enumerate(sorted(grouped.items(), key=lambda pair: (-len(pair[1]), pair[0]))):
-        cluster_members = [
-            {
-                "id": member.id,
-                "provider": member.metadata.source,
-                "title": _title(member),
-                "content": member.content[:220],
-            }
-            for member in members
-        ]
+        cluster_members = [_memory_reference(member) for member in members]
         clusters.append(
             {
                 "id": f"cluster-{index}",

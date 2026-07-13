@@ -698,6 +698,8 @@
   "i18n.intelligence_severity_medium": "中",
   "i18n.intelligence_severity_high": "高",
   "i18n.intelligence_severity_unknown": "待定",
+  "i18n.intelligence_explore_tag": "探索标签 {tag}，共 {count} 条记忆",
+  "i18n.intelligence_tag_members": "显示 {shown}/{count} 条带此标签的记忆",
   "i18n.settings_tab_sources": "记忆源",
   "i18n.settings_tab_providers": "提供方",
   "i18n.settings_tab_webhook": "Webhook",

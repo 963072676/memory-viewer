@@ -6,7 +6,22 @@ export interface IntelligenceSummary {
   providers: string[]
   sessionIds: string[]
   topTags: string[]
+  tagInsights?: IntelligenceTagInsight[]
   keywords: string[]
+}
+
+export interface IntelligenceTagInsight {
+  tag: string
+  count: number
+  providers: string[]
+  memories: IntelligenceMemoryReference[]
+}
+
+export interface IntelligenceMemoryReference {
+  id: string
+  provider: string
+  title: string
+  content: string
 }
 
 export interface IntelligenceCompression {
@@ -27,12 +42,7 @@ export interface IntelligenceCluster {
   keywords: string[]
 }
 
-export interface IntelligenceClusterMember {
-  id: string
-  provider: string
-  title: string
-  content: string
-}
+export type IntelligenceClusterMember = IntelligenceMemoryReference
 
 export interface IntelligenceClusters {
   clusters: IntelligenceCluster[]

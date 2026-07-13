@@ -1,7 +1,7 @@
 """Tests for provider-neutral Memory Intelligence API."""
 
 from app.core.memory_schema import MemoryItem, MemoryMetadata
-from app.services.intelligence import detect_contradictions
+from app.services.intelligence import detect_contradictions, summarize_memories
 
 
 def test_memory_intelligence_summary_clusters_and_compression(client):
@@ -75,3 +75,44 @@ def test_memory_intelligence_detects_provider_neutral_contradictions():
         "provider": "hermes",
     }
     assert {"dark", "mode", "hermes", "interface"}.intersection(contradiction["sharedTerms"])
+
+
+def test_memory_intelligence_ranks_provider_neutral_tag_insights():
+    items = [
+        MemoryItem(
+            id="tag-a",
+            content="Python API conventions",
+            metadata=MemoryMetadata(
+                source="agentmemory",
+                timestamp=1,
+                tags=["Python", "api", "python"],
+                raw={"title": "API conventions"},
+            ),
+        ),
+        MemoryItem(
+            id="tag-b",
+            content="Python runtime preference",
+            metadata=MemoryMetadata(
+                source="hermes",
+                timestamp=2,
+                tags=["python"],
+                raw={"title": "Runtime preference"},
+            ),
+        ),
+        MemoryItem(
+            id="tag-c",
+            content="API release checklist",
+            metadata=MemoryMetadata(source="agentmemory", timestamp=3, tags=["api"]),
+        ),
+    ]
+
+    result = summarize_memories(items)
+
+    assert result["topTags"] == ["api", "python"]
+    assert result["tagInsights"][0]["count"] == 2
+    assert result["tagInsights"][0]["providers"] == ["agentmemory"]
+    python_insight = result["tagInsights"][1]
+    assert python_insight["count"] == 2
+    assert python_insight["providers"] == ["agentmemory", "hermes"]
+    assert [memory["id"] for memory in python_insight["memories"]] == ["tag-a", "tag-b"]
+    assert python_insight["memories"][0]["title"] == "API conventions"
