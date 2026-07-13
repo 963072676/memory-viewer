@@ -7,7 +7,11 @@
     <div class="card-header" @click="toggle">
       <div class="card-title-row">
         <h3 class="card-title">
-          <router-link :to="`/memory/${memory.id}`" class="memory-title-link" @click.stop>
+          <router-link
+            :to="{ name: 'memory-detail', params: { id: memory.id }, query: { source: 'agentmemory' } }"
+            class="memory-title-link"
+            @click.stop
+          >
             {{ memory.title }}
           </router-link>
           <span v-if="memory.archived" class="archived-badge">{{ $t('i18n.archived') }}</span>

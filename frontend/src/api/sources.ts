@@ -32,6 +32,10 @@ export interface UnifiedMemoriesResponse {
   limit: number
 }
 
+export interface UnifiedMemoryDetailResponse {
+  memory: UnifiedMemory
+}
+
 export async function fetchSources(): Promise<SourcesResponse> {
   return request<SourcesResponse>('/sources')
 }
@@ -47,4 +51,10 @@ export async function fetchUnifiedMemories(params: {
   if (params.source) qs.set('source', params.source)
   const query = qs.toString()
   return request<UnifiedMemoriesResponse>(`/memories/unified${query ? '?' + query : ''}`)
+}
+
+export async function fetchUnifiedMemory(source: string, id: string): Promise<UnifiedMemory> {
+  const qs = new URLSearchParams({ source, id })
+  const response = await request<UnifiedMemoryDetailResponse>(`/memories/unified/detail?${qs}`)
+  return response.memory
 }

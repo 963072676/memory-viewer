@@ -161,11 +161,13 @@ const detail = computed(() => {
 })
 
 const fullDetailPath = computed(() => {
-  if (props.memory) return `/memory/${props.memory.id}`
-  if (props.unifiedMemory?.source === 'agentmemory') {
-    return `/memory/${props.unifiedMemory.id}`
+  const memory = props.memory || props.unifiedMemory
+  if (!memory) return ''
+  return {
+    name: 'memory-detail',
+    params: { id: memory.id },
+    query: { source: props.unifiedMemory?.source || 'agentmemory' },
   }
-  return ''
 })
 
 function stringList(value: unknown) {

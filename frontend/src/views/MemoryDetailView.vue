@@ -1,34 +1,37 @@
 <template>
   <div class="memory-detail-view">
     <div class="view-header">
-      <button class="back-btn" @click="goBack">
+      <button class="back-btn" type="button" @click="goBack">
         ← {{ $t('i18n.back') }}
       </button>
-      <div class="view-actions">
+      <div v-if="memory" class="view-actions">
         <!-- P38 (round 3): 5 个按钮层级化 — 之前全用 accent 实色 → 5 个"假 primary"同时喊叫。
              改为：编辑 = primary（最常用操作） / 展开 + 分享 + 历史 = ghost 描边（次级 utility） / 删除 = danger（破坏性，红字 + 红描边）。
              注：折叠/展开按钮 + 分享 + 历史 都是"看+导航"类，不改变记忆内容 → ghost 更合适。
              P49 r2: 按钮密度紧凑化 — 5 个按钮 ico+label 紧凑设计（8→10px padding, 0.85→0.8rem font,
              加 unicode 图标前缀），桌面总宽度从 ~520px → ~370px（-30%），视觉节奏更轻盈。 -->
-        <button class="action-btn action-btn--ghost" @click="toggleExpand">
+        <span v-if="!canManageMemory" class="read-only-badge">
+          {{ $t('i18n.memory_detail_read_only') }}
+        </span>
+        <button class="action-btn action-btn--ghost" type="button" @click="toggleExpand">
           <span class="btn-ico" aria-hidden="true">{{ isExpanded ? '▾' : '▸' }}</span>
           <span class="btn-label">{{ isExpanded ? $t('i18n.collapse') : $t('i18n.expand') }}</span>
         </button>
-        <button class="action-btn action-btn--ghost" @click="router.push(`/memory/${route.params.id}/history`)">
+        <button v-if="canManageMemory" class="action-btn action-btn--ghost" type="button" @click="router.push(`/memory/${route.params.id}/history`)">
           <span class="btn-ico" aria-hidden="true">⟲</span>
           <span class="btn-label">{{ $t('i18n.history') }}</span>
         </button>
-        <button class="action-btn action-btn--ghost" @click="showShareModal = true">
+        <button v-if="canManageMemory" class="action-btn action-btn--ghost" type="button" @click="showShareModal = true">
           <span class="btn-ico" aria-hidden="true">⤴</span>
           <span class="btn-label">{{ $t('i18n.common.share') }}</span>
         </button>
-        <button class="action-btn action-btn--primary" @click="showEditModal = true">
+        <button v-if="canManageMemory" class="action-btn action-btn--primary" type="button" @click="showEditModal = true">
           <span class="btn-ico" aria-hidden="true">✎</span>
           <span class="btn-label">{{ $t('i18n.edit') }}</span>
         </button>
-        <button class="action-btn action-btn--danger" @click="confirmDelete = true">
+        <button v-if="canManageMemory" class="action-btn action-btn--danger" type="button" @click="confirmDelete = true">
           <span class="btn-ico" aria-hidden="true">🗑</span>
-          <span class="btn-label">删除</span>
+          <span class="btn-label">{{ $t('i18n.delete') }}</span>
         </button>
       </div>
     </div>
@@ -40,7 +43,7 @@
     <div v-else-if="error" class="error-state">
       <h3>{{ $t('i18n.load_failed') }}</h3>
       <p>{{ error }}</p>
-      <button class="action-btn" @click="loadMemory">{{ $t('i18n.retry') }}</button>
+      <button class="action-btn" type="button" @click="loadMemory">{{ $t('i18n.retry') }}</button>
     </div>
 
     <div v-else-if="memory" class="memory-content">
@@ -48,6 +51,7 @@
         <div class="title-row">
           <h1>{{ memory.title }}</h1>
           <span class="memory-type" :class="'type-' + memory.type">{{ memory.type }}</span>
+          <span class="provider-badge">{{ sourceName }}</span>
           <span v-if="memory.archived" class="archived-badge">{{ $t('i18n.archived') }}</span>
         </div>
         <div class="meta-row">
@@ -59,9 +63,9 @@
           <div
             class="strength-ring"
             :class="['strength-ring--' + strengthTier, { 'strength-ring--perfect': strengthPercent === 100 }]"
-            :title="`强度 ${strengthPercent}%`"
+            :title="$t('i18n.memory_detail_strength_percent', { percent: strengthPercent })"
             role="img"
-            :aria-label="`记忆强度 ${strengthPercent}%`"
+            :aria-label="$t('i18n.memory_detail_strength_percent', { percent: strengthPercent })"
           >
             <svg class="strength-ring__svg" viewBox="0 0 36 36" aria-hidden="true">
               <circle class="strength-ring__track" cx="18" cy="18" r="15.5" />
@@ -86,18 +90,21 @@
           <div class="tags" v-if="memory.concepts && memory.concepts.length">
             <span class="tag" v-for="c in memory.concepts" :key="c">{{ c }}</span>
           </div>
-          <span v-else class="no-data">无</span>
+          <span v-else class="no-data">{{ $t('i18n.memory_detail_none') }}</span>
         </div>
 
         <div class="detail-section">
           <h4>{{ $t('i18n.label') }}</h4>
           <TagManager
-            v-if="allTagNames.length"
+            v-if="canManageMemory && allTagNames.length"
             :tags="memory.tags || []"
             :all-tags="allTagNames"
             @update:tags="onTagsUpdate"
           />
-          <span v-else class="no-data">无</span>
+          <div v-else-if="memory.tags?.length" class="tags">
+            <span class="tag" v-for="tag in memory.tags" :key="tag">{{ tag }}</span>
+          </div>
+          <span v-else class="no-data">{{ $t('i18n.memory_detail_none') }}</span>
         </div>
 
         <div class="detail-row">
@@ -108,6 +115,21 @@
         <div class="detail-row">
           <span class="detail-label">{{ $t('en_updated') }}</span>
           <span>{{ formatDate(memory.updatedAt) }}</span>
+        </div>
+
+        <div class="detail-row">
+          <span class="detail-label">{{ $t('i18n.preview_provider') }}</span>
+          <span>{{ sourceName }}</span>
+        </div>
+
+        <div v-if="providerProfile" class="detail-row">
+          <span class="detail-label">{{ $t('i18n.preview_profile') }}</span>
+          <span>{{ providerProfile }}</span>
+        </div>
+
+        <div v-if="providerFile" class="detail-row">
+          <span class="detail-label">{{ $t('i18n.preview_file') }}</span>
+          <span>{{ providerFile }}</span>
         </div>
 
         <div class="detail-row">
@@ -126,7 +148,7 @@
         <h4>{{ $t('i18n.health_details') }}</h4>
         <div class="health-breakdown">
           <div class="breakdown-item">
-            <span class="breakdown-label">强度</span>
+            <span class="breakdown-label">{{ $t('i18n.preview_strength') }}</span>
             <span class="breakdown-value">{{ healthData.breakdown.strength_score }}</span>
           </div>
           <div class="breakdown-item">
@@ -145,31 +167,31 @@
       </div>
 
       <!-- Related memories -->
-      <RelatedMemories :memory-id="memory.id" />
+      <RelatedMemories v-if="canManageMemory" :memory-id="memory.id" />
 
       <!-- Decay chart -->
       <DecayChart v-if="decayData" :data="decayData" />
     </div>
 
     <ConfirmDialog
-      v-if="confirmDelete"
+      v-if="confirmDelete && canManageMemory"
       :title="$t('i18n.delete')"
       :message="`${$t('i18n.delete_memory')}？${$t('i18n.cannot_undone')}。`"
-      confirm-text="删除"
-      cancel-text="取消"
+      :confirm-text="$t('i18n.delete')"
+      :cancel-text="$t('i18n.cancel')"
       @confirm="handleDelete"
       @cancel="confirmDelete = false"
     />
 
     <EditMemoryModal
-      v-if="showEditModal && memory"
-      :memory="memory"
+      v-if="showEditModal && agentMemory"
+      :memory="agentMemory"
       @close="showEditModal = false"
       @updated="onMemoryUpdated"
     />
 
     <ShareModal
-      v-if="showShareModal && memory"
+      v-if="showShareModal && memory && canManageMemory"
       :memoryId="memory.id"
       @close="showShareModal = false"
     />
@@ -177,11 +199,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { fetchAgentMemoryById, setMemoryTags, deleteAgentMemory } from '@/api/agentmemory'
+import { useI18n } from 'vue-i18n'
+import { setMemoryTags, deleteAgentMemory } from '@/api/agentmemory'
 import { getHealth } from '@/api/agentmemory'
 import { getDecay } from '@/api/agentmemory'
+import { fetchUnifiedMemory } from '@/api/sources'
 import { useAgentMemoryStore } from '@/stores/agentmemory'
 import { useToast } from '@/composables/useToast'
 import HealthBadge from '@/components/Layout/HealthBadge.vue'
@@ -192,13 +216,33 @@ import ConfirmDialog from '@/components/Layout/ConfirmDialog.vue'
 import EditMemoryModal from '@/components/Layout/EditMemoryModal.vue'
 import ShareModal from '@/components/Layout/ShareModal.vue'
 import type { AgentMemory, HealthResponse, DecayResponse } from '@/types'
+import type { UnifiedMemory } from '@/api/sources'
+
+interface DetailMemory {
+  id: string
+  type: string
+  title: string
+  content: string
+  concepts: string[]
+  files: string[]
+  createdAt: string
+  updatedAt: string
+  strength: number
+  version: number
+  isLatest: boolean
+  sessionIds: string[]
+  archived?: boolean
+  tags?: string[]
+}
 
 const route = useRoute()
 const router = useRouter()
 const store = useAgentMemoryStore()
 const toast = useToast()
+const { t, locale } = useI18n()
 
-const memory = ref<AgentMemory | null>(null)
+const memory = ref<DetailMemory | null>(null)
+const unifiedMemory = ref<UnifiedMemory | null>(null)
 const loading = ref(false)
 const error = ref<string | null>(null)
 const isExpanded = ref(false)
@@ -207,8 +251,19 @@ const showShareModal = ref(false)
 const confirmDelete = ref(false)
 const healthData = ref<HealthResponse | null>(null)
 const decayData = ref<DecayResponse | null>(null)
+let loadSequence = 0
 
 const allTagNames = computed(() => store.allTags.map(t => t.tag))
+const sourceName = computed(() => {
+  const value = route.query.source
+  return typeof value === 'string' && value.trim() ? value : 'agentmemory'
+})
+const canManageMemory = computed(() => sourceName.value === 'agentmemory')
+const agentMemory = computed(() => canManageMemory.value && memory.value
+  ? memory.value as AgentMemory
+  : null)
+const providerProfile = computed(() => stringValue(unifiedMemory.value?.metadata?.profile))
+const providerFile = computed(() => stringValue(unifiedMemory.value?.metadata?.file))
 
 const healthDisplay = computed(() => {
   if (!healthData.value) return null
@@ -245,12 +300,9 @@ const sanitizedContent = computed(() => {
 })
 
 function formatDate(dateStr: string | undefined): string {
-  if (!dateStr) return 'N/A'
-  try {
-    return new Date(dateStr).toLocaleString('zh-CN')
-  } catch {
-    return dateStr
-  }
+  if (!dateStr) return t('i18n.preview_unknown')
+  const date = new Date(dateStr)
+  return Number.isNaN(date.getTime()) ? dateStr : date.toLocaleString(locale.value)
 }
 
 function goBack() {
@@ -263,20 +315,29 @@ function toggleExpand() {
 
 async function loadMemory() {
   const id = route.params.id as string
+  const requestSequence = ++loadSequence
   if (!id || id === 'collection') {
-    error.value = 'Invalid memory ID'
-    router.push('/agentmemory')
+    error.value = t('i18n.memory_detail_invalid_id')
     return
   }
 
   loading.value = true
   error.value = null
+  memory.value = null
+  unifiedMemory.value = null
+  healthData.value = null
+  decayData.value = null
+  showEditModal.value = false
+  showShareModal.value = false
+  confirmDelete.value = false
 
   try {
-    const data = await fetchAgentMemoryById(id)
-    if (data.memories && data.memories.length > 0) {
-      memory.value = data.memories[0]
-      // Load health and decay data
+    const data = await fetchUnifiedMemory(sourceName.value, id)
+    if (requestSequence !== loadSequence) return
+    unifiedMemory.value = data
+    memory.value = toDetailMemory(data)
+
+    if (canManageMemory.value) {
       try {
         healthData.value = await getHealth(id)
       } catch {
@@ -287,49 +348,84 @@ async function loadMemory() {
       } catch {
         // Decay is optional
       }
-    } else {
-      error.value = 'Memory not found'
     }
-  } catch (e: any) {
-    error.value = e.message || 'Failed to load memory'
+  } catch (e: unknown) {
+    if (requestSequence !== loadSequence) return
+    error.value = e instanceof Error ? e.message : t('i18n.memory_detail_load_failed')
   } finally {
-    loading.value = false
+    if (requestSequence === loadSequence) loading.value = false
   }
 }
 
 async function onTagsUpdate(newTags: string[]) {
-  if (!memory.value) return
+  if (!memory.value || !canManageMemory.value) return
   try {
     const updated = await setMemoryTags(memory.value.id, newTags)
     if (updated.memory) {
       memory.value.tags = updated.memory.tags
-      toast.success('标签已更新')
+      toast.success(t('i18n.memory_detail_tags_updated'))
     }
-  } catch (e: any) {
-    toast.error('更新标签失败: ' + e.message)
+  } catch (e: unknown) {
+    const message = e instanceof Error ? e.message : t('i18n.memory_detail_unknown_error')
+    toast.error(t('i18n.memory_detail_tags_failed', { message }))
   }
 }
 
 function onMemoryUpdated() {
   showEditModal.value = false
-  toast.success('记忆已更新')
+  toast.success(t('i18n.memory_detail_updated'))
   loadMemory()
 }
 
 async function handleDelete() {
-  if (!memory.value) return
+  if (!memory.value || !canManageMemory.value) return
   try {
     await deleteAgentMemory(memory.value.id)
-    toast.success('记忆已删除')
+    toast.success(t('i18n.memory_detail_deleted'))
     router.push('/agentmemory')
-  } catch (e: any) {
-    toast.error('删除失败: ' + e.message)
+  } catch (e: unknown) {
+    const message = e instanceof Error ? e.message : t('i18n.memory_detail_unknown_error')
+    toast.error(t('i18n.memory_detail_delete_failed', { message }))
   }
 }
 
-onMounted(() => {
-  loadMemory()
-})
+function toDetailMemory(item: UnifiedMemory): DetailMemory {
+  const metadata = item.metadata || {}
+  return {
+    id: item.id,
+    type: item.type || 'unknown',
+    title: item.title || t('i18n.search_unknown_title'),
+    content: item.content || '',
+    concepts: item.concepts || [],
+    files: stringList(metadata.files),
+    createdAt: item.createdAt || '',
+    updatedAt: item.updatedAt || '',
+    strength: typeof item.strength === 'number' ? item.strength : 0,
+    version: numberValue(metadata.version, 0),
+    isLatest: metadata.isLatest !== false,
+    sessionIds: stringList(metadata.sessionIds),
+    archived: metadata.archived === true,
+    tags: stringList(metadata.tags),
+  }
+}
+
+function stringList(value: unknown): string[] {
+  return Array.isArray(value) ? value.filter((item): item is string => typeof item === 'string') : []
+}
+
+function stringValue(value: unknown): string {
+  return typeof value === 'string' ? value : ''
+}
+
+function numberValue(value: unknown, fallback: number): number {
+  return typeof value === 'number' && Number.isFinite(value) ? value : fallback
+}
+
+watch(
+  [() => route.params.id, () => route.query.source],
+  () => loadMemory(),
+  { immediate: true },
+)
 </script>
 
 <style scoped>
@@ -358,9 +454,35 @@ onMounted(() => {
 
 .view-actions {
   display: flex;
+  align-items: center;
   gap: 6px;
   margin-left: auto;
   flex-wrap: wrap;
+}
+
+.read-only-badge,
+.provider-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 4px 9px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--tag-bg);
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+.read-only-badge::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: var(--warning, #b7791f);
 }
 
 /* P38 (round 3): 重写 button 层级 — 旧实现默认 .action-btn 就是 accent 实色，5 按钮全喊叫。
@@ -498,6 +620,11 @@ onMounted(() => {
   white-space: nowrap;
   text-transform: uppercase;       /* P38 r16: capitalize → uppercase，对齐 MemoryCard */
   border: 1px solid transparent;
+}
+
+.provider-badge {
+  min-height: auto;
+  text-transform: none;
 }
 
 /* P38 r16: ::before dot prefix — 与 MemoryCard .card-type 完全一致。
@@ -733,6 +860,10 @@ onMounted(() => {
 
 /* Responsive */
 @media (max-width: 767px) {
+  .memory-detail-view {
+    padding: 16px;
+  }
+
   .view-header {
     flex-direction: column;
     align-items: flex-start;
@@ -740,8 +871,13 @@ onMounted(() => {
   }
 
   .view-actions {
+    width: 100%;
     flex-wrap: wrap;
     margin-left: 0;
+  }
+
+  .read-only-badge {
+    margin-right: auto;
   }
 
   .title-row {
@@ -771,6 +907,17 @@ onMounted(() => {
     padding: 6px 9px;
     font-size: 0.75rem;
     min-height: 36px;
+  }
+
+  .detail-row {
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .detail-row > :last-child {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    text-align: right;
   }
 }
 </style>

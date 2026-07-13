@@ -51,6 +51,47 @@ def test_unified_memories_endpoint_reads_registered_sources(client):
     assert {"agentmemory", "hermes"}.issubset(sources)
 
 
+def test_unified_memory_detail_preserves_provider_display_fields(client):
+    agentmemory = client.get(
+        "/api/memories/unified/detail",
+        params={"source": "agentmemory", "id": "mem_test1_abcd1234"},
+    )
+    assert agentmemory.status_code == 200
+    agentmemory_item = agentmemory.json()["memory"]
+    assert agentmemory_item["title"] == "Test Pattern Memory"
+    assert agentmemory_item["type"] == "pattern"
+    assert agentmemory_item["concepts"] == ["hermes", "test"]
+    assert agentmemory_item["source"] == "agentmemory"
+
+    hermes_list = client.get("/api/memories/unified?source=hermes&limit=1")
+    assert hermes_list.status_code == 200
+    hermes_id = hermes_list.json()["memories"][0]["id"]
+
+    hermes = client.get(
+        "/api/memories/unified/detail",
+        params={"source": "hermes", "id": hermes_id},
+    )
+    assert hermes.status_code == 200
+    hermes_item = hermes.json()["memory"]
+    assert hermes_item["id"] == hermes_id
+    assert hermes_item["content"]
+    assert hermes_item["source"] == "hermes"
+
+
+def test_unified_memory_detail_rejects_unknown_source_and_memory(client):
+    unknown_source = client.get(
+        "/api/memories/unified/detail",
+        params={"source": "missing-provider", "id": "memory-1"},
+    )
+    assert unknown_source.status_code == 404
+
+    unknown_memory = client.get(
+        "/api/memories/unified/detail",
+        params={"source": "hermes", "id": "missing-memory"},
+    )
+    assert unknown_memory.status_code == 404
+
+
 def test_unified_search_uses_registered_sources(client):
     """GET /api/memories/unified/search should search through the registry."""
     response = client.get("/api/memories/unified/search?q=hermes&limit=10")

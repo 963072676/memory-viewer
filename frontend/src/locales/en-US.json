@@ -75,7 +75,7 @@
   "i18n.add_manually": "Add manually",
   "i18n.load_failed": "Load Failed",
   "i18n.after_closing": "After closing",
-  "i18n.delete": "Delete?",
+  "i18n.delete": "Delete",
   "i18n.source.health": "Health",
   "i18n.similarity": "Similarity",
   "i18n.now": "Now",
@@ -825,5 +825,16 @@
   "i18n.source_list_aria": "Registered memory sources",
   "i18n.source_open_memories": "View memories from {name}",
   "i18n.source_empty_title": "No available sources",
-  "i18n.source_empty_message": "Configure and enable a memory source to see its status and memory count here."
+  "i18n.source_empty_message": "Configure and enable a memory source to see its status and memory count here.",
+  "i18n.memory_detail_read_only": "Read-only source",
+  "i18n.memory_detail_invalid_id": "The memory ID is invalid.",
+  "i18n.memory_detail_load_failed": "Unable to load memory details.",
+  "i18n.memory_detail_unknown_error": "Unknown error",
+  "i18n.memory_detail_tags_failed": "Unable to update tags: {message}",
+  "i18n.memory_detail_delete_failed": "Unable to delete memory: {message}",
+  "i18n.memory_detail_tags_updated": "Tags updated",
+  "i18n.memory_detail_updated": "Memory updated",
+  "i18n.memory_detail_deleted": "Memory deleted",
+  "i18n.memory_detail_none": "None",
+  "i18n.memory_detail_strength_percent": "Memory strength {percent}%"
 }

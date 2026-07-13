@@ -826,5 +826,16 @@
   "i18n.source_list_aria": "已注册的记忆数据源",
   "i18n.source_open_memories": "查看 {name} 中的记忆",
   "i18n.source_empty_title": "暂无可用数据源",
-  "i18n.source_empty_message": "配置并启用一个记忆数据源后，其状态和记忆数量会显示在这里。"
+  "i18n.source_empty_message": "配置并启用一个记忆数据源后，其状态和记忆数量会显示在这里。",
+  "i18n.memory_detail_read_only": "只读数据源",
+  "i18n.memory_detail_invalid_id": "记忆 ID 无效。",
+  "i18n.memory_detail_load_failed": "无法加载记忆详情。",
+  "i18n.memory_detail_unknown_error": "未知错误",
+  "i18n.memory_detail_tags_failed": "更新标签失败：{message}",
+  "i18n.memory_detail_delete_failed": "删除失败：{message}",
+  "i18n.memory_detail_tags_updated": "标签已更新",
+  "i18n.memory_detail_updated": "记忆已更新",
+  "i18n.memory_detail_deleted": "记忆已删除",
+  "i18n.memory_detail_none": "无",
+  "i18n.memory_detail_strength_percent": "记忆强度 {percent}%"
 }

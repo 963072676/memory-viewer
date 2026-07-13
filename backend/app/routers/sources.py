@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import asyncio
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, HTTPException, Query
 
 router = APIRouter()
 
@@ -84,6 +84,23 @@ async def unified_memories(
         "offset": offset,
         "limit": limit,
     }
+
+
+@router.get("/memories/unified/detail")
+async def unified_memory_detail(
+    source: str = Query(..., min_length=1, description="Registered source name"),
+    id: str = Query(..., min_length=1, description="Provider-scoped memory ID"),
+):
+    """Return one provider-scoped memory in the normalized display schema."""
+    reg = _get_registry()
+    adapter = reg.get(source) if reg is not None else None
+    if adapter is None or not adapter.enabled:
+        raise HTTPException(status_code=404, detail=f"Memory source not found: {source}")
+
+    item = await adapter.get(id)
+    if item is None:
+        raise HTTPException(status_code=404, detail=f"Memory not found in {source}: {id}")
+    return {"memory": item.to_dict()}
 
 
 @router.get("/memories/unified/search")
