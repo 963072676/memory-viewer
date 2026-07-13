@@ -8,6 +8,8 @@
     <!-- F-37: Activity Heatmap -->
     <ActivityHeatmap @day-click="onHeatmapDayClick" />
 
+    <ProviderObservabilityPanel />
+
     <div v-if="loading" class="loading-state">加载中...</div>
     <div v-else-if="error" class="error-state">
       <p>⚠️ {{ error }}</p>
@@ -116,6 +118,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { request } from '@/api/index'
 import ActivityHeatmap from '@/components/Layout/ActivityHeatmap.vue'
+import ProviderObservabilityPanel from '@/components/Layout/ProviderObservabilityPanel.vue'
 import SessionSwitcher from '@/components/Layout/SessionSwitcher.vue'
 import MemoryCopilotPanel from '@/components/Layout/MemoryCopilotPanel.vue'
 import MemoryIntelligencePanel from '@/components/Layout/MemoryIntelligencePanel.vue'
