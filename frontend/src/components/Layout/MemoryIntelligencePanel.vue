@@ -50,7 +50,7 @@
       </div>
 
       <div class="intelligence-layout">
-        <div class="intelligence-block">
+        <div id="memory-intelligence-summary" class="intelligence-block" tabindex="-1">
           <div class="block-title">{{ $t('i18n.intelligence_summary') }}</div>
           <p class="summary-text">{{ summary?.summary || $t('i18n.intelligence_no_memories') }}</p>
           <div class="keyword-row">
@@ -58,7 +58,7 @@
           </div>
         </div>
 
-        <div class="intelligence-block">
+        <div id="memory-intelligence-tags" class="intelligence-block" tabindex="-1">
           <div class="block-title">{{ $t('i18n.intelligence_top_tags') }}</div>
           <div v-if="!topTags.length" class="empty-line">{{ $t('i18n.intelligence_no_tags') }}</div>
           <div v-else class="tag-insight-list" :aria-label="$t('i18n.intelligence_top_tags')">
@@ -130,7 +130,7 @@
           <p class="compressed-text">{{ compression?.compressed || summary?.summary || $t('i18n.intelligence_no_compression') }}</p>
         </div>
 
-        <div class="intelligence-block">
+        <div id="memory-intelligence-clusters" class="intelligence-block" tabindex="-1">
           <div class="block-title">{{ $t('i18n.intelligence_clusters') }}</div>
           <div v-if="!clusters?.clusters.length" class="empty-line">{{ $t('i18n.intelligence_no_clusters') }}</div>
           <div v-else class="cluster-list">
@@ -187,7 +187,7 @@
           </div>
         </div>
 
-        <div class="intelligence-block intelligence-block--wide">
+        <div id="memory-intelligence-contradictions" class="intelligence-block intelligence-block--wide" tabindex="-1">
           <div class="block-title">{{ $t('i18n.intelligence_contradictions') }}</div>
           <div v-if="!contradictions?.contradictions.length" class="empty-line">{{ $t('i18n.intelligence_no_contradictions') }}</div>
           <div v-else class="contradiction-list">
@@ -484,6 +484,12 @@ watch(() => sessionStore.activeSessionId, () => {
 .intelligence-block {
   min-width: 0;
   padding: var(--space-5);
+  scroll-margin-top: 88px;
+}
+
+.intelligence-block:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 
 .intelligence-block--wide {

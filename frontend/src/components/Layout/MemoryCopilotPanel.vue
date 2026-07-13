@@ -69,17 +69,26 @@
           <div class="block-title">{{ $t('i18n.copilot_recommendations') }}</div>
           <div v-if="!result?.recommendations.length" class="empty-line">{{ $t('i18n.copilot_no_recommendations') }}</div>
           <div v-else class="recommendation-list">
-            <div
+            <component
               v-for="item in result.recommendations.slice(0, 4)"
               :key="`${item.kind}-${item.title}`"
+              :is="recommendationTarget(item.kind) ? 'a' : 'div'"
               class="recommendation-row"
+              :class="{ 'recommendation-row--actionable': recommendationTarget(item.kind) }"
+              :href="recommendationTarget(item.kind) || undefined"
+              @click="followRecommendation($event, item.kind)"
             >
               <span class="priority-pill" :class="`priority-${item.priority}`">{{ priorityLabel(item.priority) }}</span>
               <div>
                 <strong>{{ recommendationTitle(item) }}</strong>
                 <span>{{ recommendationDetail(item) }}</span>
               </div>
-            </div>
+              <span
+                v-if="recommendationTarget(item.kind)"
+                class="recommendation-arrow"
+                aria-hidden="true"
+              >→</span>
+            </component>
           </div>
         </div>
 
@@ -230,6 +239,36 @@ function recommendationDetail(item: CopilotRunResponse['recommendations'][number
   }
   if (item.kind === 'structure') return t('i18n.copilot_recommendation_structure_detail')
   return item.detail
+}
+
+function recommendationTarget(kind: string) {
+  const targets: Record<string, string> = {
+    contradiction: '#memory-intelligence-contradictions',
+    tagging: '#memory-intelligence-tags',
+    clustering: '#memory-intelligence-clusters',
+    structure: '#memory-intelligence-summary',
+  }
+  return targets[kind] || ''
+}
+
+function followRecommendation(event: MouseEvent, kind: string) {
+  const selector = recommendationTarget(kind)
+  if (!selector) return
+
+  const target = document.querySelector<HTMLElement>(selector)
+  if (!target) return
+
+  event.preventDefault()
+  if (window.location.hash === selector) {
+    window.history.replaceState(null, '', selector)
+  } else {
+    window.history.pushState(null, '', selector)
+  }
+  target.scrollIntoView({
+    behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+    block: 'start',
+  })
+  target.focus({ preventScroll: true })
 }
 
 async function run(action: CopilotAction) {
@@ -449,6 +488,37 @@ watch(() => sessionStore.activeSessionId, () => {
   gap: var(--space-3);
   padding-top: var(--space-2);
   border-top: 1px solid var(--border);
+}
+
+.recommendation-row--actionable {
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  margin-inline: calc(var(--space-2) * -1);
+  padding: var(--space-2);
+  border-radius: var(--radius-sm);
+  color: inherit;
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+}
+
+.recommendation-row--actionable:first-child {
+  padding-top: var(--space-2);
+}
+
+.recommendation-row--actionable:hover,
+.recommendation-row--actionable:focus-visible {
+  background: var(--accent-subtle);
+}
+
+.recommendation-row--actionable:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.recommendation-arrow {
+  align-self: center;
+  color: var(--accent) !important;
+  font-size: 1rem !important;
+  font-weight: 700;
 }
 
 .recommendation-row:first-child,
