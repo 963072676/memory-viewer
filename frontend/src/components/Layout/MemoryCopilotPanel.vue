@@ -10,30 +10,47 @@
         </div>
       </div>
       <div class="filter-row">
-        <select
-          v-model="filters.provider"
-          class="filter-input"
-          :aria-label="$t('i18n.copilot_provider_filter')"
-          :disabled="loading || providerStore.loading"
-          @change="run(activeAction)"
-        >
-          <option value="">{{ $t('i18n.copilot_all_providers') }}</option>
-          <option
-            v-for="provider in providerStore.enabledProviders"
-            :key="provider.name"
-            :value="provider.name"
+        <label class="filter-field">
+          <span class="filter-label">{{ $t('i18n.copilot_provider_filter') }}</span>
+          <select
+            v-model="filters.provider"
+            class="filter-input"
+            :disabled="loading || providerStore.loading"
+            @change="run(activeAction)"
           >
-            {{ provider.name }} ({{ provider.type }})
-          </option>
-        </select>
-        <input
-          v-model.number="filters.limit"
-          class="filter-input filter-input--limit"
-          type="number"
-          min="1"
-          max="500"
-          :aria-label="$t('i18n.copilot_limit')"
-        />
+            <option value="">{{ $t('i18n.copilot_all_providers') }}</option>
+            <option
+              v-for="provider in providerStore.enabledProviders"
+              :key="provider.name"
+              :value="provider.name"
+            >
+              {{ provider.name }} ({{ provider.type }})
+            </option>
+          </select>
+        </label>
+        <label class="filter-field">
+          <span class="filter-label">{{ $t('i18n.copilot_limit') }}</span>
+          <input
+            v-model.number="filters.limit"
+            class="filter-input filter-input--limit"
+            type="number"
+            min="1"
+            max="500"
+            :disabled="loading"
+          />
+        </label>
+        <label v-if="activeAction === 'compress_memory'" class="filter-field">
+          <span class="filter-label">{{ $t('i18n.copilot_max_chars') }}</span>
+          <input
+            v-model.number="filters.maxChars"
+            class="filter-input filter-input--max-chars"
+            type="number"
+            min="120"
+            max="4000"
+            step="100"
+            :disabled="loading"
+          />
+        </label>
       </div>
     </div>
 
@@ -117,7 +134,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref, watch } from 'vue'
+import { computed, onMounted, onUnmounted, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import {
   runCopilotAction,
@@ -140,11 +157,14 @@ const actions = computed<Array<{ action: CopilotAction; label: string; shortLabe
 const filters = reactive({
   provider: '',
   limit: 200,
+  maxChars: 800,
 })
 const activeAction = ref<CopilotAction>('summarize_session')
 const result = ref<CopilotRunResponse | null>(null)
 const loading = ref(false)
 const error = ref<string | null>(null)
+let compressionRunTimer: ReturnType<typeof setTimeout> | null = null
+let suppressCompressionWatch = false
 
 const currentAction = computed(() => actions.value.find(item => item.action === activeAction.value) || actions.value[0])
 const providerLabel = computed(() => (
@@ -282,7 +302,34 @@ function followRecommendation(event: MouseEvent, kind: string) {
   target.focus({ preventScroll: true })
 }
 
+function applyCompressionTarget() {
+  const value = Number(filters.maxChars)
+  const normalizedValue = Number.isFinite(value)
+    ? Math.min(4000, Math.max(120, Math.round(value)))
+    : 800
+  if (filters.maxChars !== normalizedValue) {
+    suppressCompressionWatch = true
+    filters.maxChars = normalizedValue
+  }
+  run('compress_memory')
+}
+
+function clearCompressionRunTimer() {
+  if (!compressionRunTimer) return
+  clearTimeout(compressionRunTimer)
+  compressionRunTimer = null
+}
+
+function scheduleCompressionRun() {
+  clearCompressionRunTimer()
+  compressionRunTimer = setTimeout(() => {
+    compressionRunTimer = null
+    if (activeAction.value === 'compress_memory') applyCompressionTarget()
+  }, 450)
+}
+
 async function run(action: CopilotAction) {
+  clearCompressionRunTimer()
   activeAction.value = action
   loading.value = true
   error.value = null
@@ -292,7 +339,7 @@ async function run(action: CopilotAction) {
       provider: filters.provider || undefined,
       sessionId: sessionParam.value,
       limit: Number(filters.limit) || 200,
-      maxChars: 800,
+      maxChars: filters.maxChars,
     })
   } catch (e: any) {
     error.value = e?.message || t('i18n.copilot_run_failed')
@@ -310,8 +357,18 @@ onMounted(() => {
   run(activeAction.value)
 })
 
+onUnmounted(clearCompressionRunTimer)
+
 watch(() => sessionStore.activeSessionId, () => {
   run(activeAction.value)
+})
+
+watch(() => filters.maxChars, () => {
+  if (suppressCompressionWatch) {
+    suppressCompressionWatch = false
+    return
+  }
+  if (activeAction.value === 'compress_memory') scheduleCompressionRun()
 })
 </script>
 
@@ -360,6 +417,17 @@ watch(() => sessionStore.activeSessionId, () => {
   justify-content: flex-end;
 }
 
+.filter-field {
+  display: grid;
+  gap: 4px;
+}
+
+.filter-label {
+  color: var(--text-secondary);
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
 .filter-input {
   width: 140px;
   min-height: 36px;
@@ -373,6 +441,10 @@ watch(() => sessionStore.activeSessionId, () => {
 
 .filter-input--limit {
   width: 82px;
+}
+
+.filter-input--max-chars {
+  width: 108px;
 }
 
 .filter-input:focus {
@@ -606,7 +678,8 @@ watch(() => sessionStore.activeSessionId, () => {
   }
 
   .filter-input,
-  .filter-input--limit {
+  .filter-input--limit,
+  .filter-input--max-chars {
     width: 100%;
   }
 
