@@ -667,6 +667,7 @@
   "i18n.intelligence_memory_count": "{count} 条记忆",
   "i18n.intelligence_all_sessions": "全部会话",
   "i18n.intelligence_all_providers": "全部提供方",
+  "i18n.intelligence_provider_filter": "分析提供方",
   "i18n.intelligence_refreshing": "刷新中...",
   "i18n.intelligence_refresh": "刷新",
   "i18n.intelligence_compressing": "压缩中...",

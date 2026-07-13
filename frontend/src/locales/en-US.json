@@ -666,6 +666,7 @@
   "i18n.intelligence_memory_count": "{count} memories",
   "i18n.intelligence_all_sessions": "all sessions",
   "i18n.intelligence_all_providers": "all providers",
+  "i18n.intelligence_provider_filter": "Analysis provider",
   "i18n.intelligence_refreshing": "Refreshing...",
   "i18n.intelligence_refresh": "Refresh",
   "i18n.intelligence_compressing": "Compressing...",

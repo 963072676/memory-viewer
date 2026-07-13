@@ -10,7 +10,25 @@
         </div>
       </div>
       <div class="panel-actions">
-        <label class="compression-control">
+        <label class="intelligence-control provider-control">
+          <span>{{ $t('i18n.intelligence_provider_filter') }}</span>
+          <select
+            v-model="selectedProvider"
+            class="provider-select"
+            :disabled="loading || providerStore.loading"
+            @change="changeProviderScope"
+          >
+            <option value="">{{ $t('i18n.intelligence_all_providers') }}</option>
+            <option
+              v-for="provider in providerStore.enabledProviders"
+              :key="provider.name"
+              :value="provider.name"
+            >
+              {{ provider.name }} ({{ provider.type }})
+            </option>
+          </select>
+        </label>
+        <label class="intelligence-control compression-control">
           <span>{{ $t('i18n.intelligence_max_chars') }}</span>
           <input
             v-model.number="compressionMaxChars"
@@ -311,8 +329,10 @@ import {
   type IntelligenceContradictions,
   type IntelligenceSummary,
 } from '@/api/intelligence'
+import { useProviderStore } from '@/stores/providers'
 import { useSessionStore } from '@/stores/sessions'
 
+const providerStore = useProviderStore()
 const sessionStore = useSessionStore()
 const { t } = useI18n()
 const summary = ref<IntelligenceSummary | null>(null)
@@ -321,6 +341,7 @@ const clusters = ref<IntelligenceClusters | null>(null)
 const contradictions = ref<IntelligenceContradictions | null>(null)
 const loading = ref(false)
 const compressing = ref(false)
+const selectedProvider = ref('')
 const compressionMaxChars = ref<number | string>(700)
 const error = ref<string | null>(null)
 const expandedTag = ref<string | null>(null)
@@ -328,7 +349,9 @@ const expandedClusterId = ref<string | null>(null)
 const expandedContradictionId = ref<string | null>(null)
 
 const providerLabel = computed(() => (
-  summary.value?.providers?.length ? summary.value.providers.join(', ') : t('i18n.intelligence_all_providers')
+  summary.value?.providers?.length
+    ? summary.value.providers.join(', ')
+    : selectedProvider.value || t('i18n.intelligence_all_providers')
 ))
 const sessionParam = computed(() => sessionStore.activeSessionId || undefined)
 const keywords = computed(() => summary.value?.keywords?.slice(0, 8) || [])
@@ -339,9 +362,21 @@ async function loadAll() {
   error.value = null
   try {
     const [nextSummary, nextClusters, nextContradictions] = await Promise.all([
-      fetchIntelligenceSummary({ sessionId: sessionParam.value, limit: 200 }),
-      fetchIntelligenceClusters({ sessionId: sessionParam.value, limit: 200 }),
-      fetchIntelligenceContradictions({ sessionId: sessionParam.value, limit: 200 }),
+      fetchIntelligenceSummary({
+        provider: selectedProvider.value || undefined,
+        sessionId: sessionParam.value,
+        limit: 200,
+      }),
+      fetchIntelligenceClusters({
+        provider: selectedProvider.value || undefined,
+        sessionId: sessionParam.value,
+        limit: 200,
+      }),
+      fetchIntelligenceContradictions({
+        provider: selectedProvider.value || undefined,
+        sessionId: sessionParam.value,
+        limit: 200,
+      }),
     ])
     summary.value = nextSummary
     clusters.value = nextClusters
@@ -375,6 +410,7 @@ async function compress() {
   error.value = null
   try {
     compression.value = await compressIntelligenceMemories({
+      provider: selectedProvider.value || undefined,
       sessionId: sessionParam.value,
       limit: 200,
       maxChars: normalizedMaxChars,
@@ -403,15 +439,32 @@ function severityLabel(severity: string) {
   return t(`i18n.intelligence_severity_${key}`)
 }
 
+function resetScopeResults() {
+  summary.value = null
+  compression.value = null
+  clusters.value = null
+  contradictions.value = null
+  expandedTag.value = null
+  expandedClusterId.value = null
+  expandedContradictionId.value = null
+}
+
+function changeProviderScope() {
+  resetScopeResults()
+  loadAll()
+}
+
 onMounted(() => {
+  if (!providerStore.loaded && !providerStore.loading) {
+    providerStore.load().catch(() => {
+      // Provider-neutral analysis remains available when discovery fails.
+    })
+  }
   loadAll()
 })
 
 watch(() => sessionStore.activeSessionId, () => {
-  compression.value = null
-  expandedTag.value = null
-  expandedClusterId.value = null
-  expandedContradictionId.value = null
+  resetScopeResults()
   loadAll()
 })
 </script>
@@ -423,6 +476,7 @@ watch(() => sessionStore.activeSessionId, () => {
 
 .panel-header {
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-start;
   justify-content: space-between;
   gap: var(--space-4);
@@ -444,13 +498,18 @@ watch(() => sessionStore.activeSessionId, () => {
   gap: var(--space-3);
 }
 
+.panel-actions {
+  min-width: 0;
+  justify-content: flex-end;
+}
+
 .panel-meta {
   margin-top: var(--space-2);
   color: var(--text-secondary);
   font-size: 0.8rem;
 }
 
-.compression-control {
+.intelligence-control {
   display: grid;
   gap: 4px;
   color: var(--text-secondary);
@@ -458,6 +517,7 @@ watch(() => sessionStore.activeSessionId, () => {
   font-weight: 600;
 }
 
+.provider-select,
 .compression-input {
   width: 108px;
   min-height: 36px;
@@ -469,6 +529,15 @@ watch(() => sessionStore.activeSessionId, () => {
   font-size: 0.82rem;
 }
 
+.provider-select {
+  width: 150px;
+}
+
+.compression-input {
+  width: 108px;
+}
+
+.provider-select:focus,
 .compression-input:focus {
   border-color: var(--accent);
   outline: none;
@@ -1084,6 +1153,10 @@ watch(() => sessionStore.activeSessionId, () => {
   }
 
   .compression-input {
+    width: 100%;
+  }
+
+  .provider-select {
     width: 100%;
   }
 
