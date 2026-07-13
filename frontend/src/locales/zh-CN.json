@@ -815,5 +815,16 @@
   "i18n.hermes_empty_title": "还没有 Hermes 记忆",
   "i18n.hermes_empty_message": "从 Hermes Agent 同步记忆，或前往数据源管理检查连接。",
   "i18n.preview_profile": "配置范围",
-  "i18n.preview_file": "来源文件"
+  "i18n.preview_file": "来源文件",
+  "i18n.source_loading": "正在读取数据源",
+  "i18n.source_refresh": "刷新",
+  "i18n.source_load_failed_message": "无法加载数据源状态，请检查服务连接后重试。",
+  "i18n.source_memory_count": "{count} 条记忆",
+  "i18n.source_expand": "展开 {name} 数据源",
+  "i18n.source_collapse": "收起 {name} 数据源",
+  "i18n.source_details_aria": "{name} 数据源详情",
+  "i18n.source_list_aria": "已注册的记忆数据源",
+  "i18n.source_open_memories": "查看 {name} 中的记忆",
+  "i18n.source_empty_title": "暂无可用数据源",
+  "i18n.source_empty_message": "配置并启用一个记忆数据源后，其状态和记忆数量会显示在这里。"
 }

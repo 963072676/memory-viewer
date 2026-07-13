@@ -1,17 +1,29 @@
 <template>
-  <div class="sources-view">
+  <div class="sources-view" :aria-busy="loading">
     <div class="view-header">
       <h2 class="section-title">🔌 {{ $t('i18n.source_management') }}</h2>
-      <button class="action-btn" @click="loadSources" :disabled="loading">
-        {{ loading ? '加载中...' : '刷新' }}
+      <button type="button" class="action-btn" :disabled="loading" @click="loadSources">
+        <span class="refresh-icon" :class="{ spinning: loading }" aria-hidden="true">↻</span>
+        {{ loading ? $t('i18n.source_loading') : $t('i18n.source_refresh') }}
       </button>
     </div>
 
-    <div v-if="loading && sources.length === 0" class="loading">加载中...</div>
+    <div v-if="loading && sources.length === 0" class="loading-state" role="status" aria-live="polite">
+      <span>{{ $t('i18n.source_loading') }}</span>
+      <div class="summary-row loading-summary" aria-hidden="true">
+        <div v-for="i in 4" :key="`summary-${i}`" class="summary-card skeleton-block"></div>
+      </div>
+      <div class="sources-grid" aria-hidden="true">
+        <div v-for="i in 2" :key="`source-${i}`" class="source-card skeleton-source"></div>
+      </div>
+    </div>
 
-    <div v-else-if="loadError" class="error-state">
-      <p>⚠️ {{ $t('i18n.load_failed') }}，点击{{ $t('i18n.retry') }}</p>
-      <button class="action-btn" @click="loadSources">{{ $t('i18n.retry') }}</button>
+    <div v-else-if="loadError" class="error-state" role="alert">
+      <div class="error-copy">
+        <strong>{{ $t('i18n.load_failed') }}</strong>
+        <span>{{ $t('i18n.source_load_failed_message') }}</span>
+      </div>
+      <button type="button" class="action-btn" @click="loadSources">{{ $t('i18n.retry') }}</button>
     </div>
 
     <template v-else>
@@ -36,33 +48,50 @@
       </div>
 
       <!-- Source cards -->
-      <div class="sources-grid">
-        <div
+      <div class="sources-grid" role="list" :aria-label="$t('i18n.source_list_aria')">
+        <article
           v-for="source in sources"
           :key="source.name"
           class="source-card"
           :class="{ expanded: expandedSources.has(source.name), disabled: !source.enabled }"
+          role="listitem"
         >
-          <div class="source-header" @click="toggleExpand(source.name)">
+          <button
+            type="button"
+            class="source-header"
+            :aria-expanded="expandedSources.has(source.name)"
+            :aria-controls="sourceDetailId(source.name)"
+            :aria-label="$t(expandedSources.has(source.name) ? 'i18n.source_collapse' : 'i18n.source_expand', { name: source.name })"
+            @click="toggleExpand(source.name)"
+          >
             <div class="source-info">
               <div class="source-title">
-                <span class="health-dot" :class="source.healthy ? 'healthy' : 'unhealthy'"></span>
                 <span class="source-name">{{ source.name }}</span>
                 <span class="source-type-badge">{{ source.type }}</span>
               </div>
               <div class="source-meta">
-                <span class="memory-count">{{ source.count }} 条记忆</span>
+                <span class="memory-count">{{ $t('i18n.source_memory_count', { count: source.count }) }}</span>
+                <span class="health-badge" :class="source.healthy ? 'healthy' : 'unhealthy'">
+                  <span class="health-dot" aria-hidden="true"></span>
+                  {{ source.healthy ? $t('i18n.healthy') : $t('i18n.unhealthy') }}
+                </span>
                 <span
                   class="enabled-badge"
                   :class="source.enabled ? 'enabled' : 'disabled'"
                 >{{ source.enabled ? $t('i18n.enabled') : $t('i18n.disabled') }}</span>
               </div>
             </div>
-            <span class="expand-icon">{{ expandedSources.has(source.name) ? '▲' : '▼' }}</span>
-          </div>
+            <span class="expand-icon" aria-hidden="true">⌄</span>
+          </button>
 
           <transition name="expand">
-            <div v-if="expandedSources.has(source.name)" class="source-detail">
+            <div
+              v-if="expandedSources.has(source.name)"
+              :id="sourceDetailId(source.name)"
+              class="source-detail"
+              role="region"
+              :aria-label="$t('i18n.source_details_aria', { name: source.name })"
+            >
               <div class="detail-grid">
                 <div class="detail-item">
                   <span class="detail-label">{{ $t('i18n.name') }}</span>
@@ -90,25 +119,35 @@
                 </div>
               </div>
               <div class="detail-actions">
-                <button class="action-btn action-btn--sm" @click.stop="viewSourceMemories(source.name)">
+                <button
+                  type="button"
+                  class="action-btn action-btn--primary action-btn--sm"
+                  :aria-label="$t('i18n.source_open_memories', { name: source.name })"
+                  @click="viewSourceMemories(source.name)"
+                >
                   {{ $t('i18n.view_memory') }}
                 </button>
               </div>
             </div>
           </transition>
-        </div>
+        </article>
       </div>
 
       <div v-if="sources.length === 0">
-        <!-- P38 r30: EmptyState message prop 改 v-bind -->
-        <EmptyState icon="📭" :message="$t('i18n.registered_sources')" />
+        <EmptyState
+          icon="📭"
+          :title="$t('i18n.source_empty_title')"
+          :message="$t('i18n.source_empty_message')"
+          :action-text="$t('i18n.source_refresh')"
+          @action="loadSources"
+        />
       </div>
     </template>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { fetchSources, type SourceInfo } from '@/api/sources'
 import EmptyState from '@/components/Layout/EmptyState.vue'
@@ -119,6 +158,7 @@ const loading = ref(false)
 const loadError = ref(false)
 const sources = ref<SourceInfo[]>([])
 const expandedSources = ref(new Set<string>())
+let loadRequestId = 0
 
 const totalMemories = computed(() => sources.value.reduce((sum, s) => sum + s.count, 0))
 const onlineCount = computed(() => sources.value.filter(s => s.healthy && s.enabled).length)
@@ -134,25 +174,35 @@ function toggleExpand(name: string) {
   expandedSources.value = s
 }
 
+function sourceDetailId(name: string) {
+  return `source-detail-${name.replace(/[^a-zA-Z0-9_-]/g, '-')}`
+}
+
 function viewSourceMemories(name: string) {
   router.push({ path: '/', query: { source: name } })
 }
 
 async function loadSources() {
+  const requestId = ++loadRequestId
   loading.value = true
   loadError.value = false
   try {
     const res = await fetchSources()
+    if (requestId !== loadRequestId) return
     sources.value = res.sources
+    const names = new Set(res.sources.map(source => source.name))
+    expandedSources.value = new Set([...expandedSources.value].filter(name => names.has(name)))
   } catch (e) {
+    if (requestId !== loadRequestId) return
     console.error('Failed to load sources:', e)
     loadError.value = true
   } finally {
-    loading.value = false
+    if (requestId === loadRequestId) loading.value = false
   }
 }
 
 onMounted(() => loadSources())
+onUnmounted(() => { loadRequestId++ })
 </script>
 
 <style scoped>
@@ -179,23 +229,65 @@ h2 {
 h2.section-title { position: relative; padding-left: 12px; }
 h2.section-title::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 3px; height: 60%; background: var(--accent); border-radius: 0 2px 2px 0; }
 
-/* P38 r21: button system unification — .action-btn + .action-btn--sm
-   are global. Local rules removed. */
+.refresh-icon {
+  display: inline-block;
+  line-height: 1;
+}
 
-.loading {
-  text-align: center;
-  padding: 40px;
+.refresh-icon.spinning {
+  animation: source-spin 0.8s linear infinite;
+}
+
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 8px 0;
   color: var(--text-secondary);
 }
 
+.loading-summary {
+  margin-bottom: 0;
+}
+
+.skeleton-block,
+.skeleton-source {
+  border-color: transparent;
+  background: linear-gradient(90deg, var(--tag-bg) 25%, var(--border) 50%, var(--tag-bg) 75%);
+  background-size: 200% 100%;
+  animation: source-shimmer 1.4s ease-in-out infinite;
+}
+
+.skeleton-block {
+  height: 92px;
+}
+
+.skeleton-source {
+  height: 92px;
+}
+
 .error-state {
-  text-align: center;
-  padding: 40px;
-  color: var(--error-text, #ef4444);
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 12px;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid var(--error-border);
+  border-radius: var(--radius);
+  background: var(--error-bg);
+}
+
+.error-copy {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 4px;
+  color: var(--error);
+}
+
+.error-copy span {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
 }
 
 /* Summary cards */
@@ -250,19 +342,25 @@ h2.section-title::before { content: ''; position: absolute; left: 0; top: 50%; t
 }
 
 .source-card:hover {
-  border-color: var(--accent, #007aff);
+  border-color: var(--border-strong);
 }
 
 .source-card.disabled {
-  opacity: 0.6;
+  border-style: dashed;
 }
 
 .source-header {
   display: flex;
+  width: 100%;
   justify-content: space-between;
   align-items: center;
   padding: 16px;
+  border: 0;
+  background: transparent;
+  color: inherit;
   cursor: pointer;
+  font: inherit;
+  text-align: left;
   user-select: none;
 }
 
@@ -270,8 +368,14 @@ h2.section-title::before { content: ''; position: absolute; left: 0; top: 50%; t
   background: var(--tag-bg);
 }
 
+.source-header:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
 .source-info {
   display: flex;
+  min-width: 0;
   flex-direction: column;
   gap: 8px;
 }
@@ -279,6 +383,7 @@ h2.section-title::before { content: ''; position: absolute; left: 0; top: 50%; t
 .source-title {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 10px;
 }
 
@@ -286,6 +391,7 @@ h2.section-title::before { content: ''; position: absolute; left: 0; top: 50%; t
   font-size: 1rem;
   font-weight: 600;
   color: var(--primary);
+  overflow-wrap: anywhere;
 }
 
 .source-type-badge {
@@ -306,6 +412,7 @@ h2.section-title::before { content: ''; position: absolute; left: 0; top: 50%; t
 .source-meta {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 12px;
 }
 
@@ -323,6 +430,30 @@ h2.section-title::before { content: ''; position: absolute; left: 0; top: 50%; t
   font-weight: 600;
   letter-spacing: 0.05em;
   text-transform: uppercase;
+}
+
+.health-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--tag-bg);
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.health-badge.healthy {
+  border-color: color-mix(in srgb, var(--success-text) 18%, transparent);
+  background: var(--success-bg);
+  color: var(--success-text);
+}
+
+.health-badge.unhealthy {
+  border-color: var(--error-border);
+  background: var(--error-bg);
+  color: var(--error);
 }
 
 .enabled-badge.enabled {
@@ -349,29 +480,27 @@ h2.section-title::before { content: ''; position: absolute; left: 0; top: 50%; t
 
 /* Health dot */
 .health-dot {
-  width: 10px;
-  height: 10px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   flex-shrink: 0;
-}
-
-.health-dot.healthy {
-  background: var(--success-text);
-  /* P38 r17: 改 hardcoded rgba 阴影 → color-mix + 主题色, 让阴影跟随 dark/light 自动调亮.
-     此前 0.4 alpha 固定值在 dark 背景上发光感很弱 (深绿 + alpha 模糊后几乎看不见).
-     改 color-mix(in srgb, var(--success-text) 40%, transparent) 在 dark 模式下也保持"健康发光"质感. */
-  box-shadow: 0 0 6px color-mix(in srgb, var(--success-text) 40%, transparent);
-}
-
-.health-dot.unhealthy {
-  background: var(--error-text);
-  box-shadow: 0 0 6px color-mix(in srgb, var(--error-text) 40%, transparent);
+  background: currentColor;
 }
 
 .expand-icon {
-  font-size: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  font-size: 1rem;
   color: var(--text-secondary);
   flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.source-card.expanded .expand-icon {
+  transform: rotate(180deg);
 }
 
 /* Expanded detail */
@@ -443,7 +572,16 @@ h2.section-title::before { content: ''; position: absolute; left: 0; top: 50%; t
 .expand-enter-to,
 .expand-leave-from {
   opacity: 1;
-  max-height: 300px;
+  max-height: 480px;
+}
+
+@keyframes source-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes source-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 
 /* Responsive */
@@ -454,7 +592,7 @@ h2.section-title::before { content: ''; position: absolute; left: 0; top: 50%; t
 
   .view-header {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
   }
 
   .summary-row {
@@ -469,8 +607,23 @@ h2.section-title::before { content: ''; position: absolute; left: 0; top: 50%; t
     padding: 12px;
   }
 
+  .error-state {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
   .detail-grid {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .detail-actions .action-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .detail-grid {
+    grid-template-columns: 1fr;
   }
 }
 </style>

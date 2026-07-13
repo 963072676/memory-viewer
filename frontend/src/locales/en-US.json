@@ -814,5 +814,16 @@
   "i18n.hermes_empty_title": "No Hermes memories yet",
   "i18n.hermes_empty_message": "Sync memories from Hermes Agent or check the connection in source management.",
   "i18n.preview_profile": "Profile scope",
-  "i18n.preview_file": "Source file"
+  "i18n.preview_file": "Source file",
+  "i18n.source_loading": "Loading sources",
+  "i18n.source_refresh": "Refresh",
+  "i18n.source_load_failed_message": "Unable to load source status. Check the service connection and try again.",
+  "i18n.source_memory_count": "{count} memories",
+  "i18n.source_expand": "Expand {name} source",
+  "i18n.source_collapse": "Collapse {name} source",
+  "i18n.source_details_aria": "{name} source details",
+  "i18n.source_list_aria": "Registered memory sources",
+  "i18n.source_open_memories": "View memories from {name}",
+  "i18n.source_empty_title": "No available sources",
+  "i18n.source_empty_message": "Configure and enable a memory source to see its status and memory count here."
 }
