@@ -10,13 +10,22 @@
         </div>
       </div>
       <div class="filter-row">
-        <input
-          v-model.trim="filters.provider"
+        <select
+          v-model="filters.provider"
           class="filter-input"
-          type="text"
-          :placeholder="$t('i18n.copilot_provider_filter')"
           :aria-label="$t('i18n.copilot_provider_filter')"
-        />
+          :disabled="loading || providerStore.loading"
+          @change="run(activeAction)"
+        >
+          <option value="">{{ $t('i18n.copilot_all_providers') }}</option>
+          <option
+            v-for="provider in providerStore.enabledProviders"
+            :key="provider.name"
+            :value="provider.name"
+          >
+            {{ provider.name }} ({{ provider.type }})
+          </option>
+        </select>
         <input
           v-model.number="filters.limit"
           class="filter-input filter-input--limit"
@@ -115,8 +124,10 @@ import {
   type CopilotAction,
   type CopilotRunResponse,
 } from '@/api/copilot'
+import { useProviderStore } from '@/stores/providers'
 import { useSessionStore } from '@/stores/sessions'
 
+const providerStore = useProviderStore()
 const sessionStore = useSessionStore()
 const { t } = useI18n()
 const actions = computed<Array<{ action: CopilotAction; label: string; shortLabel: string }>>(() => [
@@ -291,6 +302,11 @@ async function run(action: CopilotAction) {
 }
 
 onMounted(() => {
+  if (!providerStore.loaded && !providerStore.loading) {
+    providerStore.load().catch(() => {
+      // The all-provider action remains available when provider discovery fails.
+    })
+  }
   run(activeAction.value)
 })
 
