@@ -564,7 +564,10 @@ onMounted(() => {
     loadProviders().catch(() => {
       // The store keeps the user-facing error.
     })
+    return
   }
+
+  refreshObservability()
 })
 </script>
 
