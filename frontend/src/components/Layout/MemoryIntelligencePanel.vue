@@ -10,6 +10,18 @@
         </div>
       </div>
       <div class="panel-actions">
+        <label class="compression-control">
+          <span>{{ $t('i18n.intelligence_max_chars') }}</span>
+          <input
+            v-model.number="compressionMaxChars"
+            class="compression-input"
+            type="number"
+            min="120"
+            max="4000"
+            step="100"
+            :disabled="compressing"
+          />
+        </label>
         <button class="action-btn" type="button" :disabled="loading" @click="loadAll">
           {{ loading ? $t('i18n.intelligence_refreshing') : $t('i18n.intelligence_refresh') }}
         </button>
@@ -126,7 +138,12 @@
         </div>
 
         <div class="intelligence-block">
-          <div class="block-title">{{ $t('i18n.intelligence_compression') }}</div>
+          <div class="block-heading">
+            <div class="block-title">{{ $t('i18n.intelligence_compression') }}</div>
+            <span v-if="compression" class="compression-limit">
+              {{ $t('i18n.intelligence_max_chars_applied', { count: compression.maxChars }) }}
+            </span>
+          </div>
           <p class="compressed-text">{{ compression?.compressed || summary?.summary || $t('i18n.intelligence_no_compression') }}</p>
         </div>
 
@@ -304,6 +321,7 @@ const clusters = ref<IntelligenceClusters | null>(null)
 const contradictions = ref<IntelligenceContradictions | null>(null)
 const loading = ref(false)
 const compressing = ref(false)
+const compressionMaxChars = ref<number | string>(700)
 const error = ref<string | null>(null)
 const expandedTag = ref<string | null>(null)
 const expandedClusterId = ref<string | null>(null)
@@ -348,13 +366,18 @@ async function loadAll() {
 }
 
 async function compress() {
+  const parsedMaxChars = Number(compressionMaxChars.value)
+  const normalizedMaxChars = compressionMaxChars.value === '' || !Number.isFinite(parsedMaxChars)
+    ? 700
+    : Math.min(4000, Math.max(120, Math.round(parsedMaxChars)))
+  compressionMaxChars.value = normalizedMaxChars
   compressing.value = true
   error.value = null
   try {
     compression.value = await compressIntelligenceMemories({
       sessionId: sessionParam.value,
       limit: 200,
-      maxChars: 700,
+      maxChars: normalizedMaxChars,
     })
   } catch (e: any) {
     error.value = e?.message || t('i18n.intelligence_compress_failed')
@@ -425,6 +448,31 @@ watch(() => sessionStore.activeSessionId, () => {
   margin-top: var(--space-2);
   color: var(--text-secondary);
   font-size: 0.8rem;
+}
+
+.compression-control {
+  display: grid;
+  gap: 4px;
+  color: var(--text-secondary);
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.compression-input {
+  width: 108px;
+  min-height: 36px;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--card);
+  color: var(--primary);
+  font-size: 0.82rem;
+}
+
+.compression-input:focus {
+  border-color: var(--accent);
+  outline: none;
+  box-shadow: 0 0 0 4px var(--accent-glow);
 }
 
 .panel-state {
@@ -501,6 +549,28 @@ watch(() => sessionStore.activeSessionId, () => {
   color: var(--primary);
   font-size: 0.88rem;
   font-weight: 700;
+}
+
+.block-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.block-heading .block-title {
+  margin-bottom: 0;
+}
+
+.compression-limit {
+  flex: 0 0 auto;
+  padding: 3px 7px;
+  border-radius: var(--radius-sm);
+  background: var(--tag-bg);
+  color: var(--text-secondary);
+  font-size: 0.7rem;
+  font-weight: 600;
 }
 
 .summary-text,
@@ -1011,6 +1081,10 @@ watch(() => sessionStore.activeSessionId, () => {
 
   .intelligence-layout {
     grid-template-columns: 1fr;
+  }
+
+  .compression-input {
+    width: 100%;
   }
 
   .cluster-member {

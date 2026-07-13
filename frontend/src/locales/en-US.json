@@ -670,6 +670,8 @@
   "i18n.intelligence_refresh": "Refresh",
   "i18n.intelligence_compressing": "Compressing...",
   "i18n.intelligence_compress": "Compress",
+  "i18n.intelligence_max_chars": "Max chars",
+  "i18n.intelligence_max_chars_applied": "{count} character limit",
   "i18n.intelligence_loading": "Loading intelligence...",
   "i18n.intelligence_keywords": "Keywords",
   "i18n.intelligence_tags": "Tags",
