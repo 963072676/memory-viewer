@@ -124,6 +124,8 @@
   "i18n.unique_memories": "无独有记忆",
   "i18n.shared_memories": "无共有记忆",
   "i18n.statistics_dashboard": "统计仪表盘",
+  "i18n.dashboard_refresh_all": "刷新全部",
+  "i18n.dashboard_refreshing": "刷新中...",
   "i18n.distribution_type": "按类型分布",
   "i18n.system_mismatch": "系统不一致",
   "i18n.keyword_match": "关键词匹配",

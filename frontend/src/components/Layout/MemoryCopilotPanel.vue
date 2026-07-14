@@ -348,6 +348,12 @@ async function run(action: CopilotAction) {
   }
 }
 
+function refresh() {
+  return run(activeAction.value)
+}
+
+defineExpose({ refresh })
+
 onMounted(() => {
   if (!providerStore.loaded && !providerStore.loading) {
     providerStore.load().catch(() => {

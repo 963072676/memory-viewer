@@ -222,6 +222,8 @@ function errorText(error: Record<string, unknown>) {
   return [provider, code || message].filter(Boolean).join(': ') || t('i18n.provider_error_generic')
 }
 
+defineExpose({ refresh: refreshObservability })
+
 onMounted(() => {
   if (props.autoload) refreshObservability()
 })

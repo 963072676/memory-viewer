@@ -2,18 +2,35 @@
   <div class="dashboard-view">
     <div class="dashboard-header">
       <h2 class="section-title">📊 {{ $t('i18n.statistics_dashboard') }}</h2>
-      <button class="action-btn" @click="loadStats">🔄 刷新</button>
+      <button
+        class="action-btn dashboard-refresh"
+        type="button"
+        :disabled="dashboardBusy"
+        :aria-busy="dashboardBusy"
+        @click="refreshDashboard"
+      >
+        {{ dashboardBusy ? $t('i18n.dashboard_refreshing') : $t('i18n.dashboard_refresh_all') }}
+      </button>
     </div>
 
     <!-- F-37: Activity Heatmap -->
-    <ActivityHeatmap @day-click="onHeatmapDayClick" />
+    <ActivityHeatmap ref="activityHeatmapRef" @day-click="onHeatmapDayClick" />
 
-    <ProviderObservabilityPanel />
+    <ProviderObservabilityPanel ref="providerObservabilityRef" />
 
-    <div v-if="loading" class="loading-state">加载中...</div>
-    <div v-else-if="error" class="error-state">
+    <div v-if="error && stats" class="refresh-error" role="alert">
+      <span>{{ error }}</span>
+      <button class="action-btn action-btn--sm" type="button" @click="refreshDashboard">
+        {{ $t('i18n.retry') }}
+      </button>
+    </div>
+
+    <div v-if="loading && !stats" class="loading-state">加载中...</div>
+    <div v-else-if="error && !stats" class="error-state">
       <p>⚠️ {{ error }}</p>
-      <button class="action-btn action-btn--danger" @click="loadStats">点击{{ $t('i18n.retry') }}</button>
+      <button class="action-btn action-btn--danger" type="button" @click="refreshDashboard">
+        {{ $t('i18n.retry') }}
+      </button>
     </div>
     <div v-else-if="stats" class="dashboard-grid">
       <!-- P38 r9: count-up 动画 — 从 0 滚动到目标值（800ms ease-out-cubic）。
@@ -41,11 +58,11 @@
         </div>
       </div>
 
-      <SessionSwitcher />
+      <SessionSwitcher ref="sessionSwitcherRef" />
 
-      <MemoryCopilotPanel />
+      <MemoryCopilotPanel ref="memoryCopilotRef" />
 
-      <MemoryIntelligencePanel />
+      <MemoryIntelligencePanel ref="memoryIntelligenceRef" />
 
       <!-- Type Distribution Bar Chart -->
       <div class="chart-card">
@@ -134,7 +151,19 @@ interface Stats {
 
 const stats = ref<Stats | null>(null)
 const loading = ref(false)
+const refreshing = ref(false)
 const error = ref<string | null>(null)
+
+interface RefreshablePanel {
+  refresh: () => Promise<unknown> | void
+}
+
+const activityHeatmapRef = ref<RefreshablePanel | null>(null)
+const providerObservabilityRef = ref<RefreshablePanel | null>(null)
+const sessionSwitcherRef = ref<RefreshablePanel | null>(null)
+const memoryCopilotRef = ref<RefreshablePanel | null>(null)
+const memoryIntelligenceRef = ref<RefreshablePanel | null>(null)
+const dashboardBusy = computed(() => refreshing.value || (loading.value && !stats.value))
 
 /* P38 r9: count-up 动画 — 4 个 summary card 数字从 0 滚动到目标。
  * 800ms 动画 + easeOutCubic（"快进 + 慢停"，强调目标到达）。
@@ -203,6 +232,26 @@ async function loadStats() {
   }
 }
 
+async function refreshDashboard() {
+  if (refreshing.value) return
+  refreshing.value = true
+  const panels = [
+    activityHeatmapRef.value,
+    providerObservabilityRef.value,
+    sessionSwitcherRef.value,
+    memoryCopilotRef.value,
+    memoryIntelligenceRef.value,
+  ]
+  try {
+    await Promise.allSettled([
+      loadStats(),
+      ...panels.filter((panel): panel is RefreshablePanel => Boolean(panel)).map(panel => panel.refresh()),
+    ])
+  } finally {
+    refreshing.value = false
+  }
+}
+
 onMounted(loadStats)
 
 function onHeatmapDayClick(date: string) {
@@ -232,6 +281,29 @@ function onHeatmapDayClick(date: string) {
   color: var(--primary);
   margin: 0;
   letter-spacing: -0.02em;
+}
+
+.dashboard-refresh {
+  min-width: 92px;
+}
+
+.refresh-error {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--error-border);
+  border-radius: var(--radius-md);
+  background: var(--error-bg);
+  color: var(--error-text);
+  font-size: 0.84rem;
+}
+
+.refresh-error span {
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 /* P38 r20: section-title 左侧 3px accent bar — 与 HomeView / AppSidebar / HermesMemoryView / AgentMemoryView 同源 (r15 模式). */
@@ -557,6 +629,11 @@ function onHeatmapDayClick(date: string) {
 
   .summary-value {
     font-size: 1.5rem;
+  }
+
+  .refresh-error {
+    align-items: stretch;
+    flex-direction: column;
   }
 
   .bar-label {

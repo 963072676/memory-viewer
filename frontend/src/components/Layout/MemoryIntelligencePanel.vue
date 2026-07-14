@@ -454,6 +454,8 @@ function changeProviderScope() {
   loadAll()
 }
 
+defineExpose({ refresh: loadAll })
+
 onMounted(() => {
   if (!providerStore.loaded && !providerStore.loading) {
     providerStore.load().catch(() => {

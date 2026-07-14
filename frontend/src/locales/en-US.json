@@ -26,6 +26,8 @@
   "i18n.source_path": "Source Path",
   "i18n.core_functionality": "'s core functionality",
   "i18n.statistics_dashboard": "Statistics dashboard",
+  "i18n.dashboard_refresh_all": "Refresh all",
+  "i18n.dashboard_refreshing": "Refreshing...",
   "i18n.distribution_type": "Distribution by Type",
   "i18n.keyword_match": "Keyword Match",
   "i18n.most_used": "Most used actions",

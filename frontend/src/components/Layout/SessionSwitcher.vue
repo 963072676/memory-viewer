@@ -75,6 +75,8 @@ watch(
   { deep: true },
 )
 
+defineExpose({ refresh: refreshSessions })
+
 onMounted(refreshSessions)
 </script>
 

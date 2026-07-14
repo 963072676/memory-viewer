@@ -191,6 +191,8 @@ function onCellClick(cell: HeatCell) {
   }
 }
 
+defineExpose({ refresh: loadData })
+
 onMounted(loadData)
 </script>
 
