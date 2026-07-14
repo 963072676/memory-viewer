@@ -3,21 +3,37 @@
     <div class="heatmap-header">
       <h3>🗓️ {{ $t('i18n.memory_activity') }}</h3>
       <div class="heatmap-controls">
-        <select v-model="selectedMetric" class="heatmap-select" @change="loadData">
+        <select
+          v-model="selectedMetric"
+          class="heatmap-select"
+          :aria-label="$t('i18n.heatmap_metric')"
+          @change="loadData"
+        >
           <option value="created">{{ $t('i18n.create') }}</option>
           <option value="modified">{{ $t('i18n.modify') }}</option>
           <option value="accessed">{{ $t('i18n.visit') }}</option>
         </select>
-        <button class="heatmap-refresh" @click="loadData" :disabled="loading">🔄</button>
+        <button
+          class="heatmap-refresh"
+          type="button"
+          :disabled="loading"
+          :aria-label="$t('i18n.heatmap_refresh')"
+          :title="$t('i18n.heatmap_refresh')"
+          @click="loadData"
+        >
+          🔄
+        </button>
       </div>
     </div>
 
-    <div v-if="loading" class="heatmap-loading">加载中...</div>
-    <div v-else-if="error" class="heatmap-error">{{ error }}</div>
+    <div v-if="loading" class="heatmap-loading" role="status" aria-live="polite">
+      {{ $t('i18n.heatmap_loading') }}
+    </div>
+    <div v-else-if="error" class="heatmap-error" role="alert">{{ error }}</div>
     <div v-else class="heatmap-body">
       <!-- Month labels -->
       <div class="heatmap-months">
-        <span v-for="month in monthLabels" :key="month.label"
+        <span v-for="month in monthLabels" :key="month.key"
               :style="{ gridColumn: month.col }">{{ month.label }}</span>
       </div>
 
@@ -25,35 +41,40 @@
       <div class="heatmap-grid-wrapper">
         <!-- Day-of-week labels -->
         <div class="heatmap-weekdays">
-          <span>一</span><span>三</span><span>五</span>
+          <span v-for="weekday in weekdayLabels" :key="weekday">{{ weekday }}</span>
         </div>
         <div class="heatmap-grid" ref="gridRef">
           <div
             v-for="(cell, idx) in cells"
             :key="idx"
             class="heatmap-cell"
-            :class="cell.level"
+            :class="[cell.level, { interactive: cell.count > 0 }]"
             :title="cell.tooltip"
+            :aria-label="cell.count > 0 ? cell.tooltip : undefined"
+            :role="cell.count > 0 ? 'button' : undefined"
+            :tabindex="cell.count > 0 ? 0 : -1"
             @click="onCellClick(cell)"
+            @keydown.enter="onCellClick(cell)"
+            @keydown.space.prevent="onCellClick(cell)"
           />
         </div>
       </div>
 
       <!-- Legend -->
       <div class="heatmap-legend">
-        <span class="heatmap-legend-label">少</span>
+        <span class="heatmap-legend-label">{{ $t('i18n.heatmap_less') }}</span>
         <div class="heatmap-cell level-0" />
         <div class="heatmap-cell level-1" />
         <div class="heatmap-cell level-2" />
         <div class="heatmap-cell level-3" />
         <div class="heatmap-cell level-4" />
-        <span class="heatmap-legend-label">多</span>
+        <span class="heatmap-legend-label">{{ $t('i18n.heatmap_more') }}</span>
       </div>
 
       <!-- Stats -->
       <div class="heatmap-stats" v-if="summary">
-        <span>📊 共 <strong>{{ summary.total_events }}</strong> {{ $t('i18n.activities') }}</span>
-        <span>📅 {{ $t('i18n.active') }} <strong>{{ summary.active_days }}</strong> 天</span>
+        <span>📊 {{ $t('i18n.heatmap_total') }} <strong>{{ summary.total_events }}</strong> {{ $t('i18n.heatmap_activities', summary.total_events) }}</span>
+        <span>📅 {{ $t('i18n.active') }} <strong>{{ summary.active_days }}</strong> {{ $t('i18n.heatmap_days', summary.active_days) }}</span>
         <span>🔥 {{ $t('i18n.daily_peak') }} <strong>{{ summary.max_day_count }}</strong></span>
       </div>
     </div>
@@ -63,10 +84,12 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import { request } from '@/api/index'
 import type { HeatmapData, HeatmapSummaryResponse } from '@/types'
 
 const router = useRouter()
+const { t, locale } = useI18n()
 const emit = defineEmits<{
   (e: 'dayClick', date: string): void
 }>()
@@ -116,7 +139,7 @@ const cells = computed<HeatCell[]>(() => {
       date: dateStr,
       count,
       level,
-      tooltip: `${dateStr}: ${count} 条记忆`,
+      tooltip: t('i18n.heatmap_day_tooltip', { date: dateStr, count }),
       weekIndex,
       dayOfWeek,
     })
@@ -129,19 +152,25 @@ const cells = computed<HeatCell[]>(() => {
 
 // Month labels based on cell data
 const monthLabels = computed(() => {
-  const labels: Array<{ label: string; col: number }> = []
+  const labels: Array<{ key: string; label: string; col: number }> = []
   let lastMonth = -1
-  const monthNames = ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
+  const formatter = new Intl.DateTimeFormat(locale.value, { month: 'short' })
 
   for (const cell of cells.value) {
     const d = new Date(cell.date)
     const m = d.getMonth()
     if (m !== lastMonth && d.getDate() <= 7) {
-      labels.push({ label: monthNames[m], col: cell.weekIndex + 1 })
+      const col = cell.weekIndex + 1
+      labels.push({ key: `${m}-${col}`, label: formatter.format(new Date(2024, m, 1)), col })
       lastMonth = m
     }
   }
   return labels
+})
+
+const weekdayLabels = computed(() => {
+  const formatter = new Intl.DateTimeFormat(locale.value, { weekday: 'narrow' })
+  return [1, 3, 5].map(offset => formatter.format(new Date(2024, 0, offset)))
 })
 
 function getLevel(count: number, maxCount: number): string {
@@ -178,7 +207,7 @@ async function loadData() {
       total_days: resp.total_days,
     }
   } catch (e: any) {
-    error.value = e.message || '加载热力图失败'
+    error.value = e.message || t('i18n.heatmap_load_failed')
   } finally {
     loading.value = false
   }
@@ -316,12 +345,22 @@ onMounted(loadData)
   width: 11px;
   height: 11px;
   border-radius: 2px;
-  cursor: pointer;
+  cursor: default;
   transition: transform 0.1s;
 }
 
-.heatmap-cell:hover {
+.heatmap-cell.interactive {
+  cursor: pointer;
+}
+
+.heatmap-cell.interactive:hover {
   transform: scale(1.4);
+}
+
+.heatmap-cell.interactive:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  transform: scale(1.3);
 }
 
 /* Levels — P38 r22: GitHub 硬编码绿 (9be9a8/40c463/30a14e/216e39) → 全站 --accent 蓝渐变。

@@ -25,7 +25,9 @@
       </button>
     </div>
 
-    <div v-if="loading && !stats" class="loading-state">加载中...</div>
+    <div v-if="loading && !stats" class="loading-state" role="status" aria-live="polite">
+      {{ $t('i18n.dashboard_loading') }}
+    </div>
     <div v-else-if="error && !stats" class="error-state">
       <p>⚠️ {{ error }}</p>
       <button class="action-btn action-btn--danger" type="button" @click="refreshDashboard">
@@ -88,7 +90,7 @@
 
       <!-- Strength Distribution Histogram -->
       <div class="chart-card">
-        <h3>💪 Strength {{ $t('i18n.distribution') }}</h3>
+        <h3>💪 {{ $t('i18n.dashboard_strength_distribution') }}</h3>
         <div v-if="maxStrengthCount === 0" class="chart-empty">
           <span class="chart-empty-mark" aria-hidden="true">∅</span>
           <span class="chart-empty-text">{{ $t('i18n.empty.chart_data') }}</span>
@@ -133,6 +135,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { request } from '@/api/index'
 import ActivityHeatmap from '@/components/Layout/ActivityHeatmap.vue'
 import ProviderObservabilityPanel from '@/components/Layout/ProviderObservabilityPanel.vue'
@@ -150,6 +153,7 @@ interface Stats {
 }
 
 const stats = ref<Stats | null>(null)
+const { t } = useI18n()
 const loading = ref(false)
 const refreshing = ref(false)
 const error = ref<string | null>(null)
@@ -226,7 +230,7 @@ async function loadStats() {
       by_month: am.by_month || {},
     }
   } catch (e: any) {
-    error.value = e.message || '加载统计数据失败'
+    error.value = e.message || t('i18n.dashboard_load_failed')
   } finally {
     loading.value = false
   }
