@@ -228,8 +228,11 @@ async function positionElements() {
 
   const viewport = getViewportBounds()
   const tooltipMaxHeight = Math.max(1, viewport.height - VIEWPORT_EDGE_MARGIN * 2)
+
+  // Source navigation can scroll while a newer positioning request is queued.
+  // Keep an already-visible panel on screen so its actions cannot remain hidden.
   tooltipStyle.value = {
-    visibility: 'hidden',
+    ...tooltipStyle.value,
     maxHeight: `${tooltipMaxHeight}px`,
   }
 
