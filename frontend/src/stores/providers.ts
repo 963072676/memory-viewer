@@ -22,6 +22,7 @@ export const useProviderStore = defineStore('providers', () => {
   const observabilityLoading = ref(false)
   const saving = ref(false)
   const error = ref<string | null>(null)
+  const actionError = ref<string | null>(null)
   const observabilityError = ref<string | null>(null)
   const loaded = ref(false)
   const lastFetch = ref<Date | null>(null)
@@ -63,6 +64,7 @@ export const useProviderStore = defineStore('providers', () => {
   async function load() {
     loading.value = true
     error.value = null
+    actionError.value = null
     try {
       const response = await fetchProviders()
       providers.value = response.providers
@@ -79,11 +81,12 @@ export const useProviderStore = defineStore('providers', () => {
   }
 
   async function refreshHealth() {
+    actionError.value = null
     try {
       const response = await fetchProviderHealth()
       health.value = response.health
     } catch (e: any) {
-      error.value = e?.message || 'Failed to refresh provider health'
+      actionError.value = e?.message || 'Failed to refresh provider health'
       throw e
     }
   }
@@ -104,12 +107,12 @@ export const useProviderStore = defineStore('providers', () => {
 
   async function saveStrategy(update: ProviderStrategyUpdate) {
     saving.value = true
-    error.value = null
+    actionError.value = null
     try {
       const response = await updateProviderStrategy(update)
       applyStrategy(response.strategy)
     } catch (e: any) {
-      error.value = e?.message || 'Failed to save provider strategy'
+      actionError.value = e?.message || 'Failed to save provider strategy'
       throw e
     } finally {
       saving.value = false
@@ -118,16 +121,20 @@ export const useProviderStore = defineStore('providers', () => {
 
   async function switchActiveProvider(name: string) {
     saving.value = true
-    error.value = null
+    actionError.value = null
     try {
       const response = await apiSwitchProvider(name)
       applyStrategy(response.strategy)
     } catch (e: any) {
-      error.value = e?.message || 'Failed to switch provider'
+      actionError.value = e?.message || 'Failed to switch provider'
       throw e
     } finally {
       saving.value = false
     }
+  }
+
+  function clearActionError() {
+    actionError.value = null
   }
 
   return {
@@ -139,6 +146,7 @@ export const useProviderStore = defineStore('providers', () => {
     observabilityLoading,
     saving,
     error,
+    actionError,
     observabilityError,
     loaded,
     lastFetch,
@@ -152,5 +160,6 @@ export const useProviderStore = defineStore('providers', () => {
     loadObservability,
     saveStrategy,
     switchActiveProvider,
+    clearActionError,
   }
 })

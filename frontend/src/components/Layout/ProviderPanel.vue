@@ -62,6 +62,34 @@
       <ProviderObservabilityPanel :autoload="false" />
 
       <form class="strategy-form" @submit.prevent="saveStrategy">
+        <div class="strategy-form-header">
+          <div>
+            <h3>{{ $t('i18n.provider_strategy') }}</h3>
+            <p
+              class="strategy-sync-state"
+              :class="{ 'strategy-sync-state--dirty': isStrategyDirty }"
+              role="status"
+              aria-live="polite"
+            >
+              {{ isStrategyDirty ? $t('i18n.provider_unsaved_changes') : $t('i18n.provider_strategy_saved') }}
+            </p>
+          </div>
+          <button
+            v-if="isStrategyDirty"
+            class="action-btn action-btn--sm"
+            type="button"
+            :disabled="providerStore.saving"
+            @click="resetStrategyDraft"
+          >
+            {{ $t('i18n.provider_reset_changes') }}
+          </button>
+        </div>
+
+        <div v-if="providerStore.actionError" class="strategy-error" role="alert">
+          <strong>{{ $t('i18n.provider_action_failed') }}</strong>
+          <span>{{ providerStore.actionError }}</span>
+        </div>
+
         <div class="form-grid">
           <div class="form-field">
             <label for="active-provider">{{ $t('i18n.provider_active') }}</label>
@@ -111,6 +139,7 @@
                 type="number"
                 min="0.1"
                 step="0.1"
+                @blur="normalizeNumericDraft"
               />
             </div>
             <div class="form-field">
@@ -122,6 +151,7 @@
                 type="number"
                 min="1"
                 step="1"
+                @blur="normalizeNumericDraft"
               />
             </div>
             <div class="form-field">
@@ -133,6 +163,7 @@
                 type="number"
                 min="0"
                 step="0.05"
+                @blur="normalizeNumericDraft"
               />
             </div>
           </div>
@@ -172,10 +203,19 @@
         </div>
 
         <div class="form-actions">
-          <button class="action-btn action-btn--accent" type="submit" :disabled="providerStore.saving">
+          <button
+            class="action-btn action-btn--accent"
+            type="submit"
+            :disabled="providerStore.saving || !isStrategyDirty"
+          >
             {{ providerStore.saving ? $t('i18n.provider_saving') : $t('i18n.provider_save_strategy') }}
           </button>
-          <button class="action-btn" type="button" :disabled="providerStore.loading" @click="refreshHealth">
+          <button
+            class="action-btn"
+            type="button"
+            :disabled="providerStore.loading || providerStore.saving"
+            @click="refreshHealth"
+          >
             {{ $t('i18n.provider_check_health') }}
           </button>
           <span v-if="saveOk" class="save-ok" role="status">{{ $t('i18n.saved') }}</span>
@@ -230,7 +270,7 @@ import { computed, onMounted, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useProviderStore } from '@/stores/providers'
 import ProviderObservabilityPanel from '@/components/Layout/ProviderObservabilityPanel.vue'
-import type { ProviderInfo } from '@/api/providers'
+import type { ProviderInfo, ProviderStrategy } from '@/api/providers'
 
 const providerStore = useProviderStore()
 const { t } = useI18n()
@@ -250,6 +290,10 @@ const fallbackOptions = computed(() => (
   providerStore.providers.filter(provider => provider.name !== draft.activeProvider)
 ))
 const fallbackCount = computed(() => draft.fallbackProviders.length)
+const isStrategyDirty = computed(() => {
+  if (!providerStore.strategy) return false
+  return strategySignature(draftStrategy()) !== strategySignature(providerStore.strategy)
+})
 
 function syncDraft() {
   const strategy = providerStore.strategy
@@ -278,16 +322,50 @@ function toggleFallback(name: string) {
   draft.fallbackProviders = Array.from(next)
 }
 
-function normalizedStrategy() {
+function draftStrategy(): ProviderStrategy {
   return {
     activeProvider: draft.activeProvider,
     fallbackProviders: draft.fallbackProviders.filter(name => name !== draft.activeProvider),
     parallelQuery: draft.parallelQuery,
-    timeoutSeconds: Math.max(0.1, Number(draft.timeoutSeconds) || 10),
-    retryAttempts: Math.max(1, Math.trunc(Number(draft.retryAttempts) || 1)),
-    retryBackoffSeconds: Math.max(0, Number(draft.retryBackoffSeconds) || 0),
+    timeoutSeconds: Number(draft.timeoutSeconds),
+    retryAttempts: Number(draft.retryAttempts),
+    retryBackoffSeconds: Number(draft.retryBackoffSeconds),
     debugRawResponse: draft.debugRawResponse,
   }
+}
+
+function normalizedStrategy(): ProviderStrategy {
+  const strategy = draftStrategy()
+  return {
+    ...strategy,
+    timeoutSeconds: Math.max(0.1, strategy.timeoutSeconds || 10),
+    retryAttempts: Math.max(1, Math.trunc(strategy.retryAttempts || 1)),
+    retryBackoffSeconds: Math.max(0, strategy.retryBackoffSeconds || 0),
+  }
+}
+
+function strategySignature(strategy: ProviderStrategy) {
+  return JSON.stringify({
+    activeProvider: strategy.activeProvider,
+    fallbackProviders: strategy.fallbackProviders,
+    parallelQuery: strategy.parallelQuery,
+    timeoutSeconds: strategy.timeoutSeconds,
+    retryAttempts: strategy.retryAttempts,
+    retryBackoffSeconds: strategy.retryBackoffSeconds,
+    debugRawResponse: strategy.debugRawResponse,
+  })
+}
+
+function normalizeNumericDraft() {
+  const strategy = normalizedStrategy()
+  draft.timeoutSeconds = strategy.timeoutSeconds
+  draft.retryAttempts = strategy.retryAttempts
+  draft.retryBackoffSeconds = strategy.retryBackoffSeconds
+}
+
+function resetStrategyDraft() {
+  syncDraft()
+  providerStore.clearActionError()
 }
 
 async function loadProviders() {
@@ -297,8 +375,12 @@ async function loadProviders() {
 }
 
 async function refreshHealth() {
-  await providerStore.refreshHealth()
-  await refreshObservability()
+  try {
+    await providerStore.refreshHealth()
+    await refreshObservability()
+  } catch {
+    // The inline action error keeps the current strategy draft visible.
+  }
 }
 
 async function refreshObservability() {
@@ -310,19 +392,29 @@ async function refreshObservability() {
 }
 
 async function saveStrategy() {
-  await providerStore.saveStrategy(normalizedStrategy())
-  syncDraft()
-  await refreshObservability()
-  saveOk.value = true
-  setTimeout(() => { saveOk.value = false }, 2000)
+  normalizeNumericDraft()
+  if (!isStrategyDirty.value) return
+  try {
+    await providerStore.saveStrategy(normalizedStrategy())
+    syncDraft()
+    await refreshObservability()
+    saveOk.value = true
+    setTimeout(() => { saveOk.value = false }, 2000)
+  } catch {
+    // The inline action error keeps the current strategy draft visible.
+  }
 }
 
 async function makeActive(name: string) {
   draft.activeProvider = name
   dropActiveFromFallback()
-  await providerStore.switchActiveProvider(name)
-  syncDraft()
-  await refreshObservability()
+  try {
+    await providerStore.switchActiveProvider(name)
+    syncDraft()
+    await refreshObservability()
+  } catch {
+    // The inline action error keeps the current strategy draft visible.
+  }
 }
 
 function providerError(name: string) {
@@ -540,6 +632,54 @@ h2.section-title::before {
   border-radius: var(--radius);
   padding: 20px;
   margin-bottom: 24px;
+}
+
+.strategy-form-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.strategy-form-header h3 {
+  margin: 0;
+  color: var(--primary);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.strategy-sync-state {
+  margin: 4px 0 0;
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+}
+
+.strategy-sync-state--dirty {
+  color: var(--warn-text);
+  font-weight: 700;
+}
+
+.strategy-error {
+  display: grid;
+  gap: 4px;
+  margin-bottom: 16px;
+  padding: 12px;
+  border: 1px solid var(--error-border);
+  border-radius: var(--radius-sm);
+  background: var(--error-bg);
+  color: var(--error-text);
+}
+
+.strategy-error strong {
+  font-size: 0.82rem;
+}
+
+.strategy-error span {
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
 }
 
 .form-grid {
@@ -777,6 +917,15 @@ h2.section-title::before {
   .strategy-form,
   .provider-card {
     padding: 14px;
+  }
+
+  .strategy-form-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .strategy-form-header .action-btn {
+    width: 100%;
   }
 
   .numeric-grid,
