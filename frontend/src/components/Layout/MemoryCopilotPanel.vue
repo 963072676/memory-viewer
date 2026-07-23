@@ -202,9 +202,11 @@ let compressionRunTimer: ReturnType<typeof setTimeout> | null = null
 let suppressCompressionWatch = false
 let historySequence = 0
 
-const providerLabel = computed(() => (
-  result.value?.providers.length ? result.value.providers.join(', ') : t('i18n.copilot_all_providers')
-))
+const providerLabel = computed(() => {
+  if (result.value?.provider) return result.value.provider
+  if (result.value?.providers.length) return result.value.providers.join(', ')
+  return t('i18n.copilot_all_providers')
+})
 const sessionParam = computed(() => sessionStore.activeSessionId || undefined)
 const resultTitle = computed(() => actionItem(result.value?.action || activeAction.value).label)
 const resultSessionLabel = computed(() => result.value?.sessionId || t('i18n.copilot_all_sessions'))
@@ -297,6 +299,7 @@ function saveRun(response: CopilotRunResponse) {
 
 function selectHistoryEntry(entry: CopilotHistoryEntry) {
   clearCompressionRunTimer()
+  filters.provider = entry.response.provider
   activeAction.value = entry.response.action
   activeHistoryId.value = entry.id
   error.value = null
