@@ -50,12 +50,17 @@
     </div>
 
     <div v-if="loading && !summary" class="panel-state">{{ $t('i18n.intelligence_loading') }}</div>
-    <div v-else-if="error" class="panel-state panel-state--error">
+    <div v-else-if="error && !summary" class="panel-state panel-state--error">
       <p>{{ error }}</p>
-      <button class="action-btn" type="button" @click="loadAll">{{ $t('i18n.retry') }}</button>
+      <button class="action-btn" type="button" @click="retryFailedAction">{{ $t('i18n.retry') }}</button>
     </div>
 
     <template v-else>
+      <div v-if="error" class="panel-state panel-state--error panel-state--inline" role="alert">
+        <p>{{ error }}</p>
+        <button class="action-btn" type="button" @click="retryFailedAction">{{ $t('i18n.retry') }}</button>
+      </div>
+
       <div class="intelligence-stats">
         <div class="stat-tile">
           <span class="stat-label">{{ $t('i18n.intelligence_keywords') }}</span>
@@ -344,6 +349,7 @@ const compressing = ref(false)
 const selectedProvider = ref('')
 const compressionMaxChars = ref<number | string>(700)
 const error = ref<string | null>(null)
+const failedAction = ref<'load' | 'compress' | null>(null)
 const expandedTag = ref<string | null>(null)
 const expandedClusterId = ref<string | null>(null)
 const expandedContradictionId = ref<string | null>(null)
@@ -360,6 +366,7 @@ const topTags = computed(() => summary.value?.tagInsights?.slice(0, 10) || [])
 async function loadAll() {
   loading.value = true
   error.value = null
+  failedAction.value = null
   try {
     const [nextSummary, nextClusters, nextContradictions] = await Promise.all([
       fetchIntelligenceSummary({
@@ -395,6 +402,7 @@ async function loadAll() {
     }
   } catch (e: any) {
     error.value = e?.message || t('i18n.intelligence_load_failed')
+    failedAction.value = 'load'
   } finally {
     loading.value = false
   }
@@ -408,6 +416,7 @@ async function compress() {
   compressionMaxChars.value = normalizedMaxChars
   compressing.value = true
   error.value = null
+  failedAction.value = null
   try {
     compression.value = await compressIntelligenceMemories({
       provider: selectedProvider.value || undefined,
@@ -417,9 +426,14 @@ async function compress() {
     })
   } catch (e: any) {
     error.value = e?.message || t('i18n.intelligence_compress_failed')
+    failedAction.value = 'compress'
   } finally {
     compressing.value = false
   }
+}
+
+function retryFailedAction() {
+  return failedAction.value === 'compress' ? compress() : loadAll()
 }
 
 function toggleCluster(clusterId: string) {
@@ -444,6 +458,8 @@ function resetScopeResults() {
   compression.value = null
   clusters.value = null
   contradictions.value = null
+  error.value = null
+  failedAction.value = null
   expandedTag.value = null
   expandedClusterId.value = null
   expandedContradictionId.value = null
@@ -556,6 +572,24 @@ watch(() => sessionStore.activeSessionId, () => {
 
 .panel-state--error {
   color: var(--error-text);
+}
+
+.panel-state--inline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  text-align: left;
+}
+
+.panel-state--inline p {
+  flex: 1 1 18rem;
+  min-width: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
 }
 
 .intelligence-stats {
