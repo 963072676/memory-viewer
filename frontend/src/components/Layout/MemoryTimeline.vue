@@ -36,7 +36,10 @@
             <p class="timeline-content">{{ truncate(memory.content, 180) }}</p>
 
             <div class="timeline-meta">
-              <span class="timeline-strength">Strength {{ Math.round(memory.strength * 10) }}%</span>
+              <span v-if="memory.source" class="timeline-source">{{ memory.source }}</span>
+              <span v-if="hasStrength(memory.strength)" class="timeline-strength">
+                Strength {{ formatStrength(memory.strength) }}%
+              </span>
               <span v-if="memory.sessionIds?.length" class="timeline-session">
                 {{ memory.sessionIds.slice(0, 2).join(', ') }}
               </span>
@@ -53,10 +56,22 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { AgentMemory } from '@/types'
+
+interface TimelineMemory {
+  id: string
+  type: string
+  title: string
+  content: string
+  strength?: number
+  createdAt?: string
+  updatedAt?: string
+  sessionIds?: string[]
+  tags?: string[]
+  source?: string
+}
 
 const props = defineProps<{
-  memories: AgentMemory[]
+  memories: TimelineMemory[]
   selectedId?: string
 }>()
 
@@ -67,7 +82,7 @@ defineEmits<{
 interface TimelineGroup {
   key: string
   label: string
-  items: AgentMemory[]
+  items: TimelineMemory[]
 }
 
 const groups = computed<TimelineGroup[]>(() => {
@@ -77,7 +92,7 @@ const groups = computed<TimelineGroup[]>(() => {
   ))
 
   for (const memory of sorted) {
-    const date = new Date(memory.updatedAt || memory.createdAt)
+    const date = new Date(memory.updatedAt || memory.createdAt || '')
     const key = Number.isNaN(date.getTime()) ? 'unknown' : date.toISOString().slice(0, 10)
     const label = Number.isNaN(date.getTime())
       ? 'Unknown date'
@@ -97,18 +112,26 @@ const groups = computed<TimelineGroup[]>(() => {
   return Array.from(byDay.values())
 })
 
-function timestamp(value: string) {
-  const date = new Date(value)
+function timestamp(value?: string) {
+  const date = new Date(value || '')
   return Number.isNaN(date.getTime()) ? 0 : date.getTime()
 }
 
-function formatTime(value: string) {
-  const date = new Date(value)
+function formatTime(value?: string) {
+  const date = new Date(value || '')
   if (Number.isNaN(date.getTime())) return 'Unknown time'
   return date.toLocaleTimeString(undefined, {
     hour: '2-digit',
     minute: '2-digit',
   })
+}
+
+function hasStrength(value: unknown): value is number {
+  return typeof value === 'number' && Number.isFinite(value)
+}
+
+function formatStrength(value?: number) {
+  return Math.max(0, Math.min(100, Math.round((value || 0) * 10)))
 }
 
 function truncate(value: string, max: number) {
@@ -297,6 +320,7 @@ function truncate(value: string, max: number) {
 
 .timeline-type,
 .timeline-strength,
+.timeline-source,
 .timeline-session,
 .timeline-tag {
   display: inline-flex;
@@ -315,6 +339,12 @@ function truncate(value: string, max: number) {
   flex: 0 0 auto;
   text-transform: uppercase;
   letter-spacing: 0.06em;
+}
+
+.timeline-source {
+  border-color: color-mix(in srgb, var(--accent) 24%, var(--border));
+  background: color-mix(in srgb, var(--accent) 9%, var(--tag-bg));
+  color: var(--accent);
 }
 
 .timeline-type--pattern {

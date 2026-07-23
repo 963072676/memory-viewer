@@ -94,36 +94,15 @@
         <div class="section-header">
           <h2>🗂️ {{ $t('i18n.unified_memory') }}</h2>
           <div class="unified-controls">
-            <div class="source-filter-control">
-              <label for="unified-source-filter" class="source-filter-label">{{ $t('i18n.data_source') }}</label>
-              <div class="source-filter-input">
-                <select
-                  id="unified-source-filter"
-                  v-model="selectedSource"
-                  class="source-filter-select"
-                  :aria-busy="sourceOptionsLoading"
-                  @change="onSourceChange"
-                >
-                  <option value="">{{ $t('en_all') }}</option>
-                  <option v-for="source in sourceOptions" :key="source" :value="source">
-                    {{ source }}
-                  </option>
-                </select>
-                <span v-if="sourceOptionsLoading" class="source-filter-state" role="status">
-                  {{ $t('i18n.source_filter_loading') }}
-                </span>
-                <button
-                  v-else-if="sourceOptionsError"
-                  type="button"
-                  class="source-filter-refresh"
-                  :aria-label="$t('i18n.source_filter_retry')"
-                  :title="$t('i18n.source_filter_retry')"
-                  @click="loadSourceOptions"
-                >
-                  ↻
-                </button>
-              </div>
-            </div>
+            <MemorySourceFilter
+              v-model="selectedSource"
+              :sources="sourceOptions"
+              :loading="sourceOptionsLoading"
+              :error="sourceOptionsError"
+              input-id="unified-source-filter"
+              @change="onSourceChange"
+              @retry="loadSourceOptions"
+            />
             <div class="view-mode-switch" :aria-label="$t('i18n.memory_view_mode')">
               <button
                 v-for="mode in viewModes"
@@ -216,7 +195,17 @@
       <section v-if="uiStore.currentTab !== 'all' || explorerViewMode !== 'list'" class="section">
         <div class="section-header">
           <h2>{{ uiStore.currentTab === 'agentmemory' ? 'AgentMemory' : $t('i18n.memory_explorer') }}</h2>
-          <div class="section-actions">
+          <div class="section-actions" :class="{ 'section-actions--with-source': uiStore.currentTab === 'all' }">
+            <MemorySourceFilter
+              v-if="uiStore.currentTab === 'all'"
+              v-model="selectedSource"
+              :sources="sourceOptions"
+              :loading="sourceOptionsLoading"
+              :error="sourceOptionsError"
+              input-id="unified-source-filter"
+              @change="onSourceChange"
+              @retry="loadSourceOptions"
+            />
             <div class="view-mode-switch" :aria-label="$t('i18n.memory_view_mode')">
               <button
                 v-for="mode in viewModes"
@@ -254,7 +243,7 @@
         </div>
         <div
           class="explorer-shell"
-          :class="{ 'explorer-shell--with-preview': selectedPreviewNode }"
+          :class="{ 'explorer-shell--with-preview': selectedExplorerPreview }"
         >
           <div class="explorer-main">
             <MemoryGraphPanel
@@ -262,14 +251,16 @@
               embedded
               :selected-node-id="selectedGraphNodeId"
               :show-node-detail="false"
+              :provider="uiStore.currentTab === 'all' ? selectedSource : ''"
+              :provider-locked="uiStore.currentTab === 'all'"
               @select-node="selectGraphNode"
-              @clear-selection="closeMemoryPreview"
+              @clear-selection="closeExplorerPreview"
             />
             <MemoryTimeline
               v-else-if="explorerViewMode === 'timeline'"
-              :memories="filteredMemories"
-              :selected-id="selectedMemoryId"
-              @select="selectMemory"
+              :memories="timelineMemories"
+              :selected-id="timelineSelectedId"
+              @select="selectTimelineMemory"
             />
             <VirtualCardGrid
               v-if="uiStore.currentTab === 'agentmemory' && explorerViewMode === 'list' && filteredMemories.length > 200"
@@ -309,11 +300,12 @@
             </div>
           </div>
           <MemoryPreviewPanel
-            v-if="selectedPreviewNode"
+            v-if="selectedExplorerPreview"
             :memory="selectedMemory"
+            :unified-memory="selectedUnifiedMemory"
             :graph-node="selectedGraphPreviewNode"
             :graph-connection-count="selectedGraphConnectionCount"
-            @close="closeMemoryPreview"
+            @close="closeExplorerPreview"
           />
         </div>
       </section>
@@ -344,6 +336,7 @@ import MemoryGraphPanel from '@/components/Layout/MemoryGraphPanel.vue'
 import MemoryPreviewPanel from '@/components/Layout/MemoryPreviewPanel.vue'
 import HermesMemoryExplorer from '@/components/Layout/HermesMemoryExplorer.vue'
 import MemoryTimeline from '@/components/Layout/MemoryTimeline.vue'
+import MemorySourceFilter from '@/components/Layout/MemorySourceFilter.vue'
 import VirtualCardGrid from '@/components/Layout/VirtualCardGrid.vue'
 import ExportButton from '@/components/Layout/ExportButton.vue'
 import CreateMemoryModal from '@/components/Layout/CreateMemoryModal.vue'
@@ -408,12 +401,29 @@ const viewModes = [
 ]
 
 type ExplorerViewMode = typeof viewModes[number]['value']
+interface ExplorerTimelineMemory {
+  id: string
+  type: string
+  title: string
+  content: string
+  strength?: number
+  createdAt?: string
+  updatedAt?: string
+  sessionIds?: string[]
+  tags?: string[]
+  source?: string
+}
+
 const explorerViewMode = computed<ExplorerViewMode>(() => (
   uiStore.viewMode === 'graph' || uiStore.viewMode === 'timeline' ? uiStore.viewMode : 'list'
 ))
 
 function firstQueryValue(value: unknown) {
   return Array.isArray(value) ? value[0] : value
+}
+
+function stringList(value: unknown) {
+  return Array.isArray(value) ? value.filter((item): item is string => typeof item === 'string') : []
 }
 
 function normalizeExplorerViewMode(value: unknown): ExplorerViewMode | '' {
@@ -509,14 +519,32 @@ function selectMemory(id: string) {
 function selectGraphNode(selection: { node: MemoryGraphNode; connectionCount: number }) {
   selectedGraphNode.value = selection.node
   selectedGraphConnectionCount.value = selection.connectionCount
+  selectedGraphNodeId.value = selection.node.id
+
+  if (uiStore.currentTab === 'all') {
+    selectedUnifiedMemoryId.value = ''
+    selectedMemoryId.value = ''
+    if (route.query.memory) {
+      const query = { ...route.query }
+      delete query.memory
+      router.replace({ query })
+    }
+    return
+  }
+
   selectMemory(selection.node.id)
 }
 
-function closeMemoryPreview() {
+function resetExplorerSelection() {
+  selectedUnifiedMemoryId.value = ''
   selectedMemoryId.value = ''
   selectedGraphNodeId.value = ''
   selectedGraphNode.value = null
   selectedGraphConnectionCount.value = 0
+}
+
+function closeMemoryPreview() {
+  resetExplorerSelection()
   const query = { ...route.query }
   delete query.memory
   router.replace({ query })
@@ -570,13 +598,14 @@ function retryUnifiedView() {
 }
 
 function onSourceChange() {
-  selectedUnifiedMemoryId.value = ''
+  resetExplorerSelection()
   const query = { ...route.query }
   if (selectedSource.value) {
     query.source = selectedSource.value
   } else {
     delete query.source
   }
+  delete query.memory
   router.push({ query })
   loadUnifiedMemories()
 }
@@ -590,11 +619,8 @@ function handleUnifiedEmptyAction() {
 }
 
 function selectUnifiedMemory(id: string) {
+  resetExplorerSelection()
   selectedUnifiedMemoryId.value = id
-  selectedMemoryId.value = ''
-  selectedGraphNodeId.value = ''
-  selectedGraphNode.value = null
-  selectedGraphConnectionCount.value = 0
 
   if (route.query.memory) {
     const query = { ...route.query }
@@ -605,6 +631,14 @@ function selectUnifiedMemory(id: string) {
 
 function closeUnifiedMemoryPreview() {
   selectedUnifiedMemoryId.value = ''
+}
+
+function closeExplorerPreview() {
+  if (selectedGraphPreviewNode.value || uiStore.currentTab !== 'all') {
+    closeMemoryPreview()
+    return
+  }
+  closeUnifiedMemoryPreview()
 }
 
 onMounted(() => {
@@ -622,7 +656,7 @@ watch(() => route.query.source, (val) => {
   const source = typeof raw === 'string' ? raw : ''
   if (selectedSource.value === source) return
   selectedSource.value = source
-  selectedUnifiedMemoryId.value = ''
+  resetExplorerSelection()
   loadUnifiedMemories()
 })
 
@@ -662,6 +696,37 @@ const filteredMemories = computed(() => {
   return memories
 })
 
+const unifiedTimelineMemories = computed<ExplorerTimelineMemory[]>(() => (
+  unifiedMemories.value.map(memory => ({
+    id: memory.id,
+    type: memory.type,
+    title: memory.title,
+    content: memory.content,
+    strength: memory.strength,
+    createdAt: memory.createdAt,
+    updatedAt: memory.updatedAt,
+    sessionIds: stringList(memory.metadata.sessionIds),
+    tags: stringList(memory.metadata.tags),
+    source: memory.source,
+  }))
+))
+
+const timelineMemories = computed<ExplorerTimelineMemory[]>(() => (
+  uiStore.currentTab === 'all' ? unifiedTimelineMemories.value : filteredMemories.value
+))
+
+const timelineSelectedId = computed(() => (
+  uiStore.currentTab === 'all' ? selectedUnifiedMemoryId.value : selectedMemoryId.value
+))
+
+function selectTimelineMemory(id: string) {
+  if (uiStore.currentTab === 'all') {
+    selectUnifiedMemory(id)
+    return
+  }
+  selectMemory(id)
+}
+
 const selectedMemory = computed(() => (
   filteredMemories.value.find(memory => memory.id === selectedMemoryId.value) || null
 ))
@@ -670,8 +735,9 @@ const selectedGraphPreviewNode = computed(() => (
   explorerViewMode.value === 'graph' ? selectedGraphNode.value : null
 ))
 
-const selectedPreviewNode = computed(() => (
-  selectedMemory.value || selectedGraphPreviewNode.value
+const selectedExplorerPreview = computed(() => (
+  selectedGraphPreviewNode.value
+  || (uiStore.currentTab === 'all' ? selectedUnifiedMemory.value : selectedMemory.value)
 ))
 
 function onCreated() {
@@ -705,7 +771,13 @@ function onImported() {
 .section-actions {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
   gap: var(--space-2);
+}
+
+.section-actions--with-source {
+  align-items: flex-end;
 }
 
 .view-mode-switch {
@@ -1021,65 +1093,6 @@ h2 {
   gap: 10px;
 }
 
-.source-filter-control,
-.source-filter-input {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.source-filter-label {
-  font-size: 0.8rem;
-  color: var(--text-secondary);
-  font-weight: 500;
-  white-space: nowrap;
-}
-
-.source-filter-select {
-  min-width: 140px;
-  padding: 6px 12px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background: var(--card);
-  color: var(--primary);
-  font-size: 0.85rem;
-  font-family: var(--font);
-  cursor: pointer;
-  outline: none;
-}
-
-.source-filter-select:focus {
-  border-color: var(--accent);
-}
-
-.source-filter-state {
-  color: var(--text-tertiary);
-  font-size: 0.75rem;
-  white-space: nowrap;
-}
-
-.source-filter-refresh {
-  width: 30px;
-  height: 30px;
-  flex: 0 0 30px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  background: var(--card);
-  color: var(--text-secondary);
-  font: inherit;
-  cursor: pointer;
-}
-
-.source-filter-refresh:hover,
-.source-filter-refresh:focus-visible {
-  border-color: var(--accent);
-  color: var(--accent);
-  outline: none;
-}
-
 .unified-error-state {
   display: flex;
   align-items: center;
@@ -1304,8 +1317,10 @@ h2 {
     align-items: flex-start;
   }
 
-  .section-actions {
-    flex-wrap: wrap;
+  .section-actions--with-source {
+    width: 100%;
+    align-items: stretch;
+    flex-direction: column;
   }
 
   .unified-controls {
@@ -1313,25 +1328,6 @@ h2 {
     min-width: 0;
     flex-direction: column;
     align-items: stretch;
-  }
-
-  .source-filter-select {
-    width: 100%;
-  }
-
-  .source-filter-control {
-    width: 100%;
-    align-items: stretch;
-    flex-direction: column;
-  }
-
-  .source-filter-input {
-    width: 100%;
-  }
-
-  .source-filter-select {
-    min-width: 0;
-    flex: 1;
   }
 
   .unified-error-state {

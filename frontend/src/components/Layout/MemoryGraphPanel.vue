@@ -14,6 +14,8 @@
           type="text"
           placeholder="Provider"
           aria-label="Provider"
+          :disabled="props.providerLocked"
+          :title="props.providerLocked ? 'Scoped to the current data source' : undefined"
         />
         <input
           v-model.number="filters.limit"
@@ -113,9 +115,13 @@ const props = withDefaults(defineProps<{
   embedded?: boolean
   selectedNodeId?: string
   showNodeDetail?: boolean
+  provider?: string
+  providerLocked?: boolean
 }>(), {
   selectedNodeId: '',
   showNodeDetail: true,
+  provider: '',
+  providerLocked: false,
 })
 
 const emit = defineEmits<{
@@ -130,9 +136,10 @@ const selectedNode = ref<MemoryGraphNode | null>(null)
 const loading = ref(false)
 const error = ref<string | null>(null)
 const filters = reactive({
-  provider: '',
+  provider: props.provider,
   limit: 200,
 })
+let graphRequestId = 0
 
 const providerCaption = computed(() => {
   const providers = graph.value?.meta.providers || []
@@ -156,23 +163,27 @@ const connectedEdges = computed(() => {
 })
 
 async function loadGraph() {
+  const requestId = ++graphRequestId
   loading.value = true
   error.value = null
   try {
-    graph.value = await fetchMemoryGraph({
+    const nextGraph = await fetchMemoryGraph({
       provider: filters.provider || undefined,
       sessionId: sessionStore.activeSessionId || undefined,
       limit: Number(filters.limit) || 200,
     })
+    if (requestId !== graphRequestId) return
+    graph.value = nextGraph
     if (props.selectedNodeId) {
       syncSelectedNode(props.selectedNodeId)
     } else if (selectedNode.value && !graph.value.nodes.some(node => node.id === selectedNode.value?.id)) {
       selectedNode.value = null
     }
   } catch (e: any) {
+    if (requestId !== graphRequestId) return
     error.value = e?.message || 'Failed to load memory graph'
   } finally {
-    loading.value = false
+    if (requestId === graphRequestId) loading.value = false
   }
 }
 
@@ -209,6 +220,19 @@ function emitSelectedNode() {
 onMounted(loadGraph)
 watch(() => sessionStore.activeSessionId, () => loadGraph())
 watch(() => props.selectedNodeId, syncSelectedNode)
+watch(() => props.provider, (provider) => {
+  if (!props.providerLocked || filters.provider === provider) return
+  filters.provider = provider
+  selectedNode.value = null
+  loadGraph()
+})
+watch(() => props.providerLocked, (locked) => {
+  const provider = locked ? props.provider : ''
+  if (filters.provider === provider) return
+  filters.provider = provider
+  selectedNode.value = null
+  loadGraph()
+})
 </script>
 
 <style scoped>
@@ -287,6 +311,13 @@ h2.section-title::before {
   border-color: var(--accent);
   outline: none;
   box-shadow: 0 0 0 4px var(--accent-glow);
+}
+
+.control-input:disabled {
+  border-color: var(--border);
+  background: var(--tag-bg);
+  color: var(--text-secondary);
+  cursor: not-allowed;
 }
 
 .graph-stats {
