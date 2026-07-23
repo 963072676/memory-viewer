@@ -51,53 +51,61 @@
     </div>
 
     <div v-if="loading && !graph" class="graph-state">{{ $t('i18n.graph_building') }}</div>
-    <div v-else-if="error" class="graph-state graph-state--error">
+    <div v-else-if="error && !graph" class="graph-state graph-state--error">
       <p>{{ error }}</p>
       <button class="action-btn" type="button" @click="loadGraph">{{ $t('i18n.retry') }}</button>
     </div>
-    <div v-else-if="!graph?.nodes.length" class="graph-state">{{ $t('i18n.graph_no_memories') }}</div>
 
-    <section v-else class="graph-shell">
-      <div class="graph-toolbar">
-        <div class="provider-list">
-          <span v-for="provider in graph.meta.providers" :key="provider" class="provider-chip">
-            {{ provider }}
-          </span>
+    <template v-else>
+      <div v-if="error" class="graph-state graph-state--error graph-state--inline" role="alert">
+        <p>{{ error }}</p>
+        <button class="action-btn" type="button" @click="loadGraph">{{ $t('i18n.retry') }}</button>
+      </div>
+
+      <div v-if="!graph?.nodes.length" class="graph-state">{{ $t('i18n.graph_no_memories') }}</div>
+
+      <section v-else class="graph-shell">
+        <div class="graph-toolbar">
+          <div class="provider-list">
+            <span v-for="provider in graph.meta.providers" :key="provider" class="provider-chip">
+              {{ provider }}
+            </span>
+          </div>
+          <div class="edge-note">{{ $t('i18n.graph_relations', { count: graph.edges.length }) }}</div>
         </div>
-        <div class="edge-note">{{ $t('i18n.graph_relations', { count: graph.edges.length }) }}</div>
-      </div>
 
-      <div class="graph-canvas">
-        <RelationGraph
-          :nodes="graph.nodes"
-          :edges="relationEdges"
-          :selected-node-id="selectedNode?.id"
-          @node-click="onNodeClick"
-        />
+        <div class="graph-canvas">
+          <RelationGraph
+            :nodes="graph.nodes"
+            :edges="relationEdges"
+            :selected-node-id="selectedNode?.id"
+            @node-click="onNodeClick"
+          />
 
-        <transition name="slide">
-          <aside v-if="selectedNode && props.showNodeDetail" class="node-detail">
-            <div class="detail-header">
-              <span class="provider-chip">{{ selectedNode.provider }}</span>
-              <button class="close-btn" type="button" :aria-label="$t('i18n.close')" @click="clearSelectedNode">X</button>
-            </div>
-            <h3>{{ selectedNode.label }}</h3>
-            <p>{{ selectedNode.contentSnippet || $t('i18n.preview_no_content') }}</p>
-            <div class="detail-grid">
-              <span>{{ $t('i18n.graph_type') }}</span>
-              <strong>{{ selectedNode.type }}</strong>
-              <span>{{ $t('i18n.graph_strength') }}</span>
-              <strong>{{ selectedNode.strength }}</strong>
-              <span>{{ $t('i18n.graph_connections') }}</span>
-              <strong>{{ connectedEdges.length }}</strong>
-            </div>
-            <div v-if="selectedNode.tags.length" class="tag-row">
-              <span v-for="tag in selectedNode.tags.slice(0, 6)" :key="tag" class="tag-chip">{{ tag }}</span>
-            </div>
-          </aside>
-        </transition>
-      </div>
-    </section>
+          <transition name="slide">
+            <aside v-if="selectedNode && props.showNodeDetail" class="node-detail">
+              <div class="detail-header">
+                <span class="provider-chip">{{ selectedNode.provider }}</span>
+                <button class="close-btn" type="button" :aria-label="$t('i18n.close')" @click="clearSelectedNode">X</button>
+              </div>
+              <h3>{{ selectedNode.label }}</h3>
+              <p>{{ selectedNode.contentSnippet || $t('i18n.preview_no_content') }}</p>
+              <div class="detail-grid">
+                <span>{{ $t('i18n.graph_type') }}</span>
+                <strong>{{ selectedNode.type }}</strong>
+                <span>{{ $t('i18n.graph_strength') }}</span>
+                <strong>{{ selectedNode.strength }}</strong>
+                <span>{{ $t('i18n.graph_connections') }}</span>
+                <strong>{{ connectedEdges.length }}</strong>
+              </div>
+              <div v-if="selectedNode.tags.length" class="tag-row">
+                <span v-for="tag in selectedNode.tags.slice(0, 6)" :key="tag" class="tag-chip">{{ tag }}</span>
+              </div>
+            </aside>
+          </transition>
+        </div>
+      </section>
+    </template>
   </div>
 </template>
 
@@ -368,6 +376,24 @@ h2.section-title::before {
 
 .graph-state--error {
   color: var(--error-text);
+}
+
+.graph-state--inline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  text-align: left;
+}
+
+.graph-state--inline p {
+  flex: 1 1 18rem;
+  min-width: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
 }
 
 .graph-shell {
