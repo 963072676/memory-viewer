@@ -84,14 +84,62 @@
         </div>
 
         <div class="telemetry-panel">
-          <div class="telemetry-panel-title">{{ $t('i18n.provider_recent_routes') }}</div>
-          <div v-if="recentRoutes.length === 0" class="empty-telemetry">
-            {{ $t('i18n.provider_no_routes') }}
+          <div class="telemetry-panel-title-row">
+            <div class="telemetry-panel-title">{{ $t('i18n.provider_recent_routes') }}</div>
+            <span class="route-match-count">
+              {{ $t('i18n.provider_route_match_count', {
+                visible: filteredRecentRoutes.length,
+                matched: matchingRouteCount,
+              }) }}
+            </span>
+          </div>
+
+          <div class="trace-filter-grid">
+            <label class="trace-filter-field">
+              <span>{{ $t('i18n.provider_trace_provider') }}</span>
+              <select v-model="traceFilters.provider" class="trace-filter-select">
+                <option value="">{{ $t('i18n.provider_trace_all_providers') }}</option>
+                <option v-for="provider in providerStore.providers" :key="provider.name" :value="provider.name">
+                  {{ provider.name }}
+                </option>
+              </select>
+            </label>
+            <label class="trace-filter-field">
+              <span>{{ $t('i18n.provider_trace_operation') }}</span>
+              <select v-model="traceFilters.operation" class="trace-filter-select">
+                <option value="">{{ $t('i18n.provider_trace_all_operations') }}</option>
+                <option v-for="operation in routeOperations" :key="operation" :value="operation">
+                  {{ operationLabel(operation) }}
+                </option>
+              </select>
+            </label>
+            <label class="trace-filter-field">
+              <span>{{ $t('i18n.provider_trace_time') }}</span>
+              <select v-model="traceFilters.timeMinutes" class="trace-filter-select">
+                <option value="0">{{ $t('i18n.provider_trace_all_time') }}</option>
+                <option value="1">{{ $t('i18n.provider_trace_last_minute') }}</option>
+                <option value="15">{{ $t('i18n.provider_trace_last_15_minutes') }}</option>
+                <option value="60">{{ $t('i18n.provider_trace_last_hour') }}</option>
+                <option value="1440">{{ $t('i18n.provider_trace_last_day') }}</option>
+              </select>
+            </label>
+            <button
+              class="action-btn action-btn--sm trace-filter-reset"
+              type="button"
+              :disabled="!hasTraceFilters"
+              @click="resetTraceFilters"
+            >
+              {{ $t('i18n.provider_trace_reset') }}
+            </button>
+          </div>
+
+          <div v-if="filteredRecentRoutes.length === 0" class="empty-telemetry">
+            {{ hasTraceFilters ? $t('i18n.provider_no_matching_routes') : $t('i18n.provider_no_routes') }}
           </div>
           <div v-else class="route-list">
             <div
-              v-for="route in recentRoutes"
-              :key="`${route.timestamp}-${route.strategy}-${route.providers.join('-')}`"
+              v-for="route in filteredRecentRoutes"
+              :key="`${route.timestamp}-${route.operation}-${route.strategy}-${route.providers.join('-')}`"
               class="route-row"
               :class="{ warn: route.errors.length > 0, fallback: route.fallbackUsed }"
             >
@@ -100,6 +148,7 @@
                 <strong>{{ routePath(route) }}</strong>
               </div>
               <div class="route-meta">
+                <span>{{ operationLabel(route.operation) }}</span>
                 <span>{{ routeOutcome(route) }}</span>
                 <span>{{ formatLatency(route.latencyMs) }}</span>
                 <span>{{ formatTime(route.timestamp) }}</span>
@@ -125,7 +174,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useProviderStore } from '@/stores/providers'
 import type { ProviderRouteEvent } from '@/api/providers'
@@ -136,6 +185,11 @@ const props = withDefaults(defineProps<{ autoload?: boolean }>(), {
 
 const providerStore = useProviderStore()
 const { t } = useI18n()
+const traceFilters = reactive({
+  provider: '',
+  operation: '',
+  timeMinutes: '0',
+})
 const observability = computed(() => providerStore.observability)
 const isLoading = computed(() => providerStore.loading || providerStore.observabilityLoading)
 const loadError = computed(() => providerStore.observabilityError || (
@@ -161,8 +215,23 @@ const telemetryRows = computed(() => (
     }
   })
 ))
-const recentRoutes = computed(() => (
-  [...(observability.value?.routing.recentRoutes || [])].reverse().slice(0, 6)
+const recentRoutes = computed(() => [...(observability.value?.routing.recentRoutes || [])].reverse())
+const routeOperations = computed(() => Array.from(new Set(
+  recentRoutes.value.map(route => route.operation).filter(Boolean),
+)).sort())
+const matchingRoutes = computed(() => {
+  const windowMinutes = Number(traceFilters.timeMinutes) || 0
+  const cutoff = windowMinutes ? Date.now() - windowMinutes * 60_000 : 0
+  return recentRoutes.value.filter(route => (
+    (!traceFilters.provider || route.providers.includes(traceFilters.provider))
+    && (!traceFilters.operation || route.operation === traceFilters.operation)
+    && (!cutoff || route.timestamp >= cutoff)
+  ))
+})
+const matchingRouteCount = computed(() => matchingRoutes.value.length)
+const filteredRecentRoutes = computed(() => matchingRoutes.value.slice(0, 6))
+const hasTraceFilters = computed(() => Boolean(
+  traceFilters.provider || traceFilters.operation || traceFilters.timeMinutes !== '0',
 ))
 
 async function refreshObservability() {
@@ -206,6 +275,21 @@ function routeStrategyLabel(strategy: string) {
     parallel: t('i18n.provider_route_strategy_parallel'),
   }
   return labels[strategy] || strategy
+}
+
+function operationLabel(operation: string) {
+  const labels: Record<string, string> = {
+    query_memory: 'i18n.provider_operation_query_memory',
+    list_sessions: 'i18n.provider_operation_list_sessions',
+    health_check: 'i18n.provider_operation_health_check',
+  }
+  return labels[operation] ? t(labels[operation]) : operation.replace(/_/g, ' ')
+}
+
+function resetTraceFilters() {
+  traceFilters.provider = ''
+  traceFilters.operation = ''
+  traceFilters.timeMinutes = '0'
 }
 
 function routeOutcome(route: ProviderRouteEvent) {
@@ -391,6 +475,68 @@ onMounted(() => {
   font-weight: 700;
 }
 
+.telemetry-panel-title-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.telemetry-panel-title-row .telemetry-panel-title {
+  margin-bottom: 0;
+}
+
+.route-match-count {
+  color: var(--text-secondary);
+  font-size: 0.72rem;
+  white-space: nowrap;
+}
+
+.trace-filter-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.trace-filter-field {
+  display: grid;
+  min-width: 0;
+  gap: 4px;
+}
+
+.trace-filter-field span {
+  color: var(--text-secondary);
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.trace-filter-select {
+  width: 100%;
+  min-height: 34px;
+  padding: 6px 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--primary);
+  font: inherit;
+  font-size: 0.76rem;
+}
+
+.trace-filter-select:focus {
+  border-color: var(--accent);
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.trace-filter-reset {
+  align-self: end;
+  width: 100%;
+}
+
 .provider-metrics,
 .route-list {
   display: flex;
@@ -526,6 +672,12 @@ onMounted(() => {
 
   .provider-metric-row--head {
     font-size: 0.66rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .trace-filter-grid {
+    grid-template-columns: 1fr;
   }
 }
 </style>
