@@ -22,7 +22,7 @@
       <strong>{{ $t('i18n.provider_loading_telemetry') }}</strong>
     </div>
 
-    <div v-else-if="loadError" class="observability-state observability-state--error" role="alert">
+    <div v-else-if="loadError && !observability" class="observability-state observability-state--error" role="alert">
       <span class="state-indicator" aria-hidden="true">!</span>
       <strong>{{ $t('i18n.provider_telemetry_failed') }}</strong>
       <p>{{ loadError }}</p>
@@ -30,6 +30,15 @@
     </div>
 
     <template v-else-if="observability">
+      <div class="observability-state observability-state--error observability-state--inline" role="alert" v-if="loadError">
+        <span class="state-indicator" aria-hidden="true">!</span>
+        <div class="observability-inline-error">
+          <strong>{{ $t('i18n.provider_telemetry_failed') }}</strong>
+          <p>{{ loadError }}</p>
+        </div>
+        <button class="action-btn" type="button" @click="refreshObservability">{{ $t('i18n.retry') }}</button>
+      </div>
+
       <div class="telemetry-grid">
         <div class="telemetry-card">
           <div class="telemetry-label">{{ $t('i18n.provider_active_latency') }}</div>
@@ -371,6 +380,31 @@ onMounted(() => {
 
 .observability-state--error strong {
   color: var(--error-text);
+}
+
+.observability-state--inline {
+  min-height: 0;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: var(--space-3);
+  margin-bottom: 12px;
+  padding: 12px 14px;
+  text-align: left;
+}
+
+.observability-state--inline .state-indicator {
+  width: 22px;
+  height: 22px;
+}
+
+.observability-inline-error {
+  flex: 1 1 18rem;
+  min-width: 0;
+}
+
+.observability-inline-error p {
+  overflow-wrap: anywhere;
 }
 
 .state-spinner,
