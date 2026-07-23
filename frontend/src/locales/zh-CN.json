@@ -225,6 +225,8 @@
   "i18n.save_rule": "保存规则",
   "i18n.execution_log": "执行日志",
   "i18n.onboarding.skip_tour": "跳过引导",
+  "i18n.onboarding.guide": "功能引导",
+  "i18n.onboarding.restart": "重新启动引导",
   "i18n.get_started": "开始使用",
   "i18n.read": "读取你的",
   "i18n.onboarding.quick_start": "快速开始",

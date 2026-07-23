@@ -144,6 +144,12 @@
             <span class="about-label">{{ $t('i18n.license') }}</span>
             <span class="about-value">MIT</span>
           </div>
+          <div class="about-row">
+            <span class="about-label">{{ $t('i18n.onboarding.guide') }}</span>
+            <button class="about-action" @click="replayTour">
+              {{ $t('i18n.onboarding.restart') }}
+            </button>
+          </div>
           <div class="about-links">
             <a href="https://github.com/NousResearch" target="_blank" class="about-link">{{ $t('en_github') }}</a>
             <a href="/api-docs" class="about-link">API {{ $t('i18n.document') }}</a>
@@ -159,6 +165,7 @@
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
 import { useRoute } from 'vue-router'
 import { fetchWebhookConfig, updateWebhookConfig } from '@/api/webhook'
+import { useOnboarding } from '@/composables/useOnboarding'
 
 const SourcesView = defineAsyncComponent(() => import('@/views/SourcesView.vue'))
 const ProviderPanel = defineAsyncComponent(() => import('@/components/Layout/ProviderPanel.vue'))
@@ -174,6 +181,7 @@ const tabs = [
 ]
 
 const route = useRoute()
+const { replayTour } = useOnboarding()
 const tabParam = typeof route.query.tab === 'string' ? route.query.tab : ''
 const activeTab = ref<SettingsTab>(
   tabs.some(tab => tab.id === tabParam) ? tabParam as SettingsTab : 'providers',
@@ -518,6 +526,23 @@ async function saveFeishu() {
   font-size: 0.85rem;
   color: var(--primary);
   font-weight: 600;
+}
+
+.about-action {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-recessed);
+  color: var(--accent);
+  padding: 6px 10px;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.about-action:hover {
+  border-color: var(--accent);
+  background: var(--accent-subtle);
 }
 
 .about-links {

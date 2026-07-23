@@ -265,8 +265,7 @@ function schedulePositionElements() {
   })
 }
 
-function handleViewportResize() {
-  schedulePositionElements()
+function scheduleSettledPositionElements() {
   if (positionSettleTimer) clearTimeout(positionSettleTimer)
   positionSettleTimer = setTimeout(() => {
     positionSettleTimer = null
@@ -274,14 +273,27 @@ function handleViewportResize() {
   }, LAYOUT_SETTLE_DELAY)
 }
 
+function handleViewportResize() {
+  schedulePositionElements()
+  scheduleSettledPositionElements()
+}
+
 watch([isActive, currentStepIndex], ([active]) => {
-  tooltipStyle.value = { visibility: 'hidden' }
   if (!active) {
+    tooltipStyle.value = { visibility: 'hidden' }
     positionRequestId++
     spotlightTarget.value = null
+    if (positionSettleTimer) {
+      clearTimeout(positionSettleTimer)
+      positionSettleTimer = null
+    }
     return
   }
+  if (!spotlightTarget.value) {
+    tooltipStyle.value = { visibility: 'hidden' }
+  }
   schedulePositionElements()
+  scheduleSettledPositionElements()
 })
 
 // Click on highlighted element to advance — single watcher with proper cleanup
@@ -312,6 +324,13 @@ onMounted(() => {
       schedulePositionElements()
     }, 500)
   }
+
+  void document.fonts?.ready.then(() => {
+    if (isActive.value) {
+      schedulePositionElements()
+      scheduleSettledPositionElements()
+    }
+  })
 })
 
 onUnmounted(() => {

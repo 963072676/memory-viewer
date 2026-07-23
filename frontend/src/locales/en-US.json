@@ -75,6 +75,8 @@
   "i18n.empty.chart_data": "No Data",
   "i18n.manual": "Manual",
   "i18n.onboarding.skip_tour": "Skip",
+  "i18n.onboarding.guide": "Feature tour",
+  "i18n.onboarding.restart": "Restart tour",
   "i18n.config_needed": "No config needed",
   "i18n.preset_config": "Preset Config",
   "i18n.connected": "Connected",
