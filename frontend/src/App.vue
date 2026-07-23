@@ -239,12 +239,11 @@ async function handleBulkAutoTagFromPalette() {
 }
 
 .main-wrapper {
-  flex: 1;
+  flex: 1 1 0;
   min-width: 0;
-  margin-left: 220px;
   min-height: 100vh;
-  max-width: calc(100vw - 220px);
-  transition: margin-left 0.2s ease;
+  /* AppSidebar 是同级 flex 项，已占据自身宽度；这里不再重复预留侧栏宽度。
+     这样宽屏内容会紧贴侧栏后的正常工作区，侧栏收起时主区也会自然扩展。 */
 }
 
 /* P38 r24: 主内容区 max-width → clamp() 流体 — 替代静态 1200px。
