@@ -40,8 +40,8 @@ export const useAgentMemoryStore = defineStore('agentmemory', () => {
     selectedIds.value = new Set()
   }
 
-  function selectAll() {
-    selectedIds.value = new Set(memories.value.map(m => m.id))
+  function selectAll(ids = memories.value.map(memory => memory.id)) {
+    selectedIds.value = new Set(ids)
   }
 
   async function refresh(includeArchived = false) {

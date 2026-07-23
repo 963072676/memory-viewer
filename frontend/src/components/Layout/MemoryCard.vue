@@ -1,6 +1,14 @@
 <template>
-  <div class="memory-card" :class="{ expanded: isExpanded, archived: memory.archived }">
-    <label class="select-checkbox" @click.stop>
+  <div
+    class="memory-card"
+    :class="{
+      expanded: isExpanded,
+      archived: memory.archived,
+      'memory-card--selection-mode': selectionMode,
+      'memory-card--selected': selectionMode && isSelected,
+    }"
+  >
+    <label v-if="selectionMode" class="select-checkbox" @click.stop>
       <input type="checkbox" :checked="isSelected" @change="store.toggleSelect(memory.id)" />
       <span class="checkmark"></span>
     </label>
@@ -216,6 +224,7 @@ import TagManager from './TagManager.vue'
 const props = defineProps<{
   memory: AgentMemory
   forceExpanded?: boolean | null
+  selectionMode?: boolean
 }>()
 
 defineEmits<{
@@ -404,6 +413,12 @@ watch(() => props.forceExpanded, (newVal) => {
   transform: translateY(-2px);
 }
 
+.memory-card--selected,
+.memory-card--selected:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent), var(--shadow-hover);
+}
+
 .card-header {
   padding: 16px 16px 12px;
 }
@@ -414,12 +429,16 @@ watch(() => props.forceExpanded, (newVal) => {
   justify-content: space-between;
   gap: 8px;
   margin-bottom: 8px;
-  /* 给左侧 .select-checkbox (18px + 12px left offset) 让出空间,
-     否则 checkbox 浮在标题文字之上,造成"遮挡"视觉 */
+}
+
+/* 仅多选态为左上角复选框预留空间，普通浏览时让标题使用完整宽度。 */
+.memory-card--selection-mode .card-title-row {
   padding-left: 28px;
 }
 
 .card-title {
+  min-width: 0;
+  flex: 1;
   font-size: 0.9rem;
   font-weight: 600;
   color: var(--primary);

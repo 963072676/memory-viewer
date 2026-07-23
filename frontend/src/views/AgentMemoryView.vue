@@ -11,6 +11,15 @@
         <button class="action-btn" @click="showImportModal = true">📥 {{ $t('i18n.import') }}</button>
         <ExportButton />
         <button
+          type="button"
+          class="action-btn selection-mode-btn"
+          :class="{ 'selection-mode-btn--active': selectionMode }"
+          :aria-pressed="selectionMode"
+          @click="toggleSelectionMode"
+        >
+          {{ selectionMode ? $t('i18n.cancel_selection') : $t('i18n.enter_selection') }}
+        </button>
+        <button
           class="action-btn"
           :disabled="autoTagLoading"
           @click="handleBulkAutoTag"
@@ -62,8 +71,15 @@
         :message="activeCollection ? '尝试切换到其他集合，或创建新的记忆' : '创建第一条记忆开始你的知识管理之旅'"
       />
     </div>
-    <div v-else class="card-grid">
-      <BatchToolbar :loading="batchLoading" @batch="handleBatch" @export="handleBatchExport" />
+    <div v-else class="memory-list">
+      <BatchToolbar
+        :loading="batchLoading"
+        :selection-mode="selectionMode"
+        @batch="handleBatch"
+        @export="handleBatchExport"
+        @select-all="selectAllVisible"
+        @exit-selection="exitSelectionMode"
+      />
       <ConfirmDialog
         v-if="showDeleteConfirm"
         :title="$t('i18n.confirm_bulk')"
@@ -73,14 +89,17 @@
         @confirm="confirmDelete"
         @cancel="showDeleteConfirm = false"
       />
-      <MemoryCard
-        v-for="m in filteredMemories"
-        :key="m.id"
-        :memory="m"
-        :force-expanded="uiStore.allExpanded"
-        @tag-click="onTagClick"
-        @compare="onCompare"
-      />
+      <div class="card-grid">
+        <MemoryCard
+          v-for="m in filteredMemories"
+          :key="m.id"
+          :memory="m"
+          :force-expanded="uiStore.allExpanded"
+          :selection-mode="selectionMode"
+          @tag-click="onTagClick"
+          @compare="onCompare"
+        />
+      </div>
     </div>
     <CreateMemoryModal v-if="showCreateModal" @close="showCreateModal = false" @created="refresh" />
     <ImportModal v-if="showImportModal" @close="showImportModal = false" @imported="refresh" />
@@ -102,7 +121,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onUnmounted } from 'vue'
 import { useAgentMemoryStore } from '@/stores/agentmemory'
 import { useUIStore } from '@/stores/ui'
 import { useSessionStore } from '@/stores/sessions'
@@ -132,6 +151,7 @@ const router = useRouter()
 const route = useRoute()
 const showCreateModal = ref(false)
 const showImportModal = ref(false)
+const selectionMode = ref(false)
 const batchLoading = ref(false)
 const showDeleteConfirm = ref(false)
 const pendingBatchAction = ref<string | null>(null)
@@ -270,6 +290,23 @@ function refresh() {
   store.refresh()
 }
 
+function toggleSelectionMode() {
+  if (selectionMode.value) {
+    exitSelectionMode()
+    return
+  }
+  selectionMode.value = true
+}
+
+function exitSelectionMode() {
+  selectionMode.value = false
+  store.clearSelection()
+}
+
+function selectAllVisible() {
+  store.selectAll(filteredMemories.value.map(memory => memory.id))
+}
+
 async function handleBatch(action: string, params?: Record<string, any>) {
   if (action === 'delete') {
     showDeleteConfirm.value = true
@@ -290,7 +327,7 @@ async function executeBatch(action: string, params?: Record<string, any>) {
     const ids = Array.from(store.selectedIds)
     await batchAction(action, ids, params)
     toast.success(`批量${action === 'delete' ? '删除' : action === 'archive' ? '归档' : action === 'add_tags' ? '添加标签' : '取消归档'}成功`)
-    store.clearSelection()
+    exitSelectionMode()
     await store.refresh()
     if (action === 'add_tags') {
       store.loadAllTags()
@@ -311,7 +348,7 @@ function handleBatchExport() {
   document.body.appendChild(a)
   a.click()
   document.body.removeChild(a)
-  store.clearSelection()
+  exitSelectionMode()
   toast.success('导出已开始')
 }
 
@@ -378,6 +415,10 @@ async function handleMergeDuplicates(pairIndices: number[]) {
 function onTagClick(tag: string) {
   router.push({ query: { tag } })
 }
+
+onUnmounted(() => {
+  store.clearSelection()
+})
 
 // Load all tags on mount
 store.loadAllTags()
@@ -468,6 +509,16 @@ h2 {
 
 .action-btn--primary:active {
   transform: translateY(0) scale(0.98);
+}
+
+.selection-mode-btn--active {
+  border-color: var(--accent);
+  background: var(--accent-subtle);
+  color: var(--accent);
+}
+
+.memory-list {
+  min-width: 0;
 }
 
 /* Quick filter controls — styled pill selects */

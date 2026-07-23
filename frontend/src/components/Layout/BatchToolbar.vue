@@ -1,18 +1,22 @@
 <template>
   <transition name="toolbar">
-    <div v-if="store.hasSelection" class="batch-toolbar">
+    <div v-if="selectionMode" class="batch-toolbar">
       <div class="toolbar-info">
-        <span class="selection-count">{{ $t('i18n.selected') }} {{ store.selectionCount }} 条</span>
-        <button class="toolbar-link" @click="store.clearSelection()">{{ $t('i18n.cancel_selection') }}</button>
-        <button class="toolbar-link" @click="store.selectAll()">{{ $t('i18n.select_all') }}</button>
+        <span class="selection-count">
+          {{ store.hasSelection
+            ? $t('i18n.selection_count', { count: store.selectionCount })
+            : $t('i18n.selection_hint') }}
+        </span>
+        <button class="toolbar-link" @click="$emit('exit-selection')">{{ $t('i18n.cancel_selection') }}</button>
+        <button class="toolbar-link" @click="$emit('select-all')">{{ $t('i18n.select_visible') }}</button>
       </div>
       <div class="toolbar-actions">
-        <button class="toolbar-btn" @click="$emit('batch', 'archive')" :disabled="loading">📦 {{ $t('i18n.archive') }}</button>
-        <button class="toolbar-btn" @click="$emit('batch', 'unarchive')" :disabled="loading">📂 {{ $t('i18n.unarchive') }}</button>
-        <button class="toolbar-btn danger" @click="$emit('batch', 'delete')" :disabled="loading">🗑️ 删除</button>
-        <button class="toolbar-btn" @click="$emit('export')" :disabled="loading">📥 {{ $t('i18n.export') }}</button>
+        <button class="toolbar-btn" @click="$emit('batch', 'archive')" :disabled="loading || !store.hasSelection">📦 {{ $t('i18n.archive') }}</button>
+        <button class="toolbar-btn" @click="$emit('batch', 'unarchive')" :disabled="loading || !store.hasSelection">📂 {{ $t('i18n.unarchive') }}</button>
+        <button class="toolbar-btn danger" @click="$emit('batch', 'delete')" :disabled="loading || !store.hasSelection">🗑️ 删除</button>
+        <button class="toolbar-btn" @click="$emit('export')" :disabled="loading || !store.hasSelection">📥 {{ $t('i18n.export') }}</button>
         <div class="tag-batch-wrapper">
-          <button class="toolbar-btn" @click="showTagInput = !showTagInput" :disabled="loading">🏷️ {{ $t('i18n.add_tag') }}</button>
+          <button class="toolbar-btn" @click="showTagInput = !showTagInput" :disabled="loading || !store.hasSelection">🏷️ {{ $t('i18n.add_tag') }}</button>
           <transition name="fade">
             <div v-if="showTagInput" class="tag-batch-popover">
               <input
@@ -32,18 +36,34 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { useAgentMemoryStore } from '@/stores/agentmemory'
 
-defineProps<{ loading?: boolean }>()
+const props = withDefaults(defineProps<{
+  loading?: boolean
+  selectionMode?: boolean
+}>(), {
+  loading: false,
+  selectionMode: false,
+})
+
 const emit = defineEmits<{
   (e: 'batch', action: string, params?: Record<string, any>): void
   (e: 'export'): void
+  (e: 'select-all'): void
+  (e: 'exit-selection'): void
 }>()
 
 const store = useAgentMemoryStore()
 const showTagInput = ref(false)
 const batchTagInput = ref('')
+
+watch(() => props.selectionMode, (selectionMode) => {
+  if (!selectionMode) {
+    showTagInput.value = false
+    batchTagInput.value = ''
+  }
+})
 
 function submitBatchTag() {
   const tags = batchTagInput.value
