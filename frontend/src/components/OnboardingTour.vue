@@ -84,7 +84,10 @@ const tooltipPlacement = ref<TooltipPlacement>('bottom')
 
 const LAYOUT_SETTLE_DELAY = 260
 const VIEWPORT_EDGE_MARGIN = 12
-const TARGET_COMFORT_MARGIN = 88
+// A side-positioned tooltip needs roughly half of its height above and below
+// the highlighted item. Keep the Sources item clear of the lower viewport edge
+// so the persistent action row remains visible while the sidebar settles.
+const TARGET_COMFORT_MARGIN = 112
 let positionFrame = 0
 let positionSettleTimer: ReturnType<typeof setTimeout> | null = null
 let startTimer: ReturnType<typeof setTimeout> | null = null
@@ -131,11 +134,17 @@ function findVerticalScrollContainer(element: HTMLElement) {
 
 function getViewportBounds() {
   const viewport = window.visualViewport
+  const layoutWidth = document.documentElement.clientWidth || window.innerWidth
+  const layoutHeight = document.documentElement.clientHeight || window.innerHeight
+  const hasStableVisualViewport = Boolean(
+    viewport && viewport.width > 0 && viewport.height > 0,
+  )
+
   return {
-    left: viewport?.offsetLeft ?? 0,
-    top: viewport?.offsetTop ?? 0,
-    width: viewport?.width ?? window.innerWidth,
-    height: viewport?.height ?? window.innerHeight,
+    left: hasStableVisualViewport ? viewport!.offsetLeft : 0,
+    top: hasStableVisualViewport ? viewport!.offsetTop : 0,
+    width: hasStableVisualViewport ? viewport!.width : layoutWidth,
+    height: hasStableVisualViewport ? viewport!.height : layoutHeight,
   }
 }
 
