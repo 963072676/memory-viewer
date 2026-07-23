@@ -191,8 +191,8 @@
         @close="showDedupPanel = false"
       />
 
-      <!-- AgentMemory Section -->
-      <section v-if="uiStore.currentTab !== 'all' || explorerViewMode !== 'list'" class="section">
+      <!-- Explorer Section -->
+      <section v-if="uiStore.currentTab === 'agentmemory' || explorerViewMode !== 'list'" class="section">
         <div class="section-header">
           <h2>{{ uiStore.currentTab === 'agentmemory' ? 'AgentMemory' : $t('i18n.memory_explorer') }}</h2>
           <div class="section-actions" :class="{ 'section-actions--with-source': uiStore.currentTab === 'all' }">
@@ -251,8 +251,8 @@
               embedded
               :selected-node-id="selectedGraphNodeId"
               :show-node-detail="false"
-              :provider="uiStore.currentTab === 'all' ? selectedSource : ''"
-              :provider-locked="uiStore.currentTab === 'all'"
+              :provider="explorerProvider"
+              provider-locked
               @select-node="selectGraphNode"
               @clear-selection="closeExplorerPreview"
             />
@@ -311,7 +311,7 @@
       </section>
 
       <!-- Hermes Memory Section -->
-      <section v-if="uiStore.currentTab === 'hermes'" class="section">
+      <section v-if="uiStore.currentTab === 'hermes' && explorerViewMode === 'list'" class="section">
         <HermesMemoryExplorer />
       </section>
     </template>
@@ -417,6 +417,15 @@ interface ExplorerTimelineMemory {
 const explorerViewMode = computed<ExplorerViewMode>(() => (
   uiStore.viewMode === 'graph' || uiStore.viewMode === 'timeline' ? uiStore.viewMode : 'list'
 ))
+const usesUnifiedExplorer = computed(() => uiStore.currentTab !== 'agentmemory')
+const unifiedMemorySource = computed(() => (
+  uiStore.currentTab === 'hermes' ? 'hermes' : selectedSource.value
+))
+const explorerProvider = computed(() => {
+  if (uiStore.currentTab === 'agentmemory') return 'agentmemory'
+  if (uiStore.currentTab === 'hermes') return 'hermes'
+  return selectedSource.value
+})
 
 function firstQueryValue(value: unknown) {
   return Array.isArray(value) ? value[0] : value
@@ -521,7 +530,7 @@ function selectGraphNode(selection: { node: MemoryGraphNode; connectionCount: nu
   selectedGraphConnectionCount.value = selection.connectionCount
   selectedGraphNodeId.value = selection.node.id
 
-  if (uiStore.currentTab === 'all') {
+  if (usesUnifiedExplorer.value) {
     selectedUnifiedMemoryId.value = ''
     selectedMemoryId.value = ''
     if (route.query.memory) {
@@ -552,7 +561,7 @@ function closeMemoryPreview() {
 
 async function loadUnifiedMemories() {
   const requestId = ++unifiedRequestId
-  const source = selectedSource.value
+  const source = unifiedMemorySource.value
   unifiedLoading.value = true
   unifiedError.value = false
   try {
@@ -634,7 +643,7 @@ function closeUnifiedMemoryPreview() {
 }
 
 function closeExplorerPreview() {
-  if (selectedGraphPreviewNode.value || uiStore.currentTab !== 'all') {
+  if (selectedGraphPreviewNode.value || !usesUnifiedExplorer.value) {
     closeMemoryPreview()
     return
   }
@@ -658,6 +667,17 @@ watch(() => route.query.source, (val) => {
   selectedSource.value = source
   resetExplorerSelection()
   loadUnifiedMemories()
+})
+watch(() => uiStore.currentTab, (tab, previousTab) => {
+  const openedLinkedAgentMemory = tab === 'agentmemory'
+    && previousTab === 'all'
+    && Boolean(firstQueryValue(route.query.memory))
+  if (!openedLinkedAgentMemory) {
+    resetExplorerSelection()
+  }
+  if (tab !== 'agentmemory') {
+    loadUnifiedMemories()
+  }
 })
 
 const filteredMemories = computed(() => {
@@ -712,15 +732,15 @@ const unifiedTimelineMemories = computed<ExplorerTimelineMemory[]>(() => (
 ))
 
 const timelineMemories = computed<ExplorerTimelineMemory[]>(() => (
-  uiStore.currentTab === 'all' ? unifiedTimelineMemories.value : filteredMemories.value
+  usesUnifiedExplorer.value ? unifiedTimelineMemories.value : filteredMemories.value
 ))
 
 const timelineSelectedId = computed(() => (
-  uiStore.currentTab === 'all' ? selectedUnifiedMemoryId.value : selectedMemoryId.value
+  usesUnifiedExplorer.value ? selectedUnifiedMemoryId.value : selectedMemoryId.value
 ))
 
 function selectTimelineMemory(id: string) {
-  if (uiStore.currentTab === 'all') {
+  if (usesUnifiedExplorer.value) {
     selectUnifiedMemory(id)
     return
   }
@@ -737,7 +757,7 @@ const selectedGraphPreviewNode = computed(() => (
 
 const selectedExplorerPreview = computed(() => (
   selectedGraphPreviewNode.value
-  || (uiStore.currentTab === 'all' ? selectedUnifiedMemory.value : selectedMemory.value)
+  || (usesUnifiedExplorer.value ? selectedUnifiedMemory.value : selectedMemory.value)
 ))
 
 function onCreated() {
