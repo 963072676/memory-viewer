@@ -18,7 +18,7 @@
       </div>
     </div>
 
-    <div v-else-if="loadError" class="error-state" role="alert">
+    <div v-else-if="loadError && sources.length === 0" class="error-state" role="alert">
       <div class="error-copy">
         <strong>{{ $t('i18n.load_failed') }}</strong>
         <span>{{ $t('i18n.source_load_failed_message') }}</span>
@@ -27,6 +27,14 @@
     </div>
 
     <template v-else>
+      <div v-if="loadError" class="error-state error-state--inline" role="alert">
+        <div class="error-copy">
+          <strong>{{ $t('i18n.load_failed') }}</strong>
+          <span>{{ $t('i18n.source_load_failed_message') }}</span>
+        </div>
+        <button type="button" class="action-btn" @click="loadSources">{{ $t('i18n.retry') }}</button>
+      </div>
+
       <!-- Aggregate stats -->
       <div class="summary-row">
         <div class="summary-card">
@@ -288,6 +296,15 @@ h2.section-title::before { content: ''; position: absolute; left: 0; top: 50%; t
 .error-copy span {
   color: var(--text-secondary);
   font-size: 0.85rem;
+}
+
+.error-state--inline {
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.error-state--inline .error-copy {
+  flex: 1 1 18rem;
 }
 
 /* Summary cards */
