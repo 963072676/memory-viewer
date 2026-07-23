@@ -2,16 +2,16 @@
   <div class="hermes-explorer">
     <div class="section-header">
       <h2 class="section-title">{{ $t('en_hermes_memory') }}</h2>
-      <span v-if="!loading && !error" class="entry-count">
+      <span v-if="visibleEntryCount > 0" class="entry-count">
         {{ $t('i18n.hermes_entry_count', { count: visibleEntryCount }) }}
       </span>
     </div>
 
-    <div v-if="loading" class="card-grid" aria-live="polite">
+    <div v-if="loading && memories.length === 0" class="card-grid" aria-live="polite">
       <div v-for="i in 4" :key="i" class="skeleton-card"></div>
     </div>
 
-    <div v-else-if="error" class="error-state" role="alert">
+    <div v-else-if="error && memories.length === 0" class="error-state" role="alert">
       <div class="error-copy">
         <strong>{{ $t('i18n.load_failed') }}</strong>
         <span>{{ $t('i18n.hermes_load_failed') }}</span>
@@ -21,51 +21,63 @@
       </button>
     </div>
 
-    <div v-else-if="visibleEntryCount === 0" class="empty-state-wrap">
-      <EmptyState
-        icon="🧠"
-        :title="$t('i18n.hermes_empty_title')"
-        :message="$t('i18n.hermes_empty_message')"
-        :action-text="$t('i18n.source_management')"
-        @action="router.push('/sources')"
-      />
-    </div>
-
-    <div
-      v-else
-      class="explorer-shell"
-      :class="{ 'explorer-shell--with-preview': selectedMemory }"
-    >
-      <div class="explorer-main">
-        <section v-for="group in visibleGroups" :key="group.id" class="profile-section">
-          <h3 class="profile-heading">{{ group.label }}</h3>
-          <div class="card-grid">
-            <button
-              v-for="entry in group.entries"
-              :key="entry.memory.id"
-              type="button"
-              class="hermes-card"
-              :class="{ 'hermes-card--selected': selectedId === entry.memory.id }"
-              :aria-pressed="selectedId === entry.memory.id"
-              @click="selectedId = entry.memory.id"
-            >
-              <span class="hermes-label">
-                <span class="hermes-label__dot" aria-hidden="true"></span>
-                {{ entry.file }}
-                <span class="hermes-index">#{{ entry.index + 1 }}</span>
-              </span>
-              <p>{{ entry.memory.content }}</p>
-            </button>
-          </div>
-        </section>
+    <template v-else>
+      <div v-if="error" class="error-state error-state--inline" role="alert">
+        <div class="error-copy">
+          <strong>{{ $t('i18n.load_failed') }}</strong>
+          <span>{{ $t('i18n.hermes_load_failed') }}</span>
+        </div>
+        <button type="button" class="action-btn" @click="loadMemories">
+          {{ $t('i18n.retry') }}
+        </button>
       </div>
 
-      <MemoryPreviewPanel
-        v-if="selectedMemory"
-        :unified-memory="selectedMemory"
-        @close="selectedId = ''"
-      />
-    </div>
+      <div v-if="visibleEntryCount === 0" class="empty-state-wrap">
+        <EmptyState
+          icon="🧠"
+          :title="$t('i18n.hermes_empty_title')"
+          :message="$t('i18n.hermes_empty_message')"
+          :action-text="$t('i18n.source_management')"
+          @action="router.push('/sources')"
+        />
+      </div>
+
+      <div
+        v-else
+        class="explorer-shell"
+        :class="{ 'explorer-shell--with-preview': selectedMemory }"
+      >
+        <div class="explorer-main">
+          <section v-for="group in visibleGroups" :key="group.id" class="profile-section">
+            <h3 class="profile-heading">{{ group.label }}</h3>
+            <div class="card-grid">
+              <button
+                v-for="entry in group.entries"
+                :key="entry.memory.id"
+                type="button"
+                class="hermes-card"
+                :class="{ 'hermes-card--selected': selectedId === entry.memory.id }"
+                :aria-pressed="selectedId === entry.memory.id"
+                @click="selectedId = entry.memory.id"
+              >
+                <span class="hermes-label">
+                  <span class="hermes-label__dot" aria-hidden="true"></span>
+                  {{ entry.file }}
+                  <span class="hermes-index">#{{ entry.index + 1 }}</span>
+                </span>
+                <p>{{ entry.memory.content }}</p>
+              </button>
+            </div>
+          </section>
+        </div>
+
+        <MemoryPreviewPanel
+          v-if="selectedMemory"
+          :unified-memory="selectedMemory"
+          @close="selectedId = ''"
+        />
+      </div>
+    </template>
   </div>
 </template>
 
@@ -157,7 +169,6 @@ async function loadMemories() {
     if (currentRequest === requestId) memories.value = response.memories
   } catch (cause: any) {
     if (currentRequest === requestId) {
-      memories.value = []
       error.value = cause?.message || 'Failed to load Hermes memories'
     }
   } finally {
@@ -352,6 +363,15 @@ onUnmounted(() => {
 .error-copy span {
   color: var(--text-secondary);
   font-size: 0.85rem;
+}
+
+.error-state--inline {
+  flex-wrap: wrap;
+  margin-bottom: var(--space-4);
+}
+
+.error-state--inline .error-copy {
+  flex: 1 1 18rem;
 }
 
 .action-btn {
