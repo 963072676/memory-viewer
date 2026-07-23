@@ -1,5 +1,5 @@
 <template>
-  <div class="memory-timeline" aria-label="Memory timeline">
+  <div class="memory-timeline" :aria-label="$t('i18n.timeline_aria')">
     <div
       v-for="group in groups"
       :key="group.key"
@@ -7,7 +7,7 @@
     >
       <div class="timeline-date">
         <span class="timeline-date__label">{{ group.label }}</span>
-        <span class="timeline-date__count">{{ group.items.length }} memories</span>
+        <span class="timeline-date__count">{{ $t('i18n.timeline_count', group.items.length) }}</span>
       </div>
 
       <div class="timeline-items">
@@ -38,7 +38,7 @@
             <div class="timeline-meta">
               <span v-if="memory.source" class="timeline-source">{{ memory.source }}</span>
               <span v-if="hasStrength(memory.strength)" class="timeline-strength">
-                Strength {{ formatStrength(memory.strength) }}%
+                {{ $t('i18n.timeline_strength', { percent: formatStrength(memory.strength) }) }}
               </span>
               <span v-if="memory.sessionIds?.length" class="timeline-session">
                 {{ memory.sessionIds.slice(0, 2).join(', ') }}
@@ -56,6 +56,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 interface TimelineMemory {
   id: string
@@ -74,6 +75,8 @@ const props = defineProps<{
   memories: TimelineMemory[]
   selectedId?: string
 }>()
+
+const { locale, t } = useI18n()
 
 defineEmits<{
   (e: 'select', id: string): void
@@ -95,8 +98,8 @@ const groups = computed<TimelineGroup[]>(() => {
     const date = new Date(memory.updatedAt || memory.createdAt || '')
     const key = Number.isNaN(date.getTime()) ? 'unknown' : date.toISOString().slice(0, 10)
     const label = Number.isNaN(date.getTime())
-      ? 'Unknown date'
-      : date.toLocaleDateString(undefined, {
+      ? t('i18n.timeline_unknown_date')
+      : date.toLocaleDateString(locale.value, {
         weekday: 'short',
         month: 'short',
         day: 'numeric',
@@ -119,8 +122,8 @@ function timestamp(value?: string) {
 
 function formatTime(value?: string) {
   const date = new Date(value || '')
-  if (Number.isNaN(date.getTime())) return 'Unknown time'
-  return date.toLocaleTimeString(undefined, {
+  if (Number.isNaN(date.getTime())) return t('i18n.timeline_unknown_time')
+  return date.toLocaleTimeString(locale.value, {
     hour: '2-digit',
     minute: '2-digit',
   })

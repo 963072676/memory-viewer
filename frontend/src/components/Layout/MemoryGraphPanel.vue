@@ -2,7 +2,7 @@
   <div class="memory-graph-panel" :class="{ 'memory-graph-panel--embedded': props.embedded }">
     <div class="view-header">
       <div>
-        <h2 class="section-title">Memory Graph</h2>
+        <h2 class="section-title">{{ $t('i18n.graph_title') }}</h2>
         <p class="panel-caption">
           {{ providerCaption }} / {{ sessionCaption }}
         </p>
@@ -12,10 +12,10 @@
           v-model.trim="filters.provider"
           class="control-input"
           type="text"
-          placeholder="Provider"
-          aria-label="Provider"
+          :placeholder="$t('i18n.graph_provider')"
+          :aria-label="$t('i18n.graph_provider')"
           :disabled="props.providerLocked"
-          :title="props.providerLocked ? 'Scoped to the current data source' : undefined"
+          :title="props.providerLocked ? $t('i18n.graph_provider_scoped') : undefined"
         />
         <input
           v-model.number="filters.limit"
@@ -23,39 +23,39 @@
           type="number"
           min="1"
           max="500"
-          aria-label="Limit"
+          :aria-label="$t('i18n.graph_limit')"
         />
         <button class="action-btn" type="submit" :disabled="loading">
-          {{ loading ? 'Refreshing...' : 'Refresh' }}
+          {{ loading ? $t('i18n.graph_refreshing') : $t('i18n.graph_refresh') }}
         </button>
       </form>
     </div>
 
     <div class="graph-stats">
       <div class="stat-tile">
-        <span>Nodes</span>
+        <span>{{ $t('i18n.graph_nodes') }}</span>
         <strong>{{ graph?.meta.node_count ?? 0 }}</strong>
       </div>
       <div class="stat-tile">
-        <span>Edges</span>
+        <span>{{ $t('i18n.graph_edges') }}</span>
         <strong>{{ graph?.meta.edge_count ?? 0 }}</strong>
       </div>
       <div class="stat-tile">
-        <span>Max Weight</span>
+        <span>{{ $t('i18n.graph_max_weight') }}</span>
         <strong>{{ graph?.meta.max_weight ?? 0 }}</strong>
       </div>
       <div class="stat-tile">
-        <span>Providers</span>
+        <span>{{ $t('i18n.graph_providers') }}</span>
         <strong>{{ graph?.meta.providers.length ?? 0 }}</strong>
       </div>
     </div>
 
-    <div v-if="loading && !graph" class="graph-state">Building graph...</div>
+    <div v-if="loading && !graph" class="graph-state">{{ $t('i18n.graph_building') }}</div>
     <div v-else-if="error" class="graph-state graph-state--error">
       <p>{{ error }}</p>
-      <button class="action-btn" type="button" @click="loadGraph">Retry</button>
+      <button class="action-btn" type="button" @click="loadGraph">{{ $t('i18n.retry') }}</button>
     </div>
-    <div v-else-if="!graph?.nodes.length" class="graph-state">No memories available for graph visualization.</div>
+    <div v-else-if="!graph?.nodes.length" class="graph-state">{{ $t('i18n.graph_no_memories') }}</div>
 
     <section v-else class="graph-shell">
       <div class="graph-toolbar">
@@ -64,7 +64,7 @@
             {{ provider }}
           </span>
         </div>
-        <div class="edge-note">{{ graph.edges.length }} semantic relations</div>
+        <div class="edge-note">{{ $t('i18n.graph_relations', { count: graph.edges.length }) }}</div>
       </div>
 
       <div class="graph-canvas">
@@ -79,16 +79,16 @@
           <aside v-if="selectedNode && props.showNodeDetail" class="node-detail">
             <div class="detail-header">
               <span class="provider-chip">{{ selectedNode.provider }}</span>
-              <button class="close-btn" type="button" aria-label="Close" @click="clearSelectedNode">X</button>
+              <button class="close-btn" type="button" :aria-label="$t('i18n.close')" @click="clearSelectedNode">X</button>
             </div>
             <h3>{{ selectedNode.label }}</h3>
-            <p>{{ selectedNode.contentSnippet || 'No content preview.' }}</p>
+            <p>{{ selectedNode.contentSnippet || $t('i18n.preview_no_content') }}</p>
             <div class="detail-grid">
-              <span>Type</span>
+              <span>{{ $t('i18n.graph_type') }}</span>
               <strong>{{ selectedNode.type }}</strong>
-              <span>Strength</span>
+              <span>{{ $t('i18n.graph_strength') }}</span>
               <strong>{{ selectedNode.strength }}</strong>
-              <span>Connections</span>
+              <span>{{ $t('i18n.graph_connections') }}</span>
               <strong>{{ connectedEdges.length }}</strong>
             </div>
             <div v-if="selectedNode.tags.length" class="tag-row">
@@ -103,6 +103,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import RelationGraph from '@/components/Layout/RelationGraph.vue'
 import {
   fetchMemoryGraph,
@@ -131,6 +132,7 @@ const emit = defineEmits<{
 }>()
 
 const sessionStore = useSessionStore()
+const { t } = useI18n()
 const graph = ref<MemoryGraphResponse | null>(null)
 const selectedNode = ref<MemoryGraphNode | null>(null)
 const loading = ref(false)
@@ -143,9 +145,9 @@ let graphRequestId = 0
 
 const providerCaption = computed(() => {
   const providers = graph.value?.meta.providers || []
-  return providers.length ? providers.join(', ') : 'All providers'
+  return providers.length ? providers.join(', ') : t('i18n.graph_all_providers')
 })
-const sessionCaption = computed(() => sessionStore.activeSessionId || 'All sessions')
+const sessionCaption = computed(() => sessionStore.activeSessionId || t('i18n.graph_all_sessions'))
 
 const relationEdges = computed(() => (
   graph.value?.edges.map(edge => ({
@@ -181,7 +183,7 @@ async function loadGraph() {
     }
   } catch (e: any) {
     if (requestId !== graphRequestId) return
-    error.value = e?.message || 'Failed to load memory graph'
+    error.value = e?.message || t('i18n.graph_load_failed')
   } finally {
     if (requestId === graphRequestId) loading.value = false
   }
