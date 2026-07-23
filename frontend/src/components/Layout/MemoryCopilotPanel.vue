@@ -61,6 +61,7 @@
         class="copilot-action"
         :class="{ active: activeAction === item.action }"
         type="button"
+        :aria-pressed="activeAction === item.action"
         :disabled="loading"
         @click="run(item.action)"
       >
@@ -69,18 +70,43 @@
       </button>
     </div>
 
+    <section v-if="runHistory.length > 1" class="run-history" :aria-label="$t('i18n.copilot_recent_runs')">
+      <div class="run-history-header">
+        <span>{{ $t('i18n.copilot_recent_runs') }}</span>
+        <span>{{ $t('i18n.copilot_recent_runs_count', { count: runHistory.length }) }}</span>
+      </div>
+      <div class="run-history-list">
+        <button
+          v-for="entry in runHistory"
+          :key="entry.id"
+          class="run-history-item"
+          :class="{ active: activeHistoryId === entry.id }"
+          type="button"
+          :aria-pressed="activeHistoryId === entry.id"
+          :aria-label="historyItemLabel(entry)"
+          :disabled="loading"
+          @click="selectHistoryEntry(entry)"
+        >
+          <strong>{{ actionItem(entry.response.action).shortLabel }}</strong>
+          <span>{{ statusLabel(entry.response.status) }} · {{ formatGeneratedAt(entry.response.generatedAt) }}</span>
+        </button>
+      </div>
+    </section>
+
     <div v-if="error" class="result-state result-state--error">
       <p>{{ error }}</p>
       <button class="action-btn" type="button" @click="run(activeAction)">{{ $t('i18n.retry') }}</button>
     </div>
 
-    <div v-else class="result-panel" :class="{ loading }">
+    <div v-else class="result-panel" :class="{ loading }" :aria-busy="loading">
       <div class="result-header">
         <div>
           <div class="result-title">{{ resultTitle }}</div>
           <div class="result-meta">
             <span>{{ statusLabel(result?.status) }}</span>
             <span>{{ providerLabel }}</span>
+            <span>{{ resultSessionLabel }}</span>
+            <span v-if="resultGeneratedAt">{{ $t('i18n.copilot_generated_at', { time: resultGeneratedAt }) }}</span>
           </div>
         </div>
         <button class="action-btn action-btn--accent" type="button" :disabled="loading" @click="run(activeAction)">
@@ -88,7 +114,7 @@
         </button>
       </div>
 
-      <p class="result-message">{{ resultMessage }}</p>
+      <p class="result-message" aria-live="polite">{{ resultMessage }}</p>
 
       <div class="result-layout">
         <div class="result-block">
@@ -146,13 +172,20 @@ import { useSessionStore } from '@/stores/sessions'
 
 const providerStore = useProviderStore()
 const sessionStore = useSessionStore()
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const actions = computed<Array<{ action: CopilotAction; label: string; shortLabel: string }>>(() => [
   { action: 'summarize_session', label: t('i18n.copilot_summarize_session'), shortLabel: t('i18n.copilot_summary') },
   { action: 'compress_memory', label: t('i18n.copilot_compress_memory'), shortLabel: t('i18n.copilot_compress') },
   { action: 'detect_contradictions', label: t('i18n.copilot_detect_contradictions'), shortLabel: t('i18n.copilot_scan') },
   { action: 'optimize_memory_structure', label: t('i18n.copilot_optimize_structure'), shortLabel: t('i18n.copilot_optimize') },
 ])
+
+interface CopilotHistoryEntry {
+  id: string
+  response: CopilotRunResponse
+}
+
+const MAX_RUN_HISTORY = 5
 
 const filters = reactive({
   provider: '',
@@ -161,17 +194,21 @@ const filters = reactive({
 })
 const activeAction = ref<CopilotAction>('summarize_session')
 const result = ref<CopilotRunResponse | null>(null)
+const runHistory = ref<CopilotHistoryEntry[]>([])
+const activeHistoryId = ref<string | null>(null)
 const loading = ref(false)
 const error = ref<string | null>(null)
 let compressionRunTimer: ReturnType<typeof setTimeout> | null = null
 let suppressCompressionWatch = false
+let historySequence = 0
 
-const currentAction = computed(() => actions.value.find(item => item.action === activeAction.value) || actions.value[0])
 const providerLabel = computed(() => (
   result.value?.providers.length ? result.value.providers.join(', ') : t('i18n.copilot_all_providers')
 ))
 const sessionParam = computed(() => sessionStore.activeSessionId || undefined)
-const resultTitle = computed(() => currentAction.value.label)
+const resultTitle = computed(() => actionItem(result.value?.action || activeAction.value).label)
+const resultSessionLabel = computed(() => result.value?.sessionId || t('i18n.copilot_all_sessions'))
+const resultGeneratedAt = computed(() => formatGeneratedAt(result.value?.generatedAt))
 const resultMessage = computed(() => {
   if (!result.value) return t('i18n.copilot_no_result')
   if (result.value.status === 'empty') return t('i18n.copilot_no_matching_memories')
@@ -221,6 +258,49 @@ function statusLabel(status?: string) {
   if (status === 'empty') return t('i18n.copilot_empty')
   if (status === 'ready' || !status) return t('i18n.copilot_ready')
   return status
+}
+
+function actionItem(action: CopilotAction) {
+  return actions.value.find(item => item.action === action) || {
+    action,
+    label: action,
+    shortLabel: action,
+  }
+}
+
+function formatGeneratedAt(value?: number) {
+  if (!value || !Number.isFinite(value)) return ''
+  return new Intl.DateTimeFormat(locale.value, {
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+  }).format(new Date(value))
+}
+
+function historyItemLabel(entry: CopilotHistoryEntry) {
+  return t('i18n.copilot_history_item', {
+    action: actionItem(entry.response.action).label,
+    status: statusLabel(entry.response.status),
+    time: formatGeneratedAt(entry.response.generatedAt),
+  })
+}
+
+function saveRun(response: CopilotRunResponse) {
+  const entry: CopilotHistoryEntry = {
+    id: `${response.action}-${response.generatedAt}-${historySequence++}`,
+    response,
+  }
+  runHistory.value = [entry, ...runHistory.value].slice(0, MAX_RUN_HISTORY)
+  activeHistoryId.value = entry.id
+  result.value = response
+}
+
+function selectHistoryEntry(entry: CopilotHistoryEntry) {
+  clearCompressionRunTimer()
+  activeAction.value = entry.response.action
+  activeHistoryId.value = entry.id
+  error.value = null
+  result.value = entry.response
 }
 
 function priorityLabel(priority: string) {
@@ -331,16 +411,18 @@ function scheduleCompressionRun() {
 async function run(action: CopilotAction) {
   clearCompressionRunTimer()
   activeAction.value = action
+  activeHistoryId.value = null
   loading.value = true
   error.value = null
   try {
-    result.value = await runCopilotAction({
+    const response = await runCopilotAction({
       action,
       provider: filters.provider || undefined,
       sessionId: sessionParam.value,
       limit: Number(filters.limit) || 200,
       maxChars: filters.maxChars,
     })
+    saveRun(response)
   } catch (e: any) {
     error.value = e?.message || t('i18n.copilot_run_failed')
   } finally {
@@ -464,6 +546,81 @@ watch(() => filters.maxChars, () => {
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: var(--space-3);
   margin-bottom: var(--space-3);
+}
+
+.run-history {
+  display: grid;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.run-history-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  color: var(--text-secondary);
+  font-size: 0.76rem;
+}
+
+.run-history-header span:first-child {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.run-history-list {
+  display: flex;
+  gap: var(--space-2);
+  overflow-x: auto;
+  padding-bottom: 2px;
+  scrollbar-width: thin;
+}
+
+.run-history-item {
+  flex: 0 0 154px;
+  min-height: 52px;
+  display: grid;
+  align-content: center;
+  gap: 3px;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--card);
+  color: var(--primary);
+  cursor: pointer;
+  text-align: left;
+}
+
+.run-history-item:hover:not(:disabled),
+.run-history-item.active {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+  background: var(--accent-subtle);
+}
+
+.run-history-item:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.run-history-item:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.run-history-item strong,
+.run-history-item span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.run-history-item strong {
+  font-size: 0.8rem;
+}
+
+.run-history-item span {
+  color: var(--text-secondary);
+  font-size: 0.72rem;
 }
 
 .copilot-action {
@@ -691,6 +848,10 @@ watch(() => filters.maxChars, () => {
 
   .result-layout {
     grid-template-columns: 1fr;
+  }
+
+  .run-history-item {
+    flex-basis: 138px;
   }
 }
 </style>
